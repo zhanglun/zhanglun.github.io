@@ -8,7 +8,6 @@ sudo: false
 
 env:
   - HUGO_VERSION=0.56.0
-  - GH_REF="github.com/zhanglun/zhanglun.github.io.git"
 
 install: true
 
@@ -29,7 +28,7 @@ script:
   - git init
   - git add .
   - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
+  - git push --force --quiet "https://${GH_TOKEN}@github.com/zhanglun/zhanglun.github.io.git" master:master
 
 # deploy:
 #   provider: pages
