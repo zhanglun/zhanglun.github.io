@@ -1,7 +1,7 @@
 ---
 title: JavaScrip模块系统详解
 date: 2017-01-11 19:45:09
-categories: 前端
+categories: [前端]
 tags: ['JavaScript']
 ---
 
