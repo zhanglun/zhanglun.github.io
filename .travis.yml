@@ -8,7 +8,7 @@ sudo: false
 
 env:
   - HUGO_VERSION=0.56.0
-  - GH_REF=github.com/zhanglun/zhanglun.github.io.git
+  - GH_REF="github.com/zhanglun/zhanglun.github.io.git"
 
 install: true
 
@@ -19,7 +19,7 @@ before_script:
   - git config --global user.email "zhanglun1410@gmail.com"
 
 script:
-  - echo "\033[0;32mDeploying updates to GitHub...\033[0m\n"
+  - echo "Deploying updates to GitHub..."
   # Build the project.
   - hugo
 
@@ -31,14 +31,14 @@ script:
   - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
 
-deploy:
-  provider: pages
-  local-dir: public
-  skip-cleanup: true
-  github-token: ${GH_TOKEN}
-  keep-history: true
-  on:
-    branch: source # 博客源码的分支
+# deploy:
+#   provider: pages
+#   local-dir: public
+#   skip-cleanup: true
+#   github-token: ${GH_TOKEN}
+#   keep-history: true
+#   on:
+#     branch: source # 博客源码的分支
 branches:
   only:
     - source 
