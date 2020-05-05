@@ -81,11 +81,6 @@ publishDir = "public"
     url = ""
     weight = 1
 
-[[menu.main]]
-    name = "About"
-    url = "about/"
-    weight = 4
-
 # [[menu.main]]
 #     identifier = "samples"
 #     name = "Samples"
@@ -113,10 +108,34 @@ publishDir = "public"
     name = "Tags"
     url = "tags"
     weight = 2
+    
+[[menu.main]]
+  identifier = "archives"
+  name = "Archives"
+  url = "/archives/"
+  weight = 3
 
 [[menu.main]]
     name = "Lab"
     url = "labs"
-    weight = 3
+    weight = 4
+
+[[menu.main]]
+    name = "GTIHUB"
+    url = "https://github.com/zhanglun"
+    weight = 5
+
+[[menu.main]]
+    name = "About"
+    url = "about/"
+    weight = 6
+
+
+[taxonomies]
+  year = "year"
+  month = "month"
+
 [permalinks]
-  post = "/:year/:month/:day/:slug/"
+  post = "/post/:year/:month/:slug/"
+  year = "/post/:slug/"
+  month = "/post/:slug/"
