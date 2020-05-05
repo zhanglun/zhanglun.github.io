@@ -1,0 +1,41 @@
+language: go
+
+dist: trusty
+
+sudo: false
+
+env:
+  - HUGO_VERSION=0.56.0
+  - GH_REF=github.com/zhanglun/zhanglun.github.io.git
+
+install: true
+
+before_script:
+  - wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb
+  - sudo dpkg -i hugo_${HUGO_VERSION}_Linux-64bit.deb
+  - git config --global user.name "zhanglun"
+  - git config --global user.email "zhanglun1410@gmail.com"
+
+script:
+  - echo "\033[0;32mDeploying updates to GitHub...\033[0m\n"
+  # Build the project.
+  - hugo
+
+  # Go To Public folder
+  - cp ./CNAME ./public/CNAME
+  - cd public
+  - git init
+  - git add .
+  - git commit -m ":tada: Updated At: `date +'%Y-%m-%d %H:%M:%S'`"
+  - git push --force "https://${GH_TOKEN}@${GH_REF}" master:master
+
+deploy:
+  provider: pages
+  local-dir: public
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+
+branches:
+  only:
+  - source 

@@ -12,15 +12,21 @@ hugo
 cp ./CNAME ./public/CNAME
 cd public
 
-# Add changes to git.
+git init
+git remote add origin git@github.com:zhanglun/zhanglun.github.io.git
 git add .
+git commit -m ":tada: Updated At: `date +'%Y-%m-%d %H:%M:%S'`"
+git push --force origin master
 
-# Commit changes.
-msg="rebuilding site $(date)"
-if [ -n "$*" ]; then
-        msg="$*"
-fi
-git commit -m "$msg"
+# # Add changes to git.
+# git add .
 
-# Push source and build repos.
-git push upstream master
+# # Commit changes.
+# msg="rebuilding site $(date)"
+# if [ -n "$*" ]; then
+#         msg="$*"
+# fi
+# git commit -m "$msg"
+
+# # Push source and build repos.
+# git push upstream master

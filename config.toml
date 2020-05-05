@@ -13,6 +13,7 @@ disablePathToLower = true
 #pygmentOptions = "linenos=inline"
 #disqusShortname = "XXX"
 googleAnalytics = "UA-50406624-2"
+publishDir = "public"
 
 [Params]
 #  homeTitle = "Beautiful Hugo Theme" # Set a different text for the header on the home page
