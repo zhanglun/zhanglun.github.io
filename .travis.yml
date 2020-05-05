@@ -29,13 +29,13 @@ script:
   - git init
   - git add .
   - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
-  - git push --force --quiet "https://$GH_TOKEN@${GH_REF}" master:master
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
 
 deploy:
   provider: pages
   local-dir: public
   skip-cleanup: true
-  github-token: $GH_TOKEN
+  github-token: ${GH_TOKEN}
   keep-history: true
   on:
     branch: source # 博客源码的分支
