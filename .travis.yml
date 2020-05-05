@@ -1,4 +1,6 @@
 language: go
+go:
+  - "1.8"
 
 dist: trusty
 
@@ -27,7 +29,7 @@ script:
   - git init
   - git add .
   - git commit -m ":tada: Updated At: `date +'%Y-%m-%d %H:%M:%S'`"
-  - git push --force "https://${GH_TOKEN}@${GH_REF}" master:master
+  - git push --force --quiet "https://$GITHUB_TOKEN@${GH_REF}" master:master
 
 deploy:
   provider: pages
@@ -35,7 +37,8 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-
+  on:
+    branch: source # 博客源码的分支
 branches:
   only:
-  - source 
+    - source 
