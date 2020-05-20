@@ -28,7 +28,7 @@ script:
   - git init
   - git add .
   - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
-  = git pull
+  - git pull
   - git push --quiet "https://${GH_TOKEN}@github.com/zhanglun/zhanglun.github.io.git" master:master
 
 # deploy:
