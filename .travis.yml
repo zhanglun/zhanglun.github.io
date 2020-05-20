@@ -24,13 +24,15 @@ script:
 
   # Go To Public folder
   - cp ./CNAME ./public/CNAME
-  - cd public
-  - git init
-  - git remote add origin  https://${GH_TOKEN}@github.com/zhanglun/zhanglun.github.io.git
+  - git clone https://github.com/zhanglun/zhanglun.github.io.git .deploy_git
+  - cd .deploy_git
+  - git checkout master
+  - cd ../
+  - mv .deploy_git/.git/ ./public/
+  - cd ./public
   - git add .
-  - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
-  - git pull origin master
-  - git push --quiet "https://${GH_TOKEN}@github.com/zhanglun/zhanglun.github.io.git" master:master
+  - git commit -m "Travis CI Auto Builder. Updated At `date +'%Y-%m-%d %H:%M:%S'`"
+  - git push --force --quiet "https://${GH_TOKEN}@github.com/zhanglun/zhanglun.github.io.git" master:master
 
 # deploy:
 #   provider: pages
