@@ -26,6 +26,7 @@ script:
   - cp ./CNAME ./public/CNAME
   - cd public
   - git init
+  - git remote add origin git@github.com:zhanglun/zhanglun.github.io.git
   - git add .
   - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
   - git pull
