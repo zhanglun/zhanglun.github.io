@@ -24,14 +24,10 @@ script:
 
   # Go To Public folder
   - cp ./CNAME ./public/CNAME
-  - git clone https://github.com/zhanglun/zhanglun.github.io.git .deploy_git
-  - cd .deploy_git
-  - git checkout master
-  - cd ../
-  - mv .deploy_git/.git/ ./public/
-  - cd ./public
+  - cd public
+  - git init
   - git add .
-  - git commit -m "Travis CI Auto Builder at `date +'%Y-%m-%d %H:%M'`"
+  - git commit -m "Updated At `date +'%Y-%m-%d %H:%M:%S'`"
   - git push --force --quiet "https://${GH_TOKEN}@github.com/zhanglun/zhanglun.github.io.git" master:master
 
 # deploy:
