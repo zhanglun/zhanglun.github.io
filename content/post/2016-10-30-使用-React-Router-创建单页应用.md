@@ -1,7 +1,7 @@
 ---
 title: '使用 React-Router 创建单页应用'
 date: 2016-10-30 10:55:34
-categories: '前端'
+categories: ['前端']
 tags: ['React', 'JavaScript']
 ---
 
