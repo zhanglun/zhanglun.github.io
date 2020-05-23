@@ -3,4 +3,4 @@
 	url = https://github.com/halogenica/beautifulhugo.git
 [submodule "themes/even"]
 	path = themes/even
-	url = git@github.com:olOwOlo/hugo-theme-even.git
+	url = https://github.com/olOwOlo/hugo-theme-even.git
