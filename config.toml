@@ -29,33 +29,29 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
   filename = "sitemap.xml"
 
 [[menu.main]]             # config your menu              # 配置目录
-  name = "Home"
+  name = "首页"
   weight = 10
   identifier = "home"
   url = "/"
 [[menu.main]]
-  name = "Archives"
+  name = "归档"
   weight = 20
   identifier = "archives"
   url = "/post/"
 [[menu.main]]
-  name = "Tags"
+  name = "标签"
   weight = 30
   identifier = "tags"
   url = "/tags/"
 [[menu.main]]
-  name = "Categories"
+  name = "类目"
   weight = 40
   identifier = "categories"
   url = "/categories/"
 [[menu.main]]
-    name = "Github"
-    url = "https://github.com/zhanglun"
-    weight = 50
-[[menu.main]]
-    name = "About"
+    name = "关于我"
     url = "/about/"
-    weight = 60
+    weight = 50
 
 [params]
   version = "4.x"           # Used to give a friendly message when you have an incompatible update
