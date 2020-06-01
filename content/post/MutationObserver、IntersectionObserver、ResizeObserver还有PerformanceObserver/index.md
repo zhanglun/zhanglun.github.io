@@ -1,7 +1,7 @@
 ---
 title: "IntersectionObserver、MutationObserver、ResizeObserver还有PerformanceObserver"
 date: 2019-07-13T22:31:06+08:00
-draft: true
+draft: true 
 ---
 
 在之前的[从getboundingclientrect到intersection-observer](../从getboundingclientrect到intersection-observer/index.md)中提到了`Intersection Observer API`，今天趁热打铁，将现有的其他几个Observer API 一并整理，方便查阅
@@ -34,7 +34,7 @@ observer.unobserve(target);
 observer.disconnect();
 ```
 
-####  **Intersection observer options**
+###  **Intersection observer options**
 
 传递到IntersectionObserver()构造函数的 options 对象包含以下字段：
 
@@ -57,12 +57,12 @@ observer.disconnect();
 1. 如果使用默认的`options`，目标元素部分进入视图窗口和完全离开视图窗口时，都会触发一次回调函数
 2. 如果你想同时观察多个元素，尽可能地在一个`IntersectionObserver`的实例上调用多次`observer`方法
 
-#### **callback**
+### **callback**
 
 回调接收 IntersectionObserverEntry 对象和观察者的列表：
 
 ```ts
-var callback = function(entries: IntersectionObserverEntry[], observer: IntersectionObserver) { 
+const callback = function(entries: IntersectionObserverEntry[], observer: IntersectionObserver) { 
   entries.forEach(entry => {
     // Each entry describes an intersection change for one observed
     // target element:
@@ -112,8 +112,9 @@ function isVisible(boundingClientRect, intersectionRect) {
 
 function visibleTimerCallback(element, observer) {
   delete element.visibleTimeout;
-  // Process any pending observations
+
   processChanges(observer.takeRecords());
+
   if ('isVisible' in element) {
     delete element.isVisible;
     logImpressionToServer();
@@ -124,7 +125,7 @@ function visibleTimerCallback(element, observer) {
 // 交叉时的回调函数
 function processChanges(changes) {
   changes.forEach(function(changeRecord) {
-    var element = changeRecord.target;
+    const element = changeRecord.target;
     element.isVisible = isVisible(changeRecord.boundingClientRect, changeRecord.intersectionRect);
     if ('isVisible' in element) {
       // 显示
@@ -139,12 +140,12 @@ function processChanges(changes) {
   });
 }
 
-var observer = new IntersectionObserver(
+const observer = new IntersectionObserver(
   processChanges,
   { threshold: [0.5] } 
 );
 
-var theAd = document.querySelector('#theAd');
+const theAd = document.querySelector('#theAd');
 observer.observe(theAd);
 ```
 
@@ -155,9 +156,209 @@ observer.observe(theAd);
 
 #### 数据滚动
 
-许多系统使用数据绑定列表来管理其视图内内容，通过回收DOM的方式保持内存和布局效率。
+许多系统使用数据绑定列表来管理其视图内内容，可以通过回收DOM的方式保持内存和布局效。率。通常我们在渲染分页加载的列表数据的时候，为了避免滚动的时候出现卡顿感，会一次加载好几页的数据，但是实际上需要渲染的数据是总数据的子集。并且随着页码的加大，这个列表中的DOM会越来越多。我们可以在列表元素上使用 `IntersectionObserver`，来通知系统何时加载数据，何时回收DOM
+
+```html
+<style>
+  .container {
+    overflow: auto;
+    width: 10em;
+    height: 30em;
+    position: relative;
+  }
+
+  .inner-scroll-surface {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    /* proportional to the # of expected items in the list */
+    height: 1000px;
+  }
+
+  .scroll-item {
+    position: absolute;
+    height: 2em;
+    left: 0px;
+    right: 0px;
+  }
+</style>
+
+<div class="container">
+  <div class="inner-scroll-surface">
+    <div class="scroll-item" style="top: 0em;">item 1</div>
+    <div class="scroll-item" style="top: 2em;">item 2</div>
+    <div class="scroll-item" style="top: 4em;">item 3</div>
+    <!-- ... -->
+  </div>
+</div>
+```
+As the user moves the container, the children can be observed and as they cross the threshold of the scrollable area, a manager can recycle them and fill them with new data instead of needing to re-create the items from scratch.
+
+当用户滚动列表时，列表元素经过预先设定的阈值时，可以执行对应的处理逻辑
+
+```js
+function query(selector) {
+  return Array.from(document.querySelectorAll(selector));
+}
+
+function init() {
+  const opts = { 
+    root: document.querySelector(".container"),
+    rootMargin: "500px 0px" 
+  };
+  const observer = new IntersectionObserver(manageItemPositionChanges, opts);
+
+  query(".inner-scroll-surface > .scroll-item")
+    .forEach(function(scrollItem) {
+      observer.observe(scrollItem);
+    });
+}
+
+function manageItemPositionChanges(changes) {
+  // ...
+}
+```
+
+#### 延迟加载
+
+使用`IntersectionObserver`轻松实现懒加载
+
+```html
+<div class="lazy-loaded">
+  <template>
+    ...
+  </template>
+</div>
+```
+
+```js
+function query(selector) {
+  return Array.from(document.querySelectorAll(selector));
+}
+
+var observer = new IntersectionObserver(
+  // 预先加载在视窗可见区域高度两倍以内的元素
+  function(changes) {
+    changes.forEach(function(change) {
+      var container = change.target;
+      var content = container.querySelector("template").content;
+      container.appendChild(content);
+      observer.unobserve(container);
+    });
+  },
+  { rootMargin: "200% 0%" }
+);
+
+query(".lazy-loaded").forEach(function(item) {
+  observer.observe(item);
+});
+```
 
 ## MutationObserver
+
+在web应用中，DOM操作是相当频繁的。在过去有一段时间，公认有效的一种方式是使用`Mutation Events`，不过这个特性在API的设计中有缺陷，为DOM添加 mutation 监听器反而会进一步降低修改DOM文档的性能（慢1.5 - 7倍）。而且 移除监听器不会减少性能的消耗。目前已经被废弃了。具体原因可以查看[DOM Mutation Events Replacement: The Story So Far / Existing Points of Consensus](https://lists.w3.org/Archives/Public/public-webapps/2011JulSep/0779.html)。简单来说以下三点原因：
+
+1. 冗余。因为经常触发
+2. 慢。因为事件传播所以慢，同时还阻止了一些UA的自我优化
+3. 容易crash。
+
+W3C提出了`MutationObserver`来代替`Mutation Events`。
+
+### 创建一个 MutationObserver
+
+`MutationObserver` 可以监听DOM节点的变化，属性的变化，但是它最基本的语法如下：
+
+```ts
+const targetNode = document.querySelector("#someElement")
+const observerOptions = {
+  childList: true,  // 观察目标子节点的变化，是否有添加或者删除
+  attributes: true, // 观察属性变动
+  subtree: true     // 观察后代节点，默认为 false
+}
+
+const observer = new MutationObserver(callback)
+
+function callback(records: mutationRecord[], observer: MutationObserver) {
+  // ...
+}
+observer.observe(targetNode, observerOptions)
+
+// ...
+
+observer.disconnect() // 停止观察变动。 可以重用观察者。所有已经检测到但是尚未向观察者报告的变动都会被丢弃
+```
+
+使用选择器来获取目标节点树。 `observerOptions` 中设定了观察者的选项，通过设定 childList 和 attributes 为 true 来获取所需信息，表示同时观察目标节点树的childList和attributes的变化。
+
+每当被指定的节点或子树以及配置项有 DOM 变动时，callback会被异步调用。这个函数有两个参数：一个是描述所有被触发改动的 [`MutationRecord`](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationRecord) 对象数组，另一个是调用该函数的MutationObserver 对象。比如：
+
+```js
+function callback(mutationRecords, observer) {
+  mutationRecords.forEach((mutation) => {
+    switch(mutation.type) {
+      case 'childList':
+        /* 从树上添加或移除一个或更多的子节点；参见 mutation.addedNodes 与
+           mutation.removedNodes */
+        break;
+      case 'attributes':
+        /* mutation.target 中某节点的一个属性值被更改；该属性名称在 mutation.attributeName 中，
+           该属性之前的值为 mutation.oldValue */
+        break;
+    }
+  });
+}
+```
+
+:::info
+callback 的函数签名和 `IntersectionObserver` 很相似。其实这些 Observer 的callback 的函数签名都是相似的
+:::
+
+之后指定目标节点与记录选项，我们开始观察使用 `observe()` 指定的 DOM 节点。
+
+从现在开始直到调用 `disconnect()` ，每次以 targetNode 为根节点的 DOM 树添加或移除元素时，以及这些元素的任意属性改变时，`callback()` 都会被调用。
+
+### **MutationObserver Options**
+
+`observer(target, options)` 中的 `options` 是一个`MutationObserverInit`对象，描述了 MutationObserver 的配置。当调用 `observe()` 方法时，`childList`，`attributes` 或者 `characterData` 三个属性之中，至少有一个必须为 `true`，否则会抛出 `TypeError` 异常。
+
+|参数名|描述|是否可选|默认值|
+|---|---|---|---|
+| childList |设为 `true` 时，监视目标节点（如果 subtree 为 true，则包含子孙节点）添加或删除新的子节点。|可选|false|
+| attributes|设为 `true` 时，观察受监视元素的属性值变更| 可选| false|
+| characterData|设为 `true` 时，监视指定目标节点或子节点树中节点所包含的字符数据的变化| 可选 | - |
+|attributeFilter| 要监视的特定属性名称的数组。如果未包含此属性，则对所有属性的更改都会触发变动通知|可选| - |
+|attributeOldValue|当监视节点的属性改动时，将此属性设为 true 将记录任何有改动的属性的上一个值|可选| - |
+|characterDataOldValue| 设为 `true`时， 受监视节点的文本(text)发生更改时记录节点文本的先前值| 可选| - |
+|subtree|设为 `true` 时将监视范围扩展至目标节点整个节点树中的所有节点。MutationObserverInit 的其他值也会作用于此子树下的所有节点，而不仅仅只作用于目标节点。| 可选|false|
+
+### **takeRecords**
+
+返回**已检测到但尚未由观察者的回调函数处理的所有匹配DOM更改的列表，使变更队列保持为空**。 最常见的使用场景是：在断开观察者之前立即获取所有未处理的更改记录，以便在停止观察者时可以处理任何未处理的更改。比如：
+
+```diff
+var targetNode = document.querySelector("#someElement");
+var observerOptions = {
+  childList: true,
+  attributes: true
+}
+
+var observer = new MutationObserver(callback);
+observer.observe(targetNode, observerOptions);
+
+// 这里做了一些事情
+// ...
++// 开始处理尚未结束的变更
++var mutations = observer.takeRecords();
+
++if (mutations) {
++  callback(mutations);
++}
+
+observer.disconnect();
+```
+
+
 
 ## ResizeObserver
 
@@ -170,4 +371,4 @@ observer.observe(theAd);
 ## 参考
 
 1. [IntersectionObserver’s Coming into View](https://developers.google.com/web/updates/2016/04/intersectionobserver)
-2. 
+2. [IntersectionObserver explainer](https://github.com/w3c/IntersectionObserver/blob/master/explainer.md)
