@@ -1,7 +1,7 @@
 ---
 title: "IntersectionObserver、MutationObserver、ResizeObserver还有PerformanceObserver"
 date: 2019-07-13T22:31:06+08:00
-draft: true 
+draft: false
 ---
 
 在之前的[从getboundingclientrect到intersection-observer](../从getboundingclientrect到intersection-observer/index.md)中提到了`Intersection Observer API`，今天趁热打铁，将现有的其他几个Observer API 一并整理，方便查阅
@@ -34,30 +34,7 @@ observer.unobserve(target);
 observer.disconnect();
 ```
 
-###  **Intersection observer options**
-
-传递到IntersectionObserver()构造函数的 options 对象包含以下字段：
-
-* **root**
-  - 指定根(root)元素，用于检查目标的可见性。必须是目标元素的父级元素。
-  - 如果未指定或者为null，则默认为浏览器视窗。
-* **rootMargin**  
-  - 根元素的外边距。类似于css中的 margin 属性，比如 "10px 20px 30px 40px" (top, right, bottom, left)。
-  - 如果有指定root参数，则rootMargin也可以使用百分比来取值。该属性值是用作root元素和target发生交集时候的计算交集的区域范围，使用该属性可以控制root元素每一边的收缩或者扩张。
-  - 默认值为0。
-* **threshold**
-  - 可以是一个数字也可以是一个数字数组。目标元素和根元素相交程度达到该值的时候IntersectionObserver注册的回调函数将会被执行。
-  - 如果你只是想要探测当target元素的在root元素中的可见性超过50%的时候，你可以指定该属性值为0.5。
-  - 如果你想要target元素在root元素的可见程度每多25%就执行一次回调，那么你可以指定一个数组[0, 0.25, 0.5, 0.75, 1]。
-  - 默认值是0(意味着只要有一个target像素出现在root元素中，回调函数将会被执行)。
-  - 该值为1.0含义是当target完全出现在root元素中时候 回调才会被执行。
-
-**注意：**
-
-1. 如果使用默认的`options`，目标元素部分进入视图窗口和完全离开视图窗口时，都会触发一次回调函数
-2. 如果你想同时观察多个元素，尽可能地在一个`IntersectionObserver`的实例上调用多次`observer`方法
-
-### **callback**
+### callback
 
 回调接收 IntersectionObserverEntry 对象和观察者的列表：
 
@@ -86,6 +63,31 @@ const callback = function(entries: IntersectionObserverEntry[], observer: Inters
 ![intersectratio.png](./images/intersectratio.png)
 
 `IntersectionObservers` 是异步传递数据，回调函数中的代码将在主线程中运行。 规范中提到`IntersectionObserver`实现应使用`requestIdleCallback（）`。 这意味着对回调函数的执行是低优先级的，将在客户端空闲时间进行。 这是有意为之。
+
+### options
+
+传递到IntersectionObserver()构造函数的 options 对象包含以下字段：
+
+* **root**
+  - 指定根(root)元素，用于检查目标的可见性。必须是目标元素的父级元素。
+  - 如果未指定或者为null，则默认为浏览器视窗。
+* **rootMargin**  
+  - 根元素的外边距。类似于css中的 margin 属性，比如 "10px 20px 30px 40px" (top, right, bottom, left)。
+  - 如果有指定root参数，则rootMargin也可以使用百分比来取值。该属性值是用作root元素和target发生交集时候的计算交集的区域范围，使用该属性可以控制root元素每一边的收缩或者扩张。
+  - 默认值为0。
+* **threshold**
+  - 可以是一个数字也可以是一个数字数组。目标元素和根元素相交程度达到该值的时候IntersectionObserver注册的回调函数将会被执行。
+  - 如果你只是想要探测当target元素的在root元素中的可见性超过50%的时候，你可以指定该属性值为0.5。
+  - 如果你想要target元素在root元素的可见程度每多25%就执行一次回调，那么你可以指定一个数组[0, 0.25, 0.5, 0.75, 1]。
+  - 默认值是0(意味着只要有一个target像素出现在root元素中，回调函数将会被执行)。
+  - 该值为1.0含义是当target完全出现在root元素中时候 回调才会被执行。
+
+**注意：**
+
+1. 如果使用默认的`options`，目标元素部分进入视图窗口和完全离开视图窗口时，都会触发一次回调函数
+2. 如果你想同时观察多个元素，尽可能地在一个`IntersectionObserver`的实例上调用多次`observer`方法
+
+
 
 ### 常用场景
 
@@ -267,7 +269,7 @@ W3C提出了`MutationObserver`来代替`Mutation Events`。
 
 ### 创建一个 MutationObserver
 
-`MutationObserver` 可以监听DOM节点的变化，属性的变化，但是它最基本的语法如下：
+`MutationObserver` 可以监听DOM节点的变化，属性的变化，它最基本的语法如下：
 
 ```ts
 const targetNode = document.querySelector("#someElement")
@@ -290,6 +292,8 @@ observer.disconnect() // 停止观察变动。 可以重用观察者。所有已
 ```
 
 使用选择器来获取目标节点树。 `observerOptions` 中设定了观察者的选项，通过设定 childList 和 attributes 为 true 来获取所需信息，表示同时观察目标节点树的childList和attributes的变化。
+
+### callback
 
 每当被指定的节点或子树以及配置项有 DOM 变动时，callback会被异步调用。这个函数有两个参数：一个是描述所有被触发改动的 [`MutationRecord`](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationRecord) 对象数组，另一个是调用该函数的MutationObserver 对象。比如：
 
@@ -318,7 +322,7 @@ callback 的函数签名和 `IntersectionObserver` 很相似。其实这些 Obse
 
 从现在开始直到调用 `disconnect()` ，每次以 targetNode 为根节点的 DOM 树添加或移除元素时，以及这些元素的任意属性改变时，`callback()` 都会被调用。
 
-### **MutationObserver Options**
+### options
 
 `observer(target, options)` 中的 `options` 是一个`MutationObserverInit`对象，描述了 MutationObserver 的配置。当调用 `observe()` 方法时，`childList`，`attributes` 或者 `characterData` 三个属性之中，至少有一个必须为 `true`，否则会抛出 `TypeError` 异常。
 
@@ -332,7 +336,9 @@ callback 的函数签名和 `IntersectionObserver` 很相似。其实这些 Obse
 |characterDataOldValue| 设为 `true`时， 受监视节点的文本(text)发生更改时记录节点文本的先前值| 可选| - |
 |subtree|设为 `true` 时将监视范围扩展至目标节点整个节点树中的所有节点。MutationObserverInit 的其他值也会作用于此子树下的所有节点，而不仅仅只作用于目标节点。| 可选|false|
 
-### **takeRecords**
+
+
+### takeRecords()
 
 返回**已检测到但尚未由观察者的回调函数处理的所有匹配DOM更改的列表，使变更队列保持为空**。 最常见的使用场景是：在断开观察者之前立即获取所有未处理的更改记录，以便在停止观察者时可以处理任何未处理的更改。比如：
 
@@ -358,9 +364,76 @@ observer.observe(targetNode, observerOptions);
 observer.disconnect();
 ```
 
+## Resize Observer
+
+这个API和其他的Observer类似，他可以用来观察元素大小的变化。onresize事件则只能有window来触发。大部分使用场景可能是在视窗大小发生变化，或者在移动设备上屏幕旋转时，监听页面元素尺寸的变化。在resizeObserver出现之前，只能使用 `window.resize` 事件来见视窗的大小变化。这种方式稍不留神就容易因为频繁触发resize事件而出现性能问题，从另一个层面来说，`resize`有点“浪费资源”，因为我们只能通过视窗的变化来计算目标元素的变化。
+
+现如今重Web端的SPA页面中，经常需要动态地添加或者删除DOM，频繁修改父元素的尺寸，这种case只有Resize Observer API能够帮我们。
+
+除了监听元素大小变化之外，还有几个有意思的特性：
+
+1. 目标元素被插入或者从DOM中移除时会触发观察
+2. 目标元素display修改为`none`时会触发观察
+3. 非替换元素([link](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element))不会触发观察
+4. tranforms不会触发观察
+5. 如果元素被渲染了时尺寸不是0，0，也会触发观察
+
+### 创建一个 ResizeObserver
+
+与`intersectionObserver`和`MutationObserver`不同，ResizeObserver的构造函数只需要一个`callback`参数。但是监听和取消监听的方法类似
+
+```js
+function callbacl(entries) {
+  // ...
+}
+
+const myObserver = new ResizeObserver(callback);
+const someEl = document.querySelector('.some-element')
+const someOtherEl = document.querySelector('.some-other-element')
+
+myObserver.observe(someEl)
+myObserver.observe(someOtherEl)
+```
+
+### callback
+
+当观察的目标元素尺寸发生变化时触发回调函数，参数是一个`ResizeObserverEntry`对象数组。`ResizeObserverEntry`对象包含两个属性：`contentRect`，`target`。**target**是被观察的目标对象。**contentRect**是`DOMRectReadOnly`的引用，包含 `width`, `height`, `x`, `y`, `top`, `right`, `bottom` 和 `left`。和`Element.getBoundingClientRect()`返回的数据不同，`contentRect`的`width`和`height`不包含`padding`，`contentRect.top`是元素的`padding-top`，`contentRect.left`是元素的`padding-left`。
 
 
-## ResizeObserver
+
+比如在元素调整大小时，其内部文本显示为尺寸大小，代码如下：
+
+```js
+const resizeObserver = new ResizeObserver(entries => {
+  for (let entry of entries) {
+    const boxEl = entry.target
+    const dimensions = entry.contentRect
+
+    boxEl.textContent = `${dimensions.width} x ${dimensions.height}`
+  }
+})
+
+resizeObserver.observe(document.querySelector('.box:nth-child(2)'))
+```
+
+### observe(target, options)
+
+ResizeObserver实例的observe方法还有第二个参数`options`。不过暂时处于草案阶段，浏览器还不支持第二个参数。
+
+```ts
+enum ResizeObserverBoxOptions {
+  "border-box", 
+  "content-box", 
+  "device-pixel-content-box"
+};
+```
+
+可以控制Observer观察不同的CSS尺寸：
+
+* **border-box** : box-border。返回的尺寸包含padding和border
+* **content-box** : content-boder。返回的尺寸不包含padding和border。默认值
+* **device-pixel-content-box** : 返回的尺寸是未经缩放的，和设备像素相关的大小，一定是一个整数。
+
 
 ## PerformanceObserver
 
@@ -372,3 +445,4 @@ observer.disconnect();
 
 1. [IntersectionObserver’s Coming into View](https://developers.google.com/web/updates/2016/04/intersectionobserver)
 2. [IntersectionObserver explainer](https://github.com/w3c/IntersectionObserver/blob/master/explainer.md)
+3. [ResizeObserver: it’s like document.onresize for elements](https://web.dev/resize-observer/)
