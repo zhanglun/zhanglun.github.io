@@ -80,7 +80,7 @@ EventLoop 也不属于 ECMAscript 规范中的一部分。ECMAscript只规定了
 
 在浏览器这个上下文中，macrotask有以下的种类：
 
-1. 当外部或内部<script>标签所对应的脚本加载完成之后，执行这些脚本就是一个macrotask；
+1. 当外部或内部`<script>`标签所对应的脚本加载完成之后，执行这些脚本就是一个macrotask；
 2. 当用户点击页面上的按钮，那么分发click事件后的对handler的执行就是一个macrotask；
 3. 调用setTimeout或者setInterval时传入的callback的执行，就是一个macrotask;
 4. 非标准全局方法setImmediate()调用时传入的callback的执行，就是一个macrotask;
