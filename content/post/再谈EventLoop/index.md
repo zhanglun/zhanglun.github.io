@@ -25,16 +25,28 @@ EventLoop 也不属于 ECMAscript 规范中的一部分。ECMAscript只规定了
 2. dedicated worker agent, shared worker agent 和 service worker agent：这三个worker agent对应各自的执行线程和执行上下文，对应的事件循环称之为 `worker event loop`。
 3. worklet agent：类似，事件循环称之为 `worklet event loop`。
 
+### Task Queues
+
 每个事件循环会有一个或者多个`任务队列(task queues)`。任务队列是一系列`任务(task)`的`集合(sets)`。注意这里说的`任务队列(task queues)`是[ Sets](https://infra.spec.whatwg.org/#sets) 不是 [Queues](https://infra.spec.whatwg.org/#queues)。
 每一个事件循环都有一个 `当前执行中的任务(currently running task)`，这个任务可以为null，事件循环初始化时这个任务就是null。这个任务是可以重新载入。
 每一个事件循环都有一个 `微任务队列(microtask queue)`，微任务队列是一个 `Queue`。
 
-任务(task)是一个结构体，其中有一个`source`字段表示任务的来源，每一个事件来源在任务队列中都有一个特有的任务队列与之相关。任务来源分以下几类：
+
+### Task
+
+任务(task)是一个结构体，包含以下数据：
+
+**Steps**：一系列任务需要做的事情
+**source**：任务的来源，用来组织和序列化任务。每一个事件来源在任务队列中都有一个特有的任务队列与之相关。任务来源分以下几类：
 
 1. DOM操作
 2. 用户交互
 3. 网络请求
 4. 历史回溯。调用 `history.back()` 等相关API
+
+**document**：一个与task相关的[`Document`实例](https://html.spec.whatwg.org/multipage/dom.html#document)。如果这个任务不在`window event loop`中，则`document`为`null`
+
+**script evaluation environment settings object set**：环境配置对象集合，包含一个执行上下文
 
 
 ### 处理模型(Processing model)
@@ -93,7 +105,6 @@ microtask的种类有以下几种：
 2. 显式地调用queueMicrotask(fn)来入队一个microtask时候，那么对这个fn函数的执行就是一个microtask;
 3. new MutationObserver()传入callback的执行就是一个microtask;
 4. Object.observe()传入callback的执行就是一个microtask。
-
 
 
 ## 参考
