@@ -1,6 +1,6 @@
 ---
 title: "JavaScript异步编程方案回顾"
-date: 2020-06-21T10:16:54+08:00
+date: 2019-10-09T10:16:54+08:00
 draft: false
 ---
 
@@ -191,11 +191,12 @@ value.then(function(data) { // value是个promise
 
 ## Async/Await
 
-简单的说async函数就相当于自执行的Generator函数，在await的部分等待返回，返回后自动执行下一步。而且相较于Promise，async的优越性就是把每次异步返回的结果从then中拿到最外层的方法中，不需要链式调用，只要用同步的写法就可以了。更加直观而且，更适合处理并发调用的问题。但是async必须以一个Promise对象开始 ，所以async通常是和Promise结合使用的。
+简单的说async函数就相当于自执行的Generator函数，在await的部分等待返回，返回后自动执行下一步。而且相较于Promise，async的优越性就是把每次异步返回的结果从then中拿到最外层的方法中，不需要链式调用，只要用同步的写法就可以了。更加直观而且，更适合处理并发调用的问题。但是async必须以一个Promise对象开始 ，所以async通常是和Promise结合使用的。babel和typescript的`async/await`是用`yield/generator`实现的
+
 所以可以这么认为：
 
 ```
-Async/Await = Generaotr+ Promise
+Async/Await = Generaotr + Promise
 ```
 
 
