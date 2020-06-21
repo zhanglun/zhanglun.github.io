@@ -142,9 +142,19 @@ jqxhr.always(function() {
 
 ### Generator
 
+类似的，`Generator`的概念也是计算机科学中普遍存在的概念之一
 
+>In computer science, a generator is a routine that can be used to control the iteration behaviour of a loop.
+
+其本质是一个可以控制一个循环迭代行为的子程序(routine)。可以理解就是函数。可以简单的认为它是一个返回数组的函数。在ES6中，也把它翻译成`生成器函数`。讨论Generator必然离不开`协程`。协程又称微线程，纤程，英文名 `Coroutine`。协程的作用，是在执行函数A时，可以随时中断，去执行函数B，然后中断继续执行函数A（可以自由切换）。但这一过程并不是函数调用（没有调用语句），这一整个过程看似像多线程，然而协程只有一个线程执行.
+
+协程由于由程序主动控制切换，没有线程切换的开销，所以执行效率极高。对于IO密集型任务非常适用。我们也正是利用协程随时切换的特性来实现异步编程。
+
+在真正使用Generator来实现异步编程时，你还得先搞清楚什么是`Iterator Protocal`，什么是`Iteratable Protocal`。同样本文也不再赘述。虽然从根本上来说`Generator`诞生之初并不是为了解决异步任务，但是不妨碍广大前端朋友的机智创新。
 
 ### Async/Await
+
+简单的说async函数就相当于自执行的Generator函数，在await的部分等待返回，返回后自动执行下一步。而且相较于Promise，async的优越性就是把每次异步返回的结果从then中拿到最外层的方法中，不需要链式调用，只要用同步的写法就可以了。更加直观而且，更适合处理并发调用的问题。但是async必须以一个Promise对象开始 ，所以async通常是和Promise结合使用的。
 
 
 
