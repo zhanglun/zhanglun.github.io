@@ -1,5 +1,5 @@
 ---
-title: "浅谈TreeShaking在前端中的应用"
+title: "浅谈TreeShaking在前端中的应用 - Rollup VS Webpack"
 date: 2019-11-14T21:50:12+08:00
 draft: false
 ---
@@ -36,20 +36,189 @@ if (Math.random()) {
 }
 ```
 
-而ES6中的模块特性不同，它实现静态模块结构。在编译时就要确定导入和导出的内容，不允许在运行时发生变化。而正是这静态类型的特性，与 `Treeshaking` 无比契合。传统编译型的语言中，都是由编译器将 `Dead Code `从 AST（抽象语法树）中删除。而在JavaScript中使用`Rollup`和 `Webpack`都可以完成了这个任务。
+而ES6中的模块特性不同，它实现静态模块结构。在编译时就要确定导入和导出的内容，不允许在运行时发生变化。而正是这静态类型的特性，与 `Treeshaking` 无比契合。传统编译型的语言中，都是由编译器将 `Dead Code` 从 AST（抽象语法树）中删除。而在JavaScript中使用 `Rollup` 和 `Webpack` 都可以完成了这个任务。
 
-关于这两个工具的使用本文不再赘述，感兴趣的可以自行搜索。下面主要介绍二者在代码实现层面的细节
+## Rollup
 
-## Rollup 的实现
+在 Rollup 中默认是启用treeshaking的。配置项中的 `treeshake` 默认为 `true`。包含其他一些选项，可按需配置。
 
-```js
-// TODO
+```ts
+// src/rollup/typed.d.ts
+export interface NormalizedInputOptions {
+    acorn: Object;
+    acornInjectPlugins: Function[];
+    cache: false | undefined | RollupCache;
+    context: string;
+    experimentalCacheExpiry: number;
+    external: IsExternal;
+    /** @deprecated Use the "inlineDynamicImports" output option instead. */
+    inlineDynamicImports: boolean | undefined;
+    input: string[] | { [entryAlias: string]: string };
+    /** @deprecated Use the "manualChunks" output option instead. */
+    manualChunks: ManualChunksOption | undefined;
+    moduleContext: (id: string) => string;
+    onwarn: WarningHandler;
+    perf: boolean;
+    plugins: Plugin[];
+    preserveEntrySignatures: PreserveEntrySignaturesOption;
+    /** @deprecated Use the "preserveModules" output option instead. */
+    preserveModules: boolean | undefined;
+    preserveSymlinks: boolean;
+    shimMissingExports: boolean;
+    strictDeprecations: boolean;
+    treeshake: false | NormalizedTreeshakingOptions;
+}
+
+export interface NormalizedTreeshakingOptions {
+    annotations: boolean;
+    moduleSideEffects: HasModuleSideEffects;
+    propertyReadSideEffects: boolean;
+    tryCatchDeoptimization: boolean;
+    unknownGlobalSideEffects: boolean;
+}
 ```
 
-## Webpack 的实现
+`tresshake`这个参数主要影响两个地方：
 
-```js
-// TODO
+1. 编译启动阶段`Graph`执行`build`方法时，过滤掉相应的Module，为剩余的Module创建AST的上下文
+2. 编译过程会将`Module`中`getDependenciesToBeIncluded`方法返回的模块用作后续的chunk
+
+在Rollup的源码：`src/Graph.ts`中有一个`includeStatements`方法。
+
+```ts
+// ./src/Graph.ts
+export default class Graph {
+    ...
+    async build(): Promise<void> {
+            timeStart('generate module graph', 2);
+            await this.generateModuleGraph();
+            timeEnd('generate module graph', 2);
+
+            timeStart('sort modules', 2);
+            this.phase = BuildPhase.ANALYSE;
+            this.sortModules();
+            timeEnd('sort modules', 2);
+
+            timeStart('mark included statements', 2);
+            this.includeStatements();
+            timeEnd('mark included statements', 2);
+
+            this.phase = BuildPhase.GENERATE;
+        }
+    ...
+    private includeStatements() {
+        for (const module of [...this.entryModules, ...this.implicitEntryModules]) {
+            if (module.preserveSignature !== false) {
+                module.includeAllExports();
+            } else {
+                markModuleAndImpureDependenciesAsExecuted(module);
+            }
+        }
+        if (this.options.treeshake) {
+            let treeshakingPass = 1;
+            do {
+                timeStart(`treeshaking pass ${treeshakingPass}`, 3);
+                this.needsTreeshakingPass = false;
+                for (const module of this.modules) {
+                    if (module.isExecuted) module.include();
+                }
+                timeEnd(`treeshaking pass ${treeshakingPass++}`, 3);
+            } while (this.needsTreeshakingPass);
+        } else {
+            for (const module of this.modules) module.includeAllInBundle();
+        }
+        for (const externalModule of this.externalModules) externalModule.warnUnusedImports();
+        for (const module of this.implicitEntryModules) {
+            for (const dependant of module.implicitlyLoadedAfter) {
+                if (!(dependant.isEntryPoint || dependant.isIncluded())) {
+                    error(errImplicitDependantIsNotIncluded(dependant));
+                }
+            }
+        }
+    }
+    ...
+}
 ```
+
+在 `if` 代码块中的 `module.include()` 和 `module.includeAllInBundle()` 做的事情很简单，就是
+
+```ts
+export default class Module {
+    ...
+    includeAllInBundle() {
+		this.ast.include(createInclusionContext(), true);
+	}
+    ...
+    include(): void {
+		const context = createInclusionContext();
+		if (this.ast.shouldBeIncluded(context)) this.ast.include(context, false);
+	}
+}
+```
+
+在Rollup的源码：`src/Module.ts`中有一个`getDependenciesToBeIncluded`方法，这个方法返回最后code split 时需要使用的 module。
+
+```ts
+export default class Module {
+    ...
+    getDependenciesToBeIncluded(): Set<Module | ExternalModule> {
+		if (this.relevantDependencies) return this.relevantDependencies;
+		const relevantDependencies = new Set<Module | ExternalModule>();
+		const additionalSideEffectModules = new Set<Module>();
+		const possibleDependencies = new Set(this.dependencies);
+		let dependencyVariables = this.imports;
+		if (this.isEntryPoint || this.includedDynamicImporters.length > 0 || this.namespace.included) {
+			dependencyVariables = new Set(dependencyVariables);
+			for (const exportName of [...this.getReexports(), ...this.getExports()]) {
+				dependencyVariables.add(this.getVariableForExportName(exportName));
+			}
+		}
+		for (let variable of dependencyVariables) {
+			if (variable instanceof SyntheticNamedExportVariable) {
+				variable = variable.getBaseVariable();
+			} else if (variable instanceof ExportDefaultVariable) {
+				const { modules, original } = variable.getOriginalVariableAndDeclarationModules();
+				variable = original;
+				for (const module of modules) {
+					additionalSideEffectModules.add(module);
+					possibleDependencies.add(module);
+				}
+			}
+			relevantDependencies.add(variable.module!);
+		}
+		if (this.options.treeshake) {
+			for (const dependency of possibleDependencies) {
+				if (
+					!(
+						dependency.moduleSideEffects || additionalSideEffectModules.has(dependency as Module)
+					) ||
+					relevantDependencies.has(dependency)
+				) {
+					continue;
+				}
+				if (dependency instanceof ExternalModule || dependency.hasEffects()) {
+					relevantDependencies.add(dependency);
+				} else {
+					for (const transitiveDependency of dependency.dependencies) {
+						possibleDependencies.add(transitiveDependency);
+					}
+				}
+			}
+		} else {
+			for (const dependency of this.dependencies) {
+				relevantDependencies.add(dependency);
+			}
+		}
+		return (this.relevantDependencies = relevantDependencies);
+	}
+}
+```
+
+## Webpack 
+
+TODO
+
+关于这两个工具的使用本文不再赘述，感兴趣的可以自行搜索。
+
 
 
