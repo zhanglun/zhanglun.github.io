@@ -45,36 +45,36 @@ if (Math.random()) {
 ```ts
 // src/rollup/typed.d.ts
 export interface NormalizedInputOptions {
-    acorn: Object;
-    acornInjectPlugins: Function[];
-    cache: false | undefined | RollupCache;
-    context: string;
-    experimentalCacheExpiry: number;
-    external: IsExternal;
-    /** @deprecated Use the "inlineDynamicImports" output option instead. */
-    inlineDynamicImports: boolean | undefined;
-    input: string[] | { [entryAlias: string]: string };
-    /** @deprecated Use the "manualChunks" output option instead. */
-    manualChunks: ManualChunksOption | undefined;
-    moduleContext: (id: string) => string;
-    onwarn: WarningHandler;
-    perf: boolean;
-    plugins: Plugin[];
-    preserveEntrySignatures: PreserveEntrySignaturesOption;
-    /** @deprecated Use the "preserveModules" output option instead. */
-    preserveModules: boolean | undefined;
-    preserveSymlinks: boolean;
-    shimMissingExports: boolean;
-    strictDeprecations: boolean;
-    treeshake: false | NormalizedTreeshakingOptions;
+  acorn: Object;
+  acornInjectPlugins: Function[];
+  cache: false | undefined | RollupCache;
+  context: string;
+  experimentalCacheExpiry: number;
+  external: IsExternal;
+  /** @deprecated Use the "inlineDynamicImports" output option instead. */
+  inlineDynamicImports: boolean | undefined;
+  input: string[] | { [entryAlias: string]: string };
+  /** @deprecated Use the "manualChunks" output option instead. */
+  manualChunks: ManualChunksOption | undefined;
+  moduleContext: (id: string) => string;
+  onwarn: WarningHandler;
+  perf: boolean;
+  plugins: Plugin[];
+  preserveEntrySignatures: PreserveEntrySignaturesOption;
+  /** @deprecated Use the "preserveModules" output option instead. */
+  preserveModules: boolean | undefined;
+  preserveSymlinks: boolean;
+  shimMissingExports: boolean;
+  strictDeprecations: boolean;
+  treeshake: false | NormalizedTreeshakingOptions;
 }
 
 export interface NormalizedTreeshakingOptions {
-    annotations: boolean;
-    moduleSideEffects: HasModuleSideEffects;
-    propertyReadSideEffects: boolean;
-    tryCatchDeoptimization: boolean;
-    unknownGlobalSideEffects: boolean;
+  annotations: boolean;
+  moduleSideEffects: HasModuleSideEffects;
+  propertyReadSideEffects: boolean;
+  tryCatchDeoptimization: boolean;
+  unknownGlobalSideEffects: boolean;
 }
 ```
 
@@ -85,58 +85,59 @@ export interface NormalizedTreeshakingOptions {
 
 在Rollup的源码：`src/Graph.ts`中有一个`includeStatements`方法。
 
+**src/Graph.ts**
+
 ```ts
-// ./src/Graph.ts
 export default class Graph {
-    ...
-    async build(): Promise<void> {
-            timeStart('generate module graph', 2);
-            await this.generateModuleGraph();
-            timeEnd('generate module graph', 2);
+  ...
+  async build(): Promise<void> {
+    timeStart('generate module graph', 2);
+    await this.generateModuleGraph();
+    timeEnd('generate module graph', 2);
 
-            timeStart('sort modules', 2);
-            this.phase = BuildPhase.ANALYSE;
-            this.sortModules();
-            timeEnd('sort modules', 2);
+    timeStart('sort modules', 2);
+    this.phase = BuildPhase.ANALYSE;
+    this.sortModules();
+    timeEnd('sort modules', 2);
 
-            timeStart('mark included statements', 2);
-            this.includeStatements();
-            timeEnd('mark included statements', 2);
+    timeStart('mark included statements', 2);
+    this.includeStatements();
+    timeEnd('mark included statements', 2);
 
-            this.phase = BuildPhase.GENERATE;
-        }
-    ...
-    private includeStatements() {
-        for (const module of [...this.entryModules, ...this.implicitEntryModules]) {
-            if (module.preserveSignature !== false) {
-                module.includeAllExports();
-            } else {
-                markModuleAndImpureDependenciesAsExecuted(module);
-            }
-        }
-        if (this.options.treeshake) {
-            let treeshakingPass = 1;
-            do {
-                timeStart(`treeshaking pass ${treeshakingPass}`, 3);
-                this.needsTreeshakingPass = false;
-                for (const module of this.modules) {
-                    if (module.isExecuted) module.include();
-                }
-                timeEnd(`treeshaking pass ${treeshakingPass++}`, 3);
-            } while (this.needsTreeshakingPass);
-        } else {
-            for (const module of this.modules) module.includeAllInBundle();
-        }
-        for (const externalModule of this.externalModules) externalModule.warnUnusedImports();
-        for (const module of this.implicitEntryModules) {
-            for (const dependant of module.implicitlyLoadedAfter) {
-                if (!(dependant.isEntryPoint || dependant.isIncluded())) {
-                    error(errImplicitDependantIsNotIncluded(dependant));
-                }
-            }
-        }
+    this.phase = BuildPhase.GENERATE;
+  }
+  ...
+  private includeStatements() {
+    for (const module of [...this.entryModules, ...this.implicitEntryModules]) {
+      if (module.preserveSignature !== false) {
+        module.includeAllExports();
+      } else {
+        markModuleAndImpureDependenciesAsExecuted(module);
+      }
     }
-    ...
+    if (this.options.treeshake) {
+      let treeshakingPass = 1;
+      do {
+        timeStart(`treeshaking pass ${treeshakingPass}`, 3);
+        this.needsTreeshakingPass = false;
+        for (const module of this.modules) {
+          if (module.isExecuted) module.include();
+        }
+        timeEnd(`treeshaking pass ${treeshakingPass++}`, 3);
+      } while (this.needsTreeshakingPass);
+    } else {
+      for (const module of this.modules) module.includeAllInBundle();
+    }
+    for (const externalModule of this.externalModules) externalModule.warnUnusedImports();
+    for (const module of this.implicitEntryModules) {
+      for (const dependant of module.implicitlyLoadedAfter) {
+        if (!(dependant.isEntryPoint || dependant.isIncluded())) {
+          error(errImplicitDependantIsNotIncluded(dependant));
+        }
+      }
+    }
+  }
+  ...
 }
 ```
 
@@ -144,81 +145,358 @@ export default class Graph {
 
 ```ts
 export default class Module {
-    ...
-    includeAllInBundle() {
-		this.ast.include(createInclusionContext(), true);
-	}
-    ...
-    include(): void {
-		const context = createInclusionContext();
-		if (this.ast.shouldBeIncluded(context)) this.ast.include(context, false);
-	}
+  ...
+  includeAllInBundle() {
+  this.ast.include(createInclusionContext(), true);
+  }
+  ...
+  include(): void {
+  const context = createInclusionContext();
+  if (this.ast.shouldBeIncluded(context)) this.ast.include(context, false);
+  }
 }
 ```
 
 在Rollup的源码：`src/Module.ts`中有一个`getDependenciesToBeIncluded`方法，这个方法返回最后code split 时需要使用的 module。
 
+
+**src/Module.ts**
+
 ```ts
 export default class Module {
-    ...
-    getDependenciesToBeIncluded(): Set<Module | ExternalModule> {
-		if (this.relevantDependencies) return this.relevantDependencies;
-		const relevantDependencies = new Set<Module | ExternalModule>();
-		const additionalSideEffectModules = new Set<Module>();
-		const possibleDependencies = new Set(this.dependencies);
-		let dependencyVariables = this.imports;
-		if (this.isEntryPoint || this.includedDynamicImporters.length > 0 || this.namespace.included) {
-			dependencyVariables = new Set(dependencyVariables);
-			for (const exportName of [...this.getReexports(), ...this.getExports()]) {
-				dependencyVariables.add(this.getVariableForExportName(exportName));
-			}
-		}
-		for (let variable of dependencyVariables) {
-			if (variable instanceof SyntheticNamedExportVariable) {
-				variable = variable.getBaseVariable();
-			} else if (variable instanceof ExportDefaultVariable) {
-				const { modules, original } = variable.getOriginalVariableAndDeclarationModules();
-				variable = original;
-				for (const module of modules) {
-					additionalSideEffectModules.add(module);
-					possibleDependencies.add(module);
-				}
-			}
-			relevantDependencies.add(variable.module!);
-		}
-		if (this.options.treeshake) {
-			for (const dependency of possibleDependencies) {
-				if (
-					!(
-						dependency.moduleSideEffects || additionalSideEffectModules.has(dependency as Module)
-					) ||
-					relevantDependencies.has(dependency)
-				) {
-					continue;
-				}
-				if (dependency instanceof ExternalModule || dependency.hasEffects()) {
-					relevantDependencies.add(dependency);
-				} else {
-					for (const transitiveDependency of dependency.dependencies) {
-						possibleDependencies.add(transitiveDependency);
-					}
-				}
-			}
-		} else {
-			for (const dependency of this.dependencies) {
-				relevantDependencies.add(dependency);
-			}
-		}
-		return (this.relevantDependencies = relevantDependencies);
-	}
+  ...
+  getDependenciesToBeIncluded(): Set<Module | ExternalModule> {
+    if (this.relevantDependencies) return this.relevantDependencies;
+    const relevantDependencies = new Set<Module | ExternalModule>();
+    const additionalSideEffectModules = new Set<Module>();
+    const possibleDependencies = new Set(this.dependencies);
+    let dependencyVariables = this.imports;
+    if (this.isEntryPoint || this.includedDynamicImporters.length > 0 || this.namespace.included) {
+      dependencyVariables = new Set(dependencyVariables);
+      for (const exportName of [...this.getReexports(), ...this.getExports()]) {
+        dependencyVariables.add(this.getVariableForExportName(exportName));
+      }
+    }
+    for (let variable of dependencyVariables) {
+      if (variable instanceof SyntheticNamedExportVariable) {
+        variable = variable.getBaseVariable();
+      } else if (variable instanceof ExportDefaultVariable) {
+        const { modules, original } = variable.getOriginalVariableAndDeclarationModules();
+        variable = original;
+        for (const module of modules) {
+          additionalSideEffectModules.add(module);
+          possibleDependencies.add(module);
+        }
+      }
+      relevantDependencies.add(variable.module!);
+    }
+    if (this.options.treeshake) {
+      for (const dependency of possibleDependencies) {
+        if (
+          !(
+            dependency.moduleSideEffects || additionalSideEffectModules.has(dependency as Module)
+          ) ||
+          relevantDependencies.has(dependency)
+        ) {
+          continue;
+        }
+        if (dependency instanceof ExternalModule || dependency.hasEffects()) {
+          relevantDependencies.add(dependency);
+        } else {
+          for (const transitiveDependency of dependency.dependencies) {
+            possibleDependencies.add(transitiveDependency);
+          }
+        }
+      }
+    } else {
+      for (const dependency of this.dependencies) {
+        relevantDependencies.add(dependency);
+      }
+    }
+    return (this.relevantDependencies = relevantDependencies);
+  }
 }
 ```
 
 ## Webpack 
 
-TODO
+如果在Webpack想要对代码进行 tree-shaking，需要满足以下几项：
 
-关于这两个工具的使用本文不再赘述，感兴趣的可以自行搜索。
+1. 你必须处于生产模式。Webpack 只有在压缩代码的时候会 tree-shaking
+2. 必须将优化选项 `usedExports` 设置为 `true`。告诉 Webpack 识别出它认为没有被使用的代码，并在最初的打包步骤中给它做标记。
+3. 最后使用一个支持删除死代码的压缩器。这种压缩器将识别出 Webpack 是如何标记它认为没有被使用的代码，并将其剥离。`TerserPlugin` 支持这个功能
 
+下面是 Webpack 开启  tree-shaking 的基本配置：
 
+```js
+// Base Webpack Config for Tree Shaking
+const config = {
+  mode: 'production',
+  optimization: {
+    usedExports: true,
+    minimizer: [
+      new TerserPlugin({...})
+    ]
+  }
+};
+```
 
+以webpack官网文档中的demo为例，当开始生产环境模式时，打包输出的内容会包含`unused harmony export`，以此来标记没有被使用的代码
+
+**src/index.js**
+
+```js
+import _ from 'lodash';
+import { cube } from './math.js';
+
+function component() {
+  const element = document.createElement('div');
+  const element = document.createElement('pre');
+
+  // Lodash, now imported by this script
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = [
+    'Hello webpack!',
+    '5 cubed is equal to ' + cube(5)
+  ].join('\n\n');
+
+  return element;
+}
+
+document.body.appendChild(component());
+```
+
+**dist/bundle.js**
+
+```js
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+  'use strict';
+  /* unused harmony export square */
+  /* harmony export (immutable) */ __webpack_exports__['a'] = cube;
+  function square(x) {
+    return x * x;
+  }
+
+  function cube(x) {
+    return x * x * x;
+  }
+});
+```
+
+然后再通过 `Terser-Webpack-Plugin` 压缩代码，将标记为未使用的代码删除。接下来我们看看这两个过程具体的代码实现。
+
+在源码的 `lib/optimize.js`中，会先定义一个Set，保存所有暴露出来的未使用的exports
+
+```js
+// Set with all root exposed unused exports
+/** @type {Set<string>} */
+const unusedExports = new Set();
+```
+
+接下来遍历保存在`rootModule`中的所有`HarmonyExportSpecifierDependency`依赖，将没有使用的依赖名称保存到 `unusedExports`
+
+```js
+for (const dep of this.rootModule.dependencies) {
+  if (dep instanceof HarmonyExportSpecifierDependency) {
+    const used = /** @type {string | false } */ (this.rootModule.getUsedName(
+      moduleGraph,
+      dep.name
+    ));
+    if (used) {
+      const info = moduleToInfoMap.get(this.rootModule);
+      if (!exportsMap.has(used)) {
+        exportsMap.set(
+          used,
+          () => `/* binding */ ${info.internalNames.get(dep.id)}`
+        );
+      }
+    } else {
+      unusedExports.add(dep.name || "namespace");
+    }
+  } else if (dep instanceof HarmonyExportExpressionDependency) {
+    const used = /** @type {string | false } */ (this.rootModule.getUsedName(
+      moduleGraph,
+      "default"
+    ));
+    if (used) {
+      const info = moduleToInfoMap.get(this.rootModule);
+      if (!exportsMap.has(used)) {
+        exportsMap.set(
+          used,
+          () =>
+            `/* default */ ${info.internalNames.get(
+              typeof dep.declarationId === "string"
+                ? dep.declarationId
+                : "__WEBPACK_MODULE_DEFAULT_EXPORT__"
+            )}`
+        );
+      }
+    } else {
+      unusedExports.add("default");
+    }
+  } else if (dep instanceof HarmonyExportImportedSpecifierDependency) {
+    const exportDefs = getHarmonyExportImportedSpecifierDependencyExports(
+      dep,
+      moduleGraph
+    );
+    for (const def of exportDefs) {
+      const importedModule = moduleGraph.getModule(dep);
+      const info = moduleToInfoMap.get(importedModule);
+      const used = /** @type {string | false } */ (this.rootModule.getUsedName(
+        moduleGraph,
+        def.name
+      ));
+      if (used) {
+        if (!exportsMap.has(used)) {
+          exportsMap.set(used, requestShortener => {
+            const finalName = getFinalName(
+              moduleGraph,
+              info,
+              def.ids,
+              moduleToInfoMap,
+              requestShortener,
+              runtimeTemplate,
+              false,
+              false,
+              this.rootModule.buildMeta.strictHarmonyModule,
+              true
+            );
+            return `/* reexport */ ${finalName}`;
+          });
+        }
+      } else {
+        unusedExports.add(def.name);
+      }
+    }
+  }
+}
+```
+
+在 `lib/dependencies/HarmonyExportInitFragment.js` 和 `lib/dependencies/HarmonyExportExpressionDependency.js` 都有打标记的操作
+
+**lib/dependencies/HarmonyExportInitFragment.js**
+
+```js
+/**
+ * @param {GenerateContext} generateContext context for generate
+ * @returns {string|Source} the source code that will be included as initialization code
+ */
+getContent({ runtimeTemplate, runtimeRequirements }) {
+  runtimeRequirements.add(RuntimeGlobals.exports);
+  runtimeRequirements.add(RuntimeGlobals.definePropertyGetters);
+
+  const unusedPart =
+    this.unusedExports.size > 1
+      ? `/* unused harmony exports ${joinIterableWithComma(
+        this.unusedExports
+      )} */\n`
+      : this.unusedExports.size > 0
+        ? `/* unused harmony export ${
+        this.unusedExports.values().next().value
+        } */\n`
+        : "";
+  const definitions = [];
+  for (const [key, value] of this.exportMap) {
+    definitions.push(
+      `\n/* harmony export */   ${JSON.stringify(
+        key
+      )}: ${runtimeTemplate.returningFunction(value)}`
+    );
+  }
+  const definePart =
+    this.exportMap.size > 0
+      ? `/* harmony export */ ${RuntimeGlobals.definePropertyGetters}(${
+      this.exportsArgument
+      }, {${definitions.join(",")}\n/* harmony export */ });\n`
+      : "";
+  return `${definePart}${unusedPart}`;
+}
+```
+
+**lib/dependencies/HarmonyExportExpressionDependency.js**
+
+```js
+
+HarmonyExportExpressionDependency.Template = class HarmonyExportDependencyTemplate extends NullDependency.Template {
+  /**
+   * @param {Dependency} dependency the dependency for which the template should be applied
+   * @param {ReplaceSource} source the current replace source which can be modified
+   * @param {DependencyTemplateContext} templateContext the context object
+   * @returns {void}
+   */
+  apply(
+    dependency,
+    source,
+    { module, moduleGraph, runtimeTemplate, runtimeRequirements, initFragments }
+  ) {
+    const dep = /** @type {HarmonyExportExpressionDependency} */ (dependency);
+    const used = module.getUsedName(moduleGraph, "default");
+    const { declarationId } = dep;
+    const exportsName = module.exportsArgument;
+    if (declarationId) {
+      let name;
+      if (typeof declarationId === "string") {
+        name = declarationId;
+      } else {
+        name = "__WEBPACK_DEFAULT_EXPORT__";
+        source.replace(
+          declarationId.range[0],
+          declarationId.range[1] - 1,
+          `${declarationId.prefix}${name}${declarationId.suffix}`
+        );
+      }
+
+      if (used) {
+        const map = new Map();
+        map.set(used, `/* export default binding */ ${name}`);
+        initFragments.push(new HarmonyExportInitFragment(exportsName, map));
+      }
+
+      source.replace(
+        dep.rangeStatement[0],
+        dep.range[0] - 1,
+        `/* harmony default export */ ${dep.prefix}`
+      );
+    } else {
+      let content;
+      if (used) {
+        runtimeRequirements.add(RuntimeGlobals.exports);
+        if (runtimeTemplate.supportsConst()) {
+          const name = "__WEBPACK_DEFAULT_EXPORT__";
+          content = `/* harmony default export */ const ${name} = `;
+          const map = new Map();
+          map.set(used, name);
+          initFragments.push(new HarmonyExportInitFragment(exportsName, map));
+        } else {
+          // This is a little bit incorrect as TDZ is not correct, but we can't use const.
+          content = `/* harmony default export */ ${exportsName}[${JSON.stringify(
+            used
+          )}] = `;
+        }
+      } else {
+        content =
+          "/* unused harmony default export */ var _unused_webpack_default_export = ";
+      }
+
+      if (dep.range) {
+        source.replace(
+          dep.rangeStatement[0],
+          dep.range[0] - 1,
+          content + "(" + dep.prefix
+        );
+        source.replace(dep.range[1], dep.rangeStatement[1] - 0.5, ");");
+        return;
+      }
+
+      source.replace(dep.rangeStatement[0], dep.rangeStatement[1] - 1, content);
+    }
+  }
+};
+```
+
+`Terser-Webpack-plugin` 和 `Terser` 还未找到相关剔除代码的标记
+
+## 总结 
+
+虽然还没有完全理清楚Webpack中treeshaking在代码层面的具体逻辑，但是对比可以看到。Rollup采用的是先分析，然后找到需要的代码，最后再打包。而webpack则是先打标记，最后再剔除，比较符合标准的DCE的操作
