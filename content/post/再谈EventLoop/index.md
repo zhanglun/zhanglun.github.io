@@ -76,13 +76,13 @@ EventLoop 也不属于 ECMAscript 规范中的一部分。ECMAscript只规定了
 
 关于处理模型的具体细节可参考 [Processing Model](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
 
-### 宏任务和微任务
+### “宏任务”和微任务
 
 什么是`微任务`，在规范中是这么定义的：
 
 > A microtask is a colloquial way of referring to a task that was created via the queue a microtask algorithm
 
-不是微任务的任务我们都当做宏任务，具体来看宏任务和微任务的入列逻辑步骤。
+在规范中其实并没有提到“MarcoTask”这样的概念，只有 `Task` 和 `MircoTask` 之分，我们暂且就将不是微任务的任务称之为宏任务，具体来看二者入列逻辑步骤。
 
 ![Xnip2020-06-14_13-27-06.jpg](./images/Xnip2020-06-14_13-27-06.jpg)
 
