@@ -3,8 +3,6 @@ title: 关于我
 date: 2018-01-26 22:27:38
 ---
 
-[PDF版简历](https://drive.google.com/open?id=0B4aY-s-C5u4OeHlTekRXSnBDSGc)
-
 # 联系方式
 
 * 手机: **15601891270**
