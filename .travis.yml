@@ -24,6 +24,7 @@ script:
 
   # Go To Public folder
   - cp ./CNAME ./public/CNAME
+  - cp ./ads.txt ./public/ads.txt
   - cd public
   - git init
   - git add .
