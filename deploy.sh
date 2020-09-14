@@ -9,7 +9,8 @@ printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 hugo
 
 # Go To Public folder
-cp ./CNAME ./public/CNAME
+cp ./cname ./public/cname
+cp ./ads.txt ./public/ads.txt
 cd public
 
 git init
