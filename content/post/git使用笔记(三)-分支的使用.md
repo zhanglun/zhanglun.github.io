@@ -5,7 +5,8 @@ tag: ["Git", "笔记"]
 
 ---
 
-##简单介绍
+## 简单介绍
+
 之前说过，每次修改之后，Git 并不是保存这些修改之后的差异变化，实际上就像一个照相机一样，将修改后的文件拍下作为文件快照，记录在一个微型的文件系统中。在 Git 中提交时，会保存一个提交对象，这个对象包含一个暂存内容快照的指针。而 Git 中的分支其本质上是一个指向 commit 对象的可变的指针，使用 master 作为分支的默认名字，通常指向的是最新的一次提交。
 
 每次的提交，Git 把他们穿起来连成一条线，而主分支master就在这条线上随着提交测更新移动，而 HEAD 指向master，表示我们当前处在 master 分支上（不好意思，直接就用廖雪峰老师的图了，他的教程请戳[这里](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)）
@@ -20,17 +21,21 @@ tag: ["Git", "笔记"]
 
 在上述的这几个过程中，工作区的内容没有变化，整个过程就是修改几个指针而已，几乎就是瞬间完成。
 
-##创建与合并
+## 创建与合并
 
 创建一个 crisp 分支，然后切换到这个分支：
 
-	git checkout -b crisp
-	Switched to a new branch 'crisp'
+```bash
+git checkout -b crisp
+Switched to a new branch 'crisp'
+```
 
 `git checkout -b` 表示创建并切换分支，相当于将下面两步操作合并成一步来做
 
-	git branch crisp 		// 创建分支
-	git checkout crisp		// 切换到指定的分支
+```bash
+git branch crisp 		// 创建分支
+git checkout crisp		// 切换到指定的分支
+```
 	
 同时，可以用 `git branch` 查看分支，这个命令会列出所有的分支，在当前的分支前面会表上一个 * 号。
 
@@ -38,31 +43,39 @@ tag: ["Git", "笔记"]
 
 假设我们正在 dev 分之上开发，当开发完成后，在这个分之上提交代码
 
-	git add .
-	git commit -m "dev 开发完成！"
+```bash
+git add .
+git commit -m "dev 开发完成！"
+```
 	
 此时的提交是在 dev 分支上的提交，当你切回 master 上是，dev 上的修改你都看不到。此时的 master 如果没有人提交过的话，则停留在切换分支之前的那个提交点上，也就是落后与 dev 分支。这个时候我们就需要将分支合并了。
 
-	git checkout master		// 先切回 master 分支 
-	git merge dev 			// 手动将dev 分支上的提交合并到 master 上
+```bash
+git checkout master		// 先切回 master 分支 
+git merge dev 			// 手动将dev 分支上的提交合并到 master 上
+```
 	
 当某一个分支不在需要的时候，可以将它删除
 
-	git branch -d branchname
+```bash
+git branch -d branchname
+```
 	
 小小的总结一下：
 
-	查看分支：git branch
+```bash
+查看分支：git branch
 
-	创建分支：git branch name
+创建分支：git branch name
 
-	切换分支：git checkout name
+切换分支：git checkout name
 
-	创建+切换分支：git checkout -b name
+创建+切换分支：git checkout -b name
 
-	合并某分支到当前分支：git merge name
+合并某分支到当前分支：git merge name
 
-	删除分支：git branch -d name
+删除分支：git branch -d name
+```
 	
 	 
 	
