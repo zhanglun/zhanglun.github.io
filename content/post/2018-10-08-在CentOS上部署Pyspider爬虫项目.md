@@ -2,7 +2,8 @@
 title: 在 CentOS 上部署 pyspider 爬虫项目
 date: 2018-10-08 23:12:03
 categories:
-tags: ['Python', 'Pyspider', 'CentOS']
+tags: 
+  - Python
 ---
 
 ## 前言
