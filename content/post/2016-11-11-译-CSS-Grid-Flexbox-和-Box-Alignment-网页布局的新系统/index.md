@@ -135,13 +135,13 @@ For flexbox, when we use `align-items`, we are aligning them inside the flex co
 
 对于 flexbox，当我们使用`align-itmes`时，我们是将它们在 flex 容器中的十字轴上对齐。主轴由 `flex-direction`属性定义。在这个例子中，主轴是 row；然后我们十字轴上的项目延伸到容器的高度。在这种情况下，flex 容器的高度由 flex 项的最大高度决定。
 
-![./images/01-flex-row-opt.png](./images/01-flex-row-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/01-flex-row-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/01-flex-row-opt.png)
 
 I could give the wrapper a height, and in this case the height of the flex container would be defined by that height.
 
 我可以给包装器添加一个高度，在这种情况下，这个高度将定义flex 容器的高度。
 
-![./images/02-flex-row-height-opt.png](./images/02-flex-row-height-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/02-flex-row-height-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/02-flex-row-height-opt.png)
 
 We can use other values, instead of the default `stretch`:
 
@@ -166,13 +166,13 @@ The `space-between` and `space-around` keywords are especially interesting. 
 
 `space-between`和`space-around`关键字尤其有趣。使用`space-between`，flex 容器中剩余的空白位置会平均分布在 flex 项之间。
 
-![./images/03-flex-space-between-opt.png](./images/03-flex-space-between-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/03-flex-space-between-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/03-flex-space-between-opt.png)
 
 Using `space-around` is similar except that the space left over is distributed on both sides of the items. You get a half-sized gap on each end.
 
 使用`space-around`，flex 容器中剩余的空白位置会平均分布在 flex 项两边。
 
-![./images/04-flex-space-around-opt.png](./images/04-flex-space-around-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/04-flex-space-around-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/04-flex-space-around-opt.png)
 
 You can see these properties and values in the CodePen below.
 
@@ -185,19 +185,19 @@ We can display flex items as a column rather than a row. If we change the value 
 
 我们可以将 flex 项按照列摆放而不是行。如果我们将`flex-direction`的值设置成`column`，然后主轴变成column，横轴沿着 row——`align-items`依旧是默认值`stretch`，所以在每一行上拓展 flex 项。
 
-![./images/05-flex-column-opt.png](./images/05-flex-column-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/05-flex-column-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/05-flex-column-opt.png)
 
 If instead we want them to align to the start of the flex container, we use `flex-start`.
 
 如果我们想要 flex 项在 flex容器的开始位置对齐，我们使用`flex-start`。
 
-![./images/06-flex-column-start-opt.png](./images/06-flex-column-start-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/06-flex-column-start-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/06-flex-column-start-opt.png)
 
 We can use `justify-items`, too, including `space-between` and `space-around`. The container needs to have enough height for you to see each in action, though!
 
 我们也可以使用`justify-items`，包括`space-between`和`space-around`。但是要看到这些效果，容器需要足够的高度！
 
-![./images/07-flex-column-space-between-opt.png](./images/07-flex-column-space-between-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/07-flex-column-space-between-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/07-flex-column-space-between-opt.png)
 
 <p data-height="265" data-theme-id="light" data-slug-hash="JKRrvY" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox Alignment flex-direction: column" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/JKRrvY/">Flexbox Alignment flex-direction: column</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
@@ -223,19 +223,19 @@ The dotted border is on a background image, to help us see the defined areas. So
 
 虚线边框是背景图中的，帮助我们看到定义的区域。那么，在第一个例子中，每个区域在列轴上使用`stretch`作为`align-items`的默认值，在行轴上使用`justify-items`。这意味着内容会延伸到完全填充定义的区域。
 
-![./images/08-grid-default-align-opt.png](./images/08-grid-default-align-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/08-grid-default-align-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/08-grid-default-align-opt.png)
 
 In the second example, I have changed the value of `align-items` on the grid container to `center`. We can also change this value on an individual grid item using the `align-self` property. In this case, I have set all items to `center`, but item two to `stretch`.
 
 在第二个例子中，我将 grid 容器的`align-items`的值修改成`center`。我们也可以修改一个单独的 gird 项上的`align-self`属性的值。此时，我把所有的项都设置成`center`，但是第二个项设置成 `stretch`。	
 
-![./images/09-grid-align-items-opt.png](./images/09-grid-align-items-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/09-grid-align-items-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/09-grid-align-items-opt.png)
 
 In the third example, I have changed the value of `justify-items` and `justify-self` again, setting these to `center` and `stretch`.
 
 在第三个例子中，我再次修改了`justify-items`和`justify-self`的值，将这些设置成`center`和`stretch`。
 
-![./images/10-grid-justify-items-opt.png](./images/10-grid-justify-items-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/10-grid-justify-items-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/10-grid-justify-items-opt.png)
 
 In all of the examples above, I have aligned the content of the grid areas, the areas defined by the start and end grid lines.
 
@@ -252,19 +252,19 @@ In the first example, we see the default alignment of a grid where the columns a
 
 在第一个例子中，我们可以看到网格的默认布局，行和列都被定义在绝对大小单位中，占据的空间比固定大小的包装器允许的空间更小。`align-content`和`justify-content`的默认值都是`start`。
 
-![./images/11-grid-align-start-opt.png](./images/11-grid-align-start-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/11-grid-align-start-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/11-grid-align-start-opt.png)
 
 To move the tracks to the bottom right, we change the values to `end`.
 
 为了将轨道移动到右下角，我们可以把值变成`end`。
 
-![./images/12-grid-align-end-opt.png](./images/12-grid-align-end-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/12-grid-align-end-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/12-grid-align-end-opt.png)
 
 Just as with flexbox, we can use `space-around` and `space-between`. This might cause some behavior that we don’t want as the grid gaps essentially become wider. However, as you can see from the image below and in the third example in the CodePen, we get the same space between or around the tracks as we see with flexbox.
 
 就像 flexbox 一样，我们可以使用`space-around`和`sapce-between`。这可能会引发一些我们不希望看到的行为，我们不想网格间隙变得更宽。然而，正如下图和 CodePen 中的第三个例子中你看到的一样，在轨道之间或者周围有相同的空间，就像在 flexbox 中一样。
 
-![./images/13-grid-align-space-opt.png](./images/13-grid-align-space-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/13-grid-align-space-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/13-grid-align-space-opt.png)
 
 The fixed-sized tracks will gain additional space if they span more than one track. Element two and four in our example are wider and three is taller because they are given the extra space assigned to the gap they span over.
 
@@ -274,7 +274,7 @@ We can completely center the grid by setting both values to `center`, as shown 
 
 我们可以通过将两个值设置成`center`来完全地将网格居中，就像最后一个例子中展示的一样。
 
-![./images/14-grid-align-center-opt.png](./images/14-grid-align-center-opt.png)
+![https://www.smashingmagazine.com/wp-content/uploads/2016/06/14-grid-align-center-opt.png](https://www.smashingmagazine.com/wp-content/uploads/2016/06/14-grid-align-center-opt.png)
 
 We have very nice alignment abilities in both flexbox and grid, and they work in a generally consistent way. We can align individual items and groups of items in a way that is responsive and prevents overlap — something the web has lacked until now!
 
