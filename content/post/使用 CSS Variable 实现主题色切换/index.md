@@ -199,7 +199,7 @@ body {
 }
 
 a {
-  color: var(--links-dark);
+  color: var(--links);
 }
 ```
 
