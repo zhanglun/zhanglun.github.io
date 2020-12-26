@@ -144,3 +144,39 @@ zen在提高租车B端的研发效率的同时，保证B端系统的UI和交互�
 ![./images/Untitled%205.png](./images/Untitled%205.png)
 
 完善的工程化设计，能够很好的帮助开发。
+
+## 高优迁移的组件
+
+使用工具 [madge](https://www.npmjs.com/package/madge) 分析zen的代码依赖，得到下图
+
+
+![./images/graph.png](./images/graph.png)
+
+结合前面提到的组件使用情况统计
+
+![./images/Untitled%202.png](./images/Untitled%202.png)
+
+同时对每个组件单独进行依赖分析可以发现最为复杂的是：BaseForm
+
+![./images/Untitled%206.png](./images/Untitled%206.png)
+
+BaseForm是ListFilter、FormModal、EditForm的下层依赖，而BaseForm又依赖了以下这些组件
+
+1. SmartSelect
+2. BankCardInput
+3. VerificationCode
+4. CitySelect
+5. CompanySelect
+6. SearchInput
+7. EditTable
+8. BetweenTextInput
+9. CarVariantMultiSelect
+10. CarVariantSelect
+11. CityPanelSelect
+12. PhotoBox
+13. Card
+14. SmartInput
+15. AsyncButton
+16. EditTag
+
+所以重构迁移过程中首先以这些为主
