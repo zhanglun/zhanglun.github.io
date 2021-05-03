@@ -33,8 +33,16 @@ draft: true
 
 ![架构变化](./images/2.png)
 
+基座模式的代表[single-spa](https://github.com/single-spa/single-spa), [qiankun](https://qiankun.umijs.org/zh/guide)亦是站在前者的肩膀之上诞生的国产的微前端实现库。处于“科研”的考虑，先从single-spa开始入手，了解其原理，学习其思想
 
-基座模式的代表[single-spa](https://github.com/single-spa/single-spa), [qiankun](https://qiankun.umijs.org/zh/guide)亦是站在前者的肩膀之上诞生的国产的微前端实现库。
+### single-spa 的原理和使用
+
+
+
+### 如何接入项目
+
+### 改进升级
+
 
 TODO:
 1. single-spa的原理和使用
