@@ -1,5 +1,5 @@
 ---
-title: "随机的联想"
+title: "关于JavaScript的随机数"
 date: 2020-12-14T15:29:41+08:00
 draft: false
 ---
@@ -93,6 +93,20 @@ const srand = (seed) {
 }
 ```
 
+### Web Crypto API
+
+Math.random() 不能提供像密码一样安全的随机数字。不要使用它们来处理有关安全的事情。使用 `Web Crypto API` 来代替, 和更精确的 `window.crypto.getRandomValues() 方法。Crypto.getRandomValues() 方法可以获取符合密码学要求的安全的随机值。传入参数的数组被随机值填充。
+
+```js
+var array = new Uint32Array(10);
+window.crypto.getRandomValues(array);
+
+console.log("Your lucky numbers:");
+for (var i = 0; i < array.length; i++) {
+    console.log(array[i]);
+}
+```
+
 ### V8中的Random
 
 先明确一点，在ECMAScript中定义的 [Math.random()](https://262.ecma-international.org/6.0/#sec-math.random)是规范，各自的实现取决于宿主环境。在V8和大多数的JavaScript引擎中，random都是使用一个伪随机数生成器（PRNG）实现的。在PRNG中，随机数都是从一个内部的状态导出的，也就是我们常说的“随机种子”，内部再通过确定的方法确定新的随机数。由于seed是确定的，创建的一系列随机数也是确定的，又因为seed的大小是固定的，使得最后创建的数字会出现重复。
@@ -103,5 +117,6 @@ const srand = (seed) {
 ### 参考
 
 1. [伪随机性](https://zh.wikipedia.org/wiki/%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%80%A7)
-1. [There’s Math.random(), and then there’s Math.random()](https://v8.dev/blog/math-random)
-2. [sec-math.random](https://262.ecma-international.org/6.0/#sec-math.random)
+2. [Math.random()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
+3. [There’s Math.random(), and then there’s Math.random()](https://v8.dev/blog/math-random)
+4. [sec-math.random](https://262.ecma-international.org/6.0/#sec-math.random)
