@@ -1,5 +1,5 @@
 ---
-title: "使用 Single SPA 实现微前端"
+title: "使用 single-spa 实现微前端"
 date: 2020-11-05T11:16:48+08:00
 draft: false
 ---
