@@ -29,6 +29,7 @@ registerApplication({
     some: 'value',
   }
 );
+
 start();
 ```
 
@@ -156,7 +157,7 @@ if (isInBrowser) {
 }
 ```
 
-### start()
+## start
 
 因为`start`方法和`registeApplication`方法最后都调用了`reroute`，`start`的代码比较少，所以先介绍start方法。
 
@@ -208,7 +209,7 @@ start`方法接受一个options参数，目前只有一个配置：urlRerouteOnl
 
 接下来看一下核心方法Reroute
 
-### reroute
+## reroute
 
 默认设置 `appChangeUnderway`为`false`。函数每次执行时都会判断`appChangeUnderway`。`appChangeUnderway`为`true`时表示当前有`reroute`的任务正在执行(reroute被调用了并且其中的promsie任务还没结束），此时返回一个Promise，内部将resolve，reject和reoute的第二个参数一起 push 到`peopleWaitingOnAppChange`中，等当前reroute对应的任务执行完成之后在作为 `pendingPromise` 参数继续执行。
 
@@ -237,7 +238,9 @@ if (appChangeUnderway) {
 
 分组完毕之后，判断前文提到的started状态。如果started为true，将appChangeUnderway也设置为true，然后将app按照toUnload，toLoad,toUnmount和toMount的分组数组合并在一起，保存到appsThatChanged数组中。最后调用 performAppChanges 方法，返回执行的结果。如果started为false，将ToLoad的app赋值给appsThatChanged，然后调用loadApps方法，并返回执行的结果。
 
-### performAppChanges 和 loadApps
+### loadApps 和 performAppChanges
+
+#### loadApps 
 
 先来看较为简单的loadApps()方法。
 
@@ -263,6 +266,8 @@ function loadApps() {
 `loadApps`只有在启动的时候会调用一次，此时`started` 为 `false`。这个方法具体做了什么事情呢？
 
 遍历appsToLoad中的app，最后返回一个Promise数组，通过Promise.all()一次性全部调用将app的状态设置为 `LOADING_SOURCE_CODE`，然后检查参数中的生命周期函数，将这些函数挂载到app上。然后再调用 `callAllEventListeners` 方法，劫持 `hashchange` 和`popstate`这两个事件。
+
+#### performAppChanges
 
 如果应用已经启动，即 `started`为 `true` 时，逻辑会进入到 `performAppChanges` 方法，这个方法有点长。
 
@@ -356,10 +361,11 @@ function performAppChanges() {
       });
   });
 }
+```
 
 可以看到，这个方法也是放在一个 `Promise.resolve()`中。首先触发了一些自定义事件，然后根据应用状态分别创建了对应取消操作的Promise数组。需要被移除的应用 `appToUnLoad`创建了`unLoadPromises`，需要被卸载的应用`appsToUnmount`先创建卸载的`toUnmountPromise`，再创建 `unLoadPromise`。最后将所有的Promise合并成一个数组通过Promise.all执行，执行完成之后触发`single-spa:before-mount-routing-event`事件。
 
-至此，需要unmount和unload的app执行过程都结束了，接下来如法炮制开始load和mount对应的应用。使用 `appToLoad`和 `appToMount`创建一个Promise数组，通过Promise.all执行。在app对应状态变更完成之后，调用 `tryToBootstrapAndMount` 完成引导并挂载应用。
+至此，需要unmount和unload的app执行过程都结束了，接下来如法炮制开始load和mount对应的应用。使用 `appToLoad` 和 `appToMount` 创建一个Promise数组，通过Promise.all执行。在app对应状态变更完成之后，调用 `tryToBootstrapAndMount`完成引导并挂载应用。
 
 ```js
 function tryToBootstrapAndMount(app, unmountAllPromise) {
