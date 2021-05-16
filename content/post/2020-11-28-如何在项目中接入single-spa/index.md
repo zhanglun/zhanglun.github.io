@@ -4,7 +4,7 @@ date: 2020-11-28T20:27:18+08:00
 draft: false
 ---
 
-之前的文章[../single-spa源码解析-registerApplication和start](../2020-11-21-single-spa源码解析-registerApplication和start/index.md)中，对single-spa提供的两个关键方法的源码进行了简单分析。今天来讲一讲如何在项目中接入使用。
+之前的文章[single-spa源码解析-registerApplication和start](../single-spa源码解析-registerapplication和start)中，对single-spa提供的两个关键方法的源码进行了简单分析。今天来讲一讲如何在项目中接入使用。
 
 要创建一个single-spa应用程序，需要做三件事：
 
