@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TypeScript on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/typescript/</link>
+    <description>Recent content in TypeScript on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 15 Jul 2018 11:26:49 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TypeScript学习笔记-在Webpack中配置TypeScript</title>
+      <link>https://zhanglun.github.io/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9C%A8webpack%E4%B8%AD%E9%85%8D%E7%BD%AEtypescript/</link>
+      <pubDate>Sun, 15 Jul 2018 11:26:49 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9C%A8webpack%E4%B8%AD%E9%85%8D%E7%BD%AEtypescript/</guid>
+      <description>&lt;p&gt;上篇说到TypeScript简单的基本知识，包括什么是TypeScript、TypeScript的安装以及TypeScript中的基本类型。今天来了解一下如何在Webpack中配置TypeScript。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>TypeScript学习笔记-入门:安装与基础知识</title>
+      <link>https://zhanglun.github.io/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%A5%E9%97%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Sun, 08 Jul 2018 21:08:03 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%A5%E9%97%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>&lt;p&gt;TypeScript 是由微软推出的开源编程语言，官网的定义如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open source.&lt;/p&gt;
+
+&lt;p&gt;TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

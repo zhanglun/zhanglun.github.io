@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CSS on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/css/</link>
+    <description>Recent content in CSS on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 21 Mar 2020 10:33:56 +0800</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 CSS variables 实现主题色切换</title>
+      <link>https://zhanglun.github.io/post/2020/03/%E4%BD%BF%E7%94%A8-css-variables-%E5%AE%9E%E7%8E%B0%E4%B8%BB%E9%A2%98%E8%89%B2%E5%88%87%E6%8D%A2/</link>
+      <pubDate>Sat, 21 Mar 2020 10:33:56 +0800</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2020/03/%E4%BD%BF%E7%94%A8-css-variables-%E5%AE%9E%E7%8E%B0%E4%B8%BB%E9%A2%98%E8%89%B2%E5%88%87%E6%8D%A2/</guid>
+      <description>最近在写自己的小项目时，想试试 CSS variables，于是便有了此文。 之前也使用过 Sass，Less 之类的预处理器。因为 node-sass 的安装和编译频繁出现</description>
+    </item>
+    
+    <item>
+      <title>我的响应式web开发实践笔记-Media Queries 初探</title>
+      <link>https://zhanglun.github.io/post/2014/10/%E6%88%91%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8Fweb%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0-media-queries-%E5%88%9D%E6%8E%A2/</link>
+      <pubDate>Fri, 10 Oct 2014 12:30:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/%E6%88%91%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8Fweb%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0-media-queries-%E5%88%9D%E6%8E%A2/</guid>
+      <description>很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就</description>
+    </item>
+    
+    <item>
+      <title>规范之路-Normal Flow</title>
+      <link>https://zhanglun.github.io/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-normal-flow/</link>
+      <pubDate>Thu, 02 Oct 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-normal-flow/</guid>
+      <description>##Normal Flow 在正常流中的盒子们都是一个格式化上下文（formatting context）中的成员，可以表现成一个block或者inline，但是不能</description>
+    </item>
+    
+    <item>
+      <title>CSS元素居中对齐大法</title>
+      <link>https://zhanglun.github.io/post/2014/09/css%E5%85%83%E7%B4%A0%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90%E5%A4%A7%E6%B3%95/</link>
+      <pubDate>Tue, 30 Sep 2014 20:34:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/css%E5%85%83%E7%B4%A0%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90%E5%A4%A7%E6%B3%95/</guid>
+      <description>原文标题：Centering in CSS: A Complete Guide 原文链接：http://css-tricks.com/centering-css-complete-g</description>
+    </item>
+    
+    <item>
+      <title>CSS 中的权重问题</title>
+      <link>https://zhanglun.github.io/post/2014/09/css-%E4%B8%AD%E7%9A%84%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 26 Sep 2014 12:23:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/css-%E4%B8%AD%E7%9A%84%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98/</guid>
+      <description>自己对以后的方向很明确，但是却一直做不到。接连的 rejected 多少对自己有影响。不是自己不去争取，而是真的已经疲了，或者说自己也怂了。面试的时候已经不知</description>
+    </item>
+    
+    <item>
+      <title>规范之路-CSS中的定位简介</title>
+      <link>https://zhanglun.github.io/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Fri, 12 Sep 2014 20:30:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/</guid>
+      <description>在 CSS2.1 中，一个盒子会根据下面三种定位方案进行排列： 标准流（Normal flow）：在 CSS2.1 中包括 块级盒子形成的块级格式化上下文（block formatting con</description>
+    </item>
+    
+    <item>
+      <title>规范之路-visual formatting model 概述</title>
+      <link>https://zhanglun.github.io/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Thu, 21 Aug 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/</guid>
+      <description>视觉格式化模型 CSS 视觉格式化模型（visual formatting model）是一种用来处理文档，将其呈现在可视化媒体中的算法。这是 CSS 中的一个最基本的概念。可视</description>
+    </item>
+    
+    <item>
+      <title>踩坑日记-IE中的 hasLayout 属性</title>
+      <link>https://zhanglun.github.io/post/2014/08/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%AD%E7%9A%84-haslayout-%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Tue, 12 Aug 2014 13:26:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/08/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%AD%E7%9A%84-haslayout-%E5%B1%9E%E6%80%A7/</guid>
+      <description>原文链接：http://www.sitepoint.com/web-foundations/internet-explorer-haslay</description>
+    </item>
+    
+    <item>
+      <title>踩坑日记-IE下 A 标签的虚线框和必须要会用的 CSS 选择器</title>
+      <link>https://zhanglun.github.io/post/2014/07/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%8B-a-%E6%A0%87%E7%AD%BE%E7%9A%84%E8%99%9A%E7%BA%BF%E6%A1%86%E5%92%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E4%BC%9A%E7%94%A8%E7%9A%84-css-%E9%80%89%E6%8B%A9%E5%99%A8/</link>
+      <pubDate>Fri, 18 Jul 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/07/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%8B-a-%E6%A0%87%E7%AD%BE%E7%9A%84%E8%99%9A%E7%BA%BF%E6%A1%86%E5%92%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E4%BC%9A%E7%94%A8%E7%9A%84-css-%E9%80%89%E6%8B%A9%E5%99%A8/</guid>
+      <description>###IE 下 a标签的虚线框 在 IE 中，点击 a 标签时， a 标签会被加上一个虚线框，很丑！！！！！ 不同版本的IE解决方案不同：IE8 下只需为 a 标签添加一条 CSS 属</description>
+    </item>
+    
+    <item>
+      <title>学习sass时了解到的一些好玩特性</title>
+      <link>https://zhanglun.github.io/post/2014/05/%E5%AD%A6%E4%B9%A0sass%E6%97%B6%E4%BA%86%E8%A7%A3%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%8E%A9%E7%89%B9%E6%80%A7/</link>
+      <pubDate>Thu, 08 May 2014 21:34:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/%E5%AD%A6%E4%B9%A0sass%E6%97%B6%E4%BA%86%E8%A7%A3%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%8E%A9%E7%89%B9%E6%80%A7/</guid>
+      <description>&lt;p&gt;很久很久以前，我根据网上的博文总结写了一篇博客&lt;a href=&#34;http://zhanglun.github.io/2014/03/10/sass%E8%AF%AD%E6%B3%95/&#34;&gt;《sass基本语法》&lt;/a&gt;。在那之后平时虽然不太用到sass（因为没项目做，只能自己写着玩玩），但是也还一直在试着使用sass，提高熟练度。现在写写在学习过程中的总结。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sass基本语法</title>
+      <link>https://zhanglun.github.io/post/2014/03/sass%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Mon, 10 Mar 2014 20:20:34 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/03/sass%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid>
+      <description>&lt;p&gt;sass是一种基于ruby语言开发的CSS预处理器。它可以使用变量，嵌套，混入，继承，运算，函数等编程语言具有的特性进行CSS的开发，使得CSS的开发变得简单粗暴清晰可维护。&lt;br /&gt;
+sass有两种后缀文件格式：一种是sass后缀形式；一种是scss后缀形式。我选择的后缀是scss&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CSS 布局的未来：网格布局</title>
+      <link>https://zhanglun.github.io/post/1/01/css-%E5%B8%83%E5%B1%80%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/1/01/css-%E5%B8%83%E5%B1%80%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80/</guid>
+      <description>&lt;p&gt;原文链接： &lt;a href=&#34;https://medium.com/@patrickbrosset/css-grid-layout-6c9cba6e8a5a#.cz5qhhi87&#34;&gt;The future of layout with CSS: Grid Layouts&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

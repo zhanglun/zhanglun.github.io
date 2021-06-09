@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Node.js入门-Node.js 介绍 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="Node.js学习入门
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2014/04/node.js%E5%85%A5%E9%97%A8-node.js-%E4%BB%8B%E7%BB%8D/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Node.js入门-Node.js 介绍" />
+<meta property="og:description" content="Node.js学习入门" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2014/04/node.js%E5%85%A5%E9%97%A8-node.js-%E4%BB%8B%E7%BB%8D/" />
+<meta property="article:published_time" content="2014-04-19T21:55:00+00:00" />
+<meta property="article:modified_time" content="2014-04-19T21:55:00+00:00" />
+<meta itemprop="name" content="Node.js入门-Node.js 介绍">
+<meta itemprop="description" content="Node.js学习入门">
+
+
+<meta itemprop="datePublished" content="2014-04-19T21:55:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-04-19T21:55:00&#43;00:00" />
+<meta itemprop="wordCount" content="2618">
+
+
+
+<meta itemprop="keywords" content="Node.js," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Node.js入门-Node.js 介绍"/>
+<meta name="twitter:description" content="Node.js学习入门"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Node.js入门-Node.js 介绍</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-04-19 </span>
+        <div class="post-category">
+            <a href="/categories/node.js/"> Node.js </a>
+            </div>
+          <span class="more-meta"> 2618 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    
+  </div>
+</div>
+    <div class="post-content">
+      <p>Node.js学习入门</p>
+
+<p>##Node.js 是什么
+Node.js 不是一种独立的语言，与 PHP，Python 等”既是语言优势平台“不同，它也不是一个 JavaScrip 框架，不同于 CakePHP，Django，更不是一个 JavaScript 库，不能和 jQuery 相提并论。总的来说，Node.js 是一个让 JavaScript 运行在服务端的开发平台。</p>
+
+<p>Node.js 是一个让 JavaScript  运行在浏览器之外的平台。它实现了注入文件系统、模块、包、操作系统级别的API、网络通信等JavaScript不能做到或者做得不好的功能
+##Node.js 能做什么</p>
+
+<p>使用 Node.js 可以轻松的开发：</p>
+
+<ul>
+<li>具有复杂逻辑的网站<br /></li>
+<li>大规模的 Web 应用<br /></li>
+<li>Web Socket 服务器 <a href="http://zh.wikipedia.org/wiki/WebSocket">wiki</a></li>
+<li>TCP/UDP 套接字应用程序</li>
+<li>命令行工具</li>
+<li>交互式终端程序</li>
+<li>本地应用程序</li>
+<li>单元测试工具</li>
+<li>客户端JavaScript编译器</li>
+</ul>
+
+<p>Node.js 可以作为服务器提供服务，他跳过了类似 Apache，IIS 等 HTTP 服务器，内建了 HTTP 服务器支持，无需额外搭建一个 HTTP 服务器，便可以轻而易举地实现网站和服务器的组合。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var http=require(&#34;http&#34;);
+http.createServer(function(req,res){
+    res.writeHead(200,{&#34;Content-Type&#34;:&#34;text/plain&#34;});
+    res.end(&#34;Hello,CrispElite!\n&#34;);
+}).listen(3000,&#34;127.0.0.1&#34;);//
+console.log(&#34;服务器已启动：http://127.0.0.14:3000/&#34;);</pre></td></tr></table>
+</div>
+</div>
+<p>将代码保存为 server.js ，从终端或者CMD中运行这个程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">node server.js // 必须先安装好Node.js环境</pre></td></tr></table>
+</div>
+</div>
+<p>如果成功启动服务器，那么在终端或者CMD中可以看到类似这样的显示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">你的服务器已启动：http://127.0.0.14:3000/</pre></td></tr></table>
+</div>
+</div>
+<p>用浏览器访问&rdquo;<a href="http://127.0.0.14:3000/&quot;">http://127.0.0.14:3000/&quot;</a> (代码中 listen() 指定的地址)<br />
+<img src="http://cl.ly/image/1u2K2Y351b3O/nodeserver.png" alt="Node server" /></p>
+
+<p>Node.js 还可以部署到非网络应用的环境下，比如命令行。甚至可以调用 C/C++ 的代码，充分利用已经拥有的诸多函数库。</p>
+
+<p>##异步式 I/O 与事件驱动</p>
+
+<p>Node.js 最大的特点就是采用异步式 I/O 与事件驱动的架构设计。对于高并发的解决方案，传统的架构师多线程模型，也就是为每一个业务逻辑提供一个系统线程，通过切换线程弥补同步式 I/O 的事件开销。Node.js 和 JavaScript 一样使用的是单线程模型，对于所有的 I/O 请求都采用异步的方式，在执行过程中维护一个且只有一个事件队列，程序在执行时进入时间循环等待下一个事件到来，每一个异步 I/O 请求完成之后都被添加到事件队列，等待处理。</p>
+
+<p>什么是阻塞( block )？线程在执行中如果遇到磁盘读写或者网络通信( 统称为 I/O 操作 )，通常要耗费较长时间，这是才做系统会剥夺这个线程的 CPU 控制权，使其暂停执行，并将资源让给其他的工作线程，这种线程调度方法称为阻塞。当 I/O 操作完毕时，系统将这个线程的阻塞状态解除，恢复其对 CPU 的控制权，令其继续执行。这种 I/O 模式就是通常的<strong>同步式 I/O ( Synchronous I/O )</strong>或者<strong>阻塞式 I/O ( Blocking I/O )</strong>。</p>
+
+<p>比如：你去超市买东西，结账的柜台只有一个，但是排队结账的人很多。而你只能排队结账。，可是每天排队的人很多，慢慢的大家开始抱怨每天买点东西搞得像过年过节一样。超市老板为了满足顾客，斥资招人，多开几个结账柜台。这样一来，虽然还要排队，但是队伍多了，每个队伍的等待时间少了。</p>
+
+<p>异步式 I/O ( Asynchronous I/O ) 或者非阻塞式 I/O ( Non-blocking I/O ) 则针对所有 I/O 操作不采用阻塞的策略。当线程遇到 I/O 操作时，只将 I/O 请求发送给操作系统，继续执行下一条语句。当操作系统完成 I/O 操作时，以事件的形式通知执行 I/O 操作的线程，线程会在特定时候处理这个事件。</p>
+
+<p>比如：你还是去超市买东西，但是你要的东西超市采购的货还在路上，于是到柜台咨询。客服要求你留下联系方式，货到之后联系你。过了几天，超市工作人员打电话给你，告诉你你要的货到了。然后你屁颠屁颠跑去超市拿货。</p>
+
+<p>阻塞模式下，一个线程只能处理一项任务，想提高吞吐量必须通过多线程。而非阻塞模式下，一个线程永远在执行计算操作， I/O 以事件的方式通知。多线程带来的好处仅仅是在多核 CPU 的情况下利用更多核，而 Node.js 的单线程也能带来同样的好处。这就是为什么 Node.js 使用了单线程，非阻塞的事件编程模式。</p>
+
+<p>单线程事件驱动的异步I/O 比传统的多线程阻塞式 I/O 的好处在于：异步式 I/O  少了了多线程的开销。具体细节请看[link](&ldquo;<a href="http://baike.baidu.com/view/65706.htm#4&quot;">http://baike.baidu.com/view/65706.htm#4&quot;</a>)</p>
+
+<p>比如：简单的数据库查询操作，按照传统的方式实现的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">res=db.query(&#34;SELECT * from someTable&#34;);
+res.output();</pre></td></tr></table>
+</div>
+</div>
+<p>执行到第一行的时候，线程会阻塞，直到数据库返回查询结果。然后再继续处理。当涉及到磁盘读写，网络通信时，时延可能非常大，线程会阻塞等待结果返回。对于高并发的访问，一方面线程长期阻塞等待，另一方面为了应付新的请求而不断增加线程，因此浪费大量系统资源。而对于 Node.js 来说，是这样的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">db.query(&#34;SELECT * from someTable&#34;,function(res){
+    res.output();
+});</pre></td></tr></table>
+</div>
+</div>
+<p>进程在执行到 db.query 时，不会等待结果返回，而是直接继续执行后面的语句，直到进入事件循环。</p>
+
+<p>##Node.js 的模块( Module )和包( Package )
+模块( Module )和包( Package )是 Node.js 最重要的支柱。通过 npm 安装需要的模块，使用 require 函数来调用其他模块。<br />
+npm 是 Node.js 的包管理器。允许我们下载、安装、升级、删除包。npm 之于 Node.js ，就像 pip 之于 Python，gem 之于 Ruby。
+安装好 npm 之后，可以从终端或者CMD开始安装模块。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">npm install [module_name]</pre></td></tr></table>
+</div>
+</div>
+<p>模块安装成功后，会被放置在当前目录的 node_modules 文件夹中。在使用 npm 安装包的时候，有两种模式：<strong>本地模式</strong>和<strong>全局模式</strong>。默认情况下使用 npm install 命令就是本地模式，将包安装到当前目录的 node_modules 子文件夹中。另外一种被称为全局模式：npm install -g [modules_name] 。本地模式仅仅将包安装到 node_modules 文件夹中，并不会注册 PATH 环境变量，即无法在命令行中直接使用，在 window 上 会提示“不是内部命令”之类的。而使用全局模式的时候，包会安装在系统目录中，在 window 中会安装到 &ldquo;C:\Users\yourUserName&rdquo; 中，同时可以在命令行中直接使用命令。但是使用全局模式安装的包并不能直接在 JavaScript 文件中使用 require 获得。</p>
+
+<p>总而言之，当需要将某个包作为工程运作时的一部分时，通过本地模式获取，如果要在命令行中使用，则使用全局安装。</p>
+
+<p>##关于调试</p>
+
+<p>###我爱F5
+在开发 Node.js 实现的 HTTP 应用时，无论修改了代码的哪一部分，都必须重新运行才能奏效。因为 Node.js 只有在第一次引用到某部分时才会解析脚本文件，之后都会直接访问内存，避免重复载入，以提高速度。 supervisor 可以监视代码的修改，并自动重启Node.js。使用 npm 以全局模式安装 supervisor 之后，可以直接在命令行中使用下面的命令启动 server.js。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">supervisor server.js </pre></td></tr></table>
+</div>
+</div>
+<p>###调试方法
+调试的方法有：命令行调试，使用 Eclipse 调试等。个人倾向使用 node-inspector 进行调试。</p>
+
+<p>####使用 node-inspector</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">npm install -g node-inspector //命令安装 node-inspector </pre></td></tr></table>
+</div>
+</div>
+<p>然后在终端或者CMD中敲入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">node --debug-brk=5858 filename.js  //连接你要测试的脚本的调试服务器
+node-inspector                  //另开一个窗口，启动 node-inspector 。</pre></td></tr></table>
+</div>
+</div>
+<p>在浏览器中打开 “<a href="http://127.0.0.1:3000/debug?port=5858”">http://127.0.0.1:3000/debug?port=5858”</a> ，便可以看到调试工具。
+具体可以<a href="http://www.cnblogs.com/dolphinX/p/3485345.html">点这里</a> 。</p>
+
+<p><strong>个人笔记，仅供参考</strong></p>
+
+<blockquote>
+<p>参考:<br />
+* <a href="http://book.douban.com/subject/10789820/">《Node.js 开发指南》</a></p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2014-04-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/node.js/">Node.js</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Node学习笔记-Node.js中的模块</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/04/%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96-%E7%A1%AE%E4%BF%9D%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E8%84%9A%E6%9C%AC%E6%97%B6%E4%BF%9D%E6%8C%81%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F/">
+            <span class="next-text nav-default">高性能网站优化-确保异步加载脚本时保持执行顺序</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

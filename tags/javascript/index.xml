@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JavaScript on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/javascript/</link>
+    <description>Recent content in JavaScript on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 19 Jan 2017 19:32:31 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>整理Object的一些方法</title>
+      <link>https://zhanglun.github.io/post/2017/01/%E6%95%B4%E7%90%86object%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Thu, 19 Jan 2017 19:32:31 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2017/01/%E6%95%B4%E7%90%86object%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>JavaScrip模块系统详解</title>
+      <link>https://zhanglun.github.io/post/2017/01/javascrip%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Wed, 11 Jan 2017 19:45:09 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2017/01/javascrip%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;p&gt;在这几天的工作中，我需要调用同事编写的兼容jQuery和React的通用组件。他为了兼容jQuery风格的调用和React的组件化，分别export了一个default和几个方法函数。在调用的过程中，出现了一些小插曲：React代码和老的jQuery老代码调用时应该怎么正确的import？虽然是很低级的问题，但是引发了我一些思考：&lt;strong&gt;export 和 import 与 module.exports 和 exports 之间的关系&lt;/strong&gt;以及&lt;strong&gt;JavaScript模块系统的发展历程&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>深入理解 ES6 的解构赋值</title>
+      <link>https://zhanglun.github.io/post/2017/01/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-es6-%E7%9A%84%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/</link>
+      <pubDate>Thu, 05 Jan 2017 20:23:35 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2017/01/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-es6-%E7%9A%84%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/</guid>
+      <description>&lt;p&gt;解构赋值（destructuring assignment）语法是一个Javascript表达式，这种语法能够更方便的提取出 Object 或者 Array 中的数据。这种语法可以在接受提取的数据的地方使用，比如一个表达式的左边。有明确的语法模式来告诉我们如何使用这种语法提取需要的数据值。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用Firebase构建云端应用-数据库的管理</title>
+      <link>https://zhanglun.github.io/post/2016/12/%E4%BD%BF%E7%94%A8firebase%E6%9E%84%E5%BB%BA%E4%BA%91%E7%AB%AF%E5%BA%94%E7%94%A8-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Sat, 24 Dec 2016 17:32:43 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/12/%E4%BD%BF%E7%94%A8firebase%E6%9E%84%E5%BB%BA%E4%BA%91%E7%AB%AF%E5%BA%94%E7%94%A8-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86/</guid>
+      <description>&lt;p&gt;上回讲到Firebase 的[创建项目和用户管理]()。今天来说说 Firebase 的数据库的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用Firebase构建云端应用:创建项目和用户管理</title>
+      <link>https://zhanglun.github.io/post/2016/12/%E4%BD%BF%E7%94%A8firebase%E6%9E%84%E5%BB%BA%E4%BA%91%E7%AB%AF%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%E5%92%8C%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 14 Dec 2016 21:06:12 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/12/%E4%BD%BF%E7%94%A8firebase%E6%9E%84%E5%BB%BA%E4%BA%91%E7%AB%AF%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%E5%92%8C%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/</guid>
+      <description>&lt;p&gt;在构建自己的在线云工具应用时，我使用 Firebase 为自己的“无后端项目”提供服务，把在开发期间接触到的一些内容整理在一起，制成系列笔记。这个过程有两个好处：巩固知识点，整理开发过程的思路。因为前端开发是自己所熟悉的领域，所以先从 Firebase 入手，将后端的一些知识点提前梳理理顺，避免后续的学习过程中的卡壳而导致无法坚持。今天第一期：创建项目和用户管理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用 React-Router 创建单页应用</title>
+      <link>https://zhanglun.github.io/post/2016/10/%E4%BD%BF%E7%94%A8-react-router-%E5%88%9B%E5%BB%BA%E5%8D%95%E9%A1%B5%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Sun, 30 Oct 2016 10:55:34 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/10/%E4%BD%BF%E7%94%A8-react-router-%E5%88%9B%E5%BB%BA%E5%8D%95%E9%A1%B5%E5%BA%94%E7%94%A8/</guid>
+      <description>&lt;p&gt;最近业余时间在学习 React，配合 Redux 和 React-Router 正在不紧不慢地开发一个小工具&lt;a href=&#34;https://github.com/zhanglun/moviemaster&#34;&gt;moviemaster&lt;/a&gt;，用于管理硬盘中的电影剧集。在单页应用开发中，redux 并不是必须的，所以今天只讲讲 前端的路由系统以及 React-Router的简单使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>输入框插入表情的实现</title>
+      <link>https://zhanglun.github.io/post/2016/08/%E8%BE%93%E5%85%A5%E6%A1%86%E6%8F%92%E5%85%A5%E8%A1%A8%E6%83%85%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Sat, 13 Aug 2016 14:50:06 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/08/%E8%BE%93%E5%85%A5%E6%A1%86%E6%8F%92%E5%85%A5%E8%A1%A8%E6%83%85%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid>
+      <description>&lt;p&gt;在普通的 textarea 中，只能显示普通的文本。如果简单的输入文本，textarea 便足以胜任。但是实际情况往往要复杂得多。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chrome内存分析工具概述</title>
+      <link>https://zhanglun.github.io/post/2016/04/chrome%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Sun, 10 Apr 2016 18:00:18 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/04/chrome%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E6%A6%82%E8%BF%B0/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
+原文链接：&lt;a href=&#34;https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/&#34;&gt;https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>(译)阻止事件传播的危害</title>
+      <link>https://zhanglun.github.io/post/2014/05/%E8%AF%91%E9%98%BB%E6%AD%A2%E4%BA%8B%E4%BB%B6%E4%BC%A0%E6%92%AD%E7%9A%84%E5%8D%B1%E5%AE%B3/</link>
+      <pubDate>Wed, 28 May 2014 21:23:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/%E8%AF%91%E9%98%BB%E6%AD%A2%E4%BA%8B%E4%BB%B6%E4%BC%A0%E6%92%AD%E7%9A%84%E5%8D%B1%E5%AE%B3/</guid>
+      <description>原文标题：The Dangers of Stopping Event Propagation 原文链接：http://css-tricks.com/dangers-stopping-event-propaga</description>
+    </item>
+    
+    <item>
+      <title>JavaScript中的事件处理程序</title>
+      <link>https://zhanglun.github.io/post/2014/04/javascript%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Sun, 06 Apr 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/04/javascript%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F/</guid>
+      <description>&lt;p&gt;JavaScript和HTML之间的交互是通过事件实现的。事件，就是文档或者浏览器窗口中发生的一些特定的交互瞬间。可以使用事件处理程序来预订事件，以便在事件发生的时候执行响应的代码。这种观察者模式的模型，使得JavaScript代码与HTML和CSS代码之间形成了松散耦合。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

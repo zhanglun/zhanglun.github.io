@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>全栈 on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/categories/%E5%85%A8%E6%A0%88/</link>
+    <description>Recent content in 全栈 on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 09 Mar 2019 15:41:38 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/categories/%E5%85%A8%E6%A0%88/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>浅谈 HTTP 缓存</title>
+      <link>https://zhanglun.github.io/post/2019/03/%E6%B5%85%E8%B0%88-http-%E7%BC%93%E5%AD%98/</link>
+      <pubDate>Sat, 09 Mar 2019 15:41:38 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2019/03/%E6%B5%85%E8%B0%88-http-%E7%BC%93%E5%AD%98/</guid>
+      <description>&lt;p&gt;说到缓存大家可能觉得很简单。“不就是检查资源是否有缓存，如果有就加以利用”，“可以节约服务器资源呗”。如果再深入一点，有的cache-control, last-modified, etag 之类的名词，但如果真的考究一下这些字段的细节，恐怕大多数人也说不清楚。遂做了一番整理，希望对大家有所帮助&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>个人服务器常用基础配置</title>
+      <link>https://zhanglun.github.io/post/2018/03/%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 09 Mar 2018 21:05:12 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2018/03/%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;p&gt;买了一个服务器，系统是CentOS7.2 .做了一番基础设置，在此记录一下。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

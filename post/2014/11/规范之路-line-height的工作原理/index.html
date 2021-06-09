@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>规范之路-line-height的工作原理 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content=" 有人问我，“line-height到底是怎么一回事？”，“元素高度到底是怎么计算出来的？”。我说不出个所以然……
+ 故有此文
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2014/11/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-line-height%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="规范之路-line-height的工作原理" />
+<meta property="og:description" content="
+有人问我，“line-height到底是怎么一回事？”，“元素高度到底是怎么计算出来的？”。我说不出个所以然……
+
+
+故有此文" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2014/11/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-line-height%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" />
+<meta property="article:published_time" content="2014-11-20T11:45:00+00:00" />
+<meta property="article:modified_time" content="2014-11-20T11:45:00+00:00" />
+<meta itemprop="name" content="规范之路-line-height的工作原理">
+<meta itemprop="description" content="
+有人问我，“line-height到底是怎么一回事？”，“元素高度到底是怎么计算出来的？”。我说不出个所以然……
+
+
+故有此文">
+
+
+<meta itemprop="datePublished" content="2014-11-20T11:45:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-11-20T11:45:00&#43;00:00" />
+<meta itemprop="wordCount" content="2072">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="规范之路-line-height的工作原理"/>
+<meta name="twitter:description" content="
+有人问我，“line-height到底是怎么一回事？”，“元素高度到底是怎么计算出来的？”。我说不出个所以然……
+
+
+故有此文"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">规范之路-line-height的工作原理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-11-20 </span>
+        
+          <span class="more-meta"> 2072 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#那么到底line-height是如何工作的呢">那么到底line-height是如何工作的呢？</a></li>
+<li><a href="#line-height的值">line-height的值</a></li>
+<li><a href="#specified-computed-and-actual-values的简单解释">Specified, computed, and actual values的简单解释</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>有人问我，“line-height到底是怎么一回事？”，“元素高度到底是怎么计算出来的？”。我说不出个所以然……</p>
+</blockquote>
+
+<p>故有此文</p>
+
+<p>首先有一点我们需要明白的是：在标准的盒模型中，height属性定义的是盒子中内容的高度。而line-height属性只能作用在行级的非替换元素上（<a href="http://stackoverflow.com/questions/8012297/html5-non-replaced-vs-replaced-element">什么是非替换元素</a>），指定了元素形成的line box的最小高度。</p>
+
+<p>常见的例子就是大段的文本了，当你对一个段落设置了固定的高度时，要么内容不多底部出现了空白，要么内容太多溢出了容器，这也是显而易见的。但是在这种情况下，是无法直接影响到文本的排版。</p>
+
+<p>一个没有设置高度的段落，当包含文字的时候，它会自动获得一个恰好可以包裹着文本内容的高度。其本质是文本形成的line box具有高度而将段落撑开。此时，line box的潜在的高度的决定因素就是<code>line-height</code>。</p>
+
+<h2 id="那么到底line-height是如何工作的呢">那么到底line-height是如何工作的呢？</h2>
+
+<p>先来看看W3C官方给出的解释：
+&gt;The height of a line box is determined as follows:</p>
+
+<ul>
+<li>The height of each inline-level box in the line box is calculated. For replaced elements, inline-block elements, and inline-table elements, this is the height of their margin box; for inline boxes, this is their &lsquo;line-height&rsquo;. (See &ldquo;Calculating heights and margins&rdquo; and the height of inline boxes in &ldquo;Leading and half-leading&rdquo;.)</li>
+<li>The inline-level boxes are aligned vertically according to their &lsquo;vertical-align&rsquo; property. In case they are aligned &lsquo;top&rsquo; or &lsquo;bottom&rsquo;, they must be aligned so as to minimize the line box height. If such boxes are tall enough, there are multiple solutions and CSS 2.1 does not define the position of the line box&rsquo;s baseline (i.e., the position of the strut, see below).</li>
+<li>The line box height is the distance between the uppermost box top and the lowermost box bottom. (This includes the strut, as explained under &lsquo;line-height&rsquo; below.)</li>
+</ul>
+
+<p>大致的意思是,一个line box的高度有下面列举的情况来决定：
+* 对于可替换元素，inline-block元素和inline-table元素，高度又它们的外边距盒子的高度来决定；而对于inline盒子来说，高度由<code>line-height</code>决定
+* 行级盒子使用<code>vertical-align</code>属性来对齐时，如果是顶部或者底部对齐，line box的高度会达到它的最小值。如果盒子的高度足够高，则存在多种情况，同时在CSS2.1中并没有定义line box基线的位置
+* line box 的高度是最顶部的盒子顶部到最底下的盒子的底部</p>
+
+<p>CSS假定每一种字体的字体规格，指定了一个在基线上方的高度和基线下方的depth（也就是两个值）。通俗的来说，就是字体占据高度，基线从所占据的高度穿过。假设用A代表基线上方的高度（指定大小的具体字体），D代表基线下方的depth，同时<code>AD = A + D</code>代表从上到下的距离。</p>
+
+<p>在非替代元素中，用户代理一定会将所有的图像字符基于他们的基线对齐。对于每一个文字形成的字符图形来说，决定了A和D。这里所说的字符图形（glyph）是一个单独的元素可能由不同的字体组成，他们的A和D不一定相同。如果一个行级盒子没有任何的字符图形（glyph），我们认为它将包含一个<code>strut</code>(一个宽度为零，高度为AD的不可见的glyph)。</p>
+
+<p>每一个字符图形都定义了一个<code>leading L</code>，其中 <code>L = 'line-height' - AD</code>。leading的一半添加到A的上面，另一半添加到D的下面。所以最终呢，在基线之上<code>A' = A + L/2</code>，在基线之下<code>D' = D + L/2</code>。说的直白一点，就是字体本身占据高地，当添加了line-height属性之后，L不能为负数。</p>
+
+<p>inline 盒子的高度将所有的字符图形和它们上下的 <code>hadf-leading</code> 包裹在一起，这个高度就是我们说的“行高”（这一行的高度，不等同于line-height的值）。盒子的子元素不受这个高度的影响，</p>
+
+<p>尽管margin，padding和border不会纳入inline box的高度的计算中，但是它们依旧会在盒子周围渲染。这意味这，如果指点高度的line-height的值比盒子的内容的高度小，那么padding和border的背景和颜色会流入到邻接的line box中。因为渲染顺序的关系，导致后面的line box 的boderh会覆盖前面line box的border和文本。</p>
+
+<h2 id="line-height的值">line-height的值</h2>
+
+<p>说了这么多，现在来看看line-height的使用</p>
+
+<p>line-height呢有这么几个值</p>
+
+<ul>
+<li>** normal**：告诉用户代理，在元素字体的基础上，将<code>used value</code>设置为一个“合理的值”，这个值和&rsquo;&lt;\number&gt;&lsquo;，有相同的意义。我们建议将normal的<code>used value</code>设置在1.0至1.2.</li>
+<li><strong>length</strong>：指定一个数值用于计算line box的高度，不能为负值</li>
+<li><strong>number</strong>：属性的<code>used value</code>是值与字体大小的乘积，不能为负值</li>
+<li><strong>percentage</strong>：属性的<code>computed value</code>是当前元素字体计算值的百分比，同样也不能使用负值</li>
+</ul>
+
+<p>当一个元素中的文本包含不止一种字体时，用户代理可能会根据最大的字体大小来设置line-height的<code>normal</code>值。</p>
+
+<h2 id="specified-computed-and-actual-values的简单解释">Specified, computed, and actual values的简单解释</h2>
+
+<p>当用户代理解析一个文档，创建出一个DOM树时，针对当前的媒体设备，为每一个元素的每一个属性指定一个属性值。</p>
+
+<p>元素属性最终的值取决于一个“四步计算”的结果：</p>
+
+<ol>
+<li>浏览器对元素设置的默认样式（‘specified value’）</li>
+<li>使用继承自祖先元素的值（‘computed value’）</li>
+<li>如果有必要，转换成一个绝对的值（‘used value’）</li>
+<li>最后根据当时的环境转换属性值（‘actual value’）</li>
+</ol>
+
+<p>参考：<br />
+<a href="http://www.w3.org/TR/CSS2/visudet.html#line-height">W3C line-height</a>
+<a href="http://www.w3.org/TR/CSS2/cascade.html#used-value">W3C Assigning property values</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2014-11-20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2016/04/chrome%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E6%A6%82%E8%BF%B0/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Chrome内存分析工具概述</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/11/%E5%AE%9A%E6%97%B6%E5%B0%86%E5%9B%BE%E7%89%87%E4%BF%9D%E5%AD%98%E5%9C%A8sae%E7%9A%84storage%E4%B8%AD/">
+            <span class="next-text nav-default">定时将图片保存在SAE的Storage中</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

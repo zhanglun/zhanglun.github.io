@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>整理Object的一些方法 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2017/01/%E6%95%B4%E7%90%86object%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B9%E6%B3%95/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="整理Object的一些方法" />
+<meta property="og:description" content="ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2017/01/%E6%95%B4%E7%90%86object%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B9%E6%B3%95/" />
+<meta property="article:published_time" content="2017-01-19T19:32:31+00:00" />
+<meta property="article:modified_time" content="2017-01-19T19:32:31+00:00" />
+<meta itemprop="name" content="整理Object的一些方法">
+<meta itemprop="description" content="ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。">
+
+
+<meta itemprop="datePublished" content="2017-01-19T19:32:31&#43;00:00" />
+<meta itemprop="dateModified" content="2017-01-19T19:32:31&#43;00:00" />
+<meta itemprop="wordCount" content="4281">
+
+
+
+<meta itemprop="keywords" content="JavaScript," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="整理Object的一些方法"/>
+<meta name="twitter:description" content="ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">整理Object的一些方法</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-01-19 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            </div>
+          <span class="more-meta"> 4281 words </span>
+          <span class="more-meta"> 9 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#object-assign">Object.assign()</a></li>
+<li><a href="#object-create">Object.create()</a>
+<ul>
+<li><a href="#使用-object-create-实现继承">使用 Object.create() 实现继承</a></li>
+<li><a href="#object-create-vs-new">Object.create VS new</a></li>
+</ul></li>
+<li><a href="#object-freeze">Object.freeze()</a>
+<ul>
+<li><a href="#object-freeze-vs-const">Object.freeze VS const</a></li>
+<li><a href="#深度冻结对象">深度冻结对象</a></li>
+<li><a href="#object-freeze-的注意事项">Object.freeze 的注意事项</a></li>
+</ul></li>
+<li><a href="#object-defineproperty">Object.defineProperty()</a></li>
+<li><a href="#object-defineproperties">Object.defineProperties()</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。</p>
+
+<h3 id="object-assign">Object.assign()</h3>
+
+<p>这是ES6新添加的方法，<code>Object.assign()</code>用来复制源对象的所有可枚举属性复制到目标对象中，方法返回目标对象。语法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="p">...</span><span class="nx">source</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>source对象可以有很多个，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">target</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;target&#39;</span><span class="p">};</span>
+<span class="kd">let</span> <span class="nx">source1</span> <span class="o">=</span> <span class="p">{</span><span class="nx">age</span><span class="o">:</span> <span class="mi">23</span><span class="p">};</span>
+<span class="kd">let</span> <span class="nx">source2</span> <span class="o">=</span> <span class="p">{</span><span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;zhanglun1410@gmail.com&#39;</span><span class="p">};</span>
+<span class="c1">// ...
+</span><span class="c1">// let sourceN ={.....};
+</span><span class="c1"></span><span class="nx">traget</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">source1</span><span class="p">,</span> <span class="nx">source2</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>如果源对象和目标对象的属性的key相同，目标对象的属性将会被源对象中的属性覆盖。对于多个源对象来说，如果有相同的key，右边的属性将覆盖左边的属性。这个方法只能将源对象的可枚举对象和自己的属性复制给目标对象。</p>
+
+<blockquote>
+<p>什么是可枚举对象（）？
+可枚举属性是指那些内部 “可枚举” 标志设置为true的属性，对于通过直接的赋值和属性初始化的属性，该标识值默认为即为true，对于通过Object.defineProperty等定义的属性，该标识值默认为false。可枚举的属性可以通过 for&hellip;in 循环进行遍历（除非该属性名是一个 Symbol）。</p>
+</blockquote>
+
+<p>对于源对象，Object.assign使用[[Get]]，而在目标对象上使用[[Set]]，也就是说，使用这个方法会源对象的getter和目标对象的setters。所以其本质就是定义或者复制一个新的属性。如果等待合并的源对象包含了getters，那就不太适合用来将源对象合并到原型中。假如复制的属性到原型里，包括它们的可枚举属性，那么应该使用 Object.getOwnPropertyDescriptor() 和 Object.defineProperty() 。String 和 Symbol 属性都是会被复制的。</p>
+
+<p>如果遇到了一个错误，比如目标对象的某个属性是不可修改的，会抛出一个TypeError的错误吗，目标对象保持不变</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">writable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;zhanglun&#39;</span>
+<span class="p">});</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;zhangxiaolun&#39;</span><span class="p">});</span> <span class="c1">// TypeError: Cannot assign to read only property &#39;1&#39; of object &#39;#&lt;Object&gt;&#39;
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>如果源对象是null或者undefined，Object.assign()不会抛出错误：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;zhanglun&#39;</span><span class="p">};</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">);</span> <span class="c1">// foo: {name: &#39;zhanglun&#39;}
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="object-create">Object.create()</h3>
+
+<p>通过指定的原型对象和属性，创建一个新的对象。语法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">proto</span><span class="p">,</span> <span class="p">[,.</span> <span class="nx">propertiesObject</span><span class="p">]);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>第一个参数是一个对象，可以是一个普通的对象，比如：<code>{name: 'zhanglun'}</code>，也可以是一个新创建的对象的原型（prototype），比如：new Array().prototype。无论是那种，都是 JavaScript 中的 Object，其属性都被添加到返回的对象原型中；第二个参数是可选的，但是不能是<code>undefined</code>，该对象自身拥有的可枚举属性会被添加到新创建的对象上，其原型链上的属性是无效的。如果第一个参数不是null或者一个对象值，将会抛出TypeError异常。</p>
+
+<p>Object.create()最直接的作用是基于一个对象创建新的对象，更多时候用在了原型链继承上，先来看看 JavaScript
+中创建对象的几种方法：</p>
+
+<ul>
+<li><p>对象字面量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">};</span>
+
+<span class="c1">// o这个对象继承了Object.prototype上面的所有属性
+</span><span class="c1">// 所以可以这样使用 o.hasOwnProperty(&#39;a&#39;).
+</span><span class="c1">// hasOwnProperty 是Object.prototype的自身属性。
+</span><span class="c1">// Object.prototype的原型为null。
+</span><span class="c1">// 原型链如下:
+</span><span class="c1">// o ---&gt; Object.prototype ---&gt; null
+</span><span class="c1"></span>
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;yo&#34;</span><span class="p">,</span> <span class="s2">&#34;whadup&#34;</span><span class="p">,</span> <span class="s2">&#34;?&#34;</span><span class="p">];</span>
+
+<span class="c1">// 数组都继承于Array.prototype 
+</span><span class="c1">// (indexOf, forEach等方法都是从它继承而来).
+</span><span class="c1">// 原型链如下:
+</span><span class="c1">// a ---&gt; Array.prototype ---&gt; Object.prototype ---&gt; null
+</span><span class="c1"></span>
+<span class="kd">function</span> <span class="nx">f</span><span class="p">(){</span>
+<span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 函数都继承于Function.prototype
+</span><span class="c1">// (call, bind等方法都是从它继承而来):
+</span><span class="c1">// f ---&gt; Function.prototype ---&gt; Object.prototype ---&gt; null
+</span></code></pre></td></tr></table>
+</div>
+</div></li>
+
+<li><p>构造函数</p></li>
+</ul>
+
+<p>在 JavaScript 中，构造器其实就是一个普通的函数。当使用 new 操作符 来作用这个函数时，它就可以被称为构造方法（构造函数）。如果没有 new 关键字而是直接调用的话，相当于是在当前作用域上调用，此时函数中如果有 this 的话，this 指向的是当前作用域。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">Graph</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">vertexes</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">edges</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="nx">Graph</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">addVertex</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">vertexes</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">v</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Graph</span><span class="p">();</span>
+<span class="c1">// g是生成的对象,他的自身属性有&#39;vertices&#39;和&#39;edges&#39;.
+</span><span class="c1">// 在g被实例化时,g.[[Prototype]]指向了Graph.prototype.
+</span><span class="c1"></span><span class="nx">Graph</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">vertexes</span><span class="p">);</span> <span class="c1">// 在全局作用域中调用，意外地增加了全局变量
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li><p>使用 Object.create()</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">};</span> 
+<span class="c1">// a ---&gt; Object.prototype ---&gt; null
+</span><span class="c1"></span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+<span class="c1">// b ---&gt; a ---&gt; Object.prototype ---&gt; null
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 1 (继承而来)
+</span><span class="c1"></span>
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+<span class="c1">// c ---&gt; b ---&gt; a ---&gt; Object.prototype ---&gt; null
+</span><span class="c1"></span>
+<span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="c1">// d ---&gt; null
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">);</span> <span class="c1">// undefined, 因为d没有继承Object.prototype
+</span></code></pre></td></tr></table>
+</div>
+</div></li>
+
+<li><p>ES6 中的 Class 关键字</p></li>
+</ul>
+
+<p>ES6 引入了一套新的关键字用来实现 class。这是一个语法糖，其本质还是基于原型的。这些新的关键字包括 class, constructor, static, extends, 和 super。关于 Class的使用，回头再开一篇文章深入学习。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="s2">&#34;use strict&#34;</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nx">Polygon</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">height</span><span class="p">,</span> <span class="nx">width</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">width</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nx">Square</span> <span class="k">extends</span> <span class="nx">Polygon</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">sideLength</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">sideLength</span><span class="p">,</span> <span class="nx">sideLength</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">get</span> <span class="nx">area</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">set</span> <span class="nx">sideLength</span><span class="p">(</span><span class="nx">newLength</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">newLength</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">newLength</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">square</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Square</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="使用-object-create-实现继承">使用 Object.create() 实现继承</h4>
+
+<p>下面是一个使用 Object.create()实现类的继承的例子。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">Shape</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 父类的原型方法
+</span><span class="c1"></span><span class="nx">Shape</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">move</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="nx">x</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="nx">y</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Shape moved.&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// 子类
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">Rectangle</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">Shape</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// 调用构造函数
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="c1">// 子类继承父类
+</span><span class="c1"></span><span class="nx">Rectangle</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">Shape</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span>
+<span class="nx">Rectangle</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">Rectangle</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">rect</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rectangle</span><span class="p">();</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Is rect an instance of Rectangle?&#39;</span><span class="p">,</span> <span class="nx">rect</span> <span class="k">instanceof</span> <span class="nx">Rectangle</span><span class="p">);</span><span class="c1">// true
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Is rect an instance of Shape?&#39;</span><span class="p">,</span> <span class="nx">rect</span> <span class="k">instanceof</span> <span class="nx">Shape</span><span class="p">);</span><span class="c1">// true
+</span><span class="c1"></span><span class="nx">rect</span><span class="p">.</span><span class="nx">move</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// Outputs, &#39;Shape moved.&#39;
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="object-create-vs-new">Object.create VS new</h4>
+
+<p>前面说到的，Object.create实际上是将第一个参数（无论是原型对象还是普通对象）的属性添加到新创建对象的原型中，这也就意味着，通过<code>new Function()</code>中定义的属性和方法是无法通过 create()方法添加到新创建对象中的。</p>
+
+<p>Object.create创建一个新的对象，这个对象“继承”了第一个参数。构造函数新创建的对象“继承”构造函数的prototype。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">o</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SomeConstructor</span><span class="p">();</span>  <span class="c1">// o 直接继承自`SomeConstructor.prototype`。
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>两者的最明显的不同之处在于：如果 Object.create()的第一个参数是<code>null</code>，新创建的对象不会“继承”自任何地方，没有原型，也没有往上追溯的原型；在使用构造函数时，如果将其原型设置为 null，<code>SomeConstructor.prototype = null;</code>，新创建的对象将会“继承”自 Object 的 prototype。</p>
+
+<h3 id="object-freeze">Object.freeze()</h3>
+
+<p>字面意思就是将一个 object“冻住”：不能添加新的属性；不能删除现有的属性；不能修改现有属性，包括属性的enumerability, configurability和 writability。这个方法返回一个不可修改的对象，使用语法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nb">Object</span><span class="p">.</span><span class="nx">freeze</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>任何尝试修改该对象的操作都会失败，可能是静默失败，也可能会抛出异常。在严格模式中会抛出异常（本地测试下来严格模式也不会报错）。数据属性的值不可更改，访问器属性（有getter和setter）也同样，但由于是函数调用，给人一种修改了这个属性的错觉。如果一个属性的值是个对象，则这个对象中的属性是可以修改的，除非它也是个冻结对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;zhanglun&#39;</span><span class="p">,</span>
+  <span class="nx">age</span><span class="o">:</span> <span class="mi">23</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#39;zhanglun&#39;
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span> <span class="c1">// 23
+</span><span class="c1"></span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;zhanglun1410&#39;</span><span class="p">;</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#39;zhanglun1410&#39;
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span> <span class="c1">// 24
+</span><span class="c1"></span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">freeze</span><span class="p">(</span><span class="nx">foo</span><span class="p">);</span>
+
+<span class="nx">foo</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;zzzz&#39;</span><span class="p">;</span> <span class="c1">// 静默失败
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#39;zhanglun1410&#39;
+</span><span class="c1"></span>
+<span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;zzzz&#39;</span><span class="p">;</span> <span class="c1">// TypeError 或者 静默失败
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#39;zhanglun1410&#39;
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="object-freeze-vs-const">Object.freeze VS const</h4>
+
+<p>被冻结的对象是不可改变的。但是它不一定是常量。对常量而言，它的所有引用，无论是直接的还是间接的都是引用的不可改变的对象。string，number，和 boolean 总是不可变的（当你把一个变量从字符串 A 修改到字符串 B时，A 和 B 都是不可变的，A 还是 A，B 也还是 B，只不过变量的之前指向的是 A,修改之后指向了 B）。通常来说，一般不会创建一个对象常量，也不存在freezeAll()这样的方法。</p>
+
+<p>const 用于声明常量，将变量绑定到一个不可修改的对象，常量最终指向的是一个不可修改的对象，比如一个被冻结的对象，而 Object.freeze 作用在对象的值上，将一个对象变成不可修改的对象。</p>
+
+<h4 id="深度冻结对象">深度冻结对象</h4>
+
+<p>前面提到的，Object.freeze作用在对象的属性上，使对象的属性不可修改。而如果属性值也是一个对象的话，依然能够修改，除非这个对象也被冻结了。因此，可以把 Object.freeze 理解成是“浅冻结”。可以编写额外的代码来实现“深冻结”：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">internal</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">};</span>
+
+<span class="nb">Object</span><span class="p">.</span><span class="nx">freeze</span><span class="p">(</span><span class="nx">obj1</span><span class="p">);</span>
+<span class="nx">obj1</span><span class="p">.</span><span class="nx">internal</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;aValue&#39;</span><span class="p">;</span>
+
+<span class="nx">obj1</span><span class="p">.</span><span class="nx">internal</span><span class="p">.</span><span class="nx">a</span> <span class="c1">// &#39;aValue&#39;
+</span><span class="c1"></span>
+<span class="c1">// 深度冻结
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">deepFreeze</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// 获取到对象的属性的名字
+</span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">propNames</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+
+  <span class="c1">// 先冻结内部的对象
+</span><span class="c1"></span>  <span class="nx">propNames</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">prop</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+
+    <span class="c1">// Freeze prop if it is an object
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">prop</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">prop</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span>
+      <span class="nx">deepFreeze</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// 冻结 obj
+</span><span class="c1"></span>  <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">freeze</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">internal</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">};</span>
+
+<span class="nx">deepFreeze</span><span class="p">(</span><span class="nx">obj2</span><span class="p">);</span>
+<span class="nx">obj2</span><span class="p">.</span><span class="nx">internal</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;anotherValue&#39;</span><span class="p">;</span>
+<span class="nx">obj2</span><span class="p">.</span><span class="nx">internal</span><span class="p">.</span><span class="nx">a</span><span class="p">;</span> <span class="c1">// undefined
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="object-freeze-的注意事项">Object.freeze 的注意事项</h4>
+
+<p>在 ES5 中，如果参数不是一个对象，是一个原始数据类型，会抛出 TypeError。在 ES6 中，不是对象的参数的会被当做是一个已经被冻结的普通对象，只是返回这个参数。</p>
+
+<h3 id="object-defineproperty">Object.defineProperty()</h3>
+
+<p>Object.defineProperty是ES5新增的一个方法，可以给对象的属性增加更多的控制。语法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>前面两个参数很简单，修改的对象和修改或者新增的属性，着重介绍一下第三个参数：属性描述符。</p>
+
+<p>ES5 中定义了一个名叫“属性描述符”的对象，用于描述了的各种特征，它本身是一个 Object。属性描述符对象有4个属性：</p>
+
+<ul>
+<li>configurable：可配置性，控制着其描述的属性的修改，表示能否修改属性的特性，能否把属性修改为访问器属性，或者能否通过delete删除属性从而重新定义属性。默认值为true。</li>
+<li>enumerable：可枚举性，表示能否通过for-in遍历得到属性。默认值为true。</li>
+<li>writable：可写性，表示能否修改属性的值。默认值为true。</li>
+<li>value：数据属性，表示属性的值。默认值为undefined。</li>
+</ul>
+
+<p>和两个存取器属性，分别是get和set，可以代替value和writable。</p>
+
+<ul>
+<li>get：在读取属性时调用的函数。只指定get则表示属性为只读属性。默认值为undefined。</li>
+<li>set：在写入属性时调用的函数。只指定set则表示属性为只写属性。默认值为undefined。</li>
+</ul>
+
+<p>属性描述符只能在<code>Object.defineProperty</code>或<code>Object.defineProperties</code>中使用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// Creates a new object
+</span><span class="c1"></span>
+<span class="c1">// Example of an object property added with defineProperty with a data property descriptor
+</span><span class="c1">// 添加属性 a,值为37，并设置属性描述符
+</span><span class="c1"></span><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">value</span><span class="o">:</span> <span class="mi">37</span><span class="p">,</span>
+  <span class="nx">writable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+
+
+<span class="kd">var</span> <span class="nx">bValue</span> <span class="o">=</span> <span class="mi">38</span><span class="p">;</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">bValue</span><span class="p">;</span> <span class="p">},</span>
+  <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">newValue</span><span class="p">)</span> <span class="p">{</span> <span class="nx">bValue</span> <span class="o">=</span> <span class="nx">newValue</span><span class="p">;</span> <span class="p">},</span>
+  <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+<span class="nx">o</span><span class="p">.</span><span class="nx">b</span><span class="p">;</span> <span class="c1">// 38
+</span><span class="c1">// o 对象中存在属性 b，他的值为38；
+</span><span class="c1">// 只要 o.b没有重新定义，它的值永远都是38
+</span><span class="c1"></span>
+<span class="c1">// 访问器不能和 value或者 writable混在一起用
+</span><span class="c1"></span><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="s1">&#39;conflict&#39;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">value</span><span class="o">:</span> <span class="mh">0x9f91102</span><span class="p">,</span>
+  <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mh">0xdeadbeef</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">});</span>
+<span class="c1">// 抛出一个错误 Uncaught TypeError: Invalid property descriptor. Cannot both specify accessors and a value or writable attribute, #&lt;Object&gt;
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="object-defineproperties">Object.defineProperties()</h3>
+
+<p>相比 Object.defineProperty， Object.defineProperties可以说是前者的升级版，可以一次同时定义多个属性，语法略有不同：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperties</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="p">{</span>
+  <span class="s2">&#34;property1&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">writable</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">},</span>
+  <span class="s2">&#34;property2&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="s2">&#34;Hello&#34;</span><span class="p">,</span>
+    <span class="nx">writable</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">},</span>
+  <span class="s2">&#34;property3&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">&#39;Hello, Object.defineProperties&#39;</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">set</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">property2</span> <span class="o">=</span> <span class="s1">&#39;xxxxxx&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// etc. etc.
+</span><span class="c1"></span><span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>参考资料：</p>
+
+<ol>
+<li><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze</a></li>
+<li><a href="http://stackoverflow.com/a/17952160">http://stackoverflow.com/a/17952160</a></li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2017-01-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/javascript/">JavaScript</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2017/02/%E6%9C%80%E8%BF%91%E5%87%A0%E6%AC%A1%E9%9D%A2%E8%AF%95%E7%9A%84%E5%B0%8F%E6%80%BB%E7%BB%93/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">最近几次面试的小总结</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2017/01/javascrip%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F%E8%AF%A6%E8%A7%A3/">
+            <span class="next-text nav-default">JavaScrip模块系统详解</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

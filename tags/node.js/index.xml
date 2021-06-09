@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Node.js on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/node.js/</link>
+    <description>Recent content in Node.js on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 07 Nov 2014 17:29:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/node.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Node学习笔记-Wrangling the File System</title>
+      <link>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-wrangling-the-file-system/</link>
+      <pubDate>Fri, 07 Nov 2014 17:29:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-wrangling-the-file-system/</guid>
+      <description>在开发过程中，有时候会需要访问一些本地的文件，对文件进行一些操作。现在来对这方面的问题展开学习。下面是几个简单的例子，包括监听文件的变化和读</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Data Sources and Flow Control</title>
+      <link>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-data-sources-and-flow-control/</link>
+      <pubDate>Thu, 06 Nov 2014 21:17:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-data-sources-and-flow-control/</guid>
+      <description>额在之前的笔记中，提到了使用middleware，设置路由，发送数据，处理请求，渲染模板等。但是这些都不足以完成一个Web应用程序，动态数据</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Server-Side Templates</title>
+      <link>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-server-side-templates/</link>
+      <pubDate>Mon, 03 Nov 2014 13:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-server-side-templates/</guid>
+      <description>因为各种版本的更新，文中的例子可能失效无法运行。毕竟Node for Front-End Developer这本书已经出现很久了。 Creating a Dynamic Page 不像其他的服务端语言开发，N</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Serving the content</title>
+      <link>https://zhanglun.github.io/post/2014/10/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-serving-the-content/</link>
+      <pubDate>Tue, 28 Oct 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-serving-the-content/</guid>
+      <description>Node中的MiddleWare In the context of a web server, middleware is a layer between the guts of the server and the code you’re writing to run on it that provides a set of abstractions anyone writing code for the platform will be likely to need. It differs from other modules you</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记—Node.js核心API之Util</title>
+      <link>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0node.js%E6%A0%B8%E5%BF%83api%E4%B9%8Butil/</link>
+      <pubDate>Thu, 15 May 2014 21:16:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0node.js%E6%A0%B8%E5%BF%83api%E4%B9%8Butil/</guid>
+      <description>&lt;p&gt;最近正在学习Node，在图书馆借了基本关于Node的书，同时在网上查阅资料，颇有收获，但是整体感觉对Node的理解还是停留在一个很模棱两可的状态。比如Node中的模块，平时练习就接触到那么几个，其他的一些模块暂时只会在学习的时候接触到，不常用便就荒废了。正所谓好记心不如烂笔头，多做笔记还是更有利于理解和记忆。自己做的总结也方便回头复习，所以决定踏上漫长的修炼之旅……&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Node.js中的核心API之HTTP</title>
+      <link>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bhttp/</link>
+      <pubDate>Tue, 13 May 2014 17:36:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bhttp/</guid>
+      <description>&lt;p&gt;最近正在学习Node，在图书馆借了基本关于Node的书，同时在网上查阅资料，颇有收获，但是整体感觉对Node的理解还是停留在一个很模棱两可的状态。比如Node中的模块，平时练习就接触到那么几个，其他的一些模块暂时只会在学习的时候接触到，不常用便就荒废了。正所谓好记心不如烂笔头，多做笔记还是更有利于理解和记忆。自己做的总结也方便回头复习，所以决定踏上漫长的修炼之旅……&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Nodejs中的核心API之Events</title>
+      <link>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-nodejs%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bevents/</link>
+      <pubDate>Mon, 12 May 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-nodejs%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bevents/</guid>
+      <description>&lt;p&gt;最近正在学习Node，在图书馆借了基本关于Node的书，同时在网上查阅资料，颇有收获，但是整体感觉对Node的理解还是停留在一个很模棱两可的状态。比如Node中的模块，平时练习就接触到那么几个，其他的一些模块暂时只会在学习的时候接触到，不常用便就荒废了。正所谓好记心不如烂笔头，多做笔记还是更有利于理解和记忆。自己做的总结也方便回头复习，所以决定踏上漫长的修炼之旅……&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>(译)Node.js的 EventEmitter 教程</title>
+      <link>https://zhanglun.github.io/post/2014/05/%E8%AF%91node.js%E7%9A%84-eventemitter-%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Mon, 05 May 2014 21:23:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/%E8%AF%91node.js%E7%9A%84-eventemitter-%E6%95%99%E7%A8%8B/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;原文标题：Node.js EventEmitter Tutorial&lt;br /&gt;
+ 原文链接：&lt;a href=&#34;http://www.hacksparrow.com/node-js-eventemitter-tutorial.html&#34;&gt;http://www.hacksparrow.com/node-js-eventemitter-tutorial.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>(译)Node.js的全局变量</title>
+      <link>https://zhanglun.github.io/post/2014/04/%E8%AF%91node.js%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Mon, 28 Apr 2014 19:36:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/04/%E8%AF%91node.js%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;原文标题：Global Variables in Node.js&lt;br /&gt;
+ 原文链接：&lt;a href=&#34;http://www.hacksparrow.com/global-variables-in-node-js.html&#34;&gt;http://www.hacksparrow.com/global-variables-in-node-js.html
+&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>(译)Node.js的模块-exports和module.exports</title>
+      <link>https://zhanglun.github.io/post/2014/04/%E8%AF%91node.js%E7%9A%84%E6%A8%A1%E5%9D%97-exports%E5%92%8Cmodule.exports/</link>
+      <pubDate>Sat, 26 Apr 2014 19:45:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/04/%E8%AF%91node.js%E7%9A%84%E6%A8%A1%E5%9D%97-exports%E5%92%8Cmodule.exports/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;原文标题：Node.js Module – exports vs module.exports&lt;br /&gt;
+ 原文链接：&lt;a href=&#34;http://www.hacksparrow.com/node-js-exports-vs-module-exports.html&#34;&gt;http://www.hacksparrow.com/node-js-exports-vs-module-exports.html
+&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Node.js中的模块</title>
+      <link>https://zhanglun.github.io/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 25 Apr 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/</guid>
+      <description>&lt;p&gt;之前简单的了解了 Node.js 。对 Node.js  有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node.js入门-Node.js 介绍</title>
+      <link>https://zhanglun.github.io/post/2014/04/node.js%E5%85%A5%E9%97%A8-node.js-%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Sat, 19 Apr 2014 21:55:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/04/node.js%E5%85%A5%E9%97%A8-node.js-%E4%BB%8B%E7%BB%8D/</guid>
+      <description>&lt;p&gt;Node.js学习入门&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

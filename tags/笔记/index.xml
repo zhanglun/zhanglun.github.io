@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>笔记 on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 笔记 on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 07 Nov 2014 17:29:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Node学习笔记-Wrangling the File System</title>
+      <link>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-wrangling-the-file-system/</link>
+      <pubDate>Fri, 07 Nov 2014 17:29:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-wrangling-the-file-system/</guid>
+      <description>在开发过程中，有时候会需要访问一些本地的文件，对文件进行一些操作。现在来对这方面的问题展开学习。下面是几个简单的例子，包括监听文件的变化和读</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Data Sources and Flow Control</title>
+      <link>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-data-sources-and-flow-control/</link>
+      <pubDate>Thu, 06 Nov 2014 21:17:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-data-sources-and-flow-control/</guid>
+      <description>额在之前的笔记中，提到了使用middleware，设置路由，发送数据，处理请求，渲染模板等。但是这些都不足以完成一个Web应用程序，动态数据</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Server-Side Templates</title>
+      <link>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-server-side-templates/</link>
+      <pubDate>Mon, 03 Nov 2014 13:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-server-side-templates/</guid>
+      <description>因为各种版本的更新，文中的例子可能失效无法运行。毕竟Node for Front-End Developer这本书已经出现很久了。 Creating a Dynamic Page 不像其他的服务端语言开发，N</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Serving the content</title>
+      <link>https://zhanglun.github.io/post/2014/10/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-serving-the-content/</link>
+      <pubDate>Tue, 28 Oct 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-serving-the-content/</guid>
+      <description>Node中的MiddleWare In the context of a web server, middleware is a layer between the guts of the server and the code you’re writing to run on it that provides a set of abstractions anyone writing code for the platform will be likely to need. It differs from other modules you</description>
+    </item>
+    
+    <item>
+      <title>使用python抓取知乎日报的API数据</title>
+      <link>https://zhanglun.github.io/post/2014/10/%E4%BD%BF%E7%94%A8python%E6%8A%93%E5%8F%96%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5%E7%9A%84api%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Wed, 08 Oct 2014 20:12:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/%E4%BD%BF%E7%94%A8python%E6%8A%93%E5%8F%96%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5%E7%9A%84api%E6%95%B0%E6%8D%AE/</guid>
+      <description>使用 urllib2 抓取数据时，最简单的方法是： 1 2 3 4 5 6 import urllib2, json def getStartImage(): stream = urllib2.urlopen(&amp;#39;http://news-at.zhihu.com/api/3/start-image/1080*1776&amp;#39;) start_image = json.load(stream) start_image = json.dumps(start_image, encoding=&amp;#39;utf-8&amp;#39;) return start_image 使用urllib2.urlopen打开参数中给出的url，返</description>
+    </item>
+    
+    <item>
+      <title>规范之路-Normal Flow</title>
+      <link>https://zhanglun.github.io/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-normal-flow/</link>
+      <pubDate>Thu, 02 Oct 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-normal-flow/</guid>
+      <description>##Normal Flow 在正常流中的盒子们都是一个格式化上下文（formatting context）中的成员，可以表现成一个block或者inline，但是不能</description>
+    </item>
+    
+    <item>
+      <title>CSS元素居中对齐大法</title>
+      <link>https://zhanglun.github.io/post/2014/09/css%E5%85%83%E7%B4%A0%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90%E5%A4%A7%E6%B3%95/</link>
+      <pubDate>Tue, 30 Sep 2014 20:34:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/css%E5%85%83%E7%B4%A0%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90%E5%A4%A7%E6%B3%95/</guid>
+      <description>原文标题：Centering in CSS: A Complete Guide 原文链接：http://css-tricks.com/centering-css-complete-g</description>
+    </item>
+    
+    <item>
+      <title>CSS 中的权重问题</title>
+      <link>https://zhanglun.github.io/post/2014/09/css-%E4%B8%AD%E7%9A%84%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 26 Sep 2014 12:23:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/css-%E4%B8%AD%E7%9A%84%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98/</guid>
+      <description>自己对以后的方向很明确，但是却一直做不到。接连的 rejected 多少对自己有影响。不是自己不去争取，而是真的已经疲了，或者说自己也怂了。面试的时候已经不知</description>
+    </item>
+    
+    <item>
+      <title>规范之路-CSS中的定位简介</title>
+      <link>https://zhanglun.github.io/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Fri, 12 Sep 2014 20:30:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/</guid>
+      <description>在 CSS2.1 中，一个盒子会根据下面三种定位方案进行排列： 标准流（Normal flow）：在 CSS2.1 中包括 块级盒子形成的块级格式化上下文（block formatting con</description>
+    </item>
+    
+    <item>
+      <title>规范之路-visual formatting model 概述</title>
+      <link>https://zhanglun.github.io/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Thu, 21 Aug 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/</guid>
+      <description>视觉格式化模型 CSS 视觉格式化模型（visual formatting model）是一种用来处理文档，将其呈现在可视化媒体中的算法。这是 CSS 中的一个最基本的概念。可视</description>
+    </item>
+    
+    <item>
+      <title>踩坑日记-IE中的 hasLayout 属性</title>
+      <link>https://zhanglun.github.io/post/2014/08/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%AD%E7%9A%84-haslayout-%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Tue, 12 Aug 2014 13:26:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/08/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%AD%E7%9A%84-haslayout-%E5%B1%9E%E6%80%A7/</guid>
+      <description>原文链接：http://www.sitepoint.com/web-foundations/internet-explorer-haslay</description>
+    </item>
+    
+    <item>
+      <title>git 使用笔记(二)-撤销操作</title>
+      <link>https://zhanglun.github.io/post/2014/07/git-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0%E4%BA%8C-%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Tue, 22 Jul 2014 21:09:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/07/git-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0%E4%BA%8C-%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/</guid>
+      <description>在最近使用 git 的过程中，有时候遇到这样的一个问题：习惯性的 &amp;ldquo;add -A&amp;rdquo;，这会将所有的修改都添加到暂存区，可是有两个文件的修改暂时不想添</description>
+    </item>
+    
+    <item>
+      <title>踩坑日记-IE下 A 标签的虚线框和必须要会用的 CSS 选择器</title>
+      <link>https://zhanglun.github.io/post/2014/07/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%8B-a-%E6%A0%87%E7%AD%BE%E7%9A%84%E8%99%9A%E7%BA%BF%E6%A1%86%E5%92%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E4%BC%9A%E7%94%A8%E7%9A%84-css-%E9%80%89%E6%8B%A9%E5%99%A8/</link>
+      <pubDate>Fri, 18 Jul 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/07/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0-ie%E4%B8%8B-a-%E6%A0%87%E7%AD%BE%E7%9A%84%E8%99%9A%E7%BA%BF%E6%A1%86%E5%92%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E4%BC%9A%E7%94%A8%E7%9A%84-css-%E9%80%89%E6%8B%A9%E5%99%A8/</guid>
+      <description>###IE 下 a标签的虚线框 在 IE 中，点击 a 标签时， a 标签会被加上一个虚线框，很丑！！！！！ 不同版本的IE解决方案不同：IE8 下只需为 a 标签添加一条 CSS 属</description>
+    </item>
+    
+    <item>
+      <title>Git 使用笔记(一)-入门级的操作</title>
+      <link>https://zhanglun.github.io/post/2014/07/git-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0%E4%B8%80-%E5%85%A5%E9%97%A8%E7%BA%A7%E7%9A%84%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Wed, 16 Jul 2014 21:09:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/07/git-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0%E4%B8%80-%E5%85%A5%E9%97%A8%E7%BA%A7%E7%9A%84%E6%93%8D%E4%BD%9C/</guid>
+      <description>一般处理 初始化: 1 $ git init 这样就会在当前目录创建版本库. 常用指令: 添加文件： 1 $ git add FILENAME 删除文件索引,并且删除文件： 1 $ git rm FILENAME 重命名： 1 $ git mv OLDFILENAME</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记—Node.js核心API之Util</title>
+      <link>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0node.js%E6%A0%B8%E5%BF%83api%E4%B9%8Butil/</link>
+      <pubDate>Thu, 15 May 2014 21:16:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0node.js%E6%A0%B8%E5%BF%83api%E4%B9%8Butil/</guid>
+      <description>&lt;p&gt;最近正在学习Node，在图书馆借了基本关于Node的书，同时在网上查阅资料，颇有收获，但是整体感觉对Node的理解还是停留在一个很模棱两可的状态。比如Node中的模块，平时练习就接触到那么几个，其他的一些模块暂时只会在学习的时候接触到，不常用便就荒废了。正所谓好记心不如烂笔头，多做笔记还是更有利于理解和记忆。自己做的总结也方便回头复习，所以决定踏上漫长的修炼之旅……&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Node.js中的核心API之HTTP</title>
+      <link>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bhttp/</link>
+      <pubDate>Tue, 13 May 2014 17:36:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bhttp/</guid>
+      <description>&lt;p&gt;最近正在学习Node，在图书馆借了基本关于Node的书，同时在网上查阅资料，颇有收获，但是整体感觉对Node的理解还是停留在一个很模棱两可的状态。比如Node中的模块，平时练习就接触到那么几个，其他的一些模块暂时只会在学习的时候接触到，不常用便就荒废了。正所谓好记心不如烂笔头，多做笔记还是更有利于理解和记忆。自己做的总结也方便回头复习，所以决定踏上漫长的修炼之旅……&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Nodejs中的核心API之Events</title>
+      <link>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-nodejs%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bevents/</link>
+      <pubDate>Mon, 12 May 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/05/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-nodejs%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83api%E4%B9%8Bevents/</guid>
+      <description>&lt;p&gt;最近正在学习Node，在图书馆借了基本关于Node的书，同时在网上查阅资料，颇有收获，但是整体感觉对Node的理解还是停留在一个很模棱两可的状态。比如Node中的模块，平时练习就接触到那么几个，其他的一些模块暂时只会在学习的时候接触到，不常用便就荒废了。正所谓好记心不如烂笔头，多做笔记还是更有利于理解和记忆。自己做的总结也方便回头复习，所以决定踏上漫长的修炼之旅……&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Node学习笔记-Node.js中的模块</title>
+      <link>https://zhanglun.github.io/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 25 Apr 2014 19:40:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/</guid>
+      <description>&lt;p&gt;之前简单的了解了 Node.js 。对 Node.js  有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

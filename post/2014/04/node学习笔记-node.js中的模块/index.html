@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Node学习笔记-Node.js中的模块 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="之前简单的了解了 Node.js 。对 Node.js 有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Node学习笔记-Node.js中的模块" />
+<meta property="og:description" content="之前简单的了解了 Node.js 。对 Node.js  有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2014/04/node%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-node.js%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97/" />
+<meta property="article:published_time" content="2014-04-25T19:40:00+00:00" />
+<meta property="article:modified_time" content="2014-04-25T19:40:00+00:00" />
+<meta itemprop="name" content="Node学习笔记-Node.js中的模块">
+<meta itemprop="description" content="之前简单的了解了 Node.js 。对 Node.js  有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。">
+
+
+<meta itemprop="datePublished" content="2014-04-25T19:40:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-04-25T19:40:00&#43;00:00" />
+<meta itemprop="wordCount" content="1944">
+
+
+
+<meta itemprop="keywords" content="笔记,Node.js," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Node学习笔记-Node.js中的模块"/>
+<meta name="twitter:description" content="之前简单的了解了 Node.js 。对 Node.js  有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Node学习笔记-Node.js中的模块</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-04-25 </span>
+        <div class="post-category">
+            <a href="/categories/node.js/"> Node.js </a>
+            </div>
+          <span class="more-meta"> 1944 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    
+  </div>
+</div>
+    <div class="post-content">
+      <p>之前简单的了解了 Node.js 。对 Node.js  有一个简单的认识。接下来查看了 API 文档中模块有关的知识点，参照《Node.js 开发指南》，并做笔记。</p>
+
+<p>模块和包是 Node.js 中最重要的支柱。经常将模块和包相提并论，因为二者之间其实没有本质上的区别，经常混用。如果硬要作出区分的话，那么可以把包理解成：实现某个功能的众多模块的集合。</p>
+
+<p>##什么是模块
+模块是 Node.js 应用程序的基本组成部分。Node 有一套简单的模块加载机制。在 Node.js 中，文件和模块是一一对应的。也就是说，一个 Node.js 文件就可以看成是一个模块，所以在 Node 中创建一个模块非常简单。Node 提供了 exports 和 require 两个对象。exports 是模块公开的接口，意思就是创建模块得靠 exports；require 用于从外部获取一个模块的接口，也就是说使用模块要用 require 。</p>
+
+<p>举个例子方便了解模块： <em>foo.js</em> 加载同目录中的模块 <em>circle.js</em> 。</p>
+
+<p><em>foo.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var circle = require(&#39;./circle.js&#39;);
+console.log( &#39;The area of a circle of radius 4 is &#39; + circle.area(4));</pre></td></tr></table>
+</div>
+</div>
+<p><em>circle.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var PI = Math.PI;
+
+exports.area = function (r) {
+  return PI * r * r;
+};
+
+exports.circumference = function (r) {
+  return 2 * PI * r;
+};</pre></td></tr></table>
+</div>
+</div>
+<p><em>circle.js</em> 模块通过 exports 对象输出了两个方法：area() 和 circumference()，在 <em>foo.js</em> 中使用 require() 加载这个模块，然后便可以直接访问 exports 对象的成员函数了。反言之，如果想为自定义的模块添加属性或者方法，将它们添加到 exports 这个特殊的对象上就可以达到目的。</p>
+
+<p>如果希望模块提供的接口是一个构造函数，或者输出的是一个完整的对象而不是一个属性，那么可以使用 <strong>module.exports</strong> 代替 exports。
+但是注意，exports 是 module.exports 的一个引用，只是为了用起来方便。</p>
+
+<p>下面的 <em>bar.js</em> 使用了 square 模块，而 square 模块提供了一个构造函数的接口：</p>
+
+<p><em>bar.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var square = require(&#39;./square.js&#39;);
+var mySquare = square(2);
+console.log(&#39;The area of my square is &#39; + mySquare.area());</pre></td></tr></table>
+</div>
+</div>
+<p><em>square.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">// 使用 exports 将无法创建 module,必须使用 module.exports
+
+module.exports = function(width) {
+    return {
+        area: function() {
+            return width * width;
+        }
+    };
+}</pre></td></tr></table>
+</div>
+</div>
+<p>使用 module.exports 可以很快得到想要的：</p>
+
+<p><img src="http://cl.ly/image/1b32450A2744/download/2014-04-25_205447.png" alt="使用 module.exports" /></p>
+
+<p>而使用 exports 时：</p>
+
+<p><img src="http://cl.ly/image/040A3H2K2g0n/download/2014-04-25_210131.png" alt="使用 exports" /></p>
+
+<p>(module.exports 和 exports 二者之间更具体的关系将之后补上)。</p>
+
+<p>##模块的循环调用</p>
+
+<p>当存在循环的模块引用时，有的模块可能在返回时不会执行。看看这个例子：</p>
+
+<p><em>a.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">console.log(&#39;模块 a 开始了！&#39;);
+exports.done = false;
+var b = require(&#39;./b.js&#39;);
+console.log(&#39;在 a 中, b.done = %j&#39;, b.done);
+exports.done = true;
+console.log(&#39;模块 a 结束了！&#39;);</pre></td></tr></table>
+</div>
+</div>
+<p><em>b.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">console.log(&#39;模块 b 开始了！&#39;);
+exports.done = false;
+var a = require(&#39;./a.js&#39;);
+console.log(&#39;在 b 中, a.done = %j&#39;, a.done);
+exports.done = true;
+console.log(&#39;模块 b 结束了！&#39;);</pre></td></tr></table>
+</div>
+</div>
+<p><em>main.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">console.log(&#39;main 开始了！&#39;);
+var a = require(&#39;./a.js&#39;);
+var b = require(&#39;./b.js&#39;);
+console.log(&#39;在 main 中, a.done=%j, b.done=%j&#39;, a.done, b.done);</pre></td></tr></table>
+</div>
+</div>
+<p>当 main.js 加载 a.js 时，a.js 又加载 b.js。这个时候，b.js 又会尝试去加载 a.js 。为了防止出现无限循环的加载，a.js 中的 exports 对象会返回一个 <strong>unfinished copy</strong> 给 b.js 模块。然后模块b完成加载，同时将提供模块a的接口。当 main.js 加载完a，b两个模块之后，输出如下：</p>
+
+<p><img src="http://cl.ly/image/263z0W3W0m0G/download/2014-04-25_212142.png" alt="cycles" /></p>
+
+<p>##模块的分类和载入
+Node.js 的模块可以分成两类，一类是原生模块（核心模块），另一类是文件模块。核心模块由二进制编译而成，定义在源代码的 <strong>lib/</strong> 目录下,加载的速度最快，比如：HTTP 模块。而文件模块我的理解就是那些可以 require 的文件，后缀可以是 .js、.json、.node。</p>
+
+<p>require() 总是会优先加载核心模块。例如，require(&lsquo;http&rsquo;) 总是返回编译好的HTTP 模块，而不管是否有这个名字的文件。模块在第一次加载后会被缓存。这意味着（类似其他缓存）每次调用require(&lsquo;foo&rsquo;)的时候都会返回同一个对象，当然，必须是每次都解析到同一个文件。</p>
+
+<p>前面的例子中 <code>require(&ldquo;./a.js&rdquo;)</code> 等，就是在加载文件模块。如果按文件名没有查找到对应的模块，那么 Node.js 会添加 .js和 .json后缀名，再尝试加载，如果还是没有找到，最后会加上 .node 的后缀名再次尝试加载。如果指定的路径不存在，require() 会抛出一个 code 属性为 <strong>&lsquo;MODULE_NOT_FOUND&rsquo;</strong> 的错误。</p>
+
+<p>在 require() 没有以&rsquo;/&lsquo;或者&rsquo;./&lsquo;来指向一个文件时，这个模块要么是&rdquo;核心模块&rdquo;，要么就是从 node_modules 文件夹加载的。如果 require() 中的模块名不是一个<strong>本地模块(不在项目目录中)</strong>，也没有以<code>&rsquo;/&rsquo;</code>, <code>&rsquo;../&rsquo;</code>, 或是 <code>&rsquo;./&rsquo;</code> 开头，那么 Node.js 会从当前模块的父目录开始，尝试在它的 <code>&rsquo;/node_modules&rsquo;</code> 文件夹里加载相应模块。如果没有找到，那么就再向上移动到父目录，直到到达顶层目录位置。</p>
+
+<p>举个例子，如果 <em>foo.js</em> 文件的路径是<code>&lsquo;E:/Code/nodejs/demo/foo.js&rsquo;</code>,加载 <em>bar.js</em> 模块，那么 Node.js 将会按照下面的顺序检查文件目录：</p>
+
+<ul>
+<li>E:/Code/nodejs/demo/node_modules/bar.js</li>
+<li>E:/Code/nodejs/node_modules/bar.js</li>
+<li>E:/Code/node_modules/bar.js</li>
+<li>E:/node_modules/bar.js</li>
+</ul>
+
+<p>所以尽可能地把依赖放在就近的位置，以防崩溃。</p>
+
+<p><strong>个人笔记，仅供参考</strong></p>
+
+<blockquote>
+<p>参考:<br />
+* <a href="http://book.douban.com/subject/10789820/">《Node.js 开发指南》</a><br />
+* <a href="http://nodejs.org/docs/latest/api/modules.html#modules_core_modules">Node.js API</a><br />
+* <a href="http://www.infoq.com/cn/articles/nodejs-module-mechanism">深入浅出 Node.js 三</a></p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2014-04-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
+          <a href="/tags/node.js/">Node.js</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2014/04/%E8%AF%91node.js%E7%9A%84%E6%A8%A1%E5%9D%97-exports%E5%92%8Cmodule.exports/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">(译)Node.js的模块-exports和module.exports</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/04/node.js%E5%85%A5%E9%97%A8-node.js-%E4%BB%8B%E7%BB%8D/">
+            <span class="next-text nav-default">Node.js入门-Node.js 介绍</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

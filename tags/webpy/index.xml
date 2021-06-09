@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>webpy on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/webpy/</link>
+    <description>Recent content in webpy on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 10 Nov 2014 19:27:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/webpy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>定时将图片保存在SAE的Storage中</title>
+      <link>https://zhanglun.github.io/post/2014/11/%E5%AE%9A%E6%97%B6%E5%B0%86%E5%9B%BE%E7%89%87%E4%BF%9D%E5%AD%98%E5%9C%A8sae%E7%9A%84storage%E4%B8%AD/</link>
+      <pubDate>Mon, 10 Nov 2014 19:27:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/%E5%AE%9A%E6%97%B6%E5%B0%86%E5%9B%BE%E7%89%87%E4%BF%9D%E5%AD%98%E5%9C%A8sae%E7%9A%84storage%E4%B8%AD/</guid>
+      <description>前几天一直在看Node相关的书，做了一些笔记，挂在自己的博客上。挺累的，毕竟看的是两本英文的书。而且疲了，一时间学的太猛，以至于晕头转向的。</description>
+    </item>
+    
+  </channel>
+</rss>

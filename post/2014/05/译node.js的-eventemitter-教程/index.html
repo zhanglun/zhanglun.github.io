@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>(译)Node.js的 EventEmitter 教程 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content=" 原文标题：Node.js EventEmitter Tutorial
+原文链接：http://www.hacksparrow.com/node-js-eventemitter-tutorial.html
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2014/05/%E8%AF%91node.js%E7%9A%84-eventemitter-%E6%95%99%E7%A8%8B/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="(译)Node.js的 EventEmitter 教程" />
+<meta property="og:description" content="
+原文标题：Node.js EventEmitter Tutorial
+ 原文链接：http://www.hacksparrow.com/node-js-eventemitter-tutorial.html
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2014/05/%E8%AF%91node.js%E7%9A%84-eventemitter-%E6%95%99%E7%A8%8B/" />
+<meta property="article:published_time" content="2014-05-05T21:23:00+00:00" />
+<meta property="article:modified_time" content="2014-05-05T21:23:00+00:00" />
+<meta itemprop="name" content="(译)Node.js的 EventEmitter 教程">
+<meta itemprop="description" content="
+原文标题：Node.js EventEmitter Tutorial
+ 原文链接：http://www.hacksparrow.com/node-js-eventemitter-tutorial.html
+">
+
+
+<meta itemprop="datePublished" content="2014-05-05T21:23:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-05-05T21:23:00&#43;00:00" />
+<meta itemprop="wordCount" content="1100">
+
+
+
+<meta itemprop="keywords" content="译文,Node.js," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(译)Node.js的 EventEmitter 教程"/>
+<meta name="twitter:description" content="
+原文标题：Node.js EventEmitter Tutorial
+ 原文链接：http://www.hacksparrow.com/node-js-eventemitter-tutorial.html
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">(译)Node.js的 EventEmitter 教程</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-05-05 </span>
+        <div class="post-category">
+            <a href="/categories/node.js/"> Node.js </a>
+            </div>
+          <span class="more-meta"> 1100 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>原文标题：Node.js EventEmitter Tutorial<br />
+ 原文链接：<a href="http://www.hacksparrow.com/node-js-eventemitter-tutorial.html">http://www.hacksparrow.com/node-js-eventemitter-tutorial.html</a></p>
+</blockquote>
+
+<p>听说过 Node.js 中的 <code>EventEmitter</code> 吗？也许你知道大部分内置的 Node.js 库 都使用它，也许你总是对 <code>EventEmitter</code> 充满好奇，但是没有谁向你解释？</p>
+
+<p>在这个教程中，我会给你一些关于 <code>EventEmitter</code> 类的例子。</p>
+
+<p>你必须熟悉各种 Node.js 中的事件比如： <code>on data</code> ， <code>on end</code> ， <code>on error</code> 等等之类的。事件机制的工作做得天衣无缝，十分完美，难道不是吗？所有的基于事件的 Node.js 库都依赖于 <code>EventEmitter</code> 类，你可能会说那些库都继承了 <code>EventEmitter</code>。</p>
+
+<p><code>EventEmitter</code> 的强大之处不仅限于内置的 Node.js 库，你也可以拥有它！</p>
+
+<p>展示 <code>EventEmitter</code> 能力的最好方法就是通过一个例子，看看这个：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var EventEmitter = require(&#39;events&#39;).EventEmitter;
+var radium = new EventEmitter();
+
+//绑定 radiation 事件
+radium.on(&#39;radiation&#39;, function(ray) {
+    console.log(ray);
+});
+
+setInterval(function() {
+    //触发 radiation 事件
+    radium.emit(&#39;radiation&#39;, &#39;GAMMA&#39;);
+}, 1000);</pre></td></tr></table>
+</div>
+</div>
+<p>注意到了吧，创建一个事件，添加一个事件监听器，触发事件，通过事件传递数据是多么的简单。所有的这些因为 <code>EventEmitter</code> 的魔力而实现。 <code>EventEmitter</code> 让编写令人惊讶的 Node.js 库变得可能。</p>
+
+<p>上面的例子基于一个 <code>EventEmitter</code> 的实例，我们怎么做才能创建一个继承自 <code>EventEmitter</code> 的类呢？Node.js 有一个，叫做 <code>util</code> 的库，它有一个方法： <code>inherits</code>，实现对象之间原型继承的函数。我们可以很轻松的通过它让一个类继承另一个类（准确的说不能叫类）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var util = require(&#39;util&#39;);
+util.inherits(MyClass, SuperClass);</pre></td></tr></table>
+</div>
+</div>
+<p>使用 <code>util.inherits()</code> ，我们创建了一个继承自 <code>EventEmitter</code> 的模块，注意下面的代码：</p>
+
+<p><em>radio.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var util = require(&#39;util&#39;);
+var EventEmitter = require(&#39;events&#39;).EventEmitter;
+
+//一个包含 &#34;freq&#34; 和 &#34;name&#34; 属性的对象
+var Radio = function(station) {
+    //保存 指向Radio的this，在setTimeout()中使用
+    var self = this;
+
+    setTimeout(function() {
+        self.emit(&#39;open&#39;, station);
+    }, 0);
+
+    setTimeout(function() {
+        self.emit(&#39;close&#39;, station);
+    }, 5000);
+
+    this.on(&#39;newListener&#39;, function(listener) {
+        console.log(&#39;Event Listener: &#39; + listener);
+    });
+
+};
+
+//Radio 继承 EventEmitter
+util.inherits(Radio, EventEmitter);
+module.exports = Radio;</pre></td></tr></table>
+</div>
+</div>
+<p>我们创建了一个继承自 <code>EventEmitter</code> 的模块。接下来让我们看看如何在一个例子中使用创建的模块。</p>
+
+<p><em>example.js</em> 中的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">var Radio = require(&#39;./radio.js&#39;);
+
+var station = {
+    freq: &#39;80.16&#39;,
+    name: &#39;Rock N Roll Radio&#39;,
+};
+// 创建一个Radio实例
+var radio = new Radio(station);
+
+//添加一个“open”事件监听器
+radio.on(&#39;open&#39;, function(station) {
+    console.log(&#39;&#34;%s&#34; FM %s OPENED&#39;, station.name, station.freq);
+    console.log(&#39;? ??&#39;);
+});
+
+//添加一个“close”事件监听器
+radio.on(&#39;close&#39;, function(station) {
+    console.log(&#39;&#34;%s&#34; FM %s CLOSED&#39;, station.name, station.freq);
+});</pre></td></tr></table>
+</div>
+</div>
+<p>运行 example.js 准备好见证 <code>EventEmitter</code> 的魔力。</p>
+
+<p>如果因为某些原因你不想使用 <code>util</code> 模块，你可以用这种方法来拓展一个类。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Apple.prototype = Object.create(require(&#39;events&#39;).EventEmitter.prototype);</pre></td></tr></table>
+</div>
+</div>
+<p><code>EventEmitter</code> 可以帮你编写令人印象深刻的基于事件的 Node.js 模块。同时，作为作为一个 Node.js 的开发人员，你掌握的关于<code>EventEmitter</code>的知识会大大影响你的工作效率。所以，确保你阅读了<a href="http://nodejs.org/api/events.html#events_class_events_eventemitter">关于 <code>EventEmitter</code> 的更详细的资料</a>，并且掌握里里外外它是如何工作的。如果你不了解<code>EventEmitter</code>，那你也不了解 Nodejs.js</p>
+
+<p>(完)</p>
+
+<p><strong>翻译水平有待提高，所翻译的博文并不是按照原文一句一句翻译，而是添加了自己对文章的理解。如有不正之处，欢迎指正！</strong>
+<strong>个人笔记，仅供参考。</strong>
+&gt;参考:
+<a href="http://www.hacksparrow.com/node-js-eventemitter-tutorial.html">http://www.hacksparrow.com/node-js-eventemitter-tutorial.html
+</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2014-05-05
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AF%91%E6%96%87/">译文</a>
+          <a href="/tags/node.js/">Node.js</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2014/05/%E5%AD%A6%E4%B9%A0sass%E6%97%B6%E4%BA%86%E8%A7%A3%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%8E%A9%E7%89%B9%E6%80%A7/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">学习sass时了解到的一些好玩特性</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/04/%E8%AF%91node.js%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+            <span class="next-text nav-default">(译)Node.js的全局变量</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

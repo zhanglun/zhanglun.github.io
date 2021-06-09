@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>在滴滴的这几年：组件库的设计和开发 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="入职的时候团队加上老板就三个人，需要对接5&#43;个公共服务团队，为公共服务开发控制台，每个团队两个控制台系统。在之前，有一些团队有一些正在运行的" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2020/05/%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E8%BF%99%E5%87%A0%E5%B9%B4%E7%BB%84%E4%BB%B6%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%BC%80%E5%8F%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="在滴滴的这几年：组件库的设计和开发" />
+<meta property="og:description" content="入职的时候团队加上老板就三个人，需要对接5&#43;个公共服务团队，为公共服务开发控制台，每个团队两个控制台系统。在之前，有一些团队有一些正在运行的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2020/05/%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E8%BF%99%E5%87%A0%E5%B9%B4%E7%BB%84%E4%BB%B6%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%BC%80%E5%8F%91/" />
+<meta property="article:published_time" content="2020-05-05T11:14:37+08:00" />
+<meta property="article:modified_time" content="2020-05-05T11:14:37+08:00" />
+<meta itemprop="name" content="在滴滴的这几年：组件库的设计和开发">
+<meta itemprop="description" content="入职的时候团队加上老板就三个人，需要对接5&#43;个公共服务团队，为公共服务开发控制台，每个团队两个控制台系统。在之前，有一些团队有一些正在运行的">
+
+
+<meta itemprop="datePublished" content="2020-05-05T11:14:37&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-05T11:14:37&#43;08:00" />
+<meta itemprop="wordCount" content="1829">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在滴滴的这几年：组件库的设计和开发"/>
+<meta name="twitter:description" content="入职的时候团队加上老板就三个人，需要对接5&#43;个公共服务团队，为公共服务开发控制台，每个团队两个控制台系统。在之前，有一些团队有一些正在运行的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">在滴滴的这几年：组件库的设计和开发</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-05-05 </span>
+        
+          <span class="more-meta"> 1829 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#webpack的构建打包">Webpack的构建打包</a></li>
+<li><a href="#文档自动化">文档自动化</a></li>
+<li><a href="#主题色">主题色</a></li>
+<li><a href="#自动化">自动化</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<p>入职的时候团队加上老板就三个人，需要对接5+个公共服务团队，为公共服务开发控制台，每个团队两个控制台系统。在之前，有一些团队有一些正在运行的系统，技术栈有React, Angular和Vue，UI库有内部的 CubeUI 和外部的 AntD，场面一度十分混乱。</p>
+
+<p>好在当时组织架构处于建设阶段，现有的系统功能都还没有太多。乘着这个机会，团队统一了技术栈用vue。</p>
+
+<p>为什么？人少，没有React专家，Angular不好招人，Vue简单，上手快，Vue招人容易。前端的技术选型确定了，后端采用自研的Nodejs的Web框架。</p>
+
+<p>前端UI也需要一个框架？为什么不用外部的，主要考虑到以下几个问题：</p>
+
+<ol>
+<li>开源项目有风险，出问题不能立马响应，可能会不在维护。比如公司内部的 CubeUI 和外面的 ElementUI</li>
+<li>开源的UI库往往提供的都是通用性和功能性比较强的组件，风格上比较统一。再者，设计师可能有自己的想法</li>
+<li>开源的定制性差点，可能会出现无法满足产品需求的情况，需要在这个基础上改造，有一定成本</li>
+<li>锻炼团队能力</li>
+</ol>
+
+<p>刚开始我也没搞过组件库，之前只看过 BootStrap的一点代码，他们是基于 jQuery 的。我来的时候Vue也不太熟练。所以当时只能一边做一个新的系统，一边开发组件库，一边写一边用。
+两个星期做出了第一版的Codis控制台系统，和第一版本的ui框架 Core 我具体是怎么做的呢？</p>
+
+<p>首先先捋了一波需求，我们要做的这个组件库到底要有什么样的能力。</p>
+
+<ol>
+<li>提供基础组件库，不对标 AntD或者 ElementUI，提供基础能力，能够当前系统的开发</li>
+<li>和社区的组件库一样，支持 <code>import</code>、<code>require</code> 和 <code>script</code> 标签的引用</li>
+<li>支持主题色</li>
+<li>后续拓展业务组件</li>
+</ol>
+
+<p>下面说一下几个比较关键的点</p>
+
+<h3 id="webpack的构建打包">Webpack的构建打包</h3>
+
+<p>简单来说构建这块使用webpack来构建打包输出，约定好开发规范，包括代码风格，目录结构每个组件通过文件夹来划分，提供一个总入口文件，最后作为index.js 将组件对象引入，最后一起输出。在此基础上，利用Webpack的entry支持数组的能力，构建阶段扫描每一个组件目录，拿到index.js 单独在构建一份。这样使用的时候既可以一次性引入完整的包，也可以单个引入。</p>
+
+<p>里面有几个关键点需要注意，除了组件库最后需要暴露入使用的入口之外，我们还需要将依赖外部化。假设组件库名字叫做 <code>my-component</code>，需要至少能提供如下使用的使用能力：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">import</span> <span class="nx">MyComponent</span> <span class="nx">from</span> <span class="s1">&#39;my-component&#39;</span><span class="p">;</span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">MyComponent</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>同时在<code>my-component</code>中不包含Vue的依赖。Webpack提供了这样的能力，总结如下：</p>
+
+<ul>
+<li>使用 <code>externals</code> 选项，避免将依赖打包到应用程序，而使用者会去加载它。</li>
+<li>将 <code>library</code> 的名称设置为 <code>MyComponent</code> 组件名</li>
+<li>将 <code>library</code> 暴露为一个名为 <code>MyComponent</code> 的变量。</li>
+<li>能够访问其他 Node.js 中的 library。</li>
+</ul>
+
+<p>除此之外，组件的使用还要能支持<code>CommonJS</code>，<code>ES6模块</code>，甚至通过<code>script</code>标签引入。具体细节可以参考：<a href="https://webpack.js.org/guides/author-libraries/">Authoring Libraries</a></p>
+
+<h3 id="文档自动化">文档自动化</h3>
+
+<p>第一步算是完成了。接下来是组件文档的问题。组件的文档需要包括组件的一些基本信息，接口说明，和一些demo。第一版本中，我参考了AntD的设计，在每个组件的目录下面有一个README.md文件，文件头部使用YAML语法设置基本信息，来标记组件的一些信息，比如分类、标题和名称之类的，文件内容作为文档的内容。最后通过自己开发的一个 <code>vue-md-loader</code>，在文档构建过程中，将md文件转换成vue组件，最后输出一个可访问的单页面应用。构建过程接入了Gitlab CI，利用持续集成的思路将文档的更新发布自动化。</p>
+
+<p>但是这个方案有一个小问题：在markdown文件中编写代码内容确实不方便，缩进不只能，IDE无法帮助识别基本的错误。随后作了一个改进：依然使用<code>README.md</code>作为组件文档的入口，但是只保留顶部基本信息和API参数信息，正文部分增加一个插槽<code>&lt;!-- demo --&gt;</code>。所有的使用DEMO都放置在新增的<code>demo</code>文件夹，在<code>demo</code>文件夹按照demo0, demo1的顺序放置demo组件。同时对<code>vue-md-loader</code>进行一些改造。编译文档时，将demo文件夹中的demo按照文件名顺序，插入插槽，再将md内容转换成一个vue组件。最后在页面中显示出来。</p>
+
+<p><img src="./images/1.png" alt="component.png" /></p>
+
+<h3 id="主题色">主题色</h3>
+
+<p>我们当时做这个组件库是为了支持团队工作的，每个 PaaS 服务会有两个系统，一个面向用户，一个面向服务方。两种系统采用了两种颜色风格，用户侧黑色，服务方侧绿色。这里我采用的比较简单直接的方案，定了一两个变量，通过不同命令打包构建。就两个颜色，这样挺快</p>
+
+<h3 id="自动化">自动化</h3>
+
+<p>提供了几个命令来简化开发流程和提高协作效率。</p>
+
+<p><img src="./images/2.png" alt="2.png" />
+<img src="./images/3.png" alt="3.png" /></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-05-05
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2020/06/%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E8%BF%99%E5%87%A0%E5%B9%B4%E5%9F%BA%E4%BA%8E-node.js-%E7%9A%84%E7%A7%81%E6%9C%89%E4%BA%91-web-%E7%AE%A1%E6%8E%A7%E7%B3%BB%E7%BB%9F/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2020/03/%E4%BD%BF%E7%94%A8-css-variables-%E5%AE%9E%E7%8E%B0%E4%B8%BB%E9%A2%98%E8%89%B2%E5%88%87%E6%8D%A2/">
+            <span class="next-text nav-default">使用 CSS variables 实现主题色切换</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

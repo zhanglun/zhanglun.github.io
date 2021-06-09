@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JavaScript on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/categories/javascript/</link>
+    <description>Recent content in JavaScript on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 25 Sep 2016 18:40:45 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/categories/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>实现一个稍微复杂的simplelist</title>
+      <link>https://zhanglun.github.io/post/2016/09/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%A8%8D%E5%BE%AE%E5%A4%8D%E6%9D%82%E7%9A%84simplelist/</link>
+      <pubDate>Sun, 25 Sep 2016 18:40:45 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/09/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%A8%8D%E5%BE%AE%E5%A4%8D%E6%9D%82%E7%9A%84simplelist/</guid>
+      <description>&lt;p&gt;使用过一些清单类的应用程序，像 WunderList, Google Keep等，用来记录一些计划和安排，也试着将自己的计划安排同笔记一起整理在 Evernote 中，但是无论哪种方式用起来总觉得少了点什么，如果两者的一些功能能够结合起来，就很完美了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

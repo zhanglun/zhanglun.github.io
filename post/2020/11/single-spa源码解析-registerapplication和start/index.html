@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>single-spa源码解析-registerApplication和start - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="首先将问题简化，假定主应用和子应用都已经准备好的情况下，针对应用的注册和启动这两个关键操作进行分析。 在主应用中只需要调用registerAp" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2020/11/single-spa%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-registerapplication%E5%92%8Cstart/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="single-spa源码解析-registerApplication和start" />
+<meta property="og:description" content="首先将问题简化，假定主应用和子应用都已经准备好的情况下，针对应用的注册和启动这两个关键操作进行分析。 在主应用中只需要调用registerAp" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2020/11/single-spa%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-registerapplication%E5%92%8Cstart/" />
+<meta property="article:published_time" content="2020-11-21T21:28:13+08:00" />
+<meta property="article:modified_time" content="2020-11-21T21:28:13+08:00" />
+<meta itemprop="name" content="single-spa源码解析-registerApplication和start">
+<meta itemprop="description" content="首先将问题简化，假定主应用和子应用都已经准备好的情况下，针对应用的注册和启动这两个关键操作进行分析。 在主应用中只需要调用registerAp">
+
+
+<meta itemprop="datePublished" content="2020-11-21T21:28:13&#43;08:00" />
+<meta itemprop="dateModified" content="2020-11-21T21:28:13&#43;08:00" />
+<meta itemprop="wordCount" content="3403">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="single-spa源码解析-registerApplication和start"/>
+<meta name="twitter:description" content="首先将问题简化，假定主应用和子应用都已经准备好的情况下，针对应用的注册和启动这两个关键操作进行分析。 在主应用中只需要调用registerAp"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">single-spa源码解析-registerApplication和start</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-11-21 </span>
+        
+          <span class="more-meta"> 3403 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#registerapplication">registerApplication</a>
+<ul>
+<li><a href="#序列化参数">序列化参数</a></li>
+<li><a href="#将应用注入">将应用注入</a></li>
+</ul></li>
+<li><a href="#start">start</a></li>
+<li><a href="#reroute">reroute</a>
+<ul>
+<li><a href="#loadapps-和-performappchanges">loadApps 和 performAppChanges</a>
+<ul>
+<li><a href="#loadapps">loadApps</a></li>
+<li><a href="#performappchanges">performAppChanges</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<p>首先将问题简化，假定主应用和子应用都已经准备好的情况下，针对应用的注册和启动这两个关键操作进行分析。</p>
+
+<p>在主应用中只需要调用<code>registerApplication</code>即可注册子应用，调用<code>start</code>启动主应用。比如下面的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// single-spa-config.js
+</span><span class="c1"></span><span class="k">import</span> <span class="p">{</span> <span class="nx">registerApplication</span><span class="p">,</span> <span class="nx">start</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;single-spa&#39;</span><span class="p">;</span>
+
+<span class="c1">// 使用简单参数
+</span><span class="c1"></span><span class="nx">registerApplication</span><span class="p">(</span>
+  <span class="s1">&#39;app2&#39;</span><span class="p">,</span> 
+  <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">import</span><span class="p">(</span><span class="s1">&#39;src/app2/main.js&#39;</span><span class="p">),</span>
+  <span class="p">(</span><span class="nx">location</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">location</span><span class="p">.</span><span class="nx">pathname</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;/app2&#39;</span><span class="p">),</span>
+  <span class="p">{</span> <span class="nx">some</span><span class="o">:</span> <span class="s1">&#39;value&#39;</span> <span class="p">},</span>
+<span class="p">);</span>
+
+<span class="c1">// 使用对象参数
+</span><span class="c1"></span><span class="nx">registerApplication</span><span class="p">({</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;app1&#39;</span><span class="p">,</span>
+  <span class="nx">app</span><span class="o">:</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">import</span><span class="p">(</span><span class="s1">&#39;src/app1/main.js&#39;</span><span class="p">),</span>
+  <span class="nx">activeWhen</span><span class="o">:</span> <span class="s1">&#39;/app1&#39;</span><span class="p">,</span>
+  <span class="nx">customProps</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">some</span><span class="o">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="nx">start</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="registerapplication">registerApplication</h2>
+
+<p>先让我们来看一下函数签名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">registerApplication</span><span class="p">(</span>
+  <span class="nx">appNameOrConfig</span><span class="p">,</span>
+  <span class="nx">appOrLoadApp</span><span class="p">,</span>
+  <span class="nx">activeWhen</span><span class="p">,</span>
+  <span class="nx">customProps</span>
+<span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>可以传四个参数，也能传递一个对象。对象参数的效果与四个参数效果一样。因为在 <code>registerApplication</code> 函数的顶部就会执行来一个序列化参数的操作，统一将参数转换成约定 <code>registration</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// src/application/apps.js
+</span><span class="c1"></span><span class="k">export</span> <span class="kd">function</span> <span class="nx">registerApplication</span><span class="p">(</span>
+  <span class="nx">appNameOrConfig</span><span class="p">,</span>
+  <span class="nx">appOrLoadApp</span><span class="p">,</span>
+  <span class="nx">activeWhen</span><span class="p">,</span>
+  <span class="nx">customProps</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="nx">registration</span> <span class="o">=</span> <span class="nx">sanitizeArguments</span><span class="p">(</span>
+    <span class="nx">appNameOrConfig</span><span class="p">,</span>
+    <span class="nx">appOrLoadApp</span><span class="p">,</span>
+    <span class="nx">activeWhen</span><span class="p">,</span>
+    <span class="nx">customProps</span>
+  <span class="p">);</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="序列化参数">序列化参数</h3>
+
+<p><code>sanitizeArguments</code>这个方法里面的逻辑不复杂，简单来说就是将各参数序列化成需要的类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">sanitizeArguments</span><span class="p">(</span>
+  <span class="nx">appNameOrConfig</span><span class="p">,</span>
+  <span class="nx">appOrLoadApp</span><span class="p">,</span>
+  <span class="nx">activeWhen</span><span class="p">,</span>
+  <span class="nx">customProps</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="nx">usingObjectAPI</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">appNameOrConfig</span> <span class="o">===</span> <span class="s2">&#34;object&#34;</span><span class="p">;</span>
+
+  <span class="k">const</span> <span class="nx">registration</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">loadApp</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">activeWhen</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">customProps</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="p">};</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">usingObjectAPI</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">validateRegisterWithConfig</span><span class="p">(</span><span class="nx">appNameOrConfig</span><span class="p">);</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">appNameOrConfig</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">loadApp</span> <span class="o">=</span> <span class="nx">appNameOrConfig</span><span class="p">.</span><span class="nx">app</span><span class="p">;</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">activeWhen</span> <span class="o">=</span> <span class="nx">appNameOrConfig</span><span class="p">.</span><span class="nx">activeWhen</span><span class="p">;</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">customProps</span> <span class="o">=</span> <span class="nx">appNameOrConfig</span><span class="p">.</span><span class="nx">customProps</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+<span class="c1">// 校验各参数类型，如果不通过就抛出错误。
+</span><span class="c1"></span>    <span class="nx">validateRegisterWithArguments</span><span class="p">(</span>
+      <span class="nx">appNameOrConfig</span><span class="p">,</span>
+      <span class="nx">appOrLoadApp</span><span class="p">,</span>
+      <span class="nx">activeWhen</span><span class="p">,</span>
+      <span class="nx">customProps</span>
+    <span class="p">);</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">appNameOrConfig</span><span class="p">;</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">loadApp</span> <span class="o">=</span> <span class="nx">appOrLoadApp</span><span class="p">;</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">activeWhen</span> <span class="o">=</span> <span class="nx">activeWhen</span><span class="p">;</span>
+    <span class="nx">registration</span><span class="p">.</span><span class="nx">customProps</span> <span class="o">=</span> <span class="nx">customProps</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">registration</span><span class="p">.</span><span class="nx">loadApp</span> <span class="o">=</span> <span class="nx">sanitizeLoadApp</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">loadApp</span><span class="p">);</span>
+  <span class="nx">registration</span><span class="p">.</span><span class="nx">customProps</span> <span class="o">=</span> <span class="nx">sanitizeCustomProps</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">customProps</span><span class="p">);</span>
+  <span class="nx">registration</span><span class="p">.</span><span class="nx">activeWhen</span> <span class="o">=</span> <span class="nx">sanitizeActiveWhen</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">activeWhen</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">registration</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="将应用注入">将应用注入</h3>
+
+<p>参数序列化之后，先调用 <code>getAppNames</code> 方法检查是否存在重复注册的子应用，如果有则抛出错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="nx">getAppNames</span><span class="p">().</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">throw</span> <span class="nb">Error</span><span class="p">(</span>
+    <span class="nx">formatErrorMessage</span><span class="p">(</span>
+      <span class="mi">21</span><span class="p">,</span>
+      <span class="nx">__DEV__</span> <span class="o">&amp;&amp;</span>
+      <span class="sb">`There is already an app registered with name </span><span class="si">${</span><span class="nx">registration</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+      <span class="nx">registration</span><span class="p">.</span><span class="nx">name</span>
+    <span class="p">)</span>
+  <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>如果不存在重复注册的应用，接下来就将所有的应用注册到 apps 数组中，执行 <code>reroute()</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">apps</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+  <span class="nx">assign</span><span class="p">(</span>
+    <span class="p">{</span>
+      <span class="nx">loadErrorTime</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="nx">status</span><span class="o">:</span> <span class="nx">NOT_LOADED</span><span class="p">,</span>
+      <span class="nx">parcels</span><span class="o">:</span> <span class="p">{},</span>
+      <span class="nx">devtools</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">overlays</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">options</span><span class="o">:</span> <span class="p">{},</span>
+          <span class="nx">selectors</span><span class="o">:</span> <span class="p">[],</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="nx">registration</span>
+  <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">isInBrowser</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">ensureJQuerySupport</span><span class="p">();</span>
+  <span class="nx">reroute</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="start">start</h2>
+
+<p>因为<code>start</code>方法和<code>registeApplication</code>方法最后都调用了<code>reroute</code>，<code>start</code>的代码比较少，所以先介绍start方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// src/start.js
+</span><span class="c1"></span><span class="k">import</span> <span class="p">{</span> <span class="nx">reroute</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;./navigation/reroute.js&#34;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">formatErrorMessage</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;./applications/app-errors.js&#34;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">setUrlRerouteOnly</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;./navigation/navigation-events.js&#34;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">isInBrowser</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;./utils/runtime-environment.js&#34;</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">started</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">start</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">started</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">opts</span> <span class="o">&amp;&amp;</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">urlRerouteOnly</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">setUrlRerouteOnly</span><span class="p">(</span><span class="nx">opts</span><span class="p">.</span><span class="nx">urlRerouteOnly</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isInBrowser</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">reroute</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">isStarted</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">started</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">isInBrowser</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">started</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span>
+        <span class="nx">formatErrorMessage</span><span class="p">(</span>
+          <span class="mi">1</span><span class="p">,</span>
+          <span class="nx">__DEV__</span> <span class="o">&amp;&amp;</span>
+            <span class="sb">`singleSpa.start() has not been called, 5000ms after single-spa was loaded. Before start() is called, apps can be declared and loaded, but not bootstrapped or mounted.`</span>
+        <span class="p">)</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="mi">5000</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>首先申明了一个 <code>started</code> 变量作为应用启动的标记，默认是 <code>false</code>，表示未启动。<code>isStarted()</code>返回这个标记，用来判断当前应用的状态。</p>
+
+<p>start`方法接受一个options参数，目前只有一个配置：urlRerouteOnly。默认是false。如果设置成true，调用history.pushState() 和 history.replaceState() 时不会触发 reroute，除非客户端路由真的发生了变化。设置为true时在某些时候会有更好的性能。</p>
+
+<p><code>urlRerouteOnly</code>会在navigation-events中使用，后面再讲。</p>
+
+<p>在文件的最后作了一个超时检测，在代码执行5s后<code>isStarted</code>状态依旧是<code>false</code>时抛出一个警告。</p>
+
+<p>接下来看一下核心方法Reroute</p>
+
+<h2 id="reroute">reroute</h2>
+
+<p>默认设置 <code>appChangeUnderway</code>为<code>false</code>。函数每次执行时都会判断<code>appChangeUnderway</code>。<code>appChangeUnderway</code>为<code>true</code>时表示当前有<code>reroute</code>的任务正在执行(reroute被调用了并且其中的promsie任务还没结束），此时返回一个Promise，内部将resolve，reject和reoute的第二个参数一起 push 到<code>peopleWaitingOnAppChange</code>中，等当前reroute对应的任务执行完成之后在作为 <code>pendingPromise</code> 参数继续执行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="nx">appChangeUnderway</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">peopleWaitingOnAppChange</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="nx">resolve</span><span class="p">,</span>
+      <span class="nx">reject</span><span class="p">,</span>
+      <span class="nx">eventArguments</span><span class="p">,</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>但是<code>appChangeUnderway</code>初始值是<code>false</code>，在什么时候被修改成true的呢？接着往下看。</p>
+
+<p>调用<code>getAppChanges()</code>方法将注册的应用按照当前各自的生命周期分组:</p>
+
+<ol>
+<li>加载失败（LOAD_ERROR) 的app放入appToUnload</li>
+<li>未下载（NOT_LOADED)和下载中（LOADING_SOURCE_CODE)的app放入 appsToLoad</li>
+<li>未引导（NOT_BOOTSTRAPPED)和未挂载（NOT_MOUNTED)的app放入appsToUnload或者appsToMount</li>
+<li>已挂载（MOUNTED)的app放入appsToUnmount</li>
+</ol>
+
+<p>未引导（NOT_BOOTSTRAPPED)和未挂载（NOT_MOUNTED)的app会多加一个判断，当前window.location匹配activeWhen规则时放入appToMount数组，否则放入appsToUnload。</p>
+
+<p>分组完毕之后，判断前文提到的started状态。如果started为true，将appChangeUnderway也设置为true，然后将app按照toUnload，toLoad,toUnmount和toMount的分组数组合并在一起，保存到appsThatChanged数组中。最后调用 performAppChanges 方法，返回执行的结果。如果started为false，将ToLoad的app赋值给appsThatChanged，然后调用loadApps方法，并返回执行的结果。</p>
+
+<h3 id="loadapps-和-performappchanges">loadApps 和 performAppChanges</h3>
+
+<h4 id="loadapps">loadApps</h4>
+
+<p>先来看较为简单的loadApps()方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">loadApps</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">().</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="nx">loadPromises</span> <span class="o">=</span> <span class="nx">appsToLoad</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">toLoadPromise</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">loadPromises</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">callAllEventListeners</span><span class="p">)</span>
+        <span class="c1">// there are no mounted apps, before start() is called, so we always return []
+</span><span class="c1"></span>        <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">[])</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="nx">callAllEventListeners</span><span class="p">();</span>
+          <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+        <span class="p">})</span>
+    <span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p><code>loadApps</code>只有在启动的时候会调用一次，此时<code>started</code> 为 <code>false</code>。这个方法具体做了什么事情呢？</p>
+
+<p>遍历appsToLoad中的app，最后返回一个Promise数组，通过Promise.all()一次性全部调用将app的状态设置为 <code>LOADING_SOURCE_CODE</code>，然后检查参数中的生命周期函数，将这些函数挂载到app上。然后再调用 <code>callAllEventListeners</code> 方法，劫持 <code>hashchange</code> 和<code>popstate</code>这两个事件。</p>
+
+<h4 id="performappchanges">performAppChanges</h4>
+
+<p>如果应用已经启动，即 <code>started</code>为 <code>true</code> 时，逻辑会进入到 <code>performAppChanges</code> 方法，这个方法有点长。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">performAppChanges</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">().</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// https://github.com/single-spa/single-spa/issues/545
+</span><span class="c1"></span>    <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span>
+      <span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span>
+        <span class="nx">appsThatChanged</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span>
+          <span class="o">?</span> <span class="s2">&#34;single-spa:before-no-app-change&#34;</span>
+          <span class="o">:</span> <span class="s2">&#34;single-spa:before-app-change&#34;</span><span class="p">,</span>
+        <span class="nx">getCustomEventDetail</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+
+    <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span>
+      <span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span>
+        <span class="s2">&#34;single-spa:before-routing-event&#34;</span><span class="p">,</span>
+        <span class="nx">getCustomEventDetail</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cancelNavigation</span> <span class="p">})</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">navigationIsCanceled</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span>
+          <span class="s2">&#34;single-spa:before-mount-routing-event&#34;</span><span class="p">,</span>
+          <span class="nx">getCustomEventDetail</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">)</span>
+      <span class="p">);</span>
+      <span class="nx">finishUpAndReturn</span><span class="p">();</span>
+      <span class="nx">navigateToUrl</span><span class="p">(</span><span class="nx">oldUrl</span><span class="p">);</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">const</span> <span class="nx">unloadPromises</span> <span class="o">=</span> <span class="nx">appsToUnload</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">toUnloadPromise</span><span class="p">);</span>
+
+    <span class="k">const</span> <span class="nx">unmountUnloadPromises</span> <span class="o">=</span> <span class="nx">appsToUnmount</span>
+      <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">toUnmountPromise</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">unmountPromise</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">unmountPromise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">toUnloadPromise</span><span class="p">));</span>
+
+    <span class="k">const</span> <span class="nx">allUnmountPromises</span> <span class="o">=</span> <span class="nx">unmountUnloadPromises</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">unloadPromises</span><span class="p">);</span>
+
+    <span class="k">const</span> <span class="nx">unmountAllPromise</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">allUnmountPromises</span><span class="p">);</span>
+
+    <span class="nx">unmountAllPromise</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span>
+          <span class="s2">&#34;single-spa:before-mount-routing-event&#34;</span><span class="p">,</span>
+          <span class="nx">getCustomEventDetail</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">)</span>
+      <span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="cm">/* We load and bootstrap apps while other apps are unmounting, but we
+</span><span class="cm">      * wait to mount the app until all apps are finishing unmounting
+</span><span class="cm">      */</span>
+    <span class="k">const</span> <span class="nx">loadThenMountPromises</span> <span class="o">=</span> <span class="nx">appsToLoad</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">app</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">toLoadPromise</span><span class="p">(</span><span class="nx">app</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">app</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="nx">tryToBootstrapAndMount</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">unmountAllPromise</span><span class="p">)</span>
+      <span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="cm">/* These are the apps that are already bootstrapped and just need
+</span><span class="cm">      * to be mounted. They each wait for all unmounting apps to finish up
+</span><span class="cm">      * before they mount.
+</span><span class="cm">      */</span>
+    <span class="k">const</span> <span class="nx">mountPromises</span> <span class="o">=</span> <span class="nx">appsToMount</span>
+      <span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">appToMount</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">appsToLoad</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">appToMount</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">appToMount</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">tryToBootstrapAndMount</span><span class="p">(</span><span class="nx">appToMount</span><span class="p">,</span> <span class="nx">unmountAllPromise</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">unmountAllPromise</span>
+      <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">callAllEventListeners</span><span class="p">();</span>
+        <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="cm">/* Now that the apps that needed to be unmounted are unmounted, their DOM navigation
+</span><span class="cm">          * events (like hashchange or popstate) should have been cleaned up. So it&#39;s safe
+</span><span class="cm">          * to let the remaining captured event listeners to handle about the DOM event.
+</span><span class="cm">          */</span>
+        <span class="nx">callAllEventListeners</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">loadThenMountPromises</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">mountPromises</span><span class="p">))</span>
+          <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+            <span class="nx">pendingPromises</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">promise</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+            <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+          <span class="p">})</span>
+          <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">finishUpAndReturn</span><span class="p">);</span>
+      <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>可以看到，这个方法也是放在一个 <code>Promise.resolve()</code>中。首先触发了一些自定义事件，然后根据应用状态分别创建了对应取消操作的Promise数组。需要被移除的应用 <code>appToUnLoad</code>创建了<code>unLoadPromises</code>，需要被卸载的应用<code>appsToUnmount</code>先创建卸载的<code>toUnmountPromise</code>，再创建 <code>unLoadPromise</code>。最后将所有的Promise合并成一个数组通过Promise.all执行，执行完成之后触发<code>single-spa:before-mount-routing-event</code>事件。</p>
+
+<p>至此，需要unmount和unload的app执行过程都结束了，接下来如法炮制开始load和mount对应的应用。使用 <code>appToLoad</code> 和 <code>appToMount</code> 创建一个Promise数组，通过Promise.all执行。在app对应状态变更完成之后，调用 <code>tryToBootstrapAndMount</code>完成引导并挂载应用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">tryToBootstrapAndMount</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">unmountAllPromise</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">shouldBeActive</span><span class="p">(</span><span class="nx">app</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">toBootstrapPromise</span><span class="p">(</span><span class="nx">app</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">app</span><span class="p">)</span> <span class="p">=&gt;</span>
+      <span class="nx">unmountAllPromise</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span>
+        <span class="nx">shouldBeActive</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="o">?</span> <span class="nx">toMountPromise</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="o">:</span> <span class="nx">app</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">unmountAllPromise</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">app</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>引导并挂载成功之后触发一次<code>single-spa:routing-event</code>事件，根据变化的app数量决定触发<code>single-spa:no-app-change</code>事件还是<code>single-spa:app-change</code>事件。最后将<code>appChangeUnderway</code>设置为<code>false</code>，保证后续的reroute()调用能够执行，此时也标志着当前这次reroute调用的执行已结束，最后检查当前是否还有pengding中的任务，有的话继续执行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="nx">peopleWaitingOnAppChange</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="cm">/* While we were rerouting, someone else triggered another reroute that got queued.
+</span><span class="cm">    * So we need reroute again.
+</span><span class="cm">    */</span>
+  <span class="k">const</span> <span class="nx">nextPendingPromises</span> <span class="o">=</span> <span class="nx">peopleWaitingOnAppChange</span><span class="p">;</span>
+  <span class="nx">peopleWaitingOnAppChange</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="nx">reroute</span><span class="p">(</span><span class="nx">nextPendingPromises</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-11-21
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2020/11/%E5%A6%82%E4%BD%95%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%8E%A5%E5%85%A5single-spa/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">如何在项目中接入single-spa</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2020/11/%E4%BD%BF%E7%94%A8-single-spa-%E5%AE%9E%E7%8E%B0%E5%BE%AE%E5%89%8D%E7%AB%AF/">
+            <span class="next-text nav-default">使用 single-spa 实现微前端</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

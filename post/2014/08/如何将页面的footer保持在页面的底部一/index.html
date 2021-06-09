@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>如何将页面的footer保持在页面的底部一 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="我敢说这一定是很常见的问题，因为到处都是页面不够长而上吊的footer，而。比如这里： 或者这里(￣◇￣;)： 这是随手找到，没别的意思。只是想" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2014/08/%E5%A6%82%E4%BD%95%E5%B0%86%E9%A1%B5%E9%9D%A2%E7%9A%84footer%E4%BF%9D%E6%8C%81%E5%9C%A8%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%BA%95%E9%83%A8%E4%B8%80/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="如何将页面的footer保持在页面的底部一" />
+<meta property="og:description" content="我敢说这一定是很常见的问题，因为到处都是页面不够长而上吊的footer，而。比如这里： 或者这里(￣◇￣;)： 这是随手找到，没别的意思。只是想" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2014/08/%E5%A6%82%E4%BD%95%E5%B0%86%E9%A1%B5%E9%9D%A2%E7%9A%84footer%E4%BF%9D%E6%8C%81%E5%9C%A8%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%BA%95%E9%83%A8%E4%B8%80/" />
+<meta property="article:published_time" content="2014-08-25T22:25:00+00:00" />
+<meta property="article:modified_time" content="2014-08-25T22:25:00+00:00" />
+<meta itemprop="name" content="如何将页面的footer保持在页面的底部一">
+<meta itemprop="description" content="我敢说这一定是很常见的问题，因为到处都是页面不够长而上吊的footer，而。比如这里： 或者这里(￣◇￣;)： 这是随手找到，没别的意思。只是想">
+
+
+<meta itemprop="datePublished" content="2014-08-25T22:25:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-08-25T22:25:00&#43;00:00" />
+<meta itemprop="wordCount" content="947">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="如何将页面的footer保持在页面的底部一"/>
+<meta name="twitter:description" content="我敢说这一定是很常见的问题，因为到处都是页面不够长而上吊的footer，而。比如这里： 或者这里(￣◇￣;)： 这是随手找到，没别的意思。只是想"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">如何将页面的footer保持在页面的底部一</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-08-25 </span>
+        
+          <span class="more-meta"> 947 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    
+  </div>
+</div>
+    <div class="post-content">
+      <p>我敢说这一定是很常见的问题，因为到处都是页面不够长而上吊的footer，而。比如这里：</p>
+
+<p><img src="http://ncuey-crispelite.stor.sinaapp.com/QQ20140825-1.png" alt="image" /></p>
+
+<p>或者这里(￣◇￣;)：</p>
+
+<p><img src="http://ncuey-crispelite.stor.sinaapp.com/QQ20140826-1.png" alt="image" /></p>
+
+<p>这是随手找到，没别的意思。只是想说明一下这个问题的普遍程度。以前自己也曾遇到过，查阅一番之后解决了，但是日子长了记忆早已模糊。最近在重构项目页面时，重新遇到了这个问题，遂决定好好理一理。在网上查阅一番之后发现，解决方案还是挺多的。一个个慢慢来。</p>
+
+<p>第一次方法来自[《How to keep footers at the bottom of the page》]<a href="http://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page)，作者是">http://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page)，作者是</a> <a href="http://matthewjamestaylor.com/about">Matthew James Taylor的</a>。他的博客很有意思，几乎每一篇文章都有一个很有趣的banner，文章中还加着丰富的插图用以解释。</p>
+
+<p>这个方法不算复杂，只需要 HTML 和 CSS 就能实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">HTML：
+
+&lt;div id=&#34;wrapper&#34;&gt;
+   &lt;div id=&#34;header&#34;&gt;&lt;/div&gt;
+   &lt;div id=&#34;container&#34;&gt;&lt;/div&gt;
+   &lt;div id=&#34;footer&#34;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+CSS:
+
+html,body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+#wrapper {
+    min-height:100%;
+    position:relative;
+}
+#header {
+    background:#ff0;
+    padding:10px;
+}
+#container {
+    padding:10px;
+    padding-bottom:60px;   /* Height of the footer */
+}
+#footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60px;   /* Height of the footer */
+    background:#6cf;
+}</pre></td></tr></table>
+</div>
+</div>
+<p><a class="jsbin-embed" href="http://jsbin.com/ziqim/15/embed?html,css,output">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script></p>
+
+<p>在原文中，作者为了兼容 IE6 和 IE5.5（原文发布的时间是2007年），为 #wrapper 添加了 <code>height:100%</code> ，在这里我就不加上去了。</p>
+
+<p>上面的两串代码就能很好的将footer保持在页面的底部，页面的高度小于屏幕高度时，footer 会保持在屏幕的底部。原文demo请戳<a href="http://matthewjamestaylor.com/blog/bottom-footer-demo.htm">这里</a>
+稍微分析一下：为 html 和 body 定义 height 为1 00%，目的是为了在页面内容高度不够的时候，将页面撑开。CSS中 height 使用百分比定义时，参考的是父元素的高度，如果父元素没有定义高度，哪怕你设置个1 000%，高度也依旧是由内容决定。为 html 标签定义百分比高度时，它的参考值是浏览器窗口的高度，所以设置成100%时，html元素会铺满整个屏幕，不过没关系。只有在为 body 的父元素设置了高度之后，才能够为 body 设置百分比的高度。好的，这一步结束之后，设置wrapper的min-height为100%，这样即使wrapper中的内容高度不及浏览器的窗口高度或者说body的高度，wrapper的高度也会是100%，同时wrapper的高度也能随着内容的高度而变化，从body中溢出。因此，才能够做footer始终居于底部。</p>
+
+<p>这种方法简单明了，今天就先说这一种方法吧，好晚了该睡觉了⊙﹏⊙b汗。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2014-08-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">规范之路-CSS中的定位简介</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/">
+            <span class="next-text nav-default">规范之路-visual formatting model 概述</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

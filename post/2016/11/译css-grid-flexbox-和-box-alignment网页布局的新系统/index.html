@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[译]CSS Grid, Flexbox 和 Box Alignment:网页布局的新系统 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content=" 原文标题：CSS Grid, Flexbox And Box Alignment: Our New System For Web Layout
+原文链接：https://www.smashingmagazine.com/2016/11/css-grids-flexbox-and-box-alignment-our-new-system-for-web-layout/
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2016/11/%E8%AF%91css-grid-flexbox-%E5%92%8C-box-alignment%E7%BD%91%E9%A1%B5%E5%B8%83%E5%B1%80%E7%9A%84%E6%96%B0%E7%B3%BB%E7%BB%9F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="[译]CSS Grid, Flexbox 和 Box Alignment:网页布局的新系统" />
+<meta property="og:description" content="
+原文标题：CSS Grid, Flexbox And Box Alignment: Our New System For Web Layout
+原文链接：https://www.smashingmagazine.com/2016/11/css-grids-flexbox-and-box-alignment-our-new-system-for-web-layout/
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2016/11/%E8%AF%91css-grid-flexbox-%E5%92%8C-box-alignment%E7%BD%91%E9%A1%B5%E5%B8%83%E5%B1%80%E7%9A%84%E6%96%B0%E7%B3%BB%E7%BB%9F/" />
+<meta property="article:published_time" content="2016-11-11T22:50:35+00:00" />
+<meta property="article:modified_time" content="2016-11-11T22:50:35+00:00" />
+<meta itemprop="name" content="[译]CSS Grid, Flexbox 和 Box Alignment:网页布局的新系统">
+<meta itemprop="description" content="
+原文标题：CSS Grid, Flexbox And Box Alignment: Our New System For Web Layout
+原文链接：https://www.smashingmagazine.com/2016/11/css-grids-flexbox-and-box-alignment-our-new-system-for-web-layout/
+">
+
+
+<meta itemprop="datePublished" content="2016-11-11T22:50:35&#43;00:00" />
+<meta itemprop="dateModified" content="2016-11-11T22:50:35&#43;00:00" />
+<meta itemprop="wordCount" content="10136">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[译]CSS Grid, Flexbox 和 Box Alignment:网页布局的新系统"/>
+<meta name="twitter:description" content="
+原文标题：CSS Grid, Flexbox And Box Alignment: Our New System For Web Layout
+原文链接：https://www.smashingmagazine.com/2016/11/css-grids-flexbox-and-box-alignment-our-new-system-for-web-layout/
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[译]CSS Grid, Flexbox 和 Box Alignment:网页布局的新系统</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-11-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            </div>
+          <span class="more-meta"> 10136 words </span>
+          <span class="more-meta"> 21 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#a-note-on-browser-support-浏览器支持的一个注记">A Note On Browser Support 浏览器支持的一个注记</a></li>
+<li><a href="#new-values-for-display-display-的新值">New Values For Display  Display 的新值</a>
+<ul>
+<li><a href="#display-flex-link">DISPLAY: FLEX LINK</a></li>
+<li><a href="#display-grid-link">DISPLAY: GRID LINK</a></li>
+</ul></li>
+<li><a href="#box-alignment">Box Alignment</a>
+<ul>
+<li><a href="#equal-height-columns-等高列">EQUAL-HEIGHT COLUMNS 等高列</a></li>
+<li><a href="#alignment-in-flexbox-flexbox-中的对齐">ALIGNMENT IN FLEXBOX Flexbox 中的对齐</a></li>
+<li><a href="#alignment-in-grid-layout-网格布局中的对齐">ALIGNMENT IN GRID LAYOUT 网格布局中的对齐</a></li>
+</ul></li>
+<li><a href="#responsive-by-default-默认反应">Responsive By Default 默认反应</a>
+<ul>
+<li>
+<ul>
+<li><a href="#keeping-things-in-proportion-with-grid-layout">KEEPING THINGS IN PROPORTION WITH GRID LAYOUT</a></li>
+<li><a href="#a-separation-of-source-order-and-visual-display">A SEPARATION OF SOURCE ORDER AND VISUAL DISPLAY</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>原文标题：CSS Grid, Flexbox And Box Alignment: Our New System For Web Layout<br />
+原文链接：<a href="https://www.smashingmagazine.com/2016/11/css-grids-flexbox-and-box-alignment-our-new-system-for-web-layout/">https://www.smashingmagazine.com/2016/11/css-grids-flexbox-and-box-alignment-our-new-system-for-web-layout/</a></p>
+</blockquote>
+
+<p>Layout on the web is hard. The reason it is so hard is that the layout methods we’ve relied on ever since using CSS for layout became possible were not really designed for complex layout. While we were able to achieve quite a lot in a fixed-width world with hacks such as faux columns, these methods fell apart with responsive design. Thankfully, we have hope, in the form of flexbox — which many readers will already be using — CSS grid layout and the box alignment module.</p>
+
+<p><strong>在网页上布局是很费劲的。</strong>布局如此艰难的原因是因为，自从使用 CSS 进行布局成为可能之后，我们所依赖的那些布局方法并不是真正为复杂布局而设计的。尽管我们能够通过一些 hack 来实现很多固定宽度的世界，比如仿制的栏。但是这些方法在响应式的设计中要崩溃了。谢天谢地，我们还是有希望的。，CSS Grid, Flexbox 和 Box Alignment就是我们的希望。</p>
+
+<p>In this article, I’m going to explain how these fit together, and you’ll discover that by understanding flexbox you are very close to understanding much of grid layout.</p>
+
+<p>在这篇文章中，我将要阐明如何将这些组合在一起，同时你将会发现，理解了 flexbox 之后，更加明白网格布局。</p>
+
+<h2 id="a-note-on-browser-support-浏览器支持的一个注记">A Note On Browser Support 浏览器支持的一个注记</h2>
+
+<p>CSS grid layout is currently behind a flag or available in the developer and nightly builds of Firefox, Safari, Chrome and Opera. Everything you see here can be seen to be working if you use a developer or nightly browser or enable the flag in a mainstream browser that has flagged support. I am trying to keep an up-to-date list of support for grid layouts.</p>
+
+<p>CSS 网格布局目前在 Firefox 的开发者版本和 nightly 版，Safari，Chrome 和 Opera中支持，或者在一个标志之后（。。。。）。如果使用的是你开发者版本或者 nightly版的浏览器或者激活了支持标记的主流浏览器（比如Chrome），你在这所看到的一切都能生效。 我尽量保持一个最新的<a href="http://gridbyexample.com/browsers/"> list of support for grid layouts</a>。</p>
+
+<h2 id="new-values-for-display-display-的新值">New Values For Display  Display 的新值</h2>
+
+<p>Both grid and flexbox are new values for the display property. To make an element a flex container, we use display: flex; to make it a grid container, we use display: grid.</p>
+
+<p>grid 和 flexbox 都是 display 属性的新值。我们可以使用<code>display: flex</code> 将一个元素变成 flex 容器；可以使用<code>display: grid</code>将一个元素变成 grid 容器。</p>
+
+<p>As soon as we do so, the immediate children of our flex or grid container become flex or grid items. Those immediate children take on the initial values of flex or grid items.</p>
+
+<p>一旦我们这么做之后， flex 或者 grid 容器当前的子元素变成 flex 或者 grid 项。这些子元素拥有 flex 或者 grid 项的初始值。</p>
+
+<h3 id="display-flex-link">DISPLAY: FLEX LINK</h3>
+
+<p>In the first example, we have three elements in a wrapper element set to display: flex. That’s all we need to do to start using flexbox.</p>
+
+<p>在第一个例子中，在一个设置了<code>dispaly: flex</code>的包装元素中有三个子元素。这就是我们开始使用 flexbox 所需要做的。</p>
+
+<p>Unless we add the following properties with different values, the initial values for the flex container are:</p>
+
+<p>如果我们不添加下面这些不同值的属性，flex 容器的初始值是：</p>
+
+<ul>
+<li>flex-direction: row</li>
+<li>flex-wrap: no-wrap</li>
+<li>align-items: stretch</li>
+<li>justify-content: flex-start</li>
+</ul>
+
+<p>The initial values for our flex items are:</p>
+
+<p>flex 项的初始值是：</p>
+
+<ul>
+<li>flex-grow: 0</li>
+<li>flex-shrink: 1</li>
+<li>flex-basis: auto</li>
+</ul>
+
+<p>We’ll look at how these properties and values work later in this article. For now, all you need to do is set display: flex on a parent, and flexbox will begin to work.</p>
+
+<p>稍后在文章我们将看看这些属性值是如何工作的。目前，你所要做的是在父元素上设置<code>display: flex</code>，flexbox 将会开始生效。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="ZOpOqB" data-default-tab="css,result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox Defaults" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/ZOpOqB/">Flexbox Defaults</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<h3 id="display-grid-link">DISPLAY: GRID LINK</h3>
+
+<p>To lay out items on a grid, we use display: grid. In order that we can see the grid’s behavior, this example has five cards to lay out.</p>
+
+<p>为了在网格中布置项，我们使用<code>display: grid</code>。这个例子有五个卡片来布局，以便我们能够看到网格的行为。</p>
+
+<p>Adding display: grid won’t make a dramatic change; however, our child items are all now grid items. They have fallen into a single-column track grid, displaying one below the other, the grid creating implicit row tracks to hold each item.</p>
+
+<p>添加<code>display: flex</code>不会制造一个戏剧性的变化；然而，所有的子元素现在都是 grid 项。它们都在一个单列的通道网格中，一个接一个的往下排列，网格创建了一个隐式的行轨道保持它们。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="QEKGNm" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid Defaults" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/QEKGNm/">Grid Defaults</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>Once again, we have some default behavior in evidence. We haven’t positioned any of these grid items, but they are placing themselves onto our grid, one per cell of the grid. The initial values of the grid container are:</p>
+
+<p>再一次，很明显地看到，（布局）有一些默认的行为。我们没有摆放任何 grid 项，但它们都把自己放到我们的网格之中，每一个 grid 项占据一个网格单元。grid 容器的初始值是：</p>
+
+<ul>
+<li>grid-auto-flow: row</li>
+<li>grid-auto-rows: auto</li>
+<li>align-items: stretch</li>
+<li>justify-items: stretch</li>
+<li>grid-gap: 0</li>
+</ul>
+
+<p>These initial values mean that our grid items are placed one into each cell of the grid, working across the rows. Because we have a three-column track grid, after filling the grid cell of the third column, a new row is created for the rest of the items. This row is auto-sized, so will expand to fit the content. Items stretch in both directions, horizontal and vertical, filling the grid area.</p>
+
+<p>这些初始值表示的意思是：在每一行中，每一个 grid 项都被放在网格中的一个单元格中。因为我们有一个三栏的通道网格，所以在第三栏填满之后，剩下的 grid 项会创建新的一行。这个新行是大小是自适应的，所以将会拓展以适应内容。网格中的元素在水平和垂直两个方向上伸展填充网格区域。</p>
+
+<h2 id="box-alignment">Box Alignment</h2>
+
+<p>In both of these simple examples, we are already seeing values defined in the box alignment module in use. “Box Alignment Module Level 3” essentially takes all of the alignment and space distribution defined in flexbox and makes it available to other modules. So, if you already use flexbox, then you are already using box alignment.
+Let’s look at how box alignment works in flexbox and grid, and the problems that it helps us solve.</p>
+
+<p>在这些简单的例子中，我们已经使用了一些在 box alignment 模块中定义的值。“Box Alignment Module Level 3”基本上拥有所有 flexbox 中定义的的对齐和空白分配能力，并且让它能够在其他模块中使用。所以，如果你已经使用了 flexbox，那么你已经在使用 box alignment。让我们来看看 box alignment 是如何在 flexbox 和 grid 中工作的，和一些 box alignment 可以帮我们解决的难题。</p>
+
+<h3 id="equal-height-columns-等高列">EQUAL-HEIGHT COLUMNS 等高列</h3>
+
+<p>Something that was very easy to create with old-school table-based layouts, yet fiendishly difficult using positioning and floats, is equal-height columns. In the floated example below, our cards contain unequal amounts of content. We have no way of indicating to the other cards that they should visually take on the same height as the first card — they have no relationship to each other.</p>
+
+<p>有一种布局使用老式的表单布局来创建是非常简单的，但是使用定位和浮动确实极其困难，这就是等高列布局。在下面的浮动例子中，我们的卡片包含不相同的内容。我们无法告知其他的卡片在视觉上和第一个卡片保持高度一致——他们彼此之间没有关联。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="YWGrPy" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Floated Columns" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/YWGrPy/">Floated Columns</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>As soon as we set the display property to grid or flex on a parent, we give the children a relationship to each other. That relationship enables the box-alignment properties to work, making equal-height columns simple.</p>
+
+<p>一旦我们为父元素设置display属性为 <code>grid</code> 或者 <code>flex</code>，便给子元素彼此之间赋予了关联性。这种关联性使得box-alignment 属性能够生效，让登高栏的实现变得简单。</p>
+
+<p>In the flex example below, our items have unequal amounts of content. While the background on each lines up, it doesn’t sit behind the content as it would for floated elements. Because these items are displayed in a row, the property that controls this behavior is align-items. Creating equal-height columns requires that the value be stretch — the initial value for this property.</p>
+
+<p>在下面的 flex 例子中，flex 子项有不同数量的内容。当每一项都加上背景色时，背景色不像在浮动元素中一样在内容区域的后面。因为这些项都是在一行中显示。控制这个行为的属性是<code>align-items</code>。创建等高列需要将<code>align-items</code>的值设置成<code>stretch</code>——它的初始值。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="ZOpXEM" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox Equal Height Columns" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/ZOpXEM/">Flexbox Equal Height Columns</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>We see the same with grid layouts. Below is the simplest of grid layouts, two columns with a sidebar and main content. I’m using those fraction units again; the sidebar has 1 fraction of the available space, and the main content 3 fractions. The background color on the sidebar runs to the bottom of the content. Once again, the default value of <code>align-items</code> is <code>stretch</code>.</p>
+
+<p>在网格布局中我们可以看到相同的效果。下面是最简单的网格布局例子，两列，一列侧边栏，一列主要内容。我再次使用这些分数单位；侧边栏是可用空间中的1份，主体内容是可用空间中的3份。侧边栏的背景色跑到了内容的底部（对齐在底部）。再说一次，<code>align-items</code>的默认值是<code>stretch</code>。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="GqjMJj" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid Equal Height Columns" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/GqjMJj/">Grid Equal Height Columns</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<h3 id="alignment-in-flexbox-flexbox-中的对齐">ALIGNMENT IN FLEXBOX Flexbox 中的对齐</h3>
+
+<p>We’ve seen how the default value of <code>align-items</code> for both <code>grid</code> and <code>flexbox</code> is <code>stretch</code>.</p>
+
+<p>我们已经看到了 <code>align-items</code>在 flex 和 grid 中的默认值都是<code>stretch</code>。</p>
+
+<p>For flexbox, when we use <code>align-items</code>, we are aligning them inside the flex container, on the cross axis. The main axis is the one defined by the <code>flex-direction</code> property. In this first example, the main axis is the row; we are then stretching the items on the cross axis to the height of the flex container. The height of the flex container is, in this case, determined by the item with the most content.</p>
+
+<p>对于 flexbox，当我们使用<code>align-itmes</code>时，我们是将它们在 flex 容器中的十字轴上对齐。主轴由 <code>flex-direction</code>属性定义。在这个例子中，主轴是 row；然后我们十字轴上的项目延伸到容器的高度。在这种情况下，flex 容器的高度由 flex 项的最大高度决定。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/01-flex-row-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/01-flex-row-opt.png" /></p>
+
+<p>I could give the wrapper a height, and in this case the height of the flex container would be defined by that height.</p>
+
+<p>我可以给包装器添加一个高度，在这种情况下，这个高度将定义flex 容器的高度。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/02-flex-row-height-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/02-flex-row-height-opt.png" /></p>
+
+<p>We can use other values, instead of the default <code>stretch</code>:</p>
+
+<p>我们可以设置其他的值来取代默认的<code>stretch</code>:</p>
+
+<ul>
+<li><code>flex-start</code></li>
+<li><code>flex-end</code></li>
+<li><code>baseline</code></li>
+<li><code>stretch</code></li>
+</ul>
+
+<p>To control the alignment on the main axis, use the <code>justify-content</code>property. The default value is <code>flex-start</code>, which is why our items are all aligned against the left margin. We could instead use any of the following values:</p>
+
+<p>要控制在主轴上的对齐，使用 <code>justify-content</code>。默认值是<code>flex-start</code>，这就是为什么 flex 项全部对齐做外边距的原因。我们可以使用下面的任意值来替代：</p>
+
+<ul>
+<li><code>flex-start</code></li>
+<li><code>flex-end</code></li>
+<li><code>center</code></li>
+<li><code>space-around</code></li>
+<li><code>space-between</code></li>
+</ul>
+
+<p>The <code>space-between</code> and <code>space-around</code> keywords are especially interesting. With <code>space-between</code>, the space left over after the flex items have been displayed is distributed evenly between the items.</p>
+
+<p><code>space-between</code>和<code>space-around</code>关键字尤其有趣。使用<code>space-between</code>，flex 容器中剩余的空白位置会平均分布在 flex 项之间。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/03-flex-space-between-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/03-flex-space-between-opt.png" /></p>
+
+<p>Using <code>space-around</code> is similar except that the space left over is distributed on both sides of the items. You get a half-sized gap on each end.</p>
+
+<p>使用<code>space-around</code>，flex 容器中剩余的空白位置会平均分布在 flex 项两边。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/04-flex-space-around-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/04-flex-space-around-opt.png" /></p>
+
+<p>You can see these properties and values in the CodePen below.</p>
+
+<p>你可以在下面的 CodePen中看到这些属性和值。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="PzGJzm" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox Alignment flex-direction: row" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/PzGJzm/">Flexbox Alignment flex-direction: row</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>We can display flex items as a column rather than a row. If we change the value of <code>flex-direction</code> to <code>column</code>, then the main axis becomes the column, and the cross axis is along the row — <code>align-items</code> is still <code>stretch</code> by default, and so stretches the items across row-wise.</p>
+
+<p>我们可以将 flex 项按照列摆放而不是行。如果我们将<code>flex-direction</code>的值设置成<code>column</code>，然后主轴变成column，横轴沿着 row——<code>align-items</code>依旧是默认值<code>stretch</code>，所以在每一行上拓展 flex 项。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/05-flex-column-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/05-flex-column-opt.png" /></p>
+
+<p>If instead we want them to align to the start of the flex container, we use <code>flex-start</code>.</p>
+
+<p>如果我们想要 flex 项在 flex容器的开始位置对齐，我们使用<code>flex-start</code>。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/06-flex-column-start-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/06-flex-column-start-opt.png" /></p>
+
+<p>We can use <code>justify-items</code>, too, including <code>space-between</code> and <code>space-around</code>. The container needs to have enough height for you to see each in action, though!</p>
+
+<p>我们也可以使用<code>justify-items</code>，包括<code>space-between</code>和<code>space-around</code>。但是要看到这些效果，容器需要足够的高度！</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/07-flex-column-space-between-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/07-flex-column-space-between-opt.png" /></p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="JKRrvY" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox Alignment flex-direction: column" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/JKRrvY/">Flexbox Alignment flex-direction: column</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<h3 id="alignment-in-grid-layout-网格布局中的对齐">ALIGNMENT IN GRID LAYOUT 网格布局中的对齐</h3>
+
+<p>In a grid layout, the behavior is similar, except that we are aligning items within the defined grid area. In flexbox, we talk about the main and cross axis; with grids, we use the terms “block” or “column axis” to describe the axis defining our columns, and “inline” or “row axis” to describe the axis defining our rows, as <a href="https://www.w3.org/TR/css-grid-1/#grid-concepts">defined in the specification</a>.</p>
+
+<p>在网格布局中，对齐的行为是相似的，除了在定义的网格区域对去 grid 项。在 flexbox 中，我们讨论的是主轴和横轴；在网格中，我们用“block”或者“column axis（列轴）”的说法来描述列中定义的轴，用“inline”和“row axis（横轴）”的说法来描述行中定义的轴，比如<a href="https://www.w3.org/TR/css-grid-1/#grid-concepts">defined in the specification</a></p>
+
+<p>We can align content inside a grid area using the properties and values described in the box alignment specification.</p>
+
+<p>我们可以使用 box alignment 中定义的属性和值来对齐一个网格区域中的内容。</p>
+
+<p>A grid area is one or more grid cells. In the example below, we have a four-column and four-row track grid. The tracks are separated by a grid gap of 10 pixels, and I have created three grid areas using line-based positioning. We’ll look at this positioning properly later in this guide, but the value before the <code>/</code> is the line that the content starts on, and the value after where it ends.</p>
+
+<p>一个网格区域可以是一个或者更多网络单元格。在下面的例子中，我们有四行四列的通道网格。这些轨道之间有一个10像素的分割间隙，同时以线为基础创建了是三个网格区域，并放在合适的位置。稍后我们会在这个指南中看看这个正确的位置。<code>/</code>前面的数字表示的是内容在这一行的起点，后面的数字表示的是内容在何处结束（译者注：千万别当做五分之一来看待，这里的意思是，内容从第一列开始，到第五列结束）。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="EygpMv" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid Alignment: align-items and justify-items" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/EygpMv/">Grid Alignment: align-items and justify-items</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>The dotted border is on a background image, to help us see the defined areas. So, in the first example, each area uses the defaults of <code>stretch</code> for both <code>align-items</code> on the column axis and <code>justify-items</code>on the row axis. This means that the content stretches to completely fill the defined area.</p>
+
+<p>虚线边框是背景图中的，帮助我们看到定义的区域。那么，在第一个例子中，每个区域在列轴上使用<code>stretch</code>作为<code>align-items</code>的默认值，在行轴上使用<code>justify-items</code>。这意味着内容会延伸到完全填充定义的区域。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/08-grid-default-align-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/08-grid-default-align-opt.png" /></p>
+
+<p>In the second example, I have changed the value of <code>align-items</code> on the grid container to <code>center</code>. We can also change this value on an individual grid item using the <code>align-self</code> property. In this case, I have set all items to <code>center</code>, but item two to <code>stretch</code>.</p>
+
+<p>在第二个例子中，我将 grid 容器的<code>align-items</code>的值修改成<code>center</code>。我们也可以修改一个单独的 gird 项上的<code>align-self</code>属性的值。此时，我把所有的项都设置成<code>center</code>，但是第二个项设置成 <code>stretch</code>。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/09-grid-align-items-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/09-grid-align-items-opt.png" /></p>
+
+<p>In the third example, I have changed the value of <code>justify-items</code> and <code>justify-self</code> again, setting these to <code>center</code> and <code>stretch</code>.</p>
+
+<p>在第三个例子中，我再次修改了<code>justify-items</code>和<code>justify-self</code>的值，将这些设置成<code>center</code>和<code>stretch</code>。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/10-grid-justify-items-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/10-grid-justify-items-opt.png" /></p>
+
+<p>In all of the examples above, I have aligned the content of the grid areas, the areas defined by the start and end grid lines.</p>
+
+<p>上面的所有例子，我将网格区域中的内容对齐，这些网格区域由起点网格线和终点网格线定义。</p>
+
+<p>We can also align the entire grid inside the container, if our grid tracks are sized so that they take up less space than the container that has been set to <code>display: grid</code>. In this case, we use the <code>align-content</code>and <code>justify-content</code> properties, as with flexbox.</p>
+
+<p>我们也可以将容器中的网格整个对齐，如果我们的网格轨道是有固定大小的，那么它们将会比设置了<code>display: grid</code>的容器占据更小的空间。此时，我们使用 <code>align-content</code> 和 <code>justify-content</code>，就像 flexbox。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="aZBozX" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid Alignment: aligning the grid" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/aZBozX/">Grid Alignment: aligning the grid</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>In the first example, we see the default alignment of a grid where the columns and rows have been defined in absolute units and take up less space than the fixed-sized wrapper allows for. The default values for both are <code>start</code>.</p>
+
+<p>在第一个例子中，我们可以看到网格的默认布局，行和列都被定义在绝对大小单位中，占据的空间比固定大小的包装器允许的空间更小。<code>align-content</code>和<code>justify-content</code>的默认值都是<code>start</code>。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/11-grid-align-start-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/11-grid-align-start-opt.png" /></p>
+
+<p>To move the tracks to the bottom right, we change the values to <code>end</code>.</p>
+
+<p>为了将轨道移动到右下角，我们可以把值变成<code>end</code>。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/12-grid-align-end-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/12-grid-align-end-opt.png" /></p>
+
+<p>Just as with flexbox, we can use <code>space-around</code> and <code>space-between</code>. This might cause some behavior that we don’t want as the grid gaps essentially become wider. However, as you can see from the image below and in the third example in the CodePen, we get the same space between or around the tracks as we see with flexbox.</p>
+
+<p>就像 flexbox 一样，我们可以使用<code>space-around</code>和<code>sapce-between</code>。这可能会引发一些我们不希望看到的行为，我们不想网格间隙变得更宽。然而，正如下图和 CodePen 中的第三个例子中你看到的一样，在轨道之间或者周围有相同的空间，就像在 flexbox 中一样。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/13-grid-align-space-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/13-grid-align-space-opt.png" /></p>
+
+<p>The fixed-sized tracks will gain additional space if they span more than one track. Element two and four in our example are wider and three is taller because they are given the extra space assigned to the gap they span over.</p>
+
+<p>如果固定大小的轨道跨度超过一个轨道的宽度，它将会获得额外的空间。在我们例子中的例子二和四更宽，例子三更高，因为他们有额外的空间分配给他们跨过的间隙。</p>
+
+<p>We can completely center the grid by setting both values to <code>center</code>, as shown in the last example.</p>
+
+<p>我们可以通过将两个值设置成<code>center</code>来完全地将网格居中，就像最后一个例子中展示的一样。</p>
+
+<p><img src="https://www.smashingmagazine.com/wp-content/uploads/2016/06/14-grid-align-center-opt.png" alt="https://www.smashingmagazine.com/wp-content/uploads/2016/06/14-grid-align-center-opt.png" /></p>
+
+<p>We have very nice alignment abilities in both flexbox and grid, and they work in a generally consistent way. We can align individual items and groups of items in a way that is responsive and prevents overlap — something the web has lacked until now!</p>
+
+<p>在 flexbox 和 grid 中我们有非常完美的对齐能力，同时它们以一种普遍一直的方式工作。我们可以对齐单独的项也可以对齐一组项，这反应迅速，同时放置部分重叠——直到现在，web 一直都缺乏的东西。</p>
+
+<h2 id="responsive-by-default-默认反应">Responsive By Default 默认反应</h2>
+
+<p>In the last section, we looked at alignment. The box-alignment properties as used in grid and flexbox layouts are one area where we see how these specifications have emerged in a world where responsive design is just how things are done. Values such as <code>space-between</code>, <code>space-around</code> and <code>stretch</code> allow for responsiveness, distributing content equally among or between items.</p>
+
+<p>在最后一节中，我们看看 alignment。在 flexbox 和网格布局中使用的box-alignment 属性作用在一个区域，在这个区域我们看到了这些参数是如何形成一个世界的，而这个世界就是响应式设计需要做的。像<code>space-betweem</code>，<code>space-around</code>和<code>stretch</code>这些值都允许响应，在项之间或者周围平均的分配内容。</p>
+
+<p>There is more, however. Responsive design is often about maintaining proportion. When we calculate columns for a responsive design using the <code>target ÷ context</code> approach introduced in Ethan Marcotte’s original <a href="http://alistapart.com/article/fluidgrids">article on fluid grids</a>, we maintain the proportions of the original absolute-width design. Flexbox and grid layouts give us far simpler ways to deal with proportions in our designs.</p>
+
+<p>但是，还有很多。响应式设计经常需要维护比例。当我们使用<a href="http://alistapart.com/article/fluidgrids">Ethan Marcotte&rsquo;s 的文章</a>中介绍的<code>target除以 context</code>方法为响应式设计计算列时，我们维持原来绝对宽度设计的比例。Flexbox 和网格布局给了我们很简单的方法来处理设计中 的比例。</p>
+
+<p>Flexbox gives us a <strong>content-out</strong> approach to flexibility. We see this when we use a keyword value of <code>space-between</code> to space our items evenly. First, the amount of space taken up by our items is calculated, and then the remaining space in the container is divided up and used evenly to space out the items. We can get more control of content distribution by way of properties that we apply to the flex items themselves:</p>
+
+<p>Flexbox给了我们一种从内容外部入手实现弹性的方法。当我们使用<code>space-between</code>来平均分配空间时，我们可以看到这种方式。首先，一些空间呗计算过之后的项占据，然后容器中剩余的空间被分割开，平均地分配在项外面。我们可以通过在 flex 项自身上应用属性来得到更多的内容分配的控制权。</p>
+
+<ul>
+<li><code>flex-grow</code></li>
+<li><code>flex-shrink</code></li>
+<li><code>flex-basis</code></li>
+</ul>
+
+<p>These three properties are more usually described by the shorthand <code>flex</code> property. If we add <code>flex: 1 1 300px</code> to an item, we are stating that <code>flex-grow</code> should be <code>1</code> so that items can grow, <code>flex-shrink</code>should be <code>1</code> so that items can shrink, and the <code>flex-basis</code> should be 300 pixels. Applying this to our cards layout gives us the example below.</p>
+
+<p>这些属性通常更多地是用简单的 flex 属性来描述。如果我们对一个项添加<code>flex: 1 1 300px</code>，我们来陈述一遍，<code>flex-grow</code>是1，项可以扩大，<code>flex-shrink</code>是1，项可以收缩，并且<code>flex-basis</code>是300像素。把这个应用到我们的卡片不居中，可以得到下面的这个例子。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="gMLrEG" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox: flex properties" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/gMLrEG/">Flexbox: flex properties</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>Our <code>flex-basis</code> here is 300 pixels, and we have three cards in a row. If the flex container is wider than 900 pixels, then the remaining space is divided into three and distributed between the items equally. This is because we have set <code>flex-grow</code> to <code>1</code> so that our items can grow from the <code>flex-basis</code>. We have also set <code>flex-shrink</code> to <code>1</code>, which means that, where we don’t have space for three 300-pixel columns, space will be removed equally.</p>
+
+<p><code>flex-basis</code>在这里是300像素，我们三个卡片是在一行的。如果 flex 容器比900像素宽，那么剩下的空间会平均分配三个卡片之。这是因为我们设置了<code>flex-grow</code>为<code>1</code>，所以项会在<code>flex-basis</code>的基础上扩大。我们也设置了<code>flex-shrink</code>为<code>1</code>，这一位置如果三个300像素的列之间没有足够的空间，项之间的空间会被移除。</p>
+
+<p>If we want these items to grow in different proportions, then we can change the <code>flex-grow</code> value on one or more items. If we would like the first item to get three times the available space distributed to it, we would set <code>flex-grow</code> to <code>3</code>.</p>
+
+<p>如果我们想这些项以不同的比例扩大，我们可以修改一个或者更多项的<code>flex-grow</code>，如果我们想第一个项在空间足够时变成三倍，我们将设置 <code>flex-grow</code>为<code>3</code>。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="NrbNmz" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox: flex properties" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/NrbNmz/">Flexbox: flex properties</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>The available space is distributed *after* the amount needed for <code>flex-basis</code> has been taken into account. This is why our first item is not three times the size of our other items, but instead gets a share of three parts of the remaining space. You will see a bigger change by setting the value for <code>flex-basis</code> to <code>0</code>, in which case we wouldn’t have a starting value to remove from the overall container. Then, the entire width of the container could be distributed in proportion to our items.</p>
+
+<p>可用空间是在<code>flex-basis</code>被考虑需要的空间大小之后分配的。这就是为什么我们的第一项不是扩大原来的三倍，而是三个卡片的剩余空间。将 <code>flex-basis</code>设置成<code>0</code>你将看到一个更大的变化。在这种情况下，我们没有一个从整个容器中移除的初始值。然后整个容器的宽度都将按比例分配给各项。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="jrVqoQ" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox: flex properties" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/jrVqoQ/">Flexbox: flex properties</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>A very useful tool to help you understand these values is <a href="https://madebymike.com.au/demos/flexbox-tester/">Flexbox Tester</a>. Pop the different values into the tester, and it calculates the actual sizes at which your items will end up, and explains why they end up at that size.</p>
+
+<p>Flexbox Tester 是一个帮助你理解这些值的非常好用的工具。</p>
+
+<p>If you use <code>auto</code> as your <code>flex-basis</code> value, it will use any size set on the flex item as the <code>flex-basis</code> value. If there is no size, then it defaults to be the same as the value of <code>content</code>, which is the content’s width. Using <code>auto</code> is, therefore, very useful for reusable components that might need to have a set size on an item. You can use <code>auto</code> and be sure that if the item needs to be around a size defined on it, flexbox will respect it.</p>
+
+<p>如果你使用<code>auto</code>作为<code>flex-basis</code>的值，这将会使用任何大小来设置 flex 项，就像<code>flex-basis</code>的值。如果没有大小，那么默认值是内容的宽度。对于那些没有定义大小的可复用组件，使用<code>auto</code>非常有用的。你可以使用<code>auto</code>来确保项的大小是否和定义的差不多。</p>
+
+<p>In the next example, I have set the <code>flex-basis</code> on all cards to <code>auto</code>. I then gave the first card a width of 350 pixels. So, the <code>flex-basis</code> of that first card is now 350 pixels, which is used to work out how to distribute space. The other two cards have a <code>flex-basis</code> based on their content’s width.</p>
+
+<p>在下一个例子中，我把所有的卡片的<code>flex-basis</code>设置成<code>auto</code>。然后我给第一个卡片设置宽度为350像素。那么第一个卡片的<code>flex-basis</code>现在是350像素，用来解决如何分配空间。其他两个卡片的<code>flex-basis</code>基于他们的内容的宽度。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="mEOPZM" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox: flex properties" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/mEOPZM/">Flexbox: flex properties</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>If we go back to our original <code>flex: 1 1 300px</code>, add more items to our example and set <code>flex-wrap: wrap</code> on the container, the items will wrap in order to maintain as near as possible the <code>flex-basis</code> value. If we have five images and three fit onto one row, then the next two will wrap onto a new row. As the items are allowed to grow, they both grow equally, and so we get two equal-sized items on the bottom row and three in the row above.</p>
+
+<p>如果我们回到<code>flex: 1 1 300px</code>，在我们的例子中添加更多项，并且在容器上设置<code>flex-wrap: wrap</code>，这些项为了尽可能地维持 <code>flex-basis</code>的值而换行。如果我们有五个项，三个占据一行，那么接下来的两个将会换行到行的一行中。因为这些项都是允许扩大的，所以他们也会平均地扩大。所以在底部一行我们会有两个相同大小的项，上面一行有三个。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="QEGNeZ" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox: wrapping" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/QEGNeZ/">Flexbox: wrapping</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>The question then asked is often, “How can I get the items on the bottom row to line up with the ones on the top, leaving a gap at the end?” The answer is that you don’t, not with flexbox. For that kind of behavior you need a grid layout.</p>
+
+<p>那么问题来了，“我怎么做才能让最后一行像顶部一样排列，在末尾留下空隙？”这个回答是，你别，别用 flexbox。对于这种行为，你需要网格布局（译者注：其实可以在后面加上n个看不见不占据空间的卡片，n为每行的卡片个数）。</p>
+
+<h4 id="keeping-things-in-proportion-with-grid-layout">KEEPING THINGS IN PROPORTION WITH GRID LAYOUT</h4>
+
+<p>Grid layouts, as we have already seen, have a concept of creating column and row <strong>tracks</strong> into which items can be positioned. When we create a flexible grid layout, we set the proportions when defining the tracks on the grid container — rather than on the items, as with flexbox. We encountered the <code>fr</code> unit when we created our grids earlier. This unit works in a similar way to <code>flex-grow</code> when you have a <code>flex-basis</code>of <code>0</code>. It assigns a fraction of the available space in the grid container.</p>
+
+<p>网格布局，正如我们所见，有这个概念：创建列和行轨道，项可以在里面定位。当我们创建一个弹性的网格布局时，我们在 grid 容器中定义轨道时设置比例——而不是在项上，就像 flexbox 一样。在我们之前创建网格时，遇到了<code>fr</code>单位，这个单位以和 <code>flex-grow</code>相似的方式工作，就像 <code>flex-basis: 0</code>。它分配grid 容器中可用空间的一部分。</p>
+
+<p>In this code example, the first column track has been given <code>2fr</code>, the other two <code>1fr</code>. So, we divide the space into four and assign two parts to the first track and one part each to the remaining two.</p>
+
+<p>在这个例子中，第一列轨道分配了<code>2fr</code>，其他两个<code>1fr</code>。所以，我们将空间分成四份，两份分配第一列轨道，其他的轨道每个分配一份。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="xOROVO" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Simple grid show fraction units" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/xOROVO/">Simple grid show fraction units</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>Mixing absolute units and <code>fr</code> units is valid. In this next example, we have a <code>2fr</code> track, a <code>1fr</code> track and a 300-pixel track. First, the absolute width is taken away, and then the remaining space is divided into three and assigned three parts to track 1 and one part to track 2.</p>
+
+<p>混合使用绝对单位和 <code>fr</code>是有效的。在接下来的例子中，我们有一个<code>2fr</code>的轨道，一个<code>1fr</code>的轨道和一个300像素的轨道。首先，绝对宽度被占据，然后剩下的空间分成三份，两份给轨道1，一份给轨道2。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="rLWLLa" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid: Mixing absolute and  fraction units" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/rLWLLa/">Grid: Mixing absolute and  fraction units</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>What you can also see from this example is that our items fit into the defined tracks — they don’t distribute across the row, as they do in the flexbox example. This is because, with grid layouts, we are creating a two-dimensional layout, then putting items into it. With flexbox, we get our content and work out how much will fit in a single dimension in a row or column, treating additional rows or columns as entirely new flex containers.</p>
+
+<p>在这个例子中你还可以看到，我们的项刚好放入定义的轨道中——他们没有跨行分配，就像在 flexbox 的例子一样。这是因为，使用 grid 布局是，我们创建一个二维布局，然后将项放在里面。使用 flexbox 时，我们解决了在一维空间中的行和列中内容如何适应，对待额外的行或者列就像是一个完整的新的 flex 容器。</p>
+
+<p>What would be nice, however, is to still have a way to create <strong>as many columns of a certain size as will fit into the container</strong>. We can do this with <code>grid</code> and the <code>repeat</code> syntax.</p>
+
+<p>这很 nice，然而依然有方法来创建很多确定大小的列填满容器。我们可以使用 <code>grid</code>和<code>repeat</code>语法来做这个。</p>
+
+<p>In the next example, I will use the <code>repeat</code> syntax to create as many 200-pixel columns as will fit in our container. I am using the <code>repeat</code>syntax for the track listing, with a keyword value of <code>auto-fill</code> and then the size that I want the repeated tracks to be.</p>
+
+<p>在下面例子中，我将使用<code>repeat</code>语法来创建很多200像素的列来填入我们的容器。</p>
+
+<p>(At the time of writing, this was not implemented in Chrome, but works in Firefox Developer Edition.)</p>
+
+<p>在写文章的时候 Chrome 不支持，但是在 Firefx 的开发者版本中有效。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="Pzbzze" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid: As many 200 pixel tracks as will fit" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/Pzbzze/">Grid: As many 200 pixel tracks as will fit</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>We can go a step further than that and combine fraction units and an absolute width to tell the grid to create as many 200-pixel tracks as will fit in the container and to distribute the remainder equally.</p>
+
+<p>我们可以更远的一步，结合fr 单位和绝对宽度来告诉网格创建很多200像素的轨道填充容器同时平均分配剩下的空间。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="EyNyNK" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid: As many 200 pixel tracks as will fit, distribute remain space evenly" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/EyNyNK/">Grid: As many 200 pixel tracks as will fit, distribute remain space evenly</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>In this way, we get the benefits of a two-dimensional layout but still have flexible quantities of tracks — all without using any media queries. What we also see here is the grid and flexbox specifications diverging. Where flexbox ends with distributing items in one dimension, grid is just getting started.</p>
+
+<p>在这种方式下，我们既得到了二维布局的好处同时依旧拥有弹性的轨道——所有的这些都没有使用任何的媒体查询。同时我们还看到grid he flexbox 规格的区别。flexbox 在一维上以分配项目而结束，grid 则是刚刚开始。</p>
+
+<h4 id="a-separation-of-source-order-and-visual-display">A SEPARATION OF SOURCE ORDER AND VISUAL DISPLAY</h4>
+
+<p>With flexbox, we can’t do a lot in terms of positioning our flex items. We can choose the direction in which they flow, by setting <code>flex-direction</code>to <code>row</code>, <code>row-reverse</code> or <code>column</code>, <code>column-reverse</code>, and we can set an order, which controls the visual order in which the items display.</p>
+
+<p>在 flexbox 在 flex项的定位上不能做太多的声明。我们可以通过设置<code>flex-direction</code>成<code>row</code>，<code>row-reverse</code>或者<code>column</code>，<code>column-reverse</code>，并且我们可以设置顺序，控制他们在视觉上的呈现顺序。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="YWpWVE" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Flexbox: order" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/YWpWVE/">Flexbox: order</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>With grid layouts, we get to properly position child items onto the grid we have defined. In most of the examples above, we have been relying on grid auto-placement, the rules that define how items we have not positioned are laid out. In the example below, I am using line-based positioning to position the items on the grid.</p>
+
+<p>在网格布局中，我们实现了网格中子项的正确定位。在上面大多数的例子中，我们依赖网格的自动布局，这个规则是如何定义我们没有定位的项的我们并没有展开。在下面的例子中，我使用基于行的定位来定位网格中的项。</p>
+
+<p>The <code>grid-column</code> and <code>grid-row</code> properties are a shorthand for <code>grid-column-start</code>, <code>grid-row-start</code>, <code>grid-column-end</code> and <code>grid-row-end</code>. The value before the <code>/</code> is the line that the content starts on, while the value after is the line it ends on.</p>
+
+<p><code>grid-colum</code> 和 <code>grid-row</code> 属性是 <code>grid-column-start</code>，<code>grid-row-start</code>，<code>grid-column-end</code> 和 <code>grid-row-end</code> 的简写形式。<code>/</code>前面的值是线中内容开始的地方，后面的值是线结束的地方。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="rLWLwO" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid: line-based positioning" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/rLWLwO/">Grid: line-based positioning</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>You can also name your lines. This happens when you create your grid on the grid container. Name the lines in brackets, and then position the items as before but using the names instead of the line index.</p>
+
+<p>你也可以命名你的线。当你在 gird 容器中创建你的网格时会发生。在方括号中给线命名，然后想之前一样定位项，但是使用名字而不是线的索引。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="aZBZEB" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid: line-based positioning, named lines" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/aZBZEB/">Grid: line-based positioning, named lines</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+
+<p>You can have multiple lines with the same name, and then target them by line name and index.</p>
+
+<p>你可以有很多重名的线，然后通过线的名字和索引指向它们。</p>
+
+<p>You can use a span keyword, spanning a number of lines or, for example, to the third line named col. This type of positioning is useful for creating components that sit in various places in the layout. In the example below, I want some elements to span six column tracks and others to span three. I am using auto-placement to lay out the items, but when the grid encounters an item with a class of wide, the start value will be auto and the end value will be span 2; so, it will start on the line it would normally start on based on the auto-placement rules, but span two lines.</p>
+
+<p>你可以使用一个 <code>span</code> 关键字，来跨过一定数量的线，比如，第三条线名字叫做 col，这种类型的定位用来创建在布局中不同地方的组件是十分有用的。在下面的例子中，我希望一些元素横跨六列轨道其他的元素横跨三列。我使用自动布局来放置项，但是当网格遇到一个带有 <code>wide</code> 类的项时，开始的值将会变成自 <code>auto</code>，并且结束值将会是 <code>span2</code>。所以它会基于自动布局从线的起点开始，但是横跨两条线。</p>
+
+<p><p data-height="265" data-theme-id="light" data-slug-hash="LZbZdj" data-default-tab="result" data-user="rachelandrew" data-embed-version="2" data-pen-title="Grid: multiple lines with the same name" class="codepen">See the Pen <a href="http://codepen.io/rachelandrew/pen/LZbZdj/">Grid: multiple lines with the same name</a> by rachelandrew (<a href="http://codepen.io/rachelandrew">@rachelandrew</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2016-11-11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2016/12/%E4%BD%BF%E7%94%A8firebase%E6%9E%84%E5%BB%BA%E4%BA%91%E7%AB%AF%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%E5%92%8C%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">使用Firebase构建云端应用:创建项目和用户管理</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2016/10/%E4%BD%BF%E7%94%A8-react-router-%E5%88%9B%E5%BB%BA%E5%8D%95%E9%A1%B5%E5%BA%94%E7%94%A8/">
+            <span class="next-text nav-default">使用 React-Router 创建单页应用</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

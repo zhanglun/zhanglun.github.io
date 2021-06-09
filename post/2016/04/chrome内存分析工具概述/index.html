@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Chrome内存分析工具概述 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content=" 原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them 原文链接：https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2016/04/chrome%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E6%A6%82%E8%BF%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Chrome内存分析工具概述" />
+<meta property="og:description" content="
+原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
+原文链接：https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2016/04/chrome%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E6%A6%82%E8%BF%B0/" />
+<meta property="article:published_time" content="2016-04-10T18:00:18+00:00" />
+<meta property="article:modified_time" content="2016-04-10T18:00:18+00:00" />
+<meta itemprop="name" content="Chrome内存分析工具概述">
+<meta itemprop="description" content="
+原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
+原文链接：https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/
+">
+
+
+<meta itemprop="datePublished" content="2016-04-10T18:00:18&#43;00:00" />
+<meta itemprop="dateModified" content="2016-04-10T18:00:18&#43;00:00" />
+<meta itemprop="wordCount" content="2475">
+
+
+
+<meta itemprop="keywords" content="译文,JavaScript," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Chrome内存分析工具概述"/>
+<meta name="twitter:description" content="
+原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
+原文链接：https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Chrome内存分析工具概述</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-04-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            </div>
+          <span class="more-meta"> 2475 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#timeline-面板">Timeline 面板</a></li>
+<li><a href="#profiles-view-性能视图">Profiles view 性能视图</a></li>
+<li><a href="#example-finding-leaks-using-chrome">Example: Finding Leaks Using Chrome</a>
+<ul>
+<li><a href="#find-out-if-memory-is-periodically-increasing">Find out if memory is periodically increasing</a></li>
+<li><a href="#get-two-snapshots">Get two snapshots</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
+原文链接：<a href="https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/">https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/</a></p>
+</blockquote>
+
+<blockquote>
+<p>紧接着上一篇文章，沿着有关 JavaScript 内存泄漏的话题，接着来讲解 Chrome 开发者工具关于内存分析的使用。</p>
+</blockquote>
+
+<p>Chrome provides a nice set of tools to profile memory usage of JavaScript code. There two essential views related to memory: the timeline view and the profiles view.</p>
+
+<p>Chrome 提供了一系列优秀的工具来分析 JavaScript 代码中内存的使用。有两个和内存相关的重要面板：timeline 和 profile。</p>
+
+<h3 id="timeline-面板">Timeline 面板</h3>
+
+<p><img src="http://7xnrrd.com1.z0.glb.clouddn.com/timeline.png" alt="http://7xnrrd.com1.z0.glb.clouddn.com/timeline.png" /></p>
+
+<p>The timeline view is essential in discovering unusual memory patterns in our code. In case we are looking for big leaks, periodic jumps that do not shrink as much as they grew after a collection are a red flag. In this screenshot we can see what a steady growth of leaked objects can look like. Even after the big collection at the end, the total amount of memory used is higher than at the beginning. Node counts are also higher. These are all signs of leaked DOM nodes somewhere in the code.</p>
+
+<p>timeline面板时发现代码中不寻常内存模式必不可少的工具。假设我们正在寻找严重泄漏，红色标记的周期性猛涨不会随着他们的增长而收缩。在这个截图中我们可以看到泄露对象稳定增长是什么样子的。即使在最后的一次大回收之后，整个使用的内存量也比刚开始的时候高。节点的数量也更高。这些都标志着在代码的某处存在泄露的DOM节点。</p>
+
+<h3 id="profiles-view-性能视图">Profiles view 性能视图</h3>
+
+<p><img src="http://7xnrrd.com1.z0.glb.clouddn.com/profiles.png" alt="http://7xnrrd.com1.z0.glb.clouddn.com/profiles.png" /></p>
+
+<p>This is the view you will spend most of the time looking at. The profiles view allows you to get a snapshot and compare snapshots of the memory use of your JavaScript code. It also allows you to record allocations along time. In every result view different types of lists are available, but the most relevant ones for our task are the summary list and the comparison list.</p>
+
+<p>这就是那个将花费你大部分时间的视图。它允许你获得一个快照，并且可以比较那些你的js代码内存使用情况的快照。 还可以随着时间记录内存的分配。在每一个结果视图中，可以获得不同类型的列表，但是对我们的任务来说最有用的几个是<code>summary list</code>和 <code>comparison list</code></p>
+
+<p>The summary view gives us an overview of the different types of objects allocated and their aggregated size: shallow size (the sum of all objects of a specific type) and retained size (the shallow size plus the size of other objects retained due to this object). It also gives us a notion of how far an object is in relation to its GC root (the distance).</p>
+
+<p>summary视图向我们呈现了不同类型对象的分配和他们合计大小的概览：shallow size（所有对象中特殊类型的总和）和retained size（shadllow size加上retained size就是这个对象），这也给了我们一个概念：一个对象离GC的root有多远（距离）。</p>
+
+<p>The comparison list gives us the same information but allows us to compare different snapshots. This is specially useful to find leaks.</p>
+
+<p>comparison list 呈现相同的内容但是允许我们比较不同的快照。对于寻找内存泄漏来说这特别又有。</p>
+
+<h3 id="example-finding-leaks-using-chrome">Example: Finding Leaks Using Chrome</h3>
+
+<p>本质上来说有两种类型的内存泄漏：一种是周期性地增加内存的使用，另一种是只发生一次，不会进一步增加内存的使用。很明显，当内存泄漏周期性增长时是很容易发现的。这也是最麻烦的一个地方：如果内存随着时间增加，这种类型的泄漏最终将导致浏览器变得缓慢或者停止执行脚本。非周期性增长的内存泄漏在它们足够大以至于在所有的分配中很明显时很容易被发现。通常来说这都不是问题，所以他们经常被忽视。</p>
+
+<p>For our example we will use one of the examples in Chrome&rsquo;s docs. The full code is pasted below:</p>
+
+<p>在我们的例子中。我们将使用 <a href="https://developer.chrome.com/devtools/docs/demos/memory/example1">Chrome 文档中的一个例子</a>。完整的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="kd">function</span> <span class="nx">createSomeNodes</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">div</span><span class="p">,</span>
+        <span class="nx">i</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="nx">frag</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(;</span><span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&#34;div&#34;</span><span class="p">);</span>
+        <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&#34; - &#34;</span><span class="o">+</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">toTimeString</span><span class="p">()));</span>
+        <span class="nx">frag</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;nodes&#34;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">frag</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">grow</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">x</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1000000</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">));</span>
+    <span class="nx">createSomeNodes</span><span class="p">();</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">grow</span><span class="p">,</span><span class="mi">1000</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>When grow is invoked it will start creating div nodes and appending them to the DOM. It will also allocate a big array and append it to an array referenced by a global variable. This will cause a steady increase in memory that can be found using the tools mentioned above.</p>
+
+<p>当<code>grow</code>被调用时，它会开始创建 div 节点，然后将它们插入到 DOM 中。同时也会分配一个大数组将这个数组插入到被一个全局变量引用的数组中。这会导致内存使用的稳定增长，使用上面提到的工具可以发现这个增长。</p>
+
+<blockquote>
+<p>Garbage collected languages usually show a pattern of oscillating memory use. This is expected if code is running in a loop performing allocations, which is the usual case. We will be looking for periodic increases in memory that do not fall back to previous levels after a collection.</p>
+
+<p>垃圾回收语言通常会呈现一个振荡内存使用的模式。如果代码在一个执行分配的循环中运行，这是预料之中的，这是一个常见的问题。我们将寻找内存中的周期增长，这些增长不会在执行一次收集之后下降到之前的水平。</p>
+</blockquote>
+
+<h4 id="find-out-if-memory-is-periodically-increasing">Find out if memory is periodically increasing</h4>
+
+<p>The timeline view is great for this. Open the example in Chrome, open the Dev Tools, go to timeline, select memory and click the record button. Then go to the page and click The Button to start leaking memory. After a while stop the recording and take a look at the results:</p>
+
+<p>打开 <a href="https://developer.chrome.com/devtools/docs/demos/memory/example1">Chrome 中的例子</a>，打开开发者工具，切换到<code>timeline</code>面板，选择<code>memory</code>，点击<code>record</code>按钮。然后点击<code>The Button</code>开始泄漏内存。过了一会停止记录，查看结果：</p>
+
+<p><img src="http://7xnrrd.com1.z0.glb.clouddn.com/example-timeline.png" alt="http://7xnrrd.com1.z0.glb.clouddn.com/example-timeline.png" /></p>
+
+<blockquote>
+<p>This example will continue leaking memory each second. After stopping the recording, set a breakpoint in the grow function to stop the script from forcing Chrome to close the page.</p>
+
+<p>这个例子每一秒钟都将会继续泄漏内存。暂停记录之后，在 grow 函数中设置一个断点来停止脚本强制 Chrome 关闭页面。</p>
+</blockquote>
+
+<p>There are two big signs in this image that show we are leaking memory. The graphs for nodes (green line) and JS heap (blue line). Nodes are steadily increasing and never decrease. This is a big warning sign.</p>
+
+<p>在上图中有两个大信号告诉我们内存正在泄漏。绿线表示 DOM 节点，蓝线表示js内存堆。节点正在稳定地增长并且从来没有下降。这是一个大的警告标志。</p>
+
+<p>The JS heap also shows a steady increase in memory use. This is harder to see due to the effect of the garbage collector. You can see a pattern of initial memory growth, followed by a big decrease, followed by an increase and then a spike, continued by another drop in memory. The key in this case lies in the fact that after each drop in memory use, the size of the heap remains bigger than in the previous drop. In other words, although the garbage collector is succeeding in collecting a lot of memory, some of it is periodically being leaked.</p>
+
+<p>JS 内存堆也表现出内存使用的稳定地增长。由于垃圾回收的影响更难看到这个增长。你可以看到一个初始内存增长的模式。后面接着一个大的下降，接着一个增长形成一个突刺，接着又是一个下降。这个案例的关键在于每次内存使用量的下跌，内存堆的剩余大小都比之前的下跌之后的内存堆多。换句话说，虽然垃圾回收器成功地回收了很多内存，但是一些内存还是周期性地泄漏了。</p>
+
+<p>We are now certain we have a leak. Let&rsquo;s find it.</p>
+
+<p>现在我们确定了我们存在内存泄漏，让我们来解决它</p>
+
+<h4 id="get-two-snapshots">Get two snapshots</h4>
+
+<p>To find a leak we will now go to the profiles section of Chrome&rsquo;s Dev Tools. To keep memory use in a manageable levels, reload the page before doing this step. We will use the Take Heap Snapshot function.</p>
+
+<p>为了找到泄漏，我们将切换到开发者中的 profiles 面板。为了将内存的使用保持在可操纵的水平，在动手之前重新加载页面。我们将使用获取内存堆快照的功能。</p>
+
+<p>Reload the page and take a heap snapshot right after it finishes loading. We will use this snapshot as our baseline. After that, hit The Button again, wait a few seconds, and take a second snapshot. After the snapshot is taken, it is advisable to set a breakpoint in the script to stop the leak from using more memory.</p>
+
+<p>重新加载页面，并且在完成之后拍一张内存堆得快照。我们将使用这个快照作为我们的基线。在那之后，按下<code>The Button</code>按钮，等待几秒钟，接着拍第二张快照。第二张快照完成之后，在代码中打一个断点阻止泄漏更多的内存是明智的。</p>
+
+<p><img src="http://7xnrrd.com1.z0.glb.clouddn.com/example-snapshots-1.png" alt="http://7xnrrd.com1.z0.glb.clouddn.com/example-snapshots-1.png" /></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2016-04-10
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AF%91%E6%96%87/">译文</a>
+          <a href="/tags/javascript/">JavaScript</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2016/08/%E7%9C%9F%E7%9A%84%E6%98%AF%E5%A5%BD%E4%B9%85%E6%B2%A1%E5%86%99%E5%8D%9A%E5%AE%A2%E4%BA%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">真的是好久没写博客了</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/11/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-line-height%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+            <span class="next-text nav-default">规范之路-line-height的工作原理</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

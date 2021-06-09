@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/categories/python/</link>
+    <description>Recent content in Python on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 10 Nov 2014 19:27:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>定时将图片保存在SAE的Storage中</title>
+      <link>https://zhanglun.github.io/post/2014/11/%E5%AE%9A%E6%97%B6%E5%B0%86%E5%9B%BE%E7%89%87%E4%BF%9D%E5%AD%98%E5%9C%A8sae%E7%9A%84storage%E4%B8%AD/</link>
+      <pubDate>Mon, 10 Nov 2014 19:27:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/11/%E5%AE%9A%E6%97%B6%E5%B0%86%E5%9B%BE%E7%89%87%E4%BF%9D%E5%AD%98%E5%9C%A8sae%E7%9A%84storage%E4%B8%AD/</guid>
+      <description>前几天一直在看Node相关的书，做了一些笔记，挂在自己的博客上。挺累的，毕竟看的是两本英文的书。而且疲了，一时间学的太猛，以至于晕头转向的。</description>
+    </item>
+    
+    <item>
+      <title>使用python抓取知乎日报的API数据</title>
+      <link>https://zhanglun.github.io/post/2014/10/%E4%BD%BF%E7%94%A8python%E6%8A%93%E5%8F%96%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5%E7%9A%84api%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Wed, 08 Oct 2014 20:12:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/%E4%BD%BF%E7%94%A8python%E6%8A%93%E5%8F%96%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5%E7%9A%84api%E6%95%B0%E6%8D%AE/</guid>
+      <description>使用 urllib2 抓取数据时，最简单的方法是： 1 2 3 4 5 6 import urllib2, json def getStartImage(): stream = urllib2.urlopen(&amp;#39;http://news-at.zhihu.com/api/3/start-image/1080*1776&amp;#39;) start_image = json.load(stream) start_image = json.dumps(start_image, encoding=&amp;#39;utf-8&amp;#39;) return start_image 使用urllib2.urlopen打开参数中给出的url，返</description>
+    </item>
+    
+    <item>
+      <title>利用pip安装Django</title>
+      <link>https://zhanglun.github.io/post/2014/07/%E5%88%A9%E7%94%A8pip%E5%AE%89%E8%A3%85django/</link>
+      <pubDate>Sat, 12 Jul 2014 20:30:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/07/%E5%88%A9%E7%94%A8pip%E5%AE%89%E8%A3%85django/</guid>
+      <description>###pip的安装 先下载一个 python 文件 : get-pip.py。 然后运行下面这条命令（可能需要管理员权限）： 1 python get-pip.py 如果 setuptools 还没有安装，pip会帮你安</description>
+    </item>
+    
+  </channel>
+</rss>

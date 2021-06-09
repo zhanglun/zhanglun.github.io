@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="在大概18年上半年，有幸被抽调到一个FT，参与云平台私有云项目的开发中。这个项目是一个产品化的IaaS解决方案，为企业提供管理包括计算，网络" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2020/06/%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E8%BF%99%E5%87%A0%E5%B9%B4%E5%9F%BA%E4%BA%8E-node.js-%E7%9A%84%E7%A7%81%E6%9C%89%E4%BA%91-web-%E7%AE%A1%E6%8E%A7%E7%B3%BB%E7%BB%9F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统" />
+<meta property="og:description" content="在大概18年上半年，有幸被抽调到一个FT，参与云平台私有云项目的开发中。这个项目是一个产品化的IaaS解决方案，为企业提供管理包括计算，网络" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2020/06/%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E8%BF%99%E5%87%A0%E5%B9%B4%E5%9F%BA%E4%BA%8E-node.js-%E7%9A%84%E7%A7%81%E6%9C%89%E4%BA%91-web-%E7%AE%A1%E6%8E%A7%E7%B3%BB%E7%BB%9F/" />
+<meta property="article:published_time" content="2020-06-14T20:20:01+08:00" />
+<meta property="article:modified_time" content="2020-06-14T20:20:01+08:00" />
+<meta itemprop="name" content="在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统">
+<meta itemprop="description" content="在大概18年上半年，有幸被抽调到一个FT，参与云平台私有云项目的开发中。这个项目是一个产品化的IaaS解决方案，为企业提供管理包括计算，网络">
+
+
+<meta itemprop="datePublished" content="2020-06-14T20:20:01&#43;08:00" />
+<meta itemprop="dateModified" content="2020-06-14T20:20:01&#43;08:00" />
+<meta itemprop="wordCount" content="2324">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统"/>
+<meta name="twitter:description" content="在大概18年上半年，有幸被抽调到一个FT，参与云平台私有云项目的开发中。这个项目是一个产品化的IaaS解决方案，为企业提供管理包括计算，网络"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-06-14 </span>
+        
+          <span class="more-meta"> 2324 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#私有云和iaas">私有云和IaaS</a></li>
+<li><a href="#三件小事">三件小事</a>
+<ul>
+<li><a href="#一-bff架构的全栈开发">一、BFF架构的全栈开发</a></li>
+<li><a href="#二-构建和打包">二、构建和打包</a></li>
+<li><a href="#三-异步api的处理">三、异步API的处理</a></li>
+</ul></li>
+<li><a href="#其他">其他</a></li>
+<li><a href="#结束">结束</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<p>在大概18年上半年，有幸被抽调到一个FT，参与云平台私有云项目的开发中。这个项目是一个产品化的IaaS解决方案，为企业提供管理包括计算，网络，存储在内的数据中心资源的能力。</p>
+
+<h2 id="私有云和iaas">私有云和IaaS</h2>
+
+<p>私有云(Private Clouds)是为一个客户单独使用而构建的，因而提供对数据、安全性和服务质量的最有效控制。该公司拥有基础设施，并可以控制在此基础设施上部署应用程序的方式。可由公司自己的 IT 机构，也可由云提供商进行构建。云计算提供商可以安装、配置和运营基础设施，以支持一个公司企业数据中心内的专用云。有时候也会称之为“内部云”</p>
+
+<p>核心点在于：利用虚拟化技术将源自物理硬件的资源组合到共享池中，使用时从共享池中按需获取所需资源。</p>
+
+<p>在云计算服务中，有下面三类，自下往上依次是：</p>
+
+<ol>
+<li>IaaS：基础设施即服务 (Infrastructure as a Service)把计算基础(服务器、网络技术、存储和数据中心空间)作为一项服务提供给客户。它也包括提供操作系统和虚拟化技术、来管理资源。消费者通过Internet可以从完善的计算机基础设施获得服务。</li>
+<li>PaaS：平台即服务(Platform as a Service）PaaS实际上是指将软件研发的平台作为一种服务，供应商提供超过基础设施的服务，一个作为软件开发和运行环境的整套解决方案，即以SaaS的模式提交给用户。因此，PaaS也是SaaS模式的一种应用。</li>
+<li>SaaS：软件即服务 (Software as a Service)SaaS是一种交付模式，主要还是面向企业的服务，国外比较有名的比如CRM起家的Salesforce等等，国内比较有名的比如做企业通讯的钉钉和企业销售管理的纷享销客等等</li>
+</ol>
+
+<p><img src="./images/visual-uaas.png" alt="visual-uaas.png" /></p>
+
+<h2 id="三件小事">三件小事</h2>
+
+<p>对于私有云项目，简而言之就是我们自己做产品，然后买给企业，帮助部署。交付形式是实施的同学大家背后的实体物理机器，然后将整个软件部署在机子上(通过U盘复制项目代码，进入企业机房，拷贝安装，然后部署。后续的运维和管理操作，则在配套的Web管控系统中完成。我主要负责了Web管控系统从0到1的所有工作，期间有几个比较有意思的点，可以和大家分享一下。</p>
+
+<p><img src="./images/picture1.png" alt="项目整体架构图" /></p>
+
+<h3 id="一-bff架构的全栈开发">一、BFF架构的全栈开发</h3>
+
+<p>当时的需求中要求管控系统要维护用户登录状态之外，还需要对写入操作进行操作记录。FT中没有可分配的人力来提供这些后端能力，而我有使用Node做Web开发的经验，于是果断采用了Node作为中间层来满足这些需求。事实证明这个选择没有错。操作日志模块后续还增加了批量导出为excel的能力。</p>
+
+<p><img src="./images/bff.png" alt="bff" /></p>
+
+<p>当时参考了一些社区解决方案和当前项目现状(主要是不能用公司内部代码)，决定采用Koa作为框架，利用Koa的生态来打造一个功能健全的Web服务。</p>
+
+<p><img src="./images/koa.png" alt="koa" /></p>
+
+<h3 id="二-构建和打包">二、构建和打包</h3>
+
+<p>因为私有化部署的关系，我们最终交付的软件包是通过U盘拷贝的形式来部署代码的，部署和运行的过程不能依赖外部网络。这意味着我需要我所有的运行时依赖都打包在一起，能到达到解压即可运行的程度。</p>
+
+<p>在我最终产出的压缩包中有一个 <code>control.sh</code> 脚本，提供了 <code>start</code>，<code>stop</code> 之类的几个命令，后端同学只要能调用这个脚本，就能在项目部署阶段将管控系统给部署起来。</p>
+
+<p>在具体构建过程中，前端通过 <code>Webpack</code> 已经全部构建好输出到指定目录了，浏览器端的代码很好解决。Node 中间层这边稍稍不一样，运行除了依赖 <code>node_modules</code> 中的包，还依赖 <code>Node</code>的可执行文件。、在构建阶段我把 <code>node_modules</code> 下载好，将 <code>node</code> 可执行文件也放入其中，随代码一起打包输出。最后交付的压缩包就包含了所有的运行依赖。</p>
+
+<p>这个是构建过程。具体过程大概是：</p>
+
+<ol>
+<li>获取 <code>package.json</code> 里面设置的 `version 和指定的操作系统</li>
+<li>构建完成之后从镜像网站下载对应的node文件，放到临时目录。如果临时目录已经有存在的版本，跳过下载，已提高打包速度</li>
+<li>完成之后将 <code>node</code> 文件复制到 <code>node_modules</code> 中</li>
+<li>在 <code>control.sh</code> 启动脚本中指定node程序的目录</li>
+</ol>
+
+<p><img src="./images/flow.png" alt="flow.png" /></p>
+
+<h3 id="三-异步api的处理">三、异步API的处理</h3>
+
+<p>这里面还有一个比较有意思的是后端接口异步API的请求。底层API基于分为同步API和异步API两种：</p>
+
+<ul>
+<li>同步API</li>
+</ul>
+
+<p>所有使用GET方法的API都是同步API，调用方收到的HTTP Response中直接包含了API的结果。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">  GET zstack/v1/zones/f3fa7671894a40f6a73f5bfc7d90c126 <span class="o">{</span> <span class="s2">&#34;inventory&#34;</span>: <span class="o">{</span> <span class="s2">&#34;uuid&#34;</span>: <span class="s2">&#34;f3fa7671894a40f6a73f5bfc7d90c126&#34;</span>, <span class="s2">&#34;name&#34;</span>: <span class="s2">&#34;zone1&#34;</span>, <span class="s2">&#34;description&#34;</span>: <span class="s2">&#34;test&#34;</span>, <span class="s2">&#34;state&#34;</span>: <span class="s2">&#34;Enabled&#34;</span>, <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;zstack&#34;</span>, <span class="s2">&#34;createDate&#34;</span>: <span class="s2">&#34;Jan 6, 2017 3:51:16 AM&#34;</span>, <span class="s2">&#34;lastOpDate&#34;</span>: <span class="s2">&#34;Jan 6, 2017 3:51:16 AM&#34;</span> <span class="o">}</span> <span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>异步API</li>
+</ul>
+
+<p>除了登录相关的API外，所有不使用GET方法的API都为异步API。用户调用一个异步API成功后会收到202返回码以及 Body中包含的一个轮询地址（location字段），用户需要周期性的GET该轮询地址以获得API的执行结果。例如:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">  Status Code: <span class="m">202</span> Body: <span class="o">{</span> <span class="s2">&#34;location&#34;</span>: <span class="s2">&#34;http://localhost:8080/v1/api-jobs/967a26b7431c49c0b1d50d709ef1aef3&#34;</span> <span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>为什么说有意思呢？那如果按照浏览器轮询Node层，Node层再去轮询后端，一来二去这个消耗就大了，接口请求慢不说，在一定程度上可以说增加了服务器的压力。那怎么办呢？首先每次创建一个异步任务，我就在redis这边保存一份job相关的数据，每次浏览器轮询的时候，通过jobUuid直接查redis，速度快。然后在Node层提供一个webhook接口，每次任务执行完成时，后端调用这个接口，将任务执行返回的结果同步更新到redis中。这样当异步任务完成之后，浏览器端的轮询也能很快地得到返回的结果。</p>
+
+<p><img src="./images/loop.png" alt="loop.png" /></p>
+
+<h2 id="其他">其他</h2>
+
+<p>除了上面的“三件小事”之外，针对项目的优化也做了不少。开发测试和项目打包巨慢，浏览器端代码的体积巨大。针对这些问题，在构建流程上做了一些优化，总结下来无非就是：</p>
+
+<ol>
+<li>优化Webpack的编译速度。优化 Loader 配置，合理设置文件路径，增加 Cache 之类的</li>
+<li>打包拆分模块，按需加载。结合Vue的异步组件和 Webpack 的 Code Split 功能，实现路由组件的懒加载</li>
+<li>抽离公共组件，适当减低源码体积。</li>
+<li>优化压缩输出文件的体积。</li>
+</ol>
+
+<h2 id="结束">结束</h2>
+
+<p>从18年5月开始到19年6月，差不多一年的时间一直全职在跟这个项目。上面提到的一些技术点，大方向是一开始就明确的，但是具体实现的细节是在整个项目过程中不断演进和优化的。合作过程中也认识了不少人，算是一个还不错的回忆吧</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-06-14
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2020/09/zen-reborn-%E8%AE%A1%E5%88%92/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Zen Reborn 计划</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2020/05/%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E8%BF%99%E5%87%A0%E5%B9%B4%E7%BB%84%E4%BB%B6%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%BC%80%E5%8F%91/">
+            <span class="next-text nav-default">在滴滴的这几年：组件库的设计和开发</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

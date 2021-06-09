@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://zhanglun.github.io/sitemap.xml

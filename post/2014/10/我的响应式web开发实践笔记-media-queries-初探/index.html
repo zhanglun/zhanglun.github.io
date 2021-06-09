@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>我的响应式web开发实践笔记-Media Queries 初探 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2014/10/%E6%88%91%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8Fweb%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0-media-queries-%E5%88%9D%E6%8E%A2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="我的响应式web开发实践笔记-Media Queries 初探" />
+<meta property="og:description" content="很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2014/10/%E6%88%91%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8Fweb%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0-media-queries-%E5%88%9D%E6%8E%A2/" />
+<meta property="article:published_time" content="2014-10-10T12:30:00+00:00" />
+<meta property="article:modified_time" content="2014-10-10T12:30:00+00:00" />
+<meta itemprop="name" content="我的响应式web开发实践笔记-Media Queries 初探">
+<meta itemprop="description" content="很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就">
+
+
+<meta itemprop="datePublished" content="2014-10-10T12:30:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-10-10T12:30:00&#43;00:00" />
+<meta itemprop="wordCount" content="2571">
+
+
+
+<meta itemprop="keywords" content="CSS," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="我的响应式web开发实践笔记-Media Queries 初探"/>
+<meta name="twitter:description" content="很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">我的响应式web开发实践笔记-Media Queries 初探</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-10-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            </div>
+          <span class="more-meta"> 2571 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#先来说说媒体查询-media-queries">先来说说媒体查询（Media Queries）</a></li>
+<li><a href="#media-queries支持的属性">Media Queries支持的属性</a></li>
+<li><a href="#best-breakpoints">best breakpoints</a></li>
+<li><a href="#如何在-sass-中使用编写媒体查询模块">如何在 sass 中使用编写媒体查询模块</a></li>
+<li><a href="#关于-min-width-min-height-和-max-width-max-height-的补充-2014-10-18">关于 min-width/min-height 和 max-width/max-height 的补充：2014/10/18</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      
+
+<blockquote>
+<p>很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就顺手整理成一个系列吧。</p>
+</blockquote>
+
+<p>响应式web设计并非新的技术，只不过将已有的开发技巧（弹性布局、弹性图片和媒体查询等）整合在了一起，</p>
+
+<h3 id="先来说说媒体查询-media-queries">先来说说媒体查询（Media Queries）</h3>
+
+<p>早在 HTML4 和 CSS2 的时代，就已经支持采用不同的样式表来适配不同的媒体设备类型。比如，一个文档在屏幕上和打印时可能使用不同的样式表。在 HTML4中，可以这么写：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span> <span class="na">media</span><span class="o">=</span><span class="s">&#34;screen&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;sans-serif.css&#34;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span> <span class="na">media</span><span class="o">=</span><span class="s">&#34;print&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;serif.css&#34;</span><span class="p">&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>在内联的 CSS 样式中，可以像这样指定一部分CSS样式块应用在指定的媒体设备上：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="p">{</span>
+    <span class="o">*</span> <span class="p">{</span> <span class="k">font-family</span><span class="p">:</span> <span class="kc">sans-serif</span> <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>媒体类型就不在此列举了。如果想让多个媒体设备采用同一套样式，只需在media属性中添加媒体类型的名称，用逗号分开就可以了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/css&#34;</span> <span class="na">media</span><span class="o">=</span><span class="s">&#34;screen, print, resolution &gt; 90dpi&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;serif.css&#34;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+    <span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="p">{</span>
+      <span class="o">*</span> <span class="p">{</span> <span class="k">font-family</span><span class="p">:</span> <span class="kc">sans-serif</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>而CSS3 中的媒体查询（Media Queries）就是建立在 HTML4 的媒体查询的语法机制之上，其语法符合 HTML4 中保留的媒体类型语法。HTML4 中的 <code>media</code> 属性同样存在于 XHTML 和 一般的 XML 中。但是，媒体查询的解析规则不兼容 HTML4 的解析规则，因此，适用于 CSS 中的媒体查询。</p>
+
+<p>CSS3 中的媒体查询一个媒体类型和零个或者多个检查特定媒体功能的状况的表达式组成。
+这些表达式会被解析成真或假。如果媒体查询中的媒体类型与文档要展示的设备相符则查询结果为真，并且媒体查询中的所有表达式为真。媒体类型默认情况是 <code>all</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">media</span><span class="o">=</span><span class="s">&#34;screen and (max-width: 800px)&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;example.css&#34;</span> <span class="p">/&gt;</span>
+
+@import url(color.css) screen and (color);
+
+<span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+    <span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">600px</span><span class="o">)</span> <span class="p">{</span>
+      <span class="p">.</span><span class="nc">facet_sidebar</span> <span class="p">{</span>
+        <span class="k">display</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>当媒体查询为真时，相关的样式表或样式规则就会按照正常的级联规则被应用。即使媒体查询返回假， &lt;\link&gt; 标签上带有媒体查询的样式表 仍将被下载 （只不过不会被应用）。</p>
+
+<p>可以这么理解：媒体查询无非就是检查当前用户代理是何种设备，设备的某些参数：媒体类型（media type） + CSS属性。</p>
+
+<h3 id="media-queries支持的属性">Media Queries支持的属性</h3>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>MIN/MAX</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>color</td>
+<td>整数</td>
+<td>yes</td>
+<td>每种色彩的字节数</td>
+</tr>
+
+<tr>
+<td>color-index</td>
+<td>整数</td>
+<td>yes</td>
+<td>色彩表中的色彩数</td>
+</tr>
+
+<tr>
+<td>device-aspect-ratio</td>
+<td>整数/整数</td>
+<td>yes</td>
+<td>宽高比例</td>
+</tr>
+
+<tr>
+<td>device-height</td>
+<td>length</td>
+<td>yes</td>
+<td>设备屏幕的输出高度</td>
+</tr>
+
+<tr>
+<td>device-width</td>
+<td>length</td>
+<td>yes</td>
+<td>设备屏幕的输出宽度</td>
+</tr>
+
+<tr>
+<td>height</td>
+<td>length</td>
+<td>yes</td>
+<td>渲染界面的高度</td>
+</tr>
+
+<tr>
+<td>width</td>
+<td>length</td>
+<td>yes</td>
+<td>渲染界面的宽度</td>
+</tr>
+
+<tr>
+<td>grid</td>
+<td>整数</td>
+<td>no</td>
+<td>是否是基于格栅的设备</td>
+</tr>
+
+<tr>
+<td>monochrome</td>
+<td>整数</td>
+<td>yes</td>
+<td>单色帧缓冲器中每像素字节</td>
+</tr>
+
+<tr>
+<td>resolution</td>
+<td>分辨率(“dpi/dpcm”)</td>
+<td>yes</td>
+<td>分辨率</td>
+</tr>
+
+<tr>
+<td>scan</td>
+<td>Progressive interlaced</td>
+<td>no</td>
+<td>tv媒体类型的扫描方式</td>
+</tr>
+
+<tr>
+<td>orientation</td>
+<td>Portrait/landscape</td>
+<td>no</td>
+<td>横屏或竖屏</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="best-breakpoints">best breakpoints</h3>
+
+<p>我现在需要解决的问题是：针对不同屏幕大小的设备的的代码块的媒体查询判断条件该如何书写，在 stackoverflow 上看到的<a href="http://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile">回答</a>，the best breakpoints:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+    <span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">320px</span><span class="o">)</span> <span class="p">{</span> <span class="c">/* smartphones, iPhone, portrait 480x320 phones */</span> <span class="p">}</span>
+    <span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">481px</span><span class="o">)</span> <span class="p">{</span> <span class="c">/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */</span> <span class="p">}</span>
+    <span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">641px</span><span class="o">)</span> <span class="p">{</span> <span class="c">/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */</span> <span class="p">}</span>
+    <span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">961px</span><span class="o">)</span> <span class="p">{</span> <span class="c">/* tablet, landscape iPad, lo-res laptops ands desktops */</span> <span class="p">}</span>
+    <span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">1025px</span><span class="o">)</span> <span class="p">{</span> <span class="c">/* big landscape tablets, laptops, and desktops */</span> <span class="p">}</span>
+    <span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">1281px</span><span class="o">)</span> <span class="p">{</span> <span class="c">/* hi-res laptops and desktops */</span> <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="如何在-sass-中使用编写媒体查询模块">如何在 sass 中使用编写媒体查询模块</h3>
+
+<p>可以参考这篇文章：<a href="http://thesassway.com/intermediate/responsive-web-design-in-sass-using-media-queries-in-sass-32">Responsive Web Design in Sass: Using media queries in Sass 3.2</a>
+首先，最简单的是使用 CSS 的语法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sass" data-lang="sass"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sass" data-lang="sass"><span class="o">//</span> <span class="nt">set</span> <span class="nt">a</span> <span class="nt">variable</span> <span class="nt">for</span> <span class="nt">the</span> <span class="nt">font</span> <span class="nt">size</span>
+<span class="na">$h1-size</span><span class="o">:</span> <span class="mi">36</span><span class="kt">px</span>
+
+<span class="nt">h1</span> <span class="err">{</span>
+<span class="err">  </span><span class="na">font-size</span><span class="o">:</span> <span class="nv">$h1-size</span><span class="err">;</span>
+<span class="err">}</span>
+
+<span class="o">//</span> <span class="nt">this</span> <span class="nt">will</span> <span class="nt">only</span> <span class="nt">affect</span> <span class="nt">wide</span> <span class="nt">screens</span>
+<span class="k">@media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="nd">:</span> <span class="nt">1024px</span><span class="o">)</span> <span class="err">{</span>
+  <span class="nt">h1</span> <span class="err">{</span>
+<span class="err">    </span><span class="na">font-size</span><span class="o">:</span> <span class="nv">$h1-size</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.5</span><span class="err">;</span>
+  <span class="err">}</span>
+<span class="err">}</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="o">//</span> <span class="nt">编译后</span><span class="err">：</span>
+<span class="nt">h1</span> <span class="p">{</span>
+  <span class="k">font-size</span><span class="p">:</span> <span class="mi">36</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">1024px</span><span class="o">)</span> <span class="p">{</span>
+  <span class="nt">h1</span> <span class="p">{</span>
+    <span class="k">font-size</span><span class="p">:</span> <span class="mi">54</span><span class="kt">px</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>同时，sass 为 CSS 的书写提供了是一个相当杀手级功能：当你在其它选择器中嵌套 <code>@media</code> 时，如果在嵌套的 @media 中添加的属性，sass 会向上一层层查找选择器，将@media中添加的属属性应用在查找到的选择器上，并将其插入到 @media 的代码块中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sass" data-lang="sass"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sass" data-lang="sass"><span class="nc">.profile-pic</span> <span class="err">{</span>
+<span class="err">    </span><span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="err">;</span>
+<span class="err">    </span><span class="na">width</span><span class="o">:</span> <span class="mi">250</span><span class="kt">px</span><span class="err">;</span>
+    <span class="nt">a</span> <span class="err">{</span>
+<span class="err">        </span><span class="na">color</span><span class="o">:</span> <span class="ni">black</span><span class="err">;</span>
+<span class="err">        </span><span class="na">@media</span><span class="err"> </span><span class="na">screen</span><span class="err"> </span><span class="na">and</span><span class="err"> </span><span class="na">(max-width</span><span class="o">:</span> <span class="mi">320</span><span class="kt">px</span><span class="p">)</span> <span class="err">{</span>
+<span class="err">            </span><span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">px</span><span class="err">;</span>
+<span class="err">            </span><span class="na">color</span><span class="o">:</span> <span class="ni">red</span><span class="err">;</span>
+        <span class="err">}</span>
+<span class="err">        </span><span class="na">@media</span><span class="err"> </span><span class="na">screen</span><span class="err"> </span><span class="na">and</span><span class="err"> </span><span class="na">(min-width</span><span class="o">:</span> <span class="mi">1200</span><span class="kt">px</span><span class="p">)</span> <span class="err">{</span>
+<span class="err">            </span><span class="na">float</span><span class="o">:</span> <span class="no">none</span><span class="err">;</span>
+<span class="err">            </span><span class="na">color</span><span class="o">:</span> <span class="ni">blue</span><span class="err">;</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="o">//</span> <span class="nt">编译后</span><span class="err">：</span>
+<span class="p">.</span><span class="nc">profile-pic</span> <span class="p">{</span>
+    <span class="k">float</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">250</span><span class="kt">px</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">profile-pic</span> <span class="nt">a</span> <span class="p">{</span>
+    <span class="k">color</span><span class="p">:</span> <span class="kc">black</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">320px</span><span class="o">)</span> <span class="p">{</span>
+    <span class="p">.</span><span class="nc">profile-pic</span> <span class="nt">a</span> <span class="p">{</span>
+        <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">px</span><span class="p">;</span>
+        <span class="k">color</span><span class="p">:</span> <span class="kc">red</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">1200px</span><span class="o">)</span> <span class="p">{</span>
+    <span class="p">.</span><span class="nc">profile-pic</span> <span class="nt">a</span> <span class="p">{</span>
+        <span class="k">float</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+        <span class="k">color</span><span class="p">:</span> <span class="kc">blue</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>其实这个东西也是很好理解的，就不过多解释了，省得啰嗦。但是要记住：还有很多种变化的写法，比如在query中使用变量，在代码块中使用 <code>@extend</code>.etc。多用用就好了</p>
+
+<h3 id="关于-min-width-min-height-和-max-width-max-height-的补充-2014-10-18">关于 min-width/min-height 和 max-width/max-height 的补充：2014/10/18</h3>
+
+<p>min-width(height): 最小宽度(高度)；在媒体查询中作为检查条件时，指的是渲染界面的最小宽度（高度）。也就是说当宽度（高度）大于给定的数值时才使用这一块代码块（没有使用的 Media Queries 代码块也会加载）；相反地，max-width(height) 意思就是：当宽度（高度）小于给定的数值时才使用这一块代码块。指定的数值是一个临界值。</p>
+
+<p>有意思的东西来了！</p>
+
+<p>看下面的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+    <span class="k">background</span><span class="p">:</span><span class="kc">white</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">320px</span><span class="o">)</span> <span class="p">{</span> 
+    <span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span><span class="kc">red</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">481px</span><span class="o">)</span> <span class="p">{</span> 
+    <span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span><span class="kc">blue</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>根据CSS的解析规则，过程如下：</p>
+
+<ol>
+<li>container的背景色为white；</li>
+<li>当宽度大于320px时，container的背景色为red；</li>
+<li>当宽度大于481px时，container的背景色为blue；</li>
+</ol>
+
+<p>这可能是你想要的顺序，但是如果 你这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+    <span class="k">background</span><span class="p">:</span><span class="kc">white</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="p">:</span><span class="nd">320px</span><span class="o">)</span> <span class="p">{</span> 
+    <span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span><span class="kc">red</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="p">:</span><span class="nd">481px</span><span class="o">)</span> <span class="p">{</span> 
+    <span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span><span class="kc">blue</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>根据CSS的解析规则，过程如下：</p>
+
+<ol>
+<li>container的背景色为white；</li>
+<li>当宽度小于320px时，container的背景色为red；</li>
+<li>当宽度小于481px时，container的背景色为blue；</li>
+</ol>
+
+<p>好问题来了，小于320 不就是 小于 481 了嘛？后面样式直接覆盖了前面的啊！所以在小于481px的渲染宽度中，颜色都是blue。</p>
+
+<p>同样的问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-css" data-lang="css"><span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+    <span class="k">background</span><span class="p">:</span><span class="kc">white</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">481px</span><span class="o">)</span> <span class="p">{</span> 
+    <span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span><span class="kc">blue</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="p">:</span><span class="nd">321px</span><span class="o">)</span> <span class="p">{</span> 
+    <span class="p">.</span><span class="nc">container</span><span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span><span class="kc">red</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>根据CSS的解析规则，过程如下：</p>
+
+<ol>
+<li>container的背景色为white；</li>
+<li>当宽度大于481px时，container的背景色为blue；</li>
+<li>当宽度大于321px时，container的背景色为red；</li>
+</ol>
+
+<p>其结果显而易见，后面的样式（当宽度大于321px时）直接覆盖了前面的（当宽度大于481px时），所以在大于321px的渲染宽度中，颜色都是red。这也是我们不想看到的结果。</p>
+
+<p>为了避免出现上面这混乱的结果，我个人认为可以酱紫：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">max大的。min小的。  
+
+使用max时，值从大到小，依次是，`小于1024px`, `小于961px`, `小于641px`.etc。这是一种桌面端优先的方式，先考虑渲染宽度大的设备。
+
+使用min时，值从小到大，依次是，`大于320px`, `大于481px`, `小于641px`.etc。这是一种移动端优先的方式，先考虑渲染宽度小的设备。
+
+如果这样理解的话，我感觉自己不会混乱了~~</pre></td></tr></table>
+</div>
+</div>
+<p>参考：</p>
+
+<p>css3-mediaqueries<a href="http://www.w3.org/TR/css3-mediaqueries/">http://www.w3.org/TR/css3-mediaqueries/</a><br />
+前端观察<a href="http://www.qianduan.net/media-type-and-media-query.html">http://www.qianduan.net/media-type-and-media-query.html</a><br />
+W3cPlus<a href="http://www.w3cplus.com/content/css3-media-queries">http://www.w3cplus.com/content/css3-media-queries</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2014-10-10
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/css/">CSS</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86%E4%BA%86float/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">规范之路-重新认识了Float</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2014/10/%E4%BD%BF%E7%94%A8python%E6%8A%93%E5%8F%96%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5%E7%9A%84api%E6%95%B0%E6%8D%AE/">
+            <span class="next-text nav-default">使用python抓取知乎日报的API数据</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

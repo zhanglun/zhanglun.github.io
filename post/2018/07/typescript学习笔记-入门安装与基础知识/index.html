@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>TypeScript学习笔记-入门:安装与基础知识 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="TypeScript 是由微软推出的开源编程语言，官网的定义如下：
+ TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open source.
+TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%A5%E9%97%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="TypeScript学习笔记-入门:安装与基础知识" />
+<meta property="og:description" content="TypeScript 是由微软推出的开源编程语言，官网的定义如下：
+
+
+TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open source.
+
+TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%A5%E9%97%A8%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" />
+<meta property="article:published_time" content="2018-07-08T21:08:03+00:00" />
+<meta property="article:modified_time" content="2018-07-08T21:08:03+00:00" />
+<meta itemprop="name" content="TypeScript学习笔记-入门:安装与基础知识">
+<meta itemprop="description" content="TypeScript 是由微软推出的开源编程语言，官网的定义如下：
+
+
+TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open source.
+
+TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。
+">
+
+
+<meta itemprop="datePublished" content="2018-07-08T21:08:03&#43;00:00" />
+<meta itemprop="dateModified" content="2018-07-08T21:08:03&#43;00:00" />
+<meta itemprop="wordCount" content="1800">
+
+
+
+<meta itemprop="keywords" content="TypeScript," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="TypeScript学习笔记-入门:安装与基础知识"/>
+<meta name="twitter:description" content="TypeScript 是由微软推出的开源编程语言，官网的定义如下：
+
+
+TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open source.
+
+TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">TypeScript学习笔记-入门:安装与基础知识</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-07-08 </span>
+        
+          <span class="more-meta"> 1800 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#安装-typescript">安装 TypeScript</a></li>
+<li><a href="#简单的例子">简单的例子</a></li>
+<li><a href="#加入类型检查">加入类型检查</a></li>
+<li><a href="#类型声明">类型声明</a>
+<ul>
+<li><a href="#boolean">Boolean</a></li>
+<li><a href="#number">Number</a></li>
+<li><a href="#string">String</a></li>
+<li><a href="#void">Void</a></li>
+<li><a href="#null-和-undefined">Null 和 Undefined</a></li>
+<li><a href="#任意值">任意值</a></li>
+<li><a href="#聪明的类型推导">聪明的类型推导</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>TypeScript 是由微软推出的开源编程语言，官网的定义如下：</p>
+
+<blockquote>
+<p>TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open source.</p>
+
+<p>TypeScript 是 JavaScript 的类型的超集，它可以编译成纯 JavaScript。编译出来的 JavaScript 可以运行在任何浏览器上。TypeScript 编译工具可以运行在任何服务器和任何系统上。TypeScript 是开源的。</p>
+</blockquote>
+
+<h3 id="安装-typescript">安装 TypeScript</h3>
+
+<p>使用 npm 安装 typescript。一步到位，可通过 <code>tsc --help</code> 查看帮助。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">npm install -g typescript</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="简单的例子">简单的例子</h3>
+
+<p>前面说到，TypeScript 是 JavaScript 的超集。何谓超集？来回顾一下初中数学：</p>
+
+<blockquote>
+<p>如果一个集合S2中的每一个元素都在集合S1中，且集合S1中可能包含S2中没有的元素，则集合S1就是S2的一个超集，反过来，S2是S1的子集。</p>
+</blockquote>
+
+<p>而这也体现在TypeScript的语言上，TypeScript 包含 JavaSscript 的所有。也就是说，即使是按照 JavaScript 编写的代码，也能够被视作 TypeScript 来编译执行。举一个简单的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// hello.ts
+</span><span class="c1"></span>
+<span class="kd">function</span> <span class="nx">sayHello</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="sb">`Hello, </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">sayHeloo</span><span class="p">(</span><span class="s1">&#39;zhanglun`&#39;</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>上述代码在TypeScript编译器会中会被编译输出如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// hello.js
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">sayHello</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s2">&#34;Hello, &#34;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">sayHello</span><span class="p">(</span><span class="s1">&#39;zhanglun&#39;</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="加入类型检查">加入类型检查</h3>
+
+<p>上面的例子只是提到了 TypeScript代码 转换为 JavaScript 代码。接下来说一说 TypeScript 区别于 JavaScript 的精髓所在：类型检查。</p>
+
+<p>众所周知，JavaScript 是一门弱类型语言的，在代码执行的过程中，时常会执行一些隐身类型转换，而这往往会产生一些难以预料的问题，同时难以排查出存在问题的代码。而 TypeScript 加入了编译的过程，在编译过程中进行静态类型检查。如果发现有错误，编译的时候就会报错。</p>
+
+<blockquote>
+<p>TypeScript 中，使用 : 指定变量的类型，: 的前后有没有空格都可以。</p>
+</blockquote>
+
+<p>举一个简单的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">sayHello</span><span class="p">(</span><span class="nx">person</span><span class="o">:</span> <span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s1">&#39;Hello, &#39;</span> <span class="o">+</span> <span class="nx">person</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sayHello</span><span class="p">(</span><span class="nx">user</span><span class="p">));</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>这段代码的编译会出错。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">hello.ts:7:22 - error TS2345: Argument of <span class="nb">type</span> <span class="s1">&#39;number[]&#39;</span> is not assignable to parameter of <span class="nb">type</span> <span class="s1">&#39;string&#39;</span>.
+
+<span class="m">7</span> console.log<span class="o">(</span>sayHello<span class="o">(</span>user<span class="o">))</span><span class="p">;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>TypeScript 编译过程即使报错了，还是会生成编译结果，我们仍然可以使用这个编译之后的文件。</p>
+
+<p>如果要在报错的时候终止 JavaScript 文件的生成，可以在 tsconfig.json 中配置 noEmitOnError 即可。更新 config 相关配置请移步<a href="http://www.typescriptlang.org/docs/handbook/tsconfig-json.html">官方手册</a>。</p>
+
+<h3 id="类型声明">类型声明</h3>
+
+<p>JavaScript 的类型分为两种：原始数据类型（Primitive data types）和对象类型（Object types）。</p>
+
+<p>原始数据类型包括：布尔值、数值、字符串、null、undefined 以及 ES6 中的新类型 Symbol。</p>
+
+<p>在 TypeScript 中，声明上述各种变量稍有不同。</p>
+
+<h4 id="boolean">Boolean</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">isDone</span><span class="o">:</span><span class="kr">boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// 声明一个变量，这个变量是一个boolen
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">createdByNewBoolean</span><span class="o">:</span> <span class="kr">boolean</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// index.ts(1,5): error TS2322: Type &#39;Boolean&#39; is not assignable to type &#39;boolean&#39;。 new Boolean() 返回的是一个 Boolean 对象。
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">createdByBoolean</span><span class="o">:</span> <span class="kr">boolean</span> <span class="o">=</span> <span class="nb">Boolean</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 直接调用 Boolean 也可以返回一个 boolean 类型：
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="number">Number</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">decLiteral</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">hexLiteral</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="mh">0xf00d</span><span class="p">;</span>
+
+<span class="c1">// ES6 中的二进制表示法
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">binaryLiteral</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="mb">0b1010</span><span class="p">;</span>
+
+<span class="c1">// ES6 中的八进制表示法
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">octalLiteral</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="mo">0o744</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">notANumber</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="kc">NaN</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">infinityNumber</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="kc">Infinity</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="string">String</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">myName</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="s1">&#39;Tom&#39;</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">myAge</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+
+<span class="c1">// 模板字符串
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">sentence</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="sb">`Hello, my name is </span><span class="si">${</span><span class="nx">myName</span><span class="si">}</span><span class="sb">.
+</span><span class="sb">I&#39;ll be </span><span class="si">${</span><span class="nx">myAge</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="sb"> years old next month.`</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="void">Void</h4>
+
+<p>JavaScript 没有空值（Void）的概念，在 TypeScirpt 中，可以用 void 表示没有任何返回值的函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">alertName</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;My name is Tom&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>声明一个 void 类型的变量没有什么用，因为你只能将它赋值为 undefined 和 null：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">unusable</span><span class="o">:</span> <span class="k">void</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="null-和-undefined">Null 和 Undefined</h4>
+
+<p>在 TypeScript 中，可以使用 null 和 undefined 来定义这两个原始数据类型：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">u</span><span class="o">:</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">n</span><span class="o">:</span> <span class="kc">null</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>undefined 类型的变量只能被赋值为 undefined，null 类型的变量只能被赋值为 null。</p>
+
+<p>与 void 的区别是，undefined 和 null 是所有类型的子类型。也就是说 undefined 类型的变量，可以赋值给 number 类型的变量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// 这样不会报错
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">num</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+<span class="c1">// 这样也不会报错
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">u</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">num</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">u</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>而 void 类型的变量不能赋值给 number 类型的变量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">u</span><span class="o">:</span> <span class="k">void</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">num</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">u</span><span class="p">;</span>
+
+<span class="c1">// index.ts(2,5): error TS2322: Type &#39;void&#39; is not assignable to type &#39;number&#39;.
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="任意值">任意值</h4>
+
+<p>TypeScript 提供了一个 any 类型，表示允许赋值为任意类。声明一个变量为任意值之后，对它的任何操作，返回的内容的类型都是任意值。要注意的是： 变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型。</p>
+
+<p>如果是一个普通类型，在赋值过程中改变类型是不被允许的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">myFavoriteNumber</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="s1">&#39;seven&#39;</span><span class="p">;</span>
+
+<span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+<span class="c1">// index.ts(2,1): error TS2322: Type &#39;number&#39; is not assignable to type &#39;string&#39;.
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>但如果是 any 类型，则允许被赋值为任意类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">myFavoriteNumber</span><span class="o">:</span> <span class="nx">any</span> <span class="o">=</span> <span class="s1">&#39;seven&#39;</span><span class="p">;</span>
+
+<span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="聪明的类型推导">聪明的类型推导</h4>
+
+<p>如果没有明确的指定类型，那么 TypeScript 会依照类型推论（Type Inference）的规则推断出一个类型。</p>
+
+<p>以下代码虽然没有指定类型，但是会在编译的时候报错：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="s1">&#39;seven&#39;</span><span class="p">;</span>
+
+<span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+<span class="c1">// index.ts(2,1): error TS2322: Type &#39;number&#39; is not assignable to type &#39;string&#39;.
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>事实上，它等价于：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">myFavoriteNumber</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="s1">&#39;seven&#39;</span><span class="p">;</span>
+
+<span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+<span class="c1">// index.ts(2,1): error TS2322: Type &#39;number&#39; is not assignable to type &#39;string&#39;.
+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>TypeScript 会在没有明确的指定类型的时候推测出一个类型，这就是类型推论。</p>
+
+<p>如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 any 类型而完全不被类型检查：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">myFavoriteNumber</span><span class="p">;</span>
+
+<span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="s1">&#39;seven&#39;</span><span class="p">;</span>
+<span class="nx">myFavoriteNumber</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-07-08
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/typescript/">TypeScript</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2018/07/typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9C%A8webpack%E4%B8%AD%E9%85%8D%E7%BD%AEtypescript/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">TypeScript学习笔记-在Webpack中配置TypeScript</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2018/03/%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/">
+            <span class="next-text nav-default">个人服务器常用基础配置</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

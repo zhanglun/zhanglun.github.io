@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>浅谈 HTTP 缓存 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="说到缓存大家可能觉得很简单。“不就是检查资源是否有缓存，如果有就加以利用”，“可以节约服务器资源呗”。如果再深入一点，有的cache-control, last-modified, etag 之类的名词，但如果真的考究一下这些字段的细节，恐怕大多数人也说不清楚。遂做了一番整理，希望对大家有所帮助
+" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2019/03/%E6%B5%85%E8%B0%88-http-%E7%BC%93%E5%AD%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="浅谈 HTTP 缓存" />
+<meta property="og:description" content="说到缓存大家可能觉得很简单。“不就是检查资源是否有缓存，如果有就加以利用”，“可以节约服务器资源呗”。如果再深入一点，有的cache-control, last-modified, etag 之类的名词，但如果真的考究一下这些字段的细节，恐怕大多数人也说不清楚。遂做了一番整理，希望对大家有所帮助" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2019/03/%E6%B5%85%E8%B0%88-http-%E7%BC%93%E5%AD%98/" />
+<meta property="article:published_time" content="2019-03-09T15:41:38+00:00" />
+<meta property="article:modified_time" content="2019-03-09T15:41:38+00:00" />
+<meta itemprop="name" content="浅谈 HTTP 缓存">
+<meta itemprop="description" content="说到缓存大家可能觉得很简单。“不就是检查资源是否有缓存，如果有就加以利用”，“可以节约服务器资源呗”。如果再深入一点，有的cache-control, last-modified, etag 之类的名词，但如果真的考究一下这些字段的细节，恐怕大多数人也说不清楚。遂做了一番整理，希望对大家有所帮助">
+
+
+<meta itemprop="datePublished" content="2019-03-09T15:41:38&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-09T15:41:38&#43;00:00" />
+<meta itemprop="wordCount" content="4607">
+
+
+
+<meta itemprop="keywords" content="HTTP," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="浅谈 HTTP 缓存"/>
+<meta name="twitter:description" content="说到缓存大家可能觉得很简单。“不就是检查资源是否有缓存，如果有就加以利用”，“可以节约服务器资源呗”。如果再深入一点，有的cache-control, last-modified, etag 之类的名词，但如果真的考究一下这些字段的细节，恐怕大多数人也说不清楚。遂做了一番整理，希望对大家有所帮助"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">浅谈 HTTP 缓存</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-09 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%85%A8%E6%A0%88/"> 全栈 </a>
+            </div>
+          <span class="more-meta"> 4607 words </span>
+          <span class="more-meta"> 10 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#http-缓存">HTTP 缓存</a></li>
+<li><a href="#缓存的分类">缓存的分类</a></li>
+<li><a href="#http-的简单介绍">HTTP 的简单介绍</a>
+<ul>
+<li><a href="#http-协议">HTTP 协议</a></li>
+<li><a href="#http-报文">HTTP 报文</a></li>
+</ul></li>
+<li><a href="#缓存的工作机制">缓存的工作机制</a>
+<ul>
+<li><a href="#新鲜度检测和服务器再验证">新鲜度检测和服务器再验证</a>
+<ul>
+<li><a href="#文档过期">文档过期</a></li>
+<li><a href="#服务器再验证">服务器再验证</a>
+<ul>
+<li><a href="#if-modified-since-date">If-Modified-Since: [Date]</a></li>
+<li><a href="#if-none-match-etag">If-None-Match: [ETag]</a></li>
+<li><a href="#if-unmodified-since-date">If-Unmodified-Since: Date</a></li>
+<li><a href="#if-match-etag">If-Match: ETag</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#与缓存相关的首部">与缓存相关的首部</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>说到缓存大家可能觉得很简单。“不就是检查资源是否有缓存，如果有就加以利用”，“可以节约服务器资源呗”。如果再深入一点，有的cache-control, last-modified, etag 之类的名词，但如果真的考究一下这些字段的细节，恐怕大多数人也说不清楚。遂做了一番整理，希望对大家有所帮助</p>
+
+<h2 id="http-缓存">HTTP 缓存</h2>
+
+<p>HTTP 缓存是一种保存资源副本并在下次请求时直接使用该副本的技术。最为常见的是，浏览器在本地缓存 HTML 页面、图片等静态资源文件静态文件。</p>
+
+<blockquote>
+<p>A HTTP cache is an information technology for the temporary storage (caching) of web documents, such as HTML pages and images, to reduce server lag. A web cache system stores copies of documents passing through it; subsequent requests may be satisfied from the cache if certain conditions are met. A web cache system can refer either to an appliance, or to a computer program.
+摘自 Wiki百科 <a href="https://www.wikiwand.com/en/Web_cache">Web cache - Wikiwand</a></p>
+</blockquote>
+
+<p>合理利用缓存可以实现：</p>
+
+<ol>
+<li>减少冗余数据的传输，节约网络费用</li>
+<li>缓解了网络瓶颈的问题，节约带宽</li>
+<li>降低服务器压力，服务器可以更快的响应</li>
+<li>减少网络延迟，提升站点的访问速度</li>
+</ol>
+
+<p><img src="./1.png" alt="59818e08.png" /></p>
+
+<p>如图所示HTTP缓存存在于浏览器和Web代理中。当然在服务器内部，也存在着各种缓存，比如本地缓存GuavaCache/Ehcache，分布式缓存Memcached/Redis等，但这不是本文要讨论的HTTP缓存。</p>
+
+<p><strong>为了方便描述，下文将用“缓存”代替“HTTP 缓存”</strong></p>
+
+<h2 id="缓存的分类">缓存的分类</h2>
+
+<p>在我看来，无论按照什么场景或者维度来划分，HTTP缓存本质上就是两类：客户端缓存和服务端缓存。</p>
+
+<p>为什么这么说呢？因为在两台计算机之间使用HTTP协议通信时，在一条通信线路上，必定一端是客户端，一端是服务端。</p>
+
+<p>HTTP协议规定，请求从客户端发出，最后服务端响应。换言之，HTTP协议是能够明显区分哪一端是客户端，哪一段是服务端的。</p>
+
+<p>像 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ#%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%BC%93%E5%AD%98">MDN文章：HTTP 缓存 - HTTP | MDN</a> 中提到的私有缓存和共享缓存是从网络的拓扑结构层面来解释。</p>
+
+<p>至于网上大部分博文中提到的“强缓存”， “协商缓存”，我没有在任何文档中找到这两个关键词的定义，如果有知道的同学，欢迎留言。</p>
+
+<p>由于前端开发人员多与浏览器打交道，所以日常工作中大多时候会用 “浏览器缓存”来代替“客户端缓存”，这一点无伤大雅。</p>
+
+<h2 id="http-的简单介绍">HTTP 的简单介绍</h2>
+
+<p>在具体解释HTTP首部字段对缓存的控制规则之前，简单介绍一些与 HTTP 协议有关的内容，作为后续内容的铺垫。</p>
+
+<h3 id="http-协议">HTTP 协议</h3>
+
+<blockquote>
+<p>HTTP协议是 Hyper Text Transfer Protocol（超文本传输协议）的缩写,是用于从万维网（WWW:World Wide Web ）服务器传输超文本到客户端的传送协议。</p>
+</blockquote>
+
+<h3 id="http-报文">HTTP 报文</h3>
+
+<p>HTTP 报文是HTTP协议传输的数据单元，即一次请求或者一次响应时，发送给对方的数据块。HTPP报文包含了将要发送的完整的数据信息。</p>
+
+<p><img src="./2.png" alt="57450782.png" /></p>
+
+<p>HTTP 报文分为<strong>请求报文</strong>和<strong>响应报文</strong>。</p>
+
+<p><img src="./3.png" alt="2a108fe1.png" /></p>
+
+<p><img src="./4.png" alt="20394b00.png" /></p>
+
+<p>请求报文和响应报文中必定包含 HTTP 首部，为客户端和服务端分别处理请求和响应提供所需要的信息。首部字段类型按照实际用途分为四种：</p>
+
+<ol>
+<li>通用首部字段 (General Heaer Fields) - 请求报文和响应报文双方都会使用的首部</li>
+<li>请求首部字段 (Request Header Fields) - 发送请求报文时使用的首部</li>
+<li>响应首部字段 (Resposne Header Fields) - 返回响应报文时使用的首部</li>
+<li>实体首部字段 (Entity Header Fields) - 报文实体部分使用的首部</li>
+</ol>
+
+<p><img src="./5.png" alt="7c478d42.png" /></p>
+
+<p>开发者工具中的 Network选项中，可以查看请求的具体信息
+<img src="./6.png" alt="a4104786.png" /></p>
+
+<h2 id="缓存的工作机制">缓存的工作机制</h2>
+
+<p>对于一条GET请求的基本缓存处理过程包括七个步骤。</p>
+
+<ol>
+<li>发送 – 缓存从网络中读取即将的请求报文</li>
+<li>解析 – 缓存对报文进行解析，提取出URL和各种首部</li>
+<li>查询 – 缓存查看是否有本地副本可用，如果没有，就获取一份副本，并保存在本地</li>
+<li>新鲜度检测 – 缓存查看已缓存副本是否足够新鲜，如果不是，就询问服务器是否有任何更新</li>
+<li>创建响应 – 缓存会用新的首部和已缓存主体来构建一条响应报文</li>
+<li>返回 – 服务器通过网络将响应发回给客户端</li>
+</ol>
+
+<p>这里的缓存可以是本地客户端缓存，也可以是代理缓存之类的缓存服务器。服务器可能是源服务器也可能是缓存服务器、客户端可以能是浏览器也可能是缓存服务器</p>
+
+<h3 id="新鲜度检测和服务器再验证">新鲜度检测和服务器再验证</h3>
+
+<p>什么是新鲜度检测？要知道，不是所有的缓存副本都与服务器上的文档一致。毕竟，不同场景下，文档都有其变化的原则。比如说，一份报告可能每个月更新一次，在线报纸每天都有新的内容，而金融类的数据可能每过几秒钟就发生变化，如果缓存总是提供老的数据，反而变得毫无用处。</p>
+
+<p>文档副本在被缓存的一段时间内，都认为文档是“新鲜的”，缓存可以在不联系服务器的情况下，直接提供文档的副本，在客户端的体现为:<code>from cache</code>。当缓存的保留的时间过长，超过了限值，就认为文档“过时了”。在使用这个文档之前，缓存需要与服务端确认，文档是否发生变化，而这就是服务端再验证。</p>
+
+<p>HTTP 提供称之为<code>文档过期(document expiration)</code> 和 <code>服务器再验证(server revalidation)</code>的机制。可以在不要求服务器记住哪些文档拥有缓存的情况下，还能够了保证缓存与服务器之间的充分一致，</p>
+
+<p>下图是一个GET请求的缓存流程图</p>
+
+<p><img src="./7.png" alt="65a807b1.png" /></p>
+
+<p>接下来解释该图中几个关键点的具体工作机制。</p>
+
+<h4 id="文档过期">文档过期</h4>
+
+<p>通过通用首部 <code>Cache-Control</code> 和 <code>Expires</code>，HTTP 让服务器对每个文档附加一个“过期时间”，这些首部表示在多长的时间内可以将这些内容视为新鲜的。就像是给食物加上过期时间一样。</p>
+
+<p><img src="./8.png" alt="9ef1d5bc.png" /></p>
+
+<p><code>Expires</code> 和 <code>Cache-Control: max-age</code> 所做的事情本质上都是过期日期。但前者使用的是绝对时间，定义的是过期的时间，超过这个时间，文档将被视为“过时了”。后者使用的是相对时间，定义的是缓存的使用时间，从第一次生成文档到文档不再新鲜，无法使用位置的最大合法生存时间，单位为秒。</p>
+
+<p>比如你在2019年3月1日买了一瓶牛奶，<code>Expires</code> 告诉你在3月15日后过期，而<code>Cache-Control:max-age</code> 告诉你是1209600秒 (14 * 24 * 60 * 60) 后过期。</p>
+
+<p><strong><code>Expires</code> 是来自HTTP/1.0版本的首部，目前存在的意义主要是向下兼容。</strong></p>
+
+<h4 id="服务器再验证">服务器再验证</h4>
+
+<p>当缓存的新鲜度不再，意味着到了核对的时间了，缓存需要询问服务器原始文档是否发生了变化。这个过程只有两种结果：</p>
+
+<ol>
+<li>内容发生了变化，缓存将会获取一份新的文档副本，代替原来的副本，然后文档发给客户端</li>
+<li>内容没有发生变化，缓存获取新的首部，首部中包含新的过期时间，然后更新缓存中的首部</li>
+</ol>
+
+<p>这种机制的好处在于：按需校验，在保证缓存自动更新的前提下还能够节约服务器资源。</p>
+
+<p>HTTP提供了一些特殊的条件首部，当一个GET请求在请求首部中带上条件首部时，只有当条件为True时，服务器才会返回对象。</p>
+
+<h5 id="if-modified-since-date">If-Modified-Since: [Date]</h5>
+
+<p>如果再指定日期后文档被修改了，条件判定为 True，请求成功后，新的文档将会被缓存，新首部会包含一个新的过期日期。反之响应报文的状态码 <code>304 Not Mofified</code>，不返回文档的主体。</p>
+
+<p>与响应首部中的<code>Last-Modified</code>配合使用。文档请求成功返回时，服务器将文档的的最后修改日期以<code>Last-Modified</code>加在响应报文中。当缓存进行验证时，将用这个值作为<code>If-Modified-Since</code>首部的字段值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">If-Modified-Since: &lt;cached last-modified date&gt;</pre></td></tr></table>
+</div>
+</div>
+<p>如果此时文档内容被修改，修改日期就会有所不同，条件判定为True。</p>
+
+<p><img src="./9.png" alt="209f1f80.png" /></p>
+
+<p>用 Node.js 来简单实现这个过程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">const</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;http&#34;</span><span class="p">);</span>
+<span class="k">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;url&#34;</span><span class="p">);</span>
+<span class="k">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;fs&#34;</span><span class="p">);</span>
+<span class="k">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;path&#34;</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="nx">mimeList</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">css</span><span class="o">:</span> <span class="s2">&#34;text/css&#34;</span><span class="p">,</span>
+  <span class="nx">gif</span><span class="o">:</span> <span class="s2">&#34;image/gif&#34;</span><span class="p">,</span>
+  <span class="nx">html</span><span class="o">:</span> <span class="s2">&#34;text/html&#34;</span><span class="p">,</span>
+  <span class="nx">ico</span><span class="o">:</span> <span class="s2">&#34;image/x-icon&#34;</span><span class="p">,</span>
+  <span class="nx">jpeg</span><span class="o">:</span> <span class="s2">&#34;image/jpeg&#34;</span><span class="p">,</span>
+  <span class="nx">jpg</span><span class="o">:</span> <span class="s2">&#34;image/jpeg&#34;</span><span class="p">,</span>
+  <span class="nx">js</span><span class="o">:</span> <span class="s2">&#34;text/javascript&#34;</span><span class="p">,</span>
+  <span class="nx">json</span><span class="o">:</span> <span class="s2">&#34;application/json&#34;</span><span class="p">,</span>
+  <span class="nx">pdf</span><span class="o">:</span> <span class="s2">&#34;application/pdf&#34;</span><span class="p">,</span>
+  <span class="nx">png</span><span class="o">:</span> <span class="s2">&#34;image/png&#34;</span><span class="p">,</span>
+  <span class="nx">svg</span><span class="o">:</span> <span class="s2">&#34;image/svg+xml&#34;</span><span class="p">,</span>
+  <span class="nx">swf</span><span class="o">:</span> <span class="s2">&#34;application/x-shockwave-flash&#34;</span><span class="p">,</span>
+  <span class="nx">tiff</span><span class="o">:</span> <span class="s2">&#34;image/tiff&#34;</span><span class="p">,</span>
+  <span class="nx">txt</span><span class="o">:</span> <span class="s2">&#34;text/plain&#34;</span><span class="p">,</span>
+  <span class="nx">wav</span><span class="o">:</span> <span class="s2">&#34;audio/x-wav&#34;</span><span class="p">,</span>
+  <span class="nx">wma</span><span class="o">:</span> <span class="s2">&#34;audio/x-ms-wma&#34;</span><span class="p">,</span>
+  <span class="nx">wmv</span><span class="o">:</span> <span class="s2">&#34;video/x-ms-wmv&#34;</span><span class="p">,</span>
+  <span class="nx">xml</span><span class="o">:</span> <span class="s2">&#34;text/xml&#34;</span>
+<span class="p">};</span>
+
+<span class="k">const</span> <span class="nx">Expires</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">365</span>
+<span class="p">};</span>
+
+<span class="k">const</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="nx">pathname</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">pathname</span><span class="p">;</span> <span class="c1">//解析路径
+</span><span class="c1"></span>  <span class="k">const</span> <span class="nx">resourcePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span> <span class="p">,</span> <span class="nx">pathname</span><span class="p">);</span>
+  <span class="k">const</span> <span class="nx">suffix</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">extname</span><span class="p">(</span><span class="nx">pathname</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//获取后缀
+</span><span class="c1"></span>  <span class="k">const</span> <span class="nx">contentType</span> <span class="o">=</span> <span class="nx">mimeList</span><span class="p">[</span><span class="nx">suffix</span><span class="p">];</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">resourcePath</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">//判断资源是否存在，存在则读取
+</span><span class="c1"></span>    <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span><span class="p">(</span><span class="nx">resourcePath</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stat</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1">// stat.mtime 返回 文件最后修改的时间
+</span><span class="c1"></span>      <span class="k">const</span> <span class="nx">lastModified</span> <span class="o">=</span> <span class="nx">stat</span><span class="p">.</span><span class="nx">mtime</span><span class="p">.</span><span class="nx">toUTCString</span><span class="p">();</span>
+      <span class="k">const</span> <span class="nx">ifModifiedSince</span> <span class="o">=</span> <span class="s2">&#34;If-Modified-Since&#34;</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+      <span class="k">const</span> <span class="nx">expires</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+
+      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s2">&#34;Last-Modified&#34;</span><span class="p">,</span> <span class="nx">lastModified</span><span class="p">);</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s2">&#34;Content-Type&#34;</span><span class="p">,</span> <span class="nx">contentType</span><span class="p">);</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s2">&#34;Expires&#34;</span><span class="p">,</span> <span class="nx">expires</span><span class="p">.</span><span class="nx">toUTCString</span><span class="p">());</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s2">&#34;Cache-Control&#34;</span><span class="p">,</span> <span class="s2">&#34;max-age=&#34;</span> <span class="o">+</span> <span class="nx">Expires</span><span class="p">.</span><span class="nx">maxAge</span><span class="p">);</span>
+
+      <span class="nx">expires</span><span class="p">.</span><span class="nx">setTime</span><span class="p">(</span><span class="nx">expires</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="nx">Expires</span><span class="p">.</span><span class="nx">maxAge</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+
+      <span class="c1">// 服务端的lastModified 与请求中携带的 “If-Modified-Since”的字段值对比
+</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="nx">ifModifiedSince</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">lastModified</span> <span class="o">==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="nx">ifModifiedSince</span><span class="p">])</span> <span class="p">{</span>
+        <span class="c1">//实现304逻辑
+</span><span class="c1"></span>        <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">304</span><span class="p">,</span> <span class="s2">&#34;Not Modified&#34;</span><span class="p">);</span>
+
+        <span class="c1">// 注意：此处没有返回资源
+</span><span class="c1"></span>        <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">const</span> <span class="nx">resource</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="nx">resourcePath</span><span class="p">);</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">&#34;Ok&#34;</span><span class="p">);</span>
+        <span class="nx">resource</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="p">{</span> <span class="s2">&#34;Content-Type&#34;</span><span class="o">:</span> <span class="nx">contentType</span> <span class="p">});</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&#34;No Found&#34;</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Server Listen: http://localhost:8080&#34;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>在第一次请求时，因为本地没有缓存，node server 返回状态码 200和实体文件，响应首部增加 <code>Last-Modified</code></li>
+<li>command+R 刷新页面(此时浏览器会给请求加上一个Cache-Control: max-age=0)。在第二次请求时，请求报文增加 <code>If-Modified-Since</code>，值为第一次请求时返回的<code>Last-Modified</code>。因为文件的最后修改时间没有发生变化，server 返回 304。</li>
+<li>重新编辑资源文件，再次刷新访问，请求报文依旧增加 <code>If-Modified-Since</code>，值为第一次请求时返回的 <code>Last-Modified</code>。此时 server 判定缓存失效，返回状态码 200和资源内容</li>
+</ol>
+
+<h5 id="if-none-match-etag">If-None-Match: [ETag]</h5>
+
+<p>有些情况下，仅使用最后修改时间来做验证是不够的：</p>
+
+<ul>
+<li>有时候文档被重写，内容没有变化，但是修改时间变化</li>
+<li>有时候文档修改的内容不重要，对使用也没有影响</li>
+<li>有的服务器无法准确判断最后修改时间</li>
+<li>有的场景下文档的数据需要精确亚秒级别，比如实时监控。而 Last-Modified 只能精确到秒</li>
+</ul>
+
+<p>为了解决这个问题，引入了ETag(实体标签)作为版本标识符。ETag 是根据资源本身的特征经过计算得到的一个值，用来标识一个资源。并不像 Last-Modified 那样直接依赖修改时间而是依赖资源，所以要更加可靠和灵活。ETag在响应返回的时候附加在报文中，当文档发生了修改之后，可以修改对应的ETag来表名这是一个新的版本。缓存可以通过<code>If-None-Match</code>的校验结果来判断使用缓存还是重新获取文档。</p>
+
+<p><img src="./10.png" alt="054048af.png" /></p>
+
+<p>ETag的生成规则没有严格规定包括，文档内容的hash值，对最后修改时间的hash值，甚至是约定的版本号。作为服务器再验证机制中的一环，有强弱之分</p>
+
+<p>强校验的ETag匹配要求两个资源内容的每个字节需完全相同，包括所有其他实体字段（如Content-Language）不发生变化。一个强校验ETag校验符的表示形式：&rdquo;22FAA065-2664-4197-9C5E-C92EA03D0A16&rdquo;。</p>
+
+<p>弱校验的ETag匹配要求两个资源在语义上相等，不需要每个字节相同。一个弱校验ETag校验符的表现形式：w/&ldquo;22FAA065-2664-4197-9C5E-C92EA03D0A16&rdquo;。</p>
+
+<p>同样用Node.js 来简单实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">const</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="nx">pathname</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">pathname</span><span class="p">;</span> <span class="c1">//解析路径
+</span><span class="c1"></span>  <span class="k">const</span> <span class="nx">resourcePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="nx">pathname</span><span class="p">);</span>
+  <span class="k">const</span> <span class="nx">suffix</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">extname</span><span class="p">(</span><span class="nx">pathname</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//获取后缀
+</span><span class="c1"></span>  <span class="k">const</span> <span class="nx">contentType</span> <span class="o">=</span> <span class="nx">mimeList</span><span class="p">[</span><span class="nx">suffix</span><span class="p">];</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">resourcePath</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">//判断资源是否存在，存在则读取
+</span><span class="c1"></span>    <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span><span class="p">(</span><span class="nx">resourcePath</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stat</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="nx">resource</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">resourcePath</span><span class="p">);</span>
+
+      <span class="kd">let</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span><span class="p">(</span><span class="s2">&#34;sha1&#34;</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">tag</span> <span class="o">=</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">resource</span><span class="p">).</span><span class="nx">digest</span><span class="p">(</span><span class="s2">&#34;base64&#34;</span><span class="p">);</span>
+
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">tag</span><span class="p">);</span>
+
+      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;ETag&#39;</span><span class="p">,</span> <span class="nx">tag</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s2">&#34;if-none-match&#34;</span><span class="p">]</span> <span class="o">===</span> <span class="nx">tag</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">304</span><span class="p">);</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">resource</span><span class="p">);</span>
+      <span class="c1">// res.writeHead(200, &#34;Ok&#34;);
+</span><span class="c1"></span>    <span class="p">});</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="p">{</span> <span class="s2">&#34;Content-Type&#34;</span><span class="o">:</span> <span class="nx">contentType</span> <span class="p">});</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&#34;No Found&#34;</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Server Listen: http://localhost:8080&#34;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>在第一次请求时，因为本地没有缓存，node server 返回状态码 200和实体文件，响应首部增加 <code>ETag</code></li>
+<li>command+R 刷新页面(此时浏览器会给请求加上一个Cache-Control: max-age=0)。在第二次请求时，请求报文增加 <code>If-None-Match</code>，值为第一次请求时返回的<code>ETag</code>。因为文件的内容没有发生变化，server 返回 304。</li>
+<li>重新编辑资源文件，再次刷新访问，请求报文依旧增加 <code>ETag</code>，值为第一次请求时返回的 <code>ETag</code>。此时server获取到的ETag值已经发生了变化，判定缓存失效，返回状态码 200和资源内容</li>
+</ol>
+
+<h5 id="if-unmodified-since-date">If-Unmodified-Since: Date</h5>
+
+<p>类似于If-Modified-Since，意义相反。区别是当服务器资源条件不满足时，不是返回 304 Not Modified，而是返回 412 Precondition Failed。</p>
+
+<h5 id="if-match-etag">If-Match: ETag</h5>
+
+<p>和If-None-Match 相反</p>
+
+<p>说了这么多，再回到之前 GET 请求的缓存流程，结合刚才的解释，可以重新绘制一个流程图：</p>
+
+<p><img src="./11.png" alt="704be86d.png" /></p>
+
+<h3 id="与缓存相关的首部">与缓存相关的首部</h3>
+
+<p>总结一下目前涉及到的一些与缓存相关的首部字段，方便大家理解和体会：</p>
+
+<p><img src="./12.png" alt="24cb815b.png" /></p>
+
+<p>内容有些许枯燥，但还是希望能够帮助大家理解</p>
+
+<p><strong>参考资料</strong></p>
+
+<ol>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ#%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%BC%93%E5%AD%98">HTTP 缓存 - HTTP | MDN</a></li>
+<li><a href="https://blog.fundebug.com/2019/01/08/browser-cache-mechanism/">浏览器缓存机制 | Fundebug博客</a></li>
+<li><a href="https://swiftcachelite.swiftserve.com/different-types-of-caching-and-their-differences/">Different Types of Caching and Their Differences - SwiftCache Lite</a></li>
+<li><a href="https://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers">http - How to control web page caching, across all browsers? - Stack Overflow</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching">HTTP Caching  |  Web Fundamentals  |  Google Developers</a></li>
+<li><a href="https://www.wikiwand.com/en/HTTP_ETag">HTTP ETag - Wikiwand</a></li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-03-09
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/http/">HTTP</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2019/05/%E4%BB%8Egetboundingclientrect%E5%88%B0intersection-observer/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">从getBoundingClientRect到Intersection Observer</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2019/01/%E5%B7%A7%E7%94%A8-webpack-loader-%E5%AE%9E%E7%8E%B0%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%9A%E5%88%B6%E5%8C%96/">
+            <span class="next-text nav-default">巧用 webpack loader 实现项目的定制化</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

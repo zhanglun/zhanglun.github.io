@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>重构 on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/categories/%E9%87%8D%E6%9E%84/</link>
+    <description>Recent content in 重构 on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 02 Oct 2014 20:39:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/categories/%E9%87%8D%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>规范之路-Normal Flow</title>
+      <link>https://zhanglun.github.io/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-normal-flow/</link>
+      <pubDate>Thu, 02 Oct 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/10/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-normal-flow/</guid>
+      <description>##Normal Flow 在正常流中的盒子们都是一个格式化上下文（formatting context）中的成员，可以表现成一个block或者inline，但是不能</description>
+    </item>
+    
+    <item>
+      <title>规范之路-CSS中的定位简介</title>
+      <link>https://zhanglun.github.io/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Fri, 12 Sep 2014 20:30:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/09/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-css%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D%E7%AE%80%E4%BB%8B/</guid>
+      <description>在 CSS2.1 中，一个盒子会根据下面三种定位方案进行排列： 标准流（Normal flow）：在 CSS2.1 中包括 块级盒子形成的块级格式化上下文（block formatting con</description>
+    </item>
+    
+    <item>
+      <title>规范之路-visual formatting model 概述</title>
+      <link>https://zhanglun.github.io/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Thu, 21 Aug 2014 20:39:00 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2014/08/%E8%A7%84%E8%8C%83%E4%B9%8B%E8%B7%AF-visual-formatting-model-%E6%A6%82%E8%BF%B0/</guid>
+      <description>视觉格式化模型 CSS 视觉格式化模型（visual formatting model）是一种用来处理文档，将其呈现在可视化媒体中的算法。这是 CSS 中的一个最基本的概念。可视</description>
+    </item>
+    
+  </channel>
+</rss>

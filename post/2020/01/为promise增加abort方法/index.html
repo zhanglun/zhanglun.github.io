@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>为Promise增加abort方法 - 张小伦爱学习</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="张伦" /><meta name="description" content="对于Promise而言只有三个状态： Pending， Resolve 和 Reject。在任意时刻，一个Promise只能是处于这三个状态中的任意一个，且一旦" /><meta name="keywords" content="zhanglun, JS, CSS, Node, 前端, 张伦, 勿忘初心, 方得始终" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.56.0 with theme even" />
+
+
+<link rel="canonical" href="https://zhanglun.github.io/post/2020/01/%E4%B8%BApromise%E5%A2%9E%E5%8A%A0abort%E6%96%B9%E6%B3%95/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.39a3e01cac9473be1356f3572fcfe34b2e363efabad244a99a40f28a812c837e.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="为Promise增加abort方法" />
+<meta property="og:description" content="对于Promise而言只有三个状态： Pending， Resolve 和 Reject。在任意时刻，一个Promise只能是处于这三个状态中的任意一个，且一旦" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zhanglun.github.io/post/2020/01/%E4%B8%BApromise%E5%A2%9E%E5%8A%A0abort%E6%96%B9%E6%B3%95/" />
+<meta property="article:published_time" content="2020-01-16T19:50:24+08:00" />
+<meta property="article:modified_time" content="2020-01-16T19:50:24+08:00" />
+<meta itemprop="name" content="为Promise增加abort方法">
+<meta itemprop="description" content="对于Promise而言只有三个状态： Pending， Resolve 和 Reject。在任意时刻，一个Promise只能是处于这三个状态中的任意一个，且一旦">
+
+
+<meta itemprop="datePublished" content="2020-01-16T19:50:24&#43;08:00" />
+<meta itemprop="dateModified" content="2020-01-16T19:50:24&#43;08:00" />
+<meta itemprop="wordCount" content="740">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="为Promise增加abort方法"/>
+<meta name="twitter:description" content="对于Promise而言只有三个状态： Pending， Resolve 和 Reject。在任意时刻，一个Promise只能是处于这三个状态中的任意一个，且一旦"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">类目</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">张小伦爱学习-勿忘初心，方得始终</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">类目</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">为Promise增加abort方法</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-01-16 </span>
+        
+          <span class="more-meta"> 740 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    
+  </div>
+</div>
+    <div class="post-content">
+      <p>对于Promise而言只有三个状态： <code>Pending</code>， <code>Resolve</code> 和 <code>Reject</code>。在任意时刻，一个Promise只能是处于这三个状态中的任意一个，且一旦状态变为<code>Resolve</code>或者<code>Reject</code>之后，状态不能再修改。
+有时候我们需要在Promsie从Pending状态变成<code>Resolve</code>或者<code>Reject</code>之前，停止执行对应的Promsie。就像是将Promise的状态修改为<code>Stop</code>或者<code>Abort</code>。常见的例子：
+1. 发送异步请求时，在请求返回之前直接结束当前任务的逻辑
+2. 多个任务并发时，停止执行未处理完成的任务</p>
+
+<p>既然Promise不支持，那我们能否通过其提供的接口来实现一个<code>Abort</code>方法呢？可以使用<code>Promise.race</code>方法的特点来模拟实现。<code>Promise.race(iterable)</code> 方法返回一个 promise，一旦迭代器中的某个promise解决或拒绝，返回的 promise就会解决或拒绝。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">const</span> <span class="nx">promise1</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="k">const</span> <span class="nx">promise2</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">([</span><span class="nx">promise1</span><span class="p">,</span> <span class="nx">promise2</span><span class="p">]).</span><span class="nx">then</span><span class="p">((</span><span class="nx">value</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+  <span class="c1">// Both resolve, but promise2 is faster
+</span><span class="c1"></span><span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>可以使用<code>Promise.race()</code>来构造一个“竞争关系”，将想abort的Promise和一个内置的Promise，放在race中执行，而内置的Promsie立马返回 <code>Resovled</code> 或者 <code>Reject</code> ，从而将另外一个Pomise的执行停止。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">PromiseWithAbort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">promise</span><span class="p">){</span>
+  <span class="kd">let</span> <span class="nx">_abort</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">Pabort</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolved</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)=&gt;{</span>
+    <span class="nx">_abort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">reason</span> <span class="o">=</span><span class="s1">&#39;abort !&#39;</span><span class="p">){</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="nx">reason</span><span class="p">);</span>
+      <span class="nx">reject</span><span class="p">(</span><span class="nx">reason</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="kd">let</span> <span class="nx">race</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">([</span><span class="nx">promise</span><span class="p">,</span> <span class="nx">Pabort</span><span class="p">]);</span>
+  
+  <span class="nx">race</span><span class="p">.</span><span class="nx">abort</span> <span class="o">=</span> <span class="nx">_abort</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">promise</span><span class="p">,</span> <span class="nx">Pabort</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">race</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">p1</span><span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">res</span><span class="p">=&gt;{</span>
+  <span class="nx">setTimeout</span><span class="p">(()=&gt;{</span>
+    <span class="nx">res</span><span class="p">(</span><span class="s1">&#39;p1 success&#39;</span><span class="p">);</span>
+  <span class="p">},</span><span class="mi">2000</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="kd">let</span> <span class="nx">testP</span> <span class="o">=</span> <span class="nx">PromiseWithAbort</span><span class="p">(</span><span class="nx">p1</span><span class="p">);</span>
+
+<span class="nx">testP</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span><span class="p">=&gt;{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;success:&#39;</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+<span class="p">},</span><span class="nx">error</span><span class="p">=&gt;{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;error:&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+<span class="p">})</span>
+
+<span class="nx">testP</span><span class="p">.</span><span class="nx">abort</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>或者重新包装一个新的Promise</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">class</span> <span class="nx">PromiseWithAbort</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">fn</span><span class="p">){</span>
+    <span class="kd">let</span> <span class="nx">_abort</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">_p</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolved</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)=&gt;{</span>
+      <span class="nx">fn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="nx">resolved</span><span class="p">,</span> <span class="nx">reject</span><span class="p">);</span>
+      <span class="nx">_abort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span> <span class="o">=</span> <span class="s1">&#39;abort&#39;</span><span class="p">){</span> 
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span> 
+      <span class="p">}</span>
+    <span class="p">})</span>
+
+    <span class="nx">_p</span><span class="p">.</span><span class="nx">abort</span> <span class="o">=</span> <span class="nx">_abort</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">_p</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">testP</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PromiseWithAbort</span><span class="p">((</span><span class="nx">resolved</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)=&gt;{</span>
+  <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">},</span><span class="mi">1000</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">testP</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span> <span class="p">(</span><span class="nx">resolved</span><span class="p">)=&gt;{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;resolved:&#39;</span><span class="p">,</span> <span class="nx">resolved</span><span class="p">);</span>
+<span class="p">},</span> <span class="p">(</span><span class="nx">reject</span><span class="p">)</span> <span class="p">=&gt;{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;reject:&#39;</span><span class="p">,</span> <span class="nx">reject</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">testP</span><span class="p">.</span><span class="nx">abort</span><span class="p">();</span>
+<span class="c1">//结果： rej: abort
+</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">张伦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-01-16
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2020/03/%E4%BD%BF%E7%94%A8-css-variables-%E5%AE%9E%E7%8E%B0%E4%B8%BB%E9%A2%98%E8%89%B2%E5%88%87%E6%8D%A2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">使用 CSS variables 实现主题色切换</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2019/11/%E6%B5%85%E8%B0%88treeshaking%E5%9C%A8%E5%89%8D%E7%AB%AF%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-rollup-vs-webpack/">
+            <span class="next-text nav-default">浅谈TreeShaking在前端中的应用 - Rollup VS Webpack</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zhanglun1410@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zhanglun" class="iconfont icon-github" title="github"></a>
+  <a href="https://zhanglun.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2014 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">张伦</span>
+  </span>
+</div>
+
+
+<script data-ad-client="ca-pub-1266464468166844" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-50406624-2', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

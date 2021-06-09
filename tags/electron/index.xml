@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>electron on 张小伦爱学习</title>
+    <link>https://zhanglun.github.io/tags/electron/</link>
+    <description>Recent content in electron on 张小伦爱学习</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 05 Aug 2016 16:30:38 +0000</lastBuildDate>
+    
+	<atom:link href="https://zhanglun.github.io/tags/electron/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Electron 开发的 gulp 配置</title>
+      <link>https://zhanglun.github.io/post/2016/08/electron-%E5%BC%80%E5%8F%91%E7%9A%84-gulp-%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 05 Aug 2016 16:30:38 +0000</pubDate>
+      
+      <guid>https://zhanglun.github.io/post/2016/08/electron-%E5%BC%80%E5%8F%91%E7%9A%84-gulp-%E9%85%8D%E7%BD%AE/</guid>
+      <description>源自 Atom-shell 的 Electron 目前是一个很火的项目。已经有很多开发者基于 Electron 开发出了各种各样的桌面程序。在我看来，对于广大前端开发者来说，最为耳熟能详的应该是 Atom 和</description>
+    </item>
+    
+  </channel>
+</rss>
