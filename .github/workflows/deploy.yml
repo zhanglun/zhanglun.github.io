@@ -12,21 +12,19 @@ jobs:
       HUGO_VERSION: 0.56.0
     steps:
       - name: BeforeScript
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v${{HUGO_VERSION}}/hugo_${{HUGO_VERSION}}_Linux-64bit.deb
-          sudo dpkg -i hugo_${{env.HUGO_VERSION}}_Linux-64bit.deb
-          git config --global user.name "zhanglun"
-          git config --global user.email "zhanglun1410@gmail.com"
+        run: wget https://github.com/gohugoio/hugo/releases/download/v${{HUGO_VERSION}}/hugo_${{HUGO_VERSION}}_Linux-64bit.deb
+        run: sudo dpkg -i hugo_${{env.HUGO_VERSION}}_Linux-64bit.deb
+        run: git config --global user.name "zhanglun"
+        run: git config --global user.email "zhanglun1410@gmail.com"
       - name: Checkout
         uses: actions/checkout@v2
 
       # Build the project.
       - name: Build
-        run: |
-          echo "Deploying updates to GitHub..."
-          hugo
-          cp ./CNAME ./public/CNAME
-          cp ./ads.txt ./public/ads.txt
+        run: echo "Deploying updates to GitHub..."
+        run: hugo
+        run: cp ./CNAME ./public/CNAME
+        run: cp ./ads.txt ./public/ads.txt
 
       # 部署到 GitHub Pages
       - name: Deploy
