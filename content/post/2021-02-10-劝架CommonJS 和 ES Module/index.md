@@ -16,7 +16,7 @@ Instead rename index.js to end in .cjs, change the requiring code to use import(
 
 糟糕，遇到CommonJS和ESModule两兄弟打架了😢
 
-错误信息简单翻译一下就是: 我项目中使用`require()`加载了一个ES Module，后者不支持`require()`。要么我把自己的 JavaScript 文件后缀改成 `.cjs` ，然后用 `import()` 方法加载`Ora`。要么我把Ora的package.json 中的 `type: module` 去掉
+错误信息简单翻译一下就是: 我项目中使用`require()`加载了一个ES Module，后者不支持`require()`。要么我把自己的 JavaScript 文件后缀改成 `.cjs` ，然后用 `import()` 方法加载 `Ora`。要么我把 Ora 的 package.json 中的 `type: module` 去掉
 
 按照第一种方式修改之后，代码立马就能跑起来。但是这种方法还是有些问题：
 
