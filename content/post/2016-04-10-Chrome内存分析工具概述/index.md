@@ -6,6 +6,7 @@ tags: [译文, JavaScript]
 ---
 
 >原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
+
 >原文链接：[https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/](https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
 
 <!--more-->
