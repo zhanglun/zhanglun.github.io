@@ -6,7 +6,7 @@ tags: [译文, JavaScript]
 ---
 
 >原文标题：4 Types of Memory Leaks in JavaScript and How to Get Rid Of Them
-原文链接：[https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/](https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
+>原文链接：[https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/](https://auth0.com/blog/2016/01/26/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
 
 <!--more-->
 
@@ -18,7 +18,7 @@ Chrome 提供了一系列优秀的工具来分析 JavaScript 代码中内存的�
 
 ### Timeline 面板 
 
-![http://7xnrrd.com1.z0.glb.clouddn.com/timeline.png](http://7xnrrd.com1.z0.glb.clouddn.com/timeline.png)
+![./images/timeline.png](./images/timeline.png)
 
 The timeline view is essential in discovering unusual memory patterns in our code. In case we are looking for big leaks, periodic jumps that do not shrink as much as they grew after a collection are a red flag. In this screenshot we can see what a steady growth of leaked objects can look like. Even after the big collection at the end, the total amount of memory used is higher than at the beginning. Node counts are also higher. These are all signs of leaked DOM nodes somewhere in the code.
 
@@ -26,7 +26,7 @@ timeline面板时发现代码中不寻常内存模式必不可少的工具。假
 
 ### Profiles view 性能视图 
 
-![http://7xnrrd.com1.z0.glb.clouddn.com/profiles.png](http://7xnrrd.com1.z0.glb.clouddn.com/profiles.png)
+![./images/profiles.png](./images/profiles.png)
 
 This is the view you will spend most of the time looking at. The profiles view allows you to get a snapshot and compare snapshots of the memory use of your JavaScript code. It also allows you to record allocations along time. In every result view different types of lists are available, but the most relevant ones for our task are the summary list and the comparison list.
 
@@ -83,7 +83,7 @@ The timeline view is great for this. Open the example in Chrome, open the Dev To
 
 打开 [Chrome 中的例子](https://developer.chrome.com/devtools/docs/demos/memory/example1)，打开开发者工具，切换到`timeline`面板，选择`memory`，点击`record`按钮。然后点击`The Button`开始泄漏内存。过了一会停止记录，查看结果：
 
-![http://7xnrrd.com1.z0.glb.clouddn.com/example-timeline.png](http://7xnrrd.com1.z0.glb.clouddn.com/example-timeline.png)
+![./images/example-timeline.png](./images/example-timeline.png)
 
 >This example will continue leaking memory each second. After stopping the recording, set a breakpoint in the grow function to stop the script from forcing Chrome to close the page.
 
@@ -111,6 +111,6 @@ Reload the page and take a heap snapshot right after it finishes loading. We wil
 
 重新加载页面，并且在完成之后拍一张内存堆得快照。我们将使用这个快照作为我们的基线。在那之后，按下`The Button`按钮，等待几秒钟，接着拍第二张快照。第二张快照完成之后，在代码中打一个断点阻止泄漏更多的内存是明智的。
 
-![http://7xnrrd.com1.z0.glb.clouddn.com/example-snapshots-1.png](http://7xnrrd.com1.z0.glb.clouddn.com/example-snapshots-1.png)
+![./images/example-snapshots-1.png](./images/example-snapshots-1.png)
 
 
