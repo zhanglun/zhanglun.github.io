@@ -2,6 +2,8 @@
 title: "使用 single-spa 实现微前端"
 date: 2020-11-05T11:16:48+08:00
 draft: false
+categories:
+  - 技术研究
 ---
 ## 背景
 
