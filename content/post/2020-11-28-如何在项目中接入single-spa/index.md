@@ -2,6 +2,8 @@
 title: "如何在项目中接入single-spa"
 date: 2020-11-28T20:27:18+08:00
 draft: false
+categories:
+  - 技术研究
 ---
 
 之前的文章[single-spa源码解析-registerApplication和start](../single-spa源码解析-registerapplication和start)中，对single-spa提供的两个关键方法的源码进行了简单分析。今天来讲一讲如何在项目中接入使用。
@@ -342,11 +344,12 @@ export const timeouts = {
 };
 ```
 
->注意`millis`指的是最终控制台输出警告的毫秒数，```warningMillis```指的是将警告打印到控制台(间隔)的毫秒数。
+> 注意`millis`指的是最终控制台输出警告的毫秒数，```warningMillis```指的是将警告打印到控制台(间隔)的毫秒数。
 
 ## 使用single-spa生态快速接入
 
 single-spa官方团队针对不同流行框架创建了一些项目，帮助开发者使用自己选择的框架来创建single-spa应用。这里以React为例。
+
 官方提供了[single-spa-react](https://github.com/single-spa/single-spa-react)，为React应用提供了生命周期钩子。
 
 来看一下案例，singleSpaReact最后返回的包含各生命周期函数的对象：
