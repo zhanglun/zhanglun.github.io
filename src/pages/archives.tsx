@@ -10,6 +10,24 @@ const ArchivePage = ({ data, location }) => {
   const siteMenu = data.site.siteMetadata?.menu || []
   const description = data.site.siteMetadata?.description || ""
 
+  // Gatsby group不支持sort，先在逻辑中排序。有能力之后再提交PR给 Gatsby
+  postGroup.forEach((group) => {
+    const { nodes } = group;
+    
+    group.nodes = nodes.sort((a, b) => {
+      const aDate = a.frontmatter.date || '';
+      const bDate = b.frontmatter.date || '';
+
+      if (aDate > bDate) {
+        return -1;
+      } else {
+        return 1;
+      }
+
+      return 0;
+    });
+  });
+
   if (postGroup.length === 0) {
     return (
       <Layout
