@@ -2,16 +2,15 @@ const INTEGRATION_TOKEN = 'secret_6buUNCr4GKBMmLH6jhICx7tRJvb7iBWf6PtWgrnfmIy';
 const DATABASE_ID = '45ab44626c7b4b8d9ecd22c9b70980b5';
 
 module.exports = {
-  pathPrefix: "/gatsby-starter-blog",
   siteMetadata: {
-    title: `要眇宜修的网络日志`,
+    title: `张小伦的网络日志`,
     author: {
       name: `zhanglun`,
       summary: `感受生活`,
     },
-    description: `欢迎来到 要眇宜修的网络日志 
+    description: `欢迎来到张小伦的网络日志 
 		一个记录生活，分享心得的博客`,
-    siteUrl: `https://zhanglun.github.io/gatsby-starter-blog`,
+    siteUrl: `https://zhanglun.github.io`,
     social: {
       twitter: `asdf`,
     },
@@ -140,8 +139,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `zhanglun's blog`,
+        short_name: `zl`,
         start_url: `/`,
         background_color: `#ffffff`,
         // This will impact how browsers show your PWA/website
