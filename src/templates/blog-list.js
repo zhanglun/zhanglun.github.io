@@ -17,8 +17,6 @@ const BlogList = ({ data, pageContext, location }) => {
   const siteMenu = data.site.siteMetadata?.menu || []
   const description = data.site.siteMetadata?.description || ""
 
-  console.log("post", data)
-
   return (
     <Layout
       location={location}

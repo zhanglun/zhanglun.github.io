@@ -6,8 +6,6 @@ export const ArticleItem = ({ post }) => {
   const title = post.frontmatter.title || post.fields.slug
   const frontmatter = post.frontmatter || {}
 
-  console.log("post", post)
-
   return (
     <li key={post.fields.slug}>
       <article

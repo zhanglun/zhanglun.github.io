@@ -7,9 +7,6 @@ const Layout = ({ location, children, title, menu, description }) => {
   const rootPath = `${__PATH_PREFIX__}/`
   const isRootPath = location.pathname === rootPath
   
-  console.log('menu', menu);
-  console.log(rootPath)
-
   return (
     <div className="global-wrapper" data-is-root-path={isRootPath}>
       <Header
