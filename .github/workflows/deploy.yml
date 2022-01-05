@@ -1,39 +1,21 @@
 name: Deploy GitHub Pages
 
 on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
   push:
     branches:
-      - source 
+      - master
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.56.0
     steps:
-      - name: BeforeScript
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v${{env.HUGO_VERSION}}/hugo_${{env.HUGO_VERSION}}_Linux-64bit.deb
-          sudo dpkg -i hugo_${{env.HUGO_VERSION}}_Linux-64bit.deb
-          git config --global user.name "zhanglun"
-          git config --global user.email "zhanglun1410@gmail.com"
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # Build the project.
-      - name: Build
-        run: |
-          echo "Deploying updates to GitHub..."
-          git submodule init
-          git submodule update
-          hugo
-          cp ./CNAME ./public/CNAME
-          cp ./ads.txt ./public/ads.txt
-
-      # 部署到 GitHub Pages
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+      - uses: actions/checkout@v1
+      - uses: enriikke/gatsby-gh-pages-action@v2
         with:
-          ACCESS_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: public
+          access-token: ${{ secrets.gatsbyDeploy }}
+          deploy-branch: gh-pages
+          deploy-repo: zhanglun.github.io
+
