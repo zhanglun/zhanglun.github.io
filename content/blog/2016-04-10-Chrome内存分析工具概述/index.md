@@ -1,7 +1,8 @@
 ---
 title: Chrome内存分析工具概述
 date: 2016-04-10 18:00:18
-categories: [前端]
+categories:
+  - 工具使用
 tags: [译文, JavaScript]
 ---
 
