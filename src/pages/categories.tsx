@@ -48,9 +48,9 @@ const CategoryPage = ({ data, location }) => {
               key={category.fieldValue}
               className="category-item"
             >
-              <div className="category-img">
+              {/* <div className="category-img">
                 <img src={A} alt="" />
-              </div>
+              </div> */}
               <div># {category.fieldValue}</div>
               <div>{category.totalCount}</div>
             </Link>

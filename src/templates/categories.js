@@ -25,9 +25,9 @@ const CategoryTempalte = ({ data, location, pageContext }) => {
       <Seo title="All posts" />
       <div className="category-page-header">
         <div className="category-item">
-          <div className="category-img">
+          {/* <div className="category-img">
             <img src={A} alt="" />
-          </div>
+          </div> */}
           <div># {category.name || category}</div>
           <div>{count}</div>
         </div>
