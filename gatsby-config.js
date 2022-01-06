@@ -142,15 +142,16 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `zhanglun's blog`,
-        short_name: `zl`,
+        name: `张小伦的网络日志`,
+        short_name: `张小伦`,
+        description: `欢迎来到张小伦的网络日志一个记录生活，分享心得的博客`,
         start_url: `/`,
         background_color: `#ffffff`,
         // This will impact how browsers show your PWA/website
         // https://css-tricks.com/meta-theme-color-and-trickery/
         // theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/icon.png`, // This path is relative to the root of the site.
       },
     },
     {
