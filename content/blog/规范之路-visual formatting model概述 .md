@@ -3,7 +3,6 @@ title: 规范之路-visual formatting model 概述
 categories: ['重构']
 date: 2014-08-21 20:39:00
 tags: [CSS, 笔记]
-
 ---
 
 ## [视觉格式化模型](http://www.w3.org/TR/CSS21/visuren.html)
@@ -28,17 +27,17 @@ CSS 视觉格式化模型（visual formatting model）是一种用来处理文�
 
 关于 containing block 具体的细节 [link](http://www.w3.org/TR/CSS21/visudet.html#containing-block-details)，暂时先放一边，稍后在整理。现在只是按照 W3C 的文档顺序集合其他资料做一个整理。
 
-###盒子的生成（Box generation）
+### 盒子的生成（Box generation）
 
 CSS 视觉格式化模型的一部分工作就是从文档（document）生成盒子。一个盒子的类型在一定程度上会影响它在 VFM 中的表现。一般元素都有一个默认的盒子类型，可以通过 CSS 的 display 属性修改。
 
-####块级元素和块级盒子（block-level element and block boxes）
+#### 块级元素和块级盒子（block-level element and block boxes）
 
 块级元素（block-level element）就是那些在 document 中在视觉上被渲染成块的元素，比如<\p>。当元素的 CSS 属性  display 为 block, list-item 或 table 时，它是块级元素(block-level)，被块级化。
 
 每一个块级元素（block-level element）生成一个主块级盒子（principal block-level box）。主块级盒子包含后代元素生成的盒子以及生成的内容，它可以采用任意一种[定位方案（positioning schemes）](#positioning-schemes)。有的块级元素会生成除了主块级盒子之外额外的盒子：比如 "list-item" 元素，会生成额外的盒子来放置项目符号
 
-![li](http://ncuey-crispelite.stor.sinaapp.com/QQ20140816.png)
+<!-- ![li](http://ncuey-crispelite.stor.sinaapp.com/QQ20140816.png) -->
 
 不过多数元素只生成一个主要块级盒。 每个块级盒子都会涉及到一个 [块级格式化上下文（block formatting context）](#block-formatting-context)。
 
@@ -50,7 +49,6 @@ CSS 视觉格式化模型的一部分工作就是从文档（document）生成�
 
 并不是所有的块容器盒子都是块级盒子：非替换的行内块和非替换的表格单元是块容器（可以理解成它们可以作为一个容纳新的块级盒子的容器），但是它们本身不是块级盒子。而块盒子（block boxes ）则是是块级盒子（block-level boxes）和块容器(block container)的交集。
 
-![image](http://img1.picbed.org/uploads/2014/08/_venn_inlines.png)
 
 #### 还有一个叫”匿名块盒“(Anonymous block boxes)的东西
 
@@ -62,8 +60,6 @@ CSS 视觉格式化模型的一部分工作就是从文档（document）生成�
     <p>world!</p>
 </div>
 ```
-
-![image](https://www.w3.org/TR/CSS21/images/anon-block.png)
 
 div 中同时出现了行内内容和块级内容，为了更加方便的定义格式，我们假定在文本 “hello,”外部包裹着一个匿名的块级盒子（anonymous block）。 换句话说，如果一个块级容器盒子（就是一个用来容纳块级盒子的大盒子）中只要包含任何一个块级盒子，我们就认为它只包含块级盒子。
 对于匿名盒子还要注意的是，和 <\p> 元素不同, 开发者不能控制这个匿名盒子。对于可继承属性， 它们将取 <\div> 的属性值, 比如 color。对于非继承属性，值为初始值 ，比如没有指定 background-color, 值为初始值即 transparent，于是 <\div> 背景可见。而 <\p> 可以指定 background-color 。类似的，这个匿名盒文本是一样的颜色。
@@ -94,11 +90,11 @@ div 中同时出现了行内内容和块级内容，为了更加方便的定义�
 </div>
 ```
 
-![image](http://ncuey.sinaapp.com/blog_files/images/2014-08-21_230945.png)
+<!-- ![image](http://ncuey.sinaapp.com/blog_files/images/2014-08-21_230945.png) -->
 
 前面说到的，匿名盒子无法被选中，但是会继承离他最近的非匿名盒子的样式。在触发匿名盒子形成的元素上添加的属性也会应用在元素的盒子和内容中，比如上面的例子，p元素师导致匿名盒子形成的元素，如果给它加上border，border也会应用的它形成的匿名盒子上
 
-![image](http://ncuey.sinaapp.com/blog_files/images/2014-08-21_232806.png)
+<!-- ![image](http://ncuey.sinaapp.com/blog_files/images/2014-08-21_232806.png) -->
 
 
 撸的好累，这一篇小小文章都搞了几天，现在已经快十二点了，要睡觉了。之后还需要把定位和浮动好好复习一下。
