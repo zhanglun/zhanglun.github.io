@@ -1,0 +1,1 @@
+{"version":3,"file":"component---src-pages-about-tsx.js","mappings":";;;;;;;;;;;;AAEe,QAASA,CAAAA,SAAT,EAAsB,CACnC,MAAO,aAAP,CACD","sources":["webpack://zhanglun.github.io/./src/pages/about.tsx"],"sourcesContent":["import * as React from \"react\"\n\nexport default function Component () {\n  return \"Hello world\"\n}"],"names":["Component"],"sourceRoot":""}
