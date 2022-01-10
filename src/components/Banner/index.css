@@ -1,0 +1,23 @@
+.banner {
+  height: 460px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -80px;
+  background-image: url("./1.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+.banner-title {
+  width: 600px;
+  font-size: 36px;
+  background-color: rgba(0,0,0,0.65);
+  padding: 2px 30px;
+  color: #fff;
+  text-align: center;
+  line-height: 56px;
+  height: 120px;
+  margin-top: -22px;
+}

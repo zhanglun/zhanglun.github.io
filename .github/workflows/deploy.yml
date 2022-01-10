@@ -1,0 +1,22 @@
+name: Deploy GitHub Pages
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - source
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: enriikke/gatsby-gh-pages-action@v2
+        with:
+          access-token: ${{ secrets.gatsbyDeploy }}
+          deploy-branch: gh-pages
+          deploy-repo: zhanglun.github.io
+
