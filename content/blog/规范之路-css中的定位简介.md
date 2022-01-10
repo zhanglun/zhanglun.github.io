@@ -14,7 +14,7 @@ tags: ["CSS", "笔记"]
 
 如果一个元素被浮动或者进行了绝对定位，或者元素本身是文档的根元素（root element）我们就可以说这个元素脱离了文档流（out of flow）。与 `out-of-flow` 相对的是 `in-flow`。元素A的流（the flow of an element A）是一个集合，这个集合包含了A本身和那些以A作为最近的脱离文档流的祖先元素的所有 in-flow 元素。
 
-![look at this](http://ncuey-crispelite.stor.sinaapp.com/QQ20140912-1.png)
+<!--![look at this](http://ncuey-crispelite.stor.sinaapp.com/QQ20140912-1.png) -->
 
 `position` 和 `float` 采用不同的方式来计算盒子的位置，这篇先简单的讲一下 `position`
 

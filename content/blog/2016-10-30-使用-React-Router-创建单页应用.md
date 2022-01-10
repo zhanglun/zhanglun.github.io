@@ -19,11 +19,11 @@ tags: ['React', 'JavaScript']
 
 先来看一下熟悉的套路：
 
-![image_1b0a1gh7ge4u1g9l14mm7v41me9a.png]( http://7xnrrd.com1.z0.glb.clouddn.com/e4199599d78057a8efacb848ab9b5927.png)
+<!-- ![image_1b0a1gh7ge4u1g9l14mm7v41me9a.png](http://7xnrrd.com1.z0.glb.clouddn.com/e4199599d78057a8efacb848ab9b5927.png) -->
 
 在传统的网页应用架构中，客户端只是一个展示层，通过 url 访问服务端，服务端则根据自己的“路由表”将对应的页面分发给客户端。但是在这种模式下，ajax 异步加载的内容是无法通过url 记录的。无论你在页面上操作了多少，异步请求了多少数据，在每次重新访问同一个 url 时，服务端返回给客户端的内容都是一模一样。
 
-![image_1b0a24tg94le1p03qa76br1apfg.png](http://7xnrrd.com1.z0.glb.clouddn.com/6ed2cf502e487c30c3640a2026071f87.png)
+<!--![image_1b0a24tg94le1p03qa76br1apfg.png](http://7xnrrd.com1.z0.glb.clouddn.com/6ed2cf502e487c30c3640a2026071f87.png) -->
 
 如果前端有自己专属的“路由表”来分发页面上不同的状态，那不就行了？
 

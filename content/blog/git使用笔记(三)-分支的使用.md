@@ -11,11 +11,11 @@ tags: ["Git", "笔记"]
 
 每次的提交，Git 把他们穿起来连成一条线，而主分支master就在这条线上随着提交测更新移动，而 HEAD 指向master，表示我们当前处在 master 分支上（不好意思，直接就用廖雪峰老师的图了，他的教程请戳[这里](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)）
 
-![images](http://ncuey-crispelite.stor.sinaapp.com/18333fig0304-tn.png)
+<!--![images](http://ncuey-crispelite.stor.sinaapp.com/18333fig0304-tn.png) -->
 
 创建一个叫做 dev 分支，这个分支默认会只想当前你所处在的提交对象上，切换到这个分支上后，HEAD 便指向了 dev。
 
-![images](http://ncuey-crispelite.stor.sinaapp.com/new-branch-dev.png)
+<!--![images](http://ncuey-crispelite.stor.sinaapp.com/new-branch-dev.png) -->
 
 从这个时候开始，对工作区的操作都只是在 dev 分支上发生了，在 dev 的上提交一次之后，master 指向原来的那个提交对象，而 dev 会指向最新的提交对象。我们称：master 落后了 dev 一个 commit。当我们试图将 master 指向 dev 当前的提交时，这个操作就是合并分支。
 

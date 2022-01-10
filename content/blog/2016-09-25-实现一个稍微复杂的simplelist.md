@@ -35,11 +35,11 @@ tags: [前端]
 个人比较喜欢这种方式，组件变得纯粹。不过似乎在 Vue 生态圈中没有设计这方面的介绍，在后面我打算尝试使用这种方式，不过现在还是使用相对粗暴一点的方式来划分。
 
 
-![clipboard.png](http://7xnrrd.com1.z0.glb.clouddn.com/69e6d8817e6736eca54a1c4de7605c6a.png)
+<!--![clipboard.png](http://7xnrrd.com1.z0.glb.clouddn.com/69e6d8817e6736eca54a1c4de7605c6a.png) -->
 
 这是 WunderList 的界面，简单的分析之后，可以将其划分成如下形式，再详细一点的话可以看下图，如果坚持容器组件和 UI组件的形式开发的话，相对较复杂一点，而我选择先从简单的入手。想必你应该看过[TodoMVC](http://todomvc.com/)，而这样也是simplelist 的最简单也是最核心的功能。所以在实际操作过程中，我先将输入框和单个任务这两个组件实现。
 
-![clipboard.png](http://7xnrrd.com1.z0.glb.clouddn.com/523fa36927e62c3405235fec5e256b2b.png)
+<!--![clipboard.png](http://7xnrrd.com1.z0.glb.clouddn.com/523fa36927e62c3405235fec5e256b2b.png) -->
 
 ### Vuex
 
@@ -56,7 +56,7 @@ Vuex 的四个核心概念分别是：
 
 Vuex 规定，属于应用层级的状态只能通过 Mutation 中的方法来修改，而派发 Mutation 中的事件只能通过 action。从组件出发，组件中调用 action，在 action 这一层级我们可以和后台数据交互，比如获取初始化的数据源，或者中间数据的过滤等。然后在 action 中去派发 Mutation。Mutation 去触发状态的改变，状态的改变，将触发视图的更新。
 
-![clipboard.png](http://7xnrrd.com1.z0.glb.clouddn.com/6c8f34ec28ec5c0492af7c23fafe7b58.png)
+<!--![clipboard.png](http://7xnrrd.com1.z0.glb.clouddn.com/6c8f34ec28ec5c0492af7c23fafe7b58.png) -->
 
 配合 Vuex 这样的数据管理架构，我只需要关心组件的状态变化，数据的变化和流通全部交给 Vuex。我需要维护一个数组，数组中每一个元素代表一个任务，输入框和任务上的编辑删除等操作，本质上都是对一个数组的操作。
 

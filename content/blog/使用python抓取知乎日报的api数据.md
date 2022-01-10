@@ -20,7 +20,7 @@ tags: ["Python", "笔记"]
 使用`urllib2.urlopen`打开参数中给出的url，返回一个 `instance`（匿名的object）。  
 因为这个链接本该返回的是json数据，所以可以用json库提供的`json.load`方法将对象实例解析成一个字典，直接return的话，返回的是一个字典转化成的字符串。使用`json.dumps()`将dict转换成一个json对象，参数中`encoding='utf-8'`，指定编码格式。
 
-![](http://ncuey-crispelite.stor.sinaapp.com/1413276441112.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/1413276441112.png) -->
 
 但是这种方法往往会遇到 `HTTP Error: 403 Forbidden`，因为网站禁止爬虫抓去该网站的数据。可以在请求中添加 `http header`，伪装成一个浏览器发出的请求。这里需要用到 urllib2 提供的一个类`Reuqest`:
     

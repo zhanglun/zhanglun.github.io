@@ -46,7 +46,8 @@ Node.js 可以作为服务器提供服务，他跳过了类似 Apache，IIS 等 
 	你的服务器已启动：http://127.0.0.14:3000/
 
 用浏览器访问"http://127.0.0.14:3000/" (代码中 listen() 指定的地址)  
-![Node server](http://cl.ly/image/1u2K2Y351b3O/nodeserver.png)
+
+<!-- ![Node server](http://cl.ly/image/1u2K2Y351b3O/nodeserver.png) -->
 
 Node.js 还可以部署到非网络应用的环境下，比如命令行。甚至可以调用 C/C++ 的代码，充分利用已经拥有的诸多函数库。
 

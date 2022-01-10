@@ -23,9 +23,9 @@ tags: ["CSS", "笔记"]
 
 使用 firebug 或者 Chrome 的开发者工具，可以酱紫：
 
-![firefox](http://ncuey-crispelite.stor.sinaapp.com/2014-10-12_0946.png)
+<!--![firefox](http://ncuey-crispelite.stor.sinaapp.com/2014-10-12_0946.png) -->
 
-![Chrome](http://ncuey-crispelite.stor.sinaapp.com/2014-10-12_0948.png)
+<!--![Chrome](http://ncuey-crispelite.stor.sinaapp.com/2014-10-12_0948.png) -->
 
 在CSS中定义的宽和高，其实都是内容区域的宽和高，padding，border 和 margin 被排除在盒子尺寸之外。
 
