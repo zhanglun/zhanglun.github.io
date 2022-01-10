@@ -62,7 +62,7 @@ tags: ["CSS","笔记"]
 * 计算元素选择器和伪元素的个数z，d = z;
 
 就象这样：  
-![http://ncuey-crispelite.stor.sinaapp.com/specificity-calculationbase.png](http://ncuey-crispelite.stor.sinaapp.com/specificity-calculationbase.png)  
+<!--![http://ncuey-crispelite.stor.sinaapp.com/specificity-calculationbase.png](http://ncuey-crispelite.stor.sinaapp.com/specificity-calculationbase.png)   -->
 
 最后的到的权重就是 `0(1), x, y, z`，把它看作一个4位数的数字，数字越大权重越高。可以这么记：从0开始，一个行内样式+1000，一个id+100，一个属性选择器/class或者伪类+10，一个元素名，或者伪元素+1.比如：
 
@@ -89,13 +89,13 @@ P标签的颜色将会是绿色，因为权重的关系，行内样式会覆盖�
 
 借鉴一下老外的图：
 
-![1](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-1.png)  
+<!--![1](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-1.png)   -->
 或者  
-![2](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-2.png)  
+<!--![2](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-2.png)   -->
 然后   
-![4](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-4.png) 
+<!--![4](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-4.png)  -->
 还有  
-![5](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-5.png)  
+<!--![5](http://ncuey-crispelite.stor.sinaapp.com/cssspecificity-calc-5.png)   -->
 
 
 

@@ -61,11 +61,11 @@ tags: [笔记, Node.js]
     
 使用 module.exports 可以很快得到想要的：
 
-![使用 module.exports](http://cl.ly/image/1b32450A2744/download/2014-04-25_205447.png)
+<!-- ![使用 module.exports](http://cl.ly/image/1b32450A2744/download/2014-04-25_205447.png) -->
 
 而使用 exports 时：
 
-![使用 exports](http://cl.ly/image/040A3H2K2g0n/download/2014-04-25_210131.png)
+<!-- ![使用 exports](http://cl.ly/image/040A3H2K2g0n/download/2014-04-25_210131.png) -->
 
 (module.exports 和 exports 二者之间更具体的关系将之后补上)。
 
@@ -102,7 +102,7 @@ tags: [笔记, Node.js]
 
 当 main.js 加载 a.js 时，a.js 又加载 b.js。这个时候，b.js 又会尝试去加载 a.js 。为了防止出现无限循环的加载，a.js 中的 exports 对象会返回一个 **unfinished copy** 给 b.js 模块。然后模块b完成加载，同时将提供模块a的接口。当 main.js 加载完a，b两个模块之后，输出如下：
 
-![cycles](http://cl.ly/image/263z0W3W0m0G/download/2014-04-25_212142.png)  
+<!-- ![cycles](http://cl.ly/image/263z0W3W0m0G/download/2014-04-25_212142.png)   -->
 
 ##模块的分类和载入
 Node.js 的模块可以分成两类，一类是原生模块（核心模块），另一类是文件模块。核心模块由二进制编译而成，定义在源代码的 **lib/** 目录下,加载的速度最快，比如：HTTP 模块。而文件模块我的理解就是那些可以 require 的文件，后缀可以是 .js、.json、.node。

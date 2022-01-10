@@ -4,14 +4,15 @@ date: 2014-07-18 20:39:00
 tags: [CSS, 笔记, 兼容性, 填坑日记]
 
 ---
-###IE 下 a标签的虚线框
+## IE 下 a标签的虚线框
+
 在 IE 中，点击 a 标签时， a 标签会被加上一个虚线框，很丑！！！！！ 
 
-![image](http://img3.picbed.org/uploads/2014/07/QQ20140718_1.png)
+<!-- ![image](http://img3.picbed.org/uploads/2014/07/QQ20140718_1.png) -->
 
 不同版本的IE解决方案不同：IE8 下只需为 a 标签添加一条 CSS 属性就可以 `outline:none`，顺便一提 ，这条属性可以取消浏览器中输入框获得焦点是丑逼逼的外框
 
-![image](http://img3.picbed.org/uploads/2014/07/QQ20140718_2.png)
+<!-- ![image](http://img3.picbed.org/uploads/2014/07/QQ20140718_2.png) -->
 
 但是在高贵的 IE7 中，即使是添加了 `outline: none`，虚线框依旧存在，在 HTML 上加 `hidefocus="true"`　如 
 

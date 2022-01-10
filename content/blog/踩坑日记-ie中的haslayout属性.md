@@ -83,15 +83,11 @@ Internet Explorer 7 还有一些额外的属性(不完全列表):
 
 触发所有元素的 Layout，是一个不好的主意，因为有些时候，意外的拥有布局会导致意外的bug。比如正常情况下，绝对定位和浮动的元素，他的大小会根据自身的内容大小收缩，like this：
 
-![image](http://img3.tuchuang.org/uploads/2014/08/IC118706.gif)
-
 但是如果在IE中，绝对定位和浮动的子元素触发了 Layout，将导致父元素大小不会收缩，就像这样：
-
-![image](http://img1.picbed.org/uploads/2014/08/IC47393.gif)
 
 更多例子可以看[这里](http://msdn.microsoft.com/en-us/library/bb250481.aspx)
 
-###遇到 Layout 不用怕！
+### 遇到 Layout 不用怕！
 
 当网页在 IE 中有异常表现时，可以尝试触发相应元素的 Layout 来看看是不是问题所在。常用的方法是给该元素的 CSS 设定 zoom:1 。使用 zoom:1 是因为大多数情况下，它能在不影响现有环境的条件下激发元素的 Layout。而如果 bug 消失，那基本上就可以判断是 hasLayout 的原因。然后就可以通过设定相应的 css 属性来对这个问题进行修正了。
 

@@ -54,7 +54,7 @@ CSS:
         padding: 3px 8px;
     }
     
-![single-line-inline](http://ncuey-crispelite.stor.sinaapp.com/single-line-inline.png)
+<!--![single-line-inline](http://ncuey-crispelite.stor.sinaapp.com/single-line-inline.png) -->
 
 **注意：** 这个方法对inline, inline-block, inline-table, inline-flex元素都有效
 
@@ -88,7 +88,7 @@ CSS:
         color: white;
     }
 
-![single-block](http://ncuey-crispelite.stor.sinaapp.com/single-block-center.png)
+<!--![single-block](http://ncuey-crispelite.stor.sinaapp.com/single-block-center.png) -->
 
 如果想让多个块级元素在同一行中水平居中时，最好的处理方式就是修改块级元素的 display 的属性值。一种方式是将display的值设置为`inline-block`，另一种是`flexbox`。
 
@@ -149,7 +149,7 @@ CSS:
         justify-content: center;
     }
 
-![multiple-block](http://ncuey-crispelite.stor.sinaapp.com/mulity-block-center.png)
+<!--![multiple-block](http://ncuey-crispelite.stor.sinaapp.com/mulity-block-center.png) -->
 
 ##垂直方向居中
 
@@ -183,7 +183,7 @@ CSS:
         text-decoration: none;
     }
     
-![v-single-line](http://ncuey-crispelite.stor.sinaapp.com/v-single-line.png)
+<!--![v-single-line](http://ncuey-crispelite.stor.sinaapp.com/v-single-line.png) -->
 
 因为某些原因不能使用这种简单粗暴的方法（这种方法也有其局限性），或者你想垂直居中没有元素包裹的文本的时候，利用`line-height`属性。将容器的`line-height`的值设置为与容器高度相同的值，就能很轻松的居中文本。
 
@@ -212,7 +212,7 @@ CSS:
         white-space: nowrap;
     }
     
-![line-height](http://ncuey-crispelite.stor.sinaapp.com/v-single-lineheight.png)
+<!--![line-height](http://ncuey-crispelite.stor.sinaapp.com/v-single-lineheight.png) -->
 
 ####多行的内联元素垂直居中
 
@@ -268,7 +268,7 @@ CSS:
         vertical-align: middle; // 添加单元格默认的属性
     }
 
-![nu-table-cell](http://ncuey-crispelite.stor.sinaapp.com/mu-table-cell.png)
+<!--![nu-table-cell](http://ncuey-crispelite.stor.sinaapp.com/mu-table-cell.png) -->
 
 如果不能使用“表格大法”，可以试试flexbox。一个flex-child在flex-parent中垂直居中松松的。
 
@@ -312,7 +312,7 @@ CSS:
         padding: 20px;
     }
    
-![mu-flex-center](http://ncuey-crispelite.stor.sinaapp.com/mu-flex-center.png)
+<!--![mu-flex-center](http://ncuey-crispelite.stor.sinaapp.com/mu-flex-center.png) -->
 
 flex-parent元素必须指定一个固定高度。
 
@@ -374,7 +374,7 @@ CSS:
         background: black;
     }
 
-![presudo-element-center](http://ncuey-crispelite.stor.sinaapp.com/presudo-element-center.png)
+<!--![presudo-element-center](http://ncuey-crispelite.stor.sinaapp.com/presudo-element-center.png) -->
 
 你可以试着修改伪元素的高度~~
 
@@ -408,7 +408,7 @@ CSS:
     
 当top:50%时，元素的顶部与其包裹的容器高度一半的位置处对齐。利用transform在Y轴上平移时，默认情况下参考点是元素的正中心，向上平移50%的距离其实就是元素的高度一半。
 
-![](http://ncuey-crispelite.stor.sinaapp.com/2014-10-03_195015.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/2014-10-03_195015.png) -->
 
 当然如果使用flexbox也是很简单，不必大惊小怪
 

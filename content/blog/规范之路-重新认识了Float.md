@@ -28,7 +28,7 @@ img{
 </div>
 ```
 
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_155325.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_155325.png) -->
 
 利用这个特性可以制作文字环绕图片的效果，据说float最初的作用就是这，直到有人发现可以用来“布局”。当然可以使用`clear`属性来禁止这个效果。
 
@@ -59,13 +59,13 @@ img{
 </div>
 ```
 
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_175651.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_175651.png) -->
 
 如果没有足够的横向空间，浮动元素会向下移动，可以理解成另起一行，直到能够容纳它的宽度或者不存在更多的浮动元素。
 
 因为浮动后的元素不在正常的流中，所以在浮动元素前后创建的非定位块级盒子（non-position block boxes）在垂直方向上表现得就好像浮动元素不存在一样。这意味着浮动元素在正常的流中将不会占据高度，如果一个容器没有固定高度，且里面只包含浮动元素，那么这个容器的高度将为0。但是在浮动元素之后（html结构上的先后）创建的行盒子在适当的时候会自动缩短以腾出空间放置浮动元素。如果缩短的盒子太小不能容纳任何内容，这个line box会向下移动（它的宽度重新计算）直到某些内容能够适应宽度或者没有更多的浮动元素。
 
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_193922.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_193922.png) -->
 
 在当前行中，任何在浮动元素之前的的内容都会在同一行中reflow到浮动元素的另一边。
 
@@ -97,7 +97,7 @@ img{
 </div>
 ```
 
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_193115.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_193115.png) -->
 
 来看看下面的代码：
 ```css
@@ -113,7 +113,7 @@ p,img{
 	<img src="http://placekitten.com/g/50/50" alt="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, corporis nulla quis aliquid distinctio labore commodi fugiat eum architecto sunt sed vel animi illo aspernatur quae nam ducimus enim explicabo!
 </p>
 ```
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_202013.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_202013.png) -->
 
 可以看到，图片向左浮动，在同一行上，紧跟着图片的内容的问题移到了右边。由于图片的原因，右侧的line box 被缩短了。但是在在图片之后的line box 恢复了它的宽度。
 
@@ -137,7 +137,7 @@ img{
 ```
 效果图如下：
 
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_204351.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-10-31_204351.png) -->
 
 图片浮动之后，在页面上不再占据高度，此时，没有设置高度的P元素的高度只能靠内容撑开。另一P元素就像图片不存在一样，紧接其后。可以使用`clear`属性阻止第二个P元素的内容流向（围绕）到浮动的图片。添加新的属性
 
@@ -146,7 +146,7 @@ p{
 	clear:left;
 }
 ```
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-11-01_095746.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-11-01_095746.png) -->
 
 当p元素添加了 "clear:left" 之后，导致第二个段落被“推”到浮动图片的下方。有一个叫做“clearence”的东西添加到第二个段落的上外边距，就是这个“clearence”完成了调整的工作。后面会说到“clearence”
 
@@ -208,7 +208,7 @@ CSS中提供了一个叫做`clear`的属性方便我们控制浮动之后的流�
 	<p></p>
 </div>
 ```
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-11-02_152036.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-11-02_152036.png) -->
 
 当clear的值不是none时，潜在地引入了一个叫做“clearence”的东西，clearence禁止margin的重叠，表现得好像元素margin-top上的空白间隔。用来将元素从浮动元素身边挤下去（push past）。
 
@@ -221,7 +221,7 @@ CSS中提供了一个叫做`clear`的属性方便我们控制浮动之后的流�
 
 如果暂时忽略B2的clear属性，我们会有下面的图片中的结果，B1和B2的margin重叠了，两者之间的间隔取大值也就是Max(M1, M2)。取B1的最底部在Y轴坐标为0，那么F的顶部的位置为y=M1，B2的顶部为y=Max(M1, M2)，F的底部为y=M1 + H。
 
-![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-11-02_162630.png)
+<!--![](http://ncuey-crispelite.stor.sinaapp.com/W3CR-Floats/2014-11-02_162630.png) -->
 
 考虑到B2的clear属性的作用，我们需要计算clearence，C1和C2，取Max(C1, C2)。
 

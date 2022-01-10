@@ -29,8 +29,6 @@ IE的事件流叫做**事件冒泡**（event bubbing），即事件右最具体�
 如果你单击了#btn，那么在IE的页面中，这个事件会如下传播：
 >div->body->html->document
 
-![事件冒泡](http://cl.ly/image/0p402u452W2R/event-bubbling.png)
-
 可以看到，事件首先在div上发生，div就是我们单击的元素。然后事件沿着DOM树向上传播，一直到document对象。
 所有的现代浏览器都支持事件冒泡。IE9，Firefox，Chrome和Safari则将事件一直冒泡到window对象。
 
@@ -40,7 +38,6 @@ IE的事件流叫做**事件冒泡**（event bubbing），即事件右最具体�
 
 >div->body->html->document
 
-![事件捕获](http://cl.ly/image/3b1P2i0D1m1q/event-capture.png)
 
 在这个过程中，document对象先接收到click事件，然后事件沿着DOM树依次向下，一直传递到目标元素。
 IE9，Firefox，Chrome和Safari都支持事件捕获。“DOM2级事件”规范要求事件应该从document对象开始传播，但实际上这些浏览器都是从window对象开始捕获事件。
@@ -53,7 +50,6 @@ DOM事件流比事件毛婆和事件捕获稍微复杂一点点。它规定的�
 
 >document->html->body->div->body->html->document
 
-![DOM事件流](http://cl.ly/image/3b1P2i0D1m1q/event-dom.png)
 
 在DOM事件流中，实际的目标在捕获阶段不会接收到事件。也就是说在捕获阶段中，事件从document到<html\>再到<body\>后就停止了。下一个阶段是“处于目标”阶段，于是事件在目标元素上面发生，并且在事件处理中被看成了冒泡阶段的一部分。紧接着冒泡阶段发生，事件传回文档
 ##事件处理程序
@@ -159,6 +155,6 @@ IE中有类似于DOM的两个方法：attachEvent()和detachEvent()。这两个�
 	EventUtil.removeHandler(btn, "click", handler);
 
 
-##参考资料
+## 参考资料
 * 《JavaScript高级程序设计》
 

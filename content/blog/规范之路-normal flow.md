@@ -33,15 +33,15 @@ tags: ["CSS", "笔记"]
 当一个内联盒子被截断时，margin，padding和border在截断处都不会有任何的视觉效果。  
 
 ---
-![inline-box-split-margin](http://ncuey-crispelite.stor.sinaapp.com/inline-box-split-margin.png)
+<!--![inline-box-split-margin](http://ncuey-crispelite.stor.sinaapp.com/inline-box-split-margin.png) -->
 
 ---
 
-![inline-box-split-padding](http://ncuey-crispelite.stor.sinaapp.com/inline-box-split-padding.png)
+<!--![inline-box-split-padding](http://ncuey-crispelite.stor.sinaapp.com/inline-box-split-padding.png) -->
 
 ---
 
-![inline-box-split-border](http://ncuey-crispelite.stor.sinaapp.com/inline-box-split-border.png)
+<!--![inline-box-split-border](http://ncuey-crispelite.stor.sinaapp.com/inline-box-split-border.png) -->
 
 ---
 

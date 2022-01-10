@@ -6,11 +6,11 @@ tags: ['CSS', '兼容性']
 
 我敢说这一定是很常见的问题，因为到处都是页面不够长而上吊的footer，而。比如这里：
 
-![image](http://ncuey-crispelite.stor.sinaapp.com/QQ20140825-1.png)
+<!--![image](http://ncuey-crispelite.stor.sinaapp.com/QQ20140825-1.png) -->
 
 或者这里(￣◇￣;)：
 
-![image](http://ncuey-crispelite.stor.sinaapp.com/QQ20140826-1.png)
+<!--![image](http://ncuey-crispelite.stor.sinaapp.com/QQ20140826-1.png) -->
 
 这是随手找到，没别的意思。只是想说明一下这个问题的普遍程度。以前自己也曾遇到过，查阅一番之后解决了，但是日子长了记忆早已模糊。最近在重构项目页面时，重新遇到了这个问题，遂决定好好理一理。在网上查阅一番之后发现，解决方案还是挺多的。一个个慢慢来。
 
