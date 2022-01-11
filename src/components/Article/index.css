@@ -90,6 +90,10 @@ blockquote {
   font-size: var(--content-font-size);
 }
 
+.content strong {
+  font-weight: bolder;
+}
+
 .content code {
   line-height: inherit;
   font-size: inherit;
