@@ -271,6 +271,8 @@ a:focus {
 }
 
 .main {
+  position: relative;
+  z-index: 1;
   max-width: var(--main-max-width);
   width: 90%;
   margin: 0 auto;
@@ -297,6 +299,7 @@ a:focus {
 
 .blog-post header h1 {
   margin: var(--spacing-0) var(--spacing-0) var(--spacing-4) var(--spacing-0);
+  line-height: 1.2;
 }
 
 .blog-post header p {
