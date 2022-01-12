@@ -1,7 +1,7 @@
 ---
 title: '【译】CSS Grid, Flexbox 和 Box Alignment:网页布局的新系统'
 date: 2016-11-11 22:50:35
-categories: ['前端'] 
+categories: ['博客译文'] 
 tags: ["CSS", "译文"]
 ---
 

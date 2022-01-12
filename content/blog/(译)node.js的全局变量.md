@@ -1,7 +1,8 @@
 ---
-title: (译)Node.js的全局变量    
+title: 【译】Node.js的全局变量    
 date: 2014-04-28 19:36:00
-categories: ['Node.js']
+categories:
+  - 博客译文
 tags: [译文,Node.js]
 
 ---
