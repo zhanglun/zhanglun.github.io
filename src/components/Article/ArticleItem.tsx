@@ -1,10 +1,10 @@
-import React from "react"
-import { Link } from "gatsby"
-import { CategoryLabel } from "../CategoryLabel"
+import React from "react";
+import { Link } from "gatsby";
+import { CategoryLabel } from "../CategoryLabel";
 
 export const ArticleItem = ({ post }) => {
-  const title = post.frontmatter.title || post.fields.slug
-  const frontmatter = post.frontmatter || {}
+  const title = post.frontmatter.title || post.fields.slug;
+  const frontmatter = post.frontmatter || {};
 
   return (
     <li key={post.fields.slug}>
@@ -43,5 +43,5 @@ export const ArticleItem = ({ post }) => {
         </footer>
       </article>
     </li>
-  )
-}
+  );
+};
