@@ -1,0 +1,73 @@
+.theme-1 {
+  --background-color: #fef6e4;
+  --background-color-1: #f3d2c1;
+  --background-color-2: #fffffe;
+  --background-color-3: #f582ae;
+  --button-color: #f582ae;
+  --button-text-color: #001858;
+  --card-backgroud-color: #f3d2c1;
+  --card-background-color: #fef6e4;
+  --card-background-color-1: #001858;
+  --card-heading-color: #001858;
+  --card-headline-color: #fffffe;
+  --card-headline-color-1: #001858;
+  --card-highlight-color: #f582ae;
+  --card-paragraph-color: #172c66;
+  --card-tag-background-color: #fef6e4;
+  --card-tag-text-color: #001858;
+  --form-button-color: #f582ae;
+  --form-button-text-color: #001858;
+  --form-input-color: #f3d2c1;
+  --headline-color: #001858;
+  --highlight-color: #fef6e4;
+  --label--placeholder-color: #001858;
+  --link-color: #f582ae;
+  --links-color: #fef6e4;
+  --main-color: #f3d2c1;
+  --paragraph-color: #172c66;
+  --secondary-color: #8bd3dd;
+  --stroke-color: #001858;
+  --sub-headline-color: #172c66;
+  --tertiary-color: #f582ae;
+}
+
+
+/* const links = document.querySelectorAll(".section-hues-row");
+const values = [].map.call(links, (item) => {
+  const name =
+    "--" +
+    item
+      .querySelector(".hue-title")
+      .innerText.trim()
+      .toLowerCase()
+      .replace(/&/ig, '')
+      .replace(/\s/gi, "-") +
+    "-color";
+  const value = item.querySelector(".hue-hex").innerText.trim();
+  return {
+    name,
+    value,
+  };
+});
+
+const table = {};
+console.log(values);
+
+const result = values.reduce((acu, cur) => {
+  if (acu[cur.name] && acu[cur.name] === cur.value) {
+    return acu;
+  }
+
+  if (acu[cur.name]) {
+    acu[cur.name + "-" + table[cur.name]] = cur.value;
+    table[cur.name] = (table[cur.name] || 0) + 1;
+    return acu;
+  }
+
+  acu[cur.name] = cur.value;
+  table[cur.name] = (table[cur.name] || 0) + 1;
+
+  return acu;
+}, {});
+console.log('table', table);
+console.log(result); */

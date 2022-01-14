@@ -48,8 +48,8 @@
   border: 2px solid #636363;
   font-size: 13px;
   font-weight: var(--fontWeight-bold);
-  background-color: #636363;
-  color: #fff;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
   background-color: transparent;
   outline: none;
   cursor: pointer;
@@ -62,7 +62,7 @@
 }
 
 .article-list-item .read-more:link {
-  color: #fff;
+  color: var(--button-text-color);
 }
 
 /* .article-list-item .read-more:hover {
@@ -73,7 +73,7 @@
 .article-list-item .read-more:after {
   content: "";
   /* background-color: #ffe54c; */
-  background-color: #636363;
+  background-color: var(--button-color);
   width: 100%;
   z-index: -1;
   position: absolute;
