@@ -1,6 +1,7 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400;600&display=swap'); */
 
 @import "./styles/theme.css";
+@import "./styles/heti.css";
 
 /* CSS Custom Properties Definitions */
 :root {
@@ -297,6 +298,7 @@ a:focus {
 
 .global-wrapper {
   background-color: var(--background-color);
+  min-width: 100%;
 }
 
 .global-header {

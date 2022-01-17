@@ -8,7 +8,7 @@ const Layout = ({ location, children, title, menu, description }) => {
   const isRootPath = location.pathname === rootPath
   
   return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
+    <div className="global-wrapper heti" data-is-root-path={isRootPath}>
       <Header
         title={title}
         menu={menu}
