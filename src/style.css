@@ -1,7 +1,7 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400;600&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400;600&display=swap');
 
 @import "./styles/theme.css";
-@import "./styles/heti.css";
+/* @import "./styles/heti.css"; */
 
 /* CSS Custom Properties Definitions */
 :root {
@@ -78,7 +78,7 @@
   
   /* --background-color: #fafafa;
   --main-color: #fff; */
-  --background-color: #fef6e4;
+  --background-color: #fafafa;
   --background-color-1: #f3d2c1;
   --background-color-2: #fffffe;
   --background-color-3: #f582ae;
@@ -457,6 +457,7 @@ a:focus {
 
 .archive-item-list li {
   margin: 8px 0;
+  display: flex;
 }
 
 .archive-item-list a {
@@ -469,6 +470,7 @@ a:focus {
 
 .archive-date {
   margin-right: 20px;
+  width: 50px;
 }
 
 
