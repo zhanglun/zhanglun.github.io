@@ -120,7 +120,7 @@ module.exports = {
                   sort: { order: DESC, fields: [frontmatter___date] },
                 ) {
                   nodes {
-                    excerpt
+                    excerpt(truncate: true, pruneLength: 140)
                     html
                     fields {
                       slug
