@@ -17,7 +17,7 @@ const About = ({ data, location }) => {
       description={description}
     >
       <Seo title="张伦" />
-      <div className="">
+      <div>
         <h1 id="-">个人信息</h1>
         <ul>
           <li>张伦/男/1994年</li>
@@ -27,7 +27,8 @@ const About = ({ data, location }) => {
             邮箱: <strong>zhanglun1410@gmail.com</strong>
           </li>
           <li>
-            个人博客：<a href="https://zhanglun.xyz/">https://zhanglun.xyz/</a>
+            个人博客：
+            <a href="https://zhanglun.github.io">https://zhanglun.github.io</a>
           </li>
           <li>
             Github：
@@ -50,14 +51,14 @@ const About = ({ data, location }) => {
           </li>
           <li>
             使用<strong>微前端</strong>
-            方案改造系统，按照业务模块将两个巨无霸系统拆解。降低主应用代码，
+            方案改造系统，按照业务模块将两个巨无霸系统拆解。
             <strong>提高构建和发布的效率</strong>，
             <strong>提升团队协作效率</strong>
           </li>
           <li>
-            测试环境治理。使用CDN存储前端静态文件，nginx作为转发路由，利用动态注册的思路，在推送代码之后，触发
-            <strong>持续集成</strong>
-            ，自动注册并创建测试环境。一台机器实现多项目多分支同时部署，节约机器成本。
+            基于<strong>Node.js</strong>的测试环境部署方案。利用持续集成，分支
+            <strong>自动部署更新</strong>
+            测试环境。多版本并存，支撑需求并发进行。
           </li>
         </ol>
         <h3 id="-">
@@ -89,60 +90,37 @@ const About = ({ data, location }) => {
           </li>
         </ol>
         <h3 id="-dstack-web-">
-          <strong>私有云项目 DStack 的 Web 管控系统的开发和维护</strong>
+          私有云项目 DStack 的 Web 管控系统的开发和维护。
         </h3>
         <p>
-          2018年5月-2019年6月，独立负责私有云项目Dstack的Web管控系统的开发和维护。是产品化的IaaS软件，以软件的形式部署在企业的内网环境，为企业提供管理包括计算，网络，存储在内的数据中心资源的能力。主要工作：
+          2018年5月-2019年6月，独立负责私有云项目Dstack的Web管控系统的开发和维护。是产品化的IaaS软件，为企业提供管理包括计算，网络，存储在内的数据中心资源的能力。主要工作：
         </p>
         <ol>
           <li>
-            从<strong>零到一</strong>
-            完成了整个项目。包含计算资源管理，网络资源管理等十几个模块，涉及到
-            <strong>200+个接口</strong>的对接。
+            从零到一完成了整个项目，包括项目脚手架的搭建，构建打包流程，Web前端单页应用的开发，Node层的数据聚合和操作记录等业务逻辑
           </li>
           <li>
-            基于<strong>Node.js</strong>和<strong>Webpack</strong>
-            实现了项目的构建打包流程。可按照系统平台一键打包指定系统的版本，最后产出一个压缩包文件，解压之后即可运行，
-            <strong>不依赖网络和环境</strong>。
-          </li>
-          <li>
-            使用<strong>Vue</strong>完成Web端的单页应用的开发。使用
-            <strong>Koa</strong>
-            作为Web框架，实现了数据聚合，异步任务状态查询和操作记录等业务逻辑。
-          </li>
-          <li>
-            开发自动定义<strong>Webpack Loader</strong>
-            ，可以在构建时制定打包定制化的样式。
+            产出基于Node.js的Web项目的私有化部署方案，具备一键构建和一键部署的能力
           </li>
         </ol>
-        <h3 id="-paas-">
-          <strong>PaaS服务控制台系统的开发和维护</strong>
-        </h3>
+        <h3 id="paas-">PaaS服务控制台系统的开发和维护</h3>
         <p>
-          2017年3月至2018年5月，独立负责多个内部PaaS服务的控制台系统的开发和维护，至少有6+个系统。提成开发和运维的操作效率，同时减少误操作。主要工作：
+          2017年3月至2018年5月，独立负责多个内部PaaS服务的控制台系统的开发和维护，至少有6+个系统。主要工作：
         </p>
         <ol>
           <li>
-            负责多个系统的页面和功能逻辑的开发。使用Node.js作为中间层聚合数据。
+            制定开发规范，通过自动化方案落地执行，保证代码的质量和可维护性
           </li>
+          <li>主导团队UI组件库的落地和维护，服务于20+PaaS服务系统。</li>
           <li>
-            制定团队代码规范，通过持续集成，在构建阶段自动执行代码检查，保证代码的质量和可维护性。
-          </li>
-          <li>
-            主导团队基于<strong>Vue</strong>的业务组件库的落地和维护，服务于
-            <strong>20+PaaS服务系统</strong>。
-          </li>
-          <li>
-            团队项目<strong>脚手架工具</strong>{" "}
+            团队项目脚手架工具
             yak-cli。具备项目脚手架、代码格式化，代码规范检查，Commit规范约束等能力。
           </li>
         </ol>
         <h2 id="-web-2015-7-2017-2-">
           上海万企明道软件有限公司-Web前端开发工程师（2015年7月~2017年2月）
         </h2>
-        <h3 id="-">
-          <strong>明道内部更新系统</strong>
-        </h3>
+        <h3 id="-">明道内部更新系统</h3>
         <p>
           2015年8月开始，负责整个系统的前端开发以及后期功能的迭代和维护。该系统主要服务于后端组、移动组和运维组，用于公司产品更新发布和运维管理。主要工作：
         </p>
@@ -165,13 +143,10 @@ const About = ({ data, location }) => {
             重写了部分现有的通用组件，包括Alert，Modal，Terminal。
           </li>
         </ul>
-        <h3 id="-web-">
-          <strong>明道产品Web端的消息模块</strong>
-        </h3>
+        <h3 id="-web-">明道产品Web端的消息模块</h3>
         <p>
           2015年11月中旬，接手消息模块，负责
-          <strong>所有新功能的迭代和维护</strong>，已经有
-          <strong>多次版本迭代</strong>。主要工作：
+          <strong>所有新功能的迭代和维护</strong>。主要工作：
         </p>
         <ul>
           <li>
