@@ -1,6 +1,9 @@
 const INTEGRATION_TOKEN = 'secret_6buUNCr4GKBMmLH6jhICx7tRJvb7iBWf6PtWgrnfmIy';
 const DATABASE_ID = '45ab44626c7b4b8d9ecd22c9b70980b5';
 
+// test database
+// const DATABASE_ID = '4966151ea10d481ab144825e16bc9e3b';
+
 module.exports = {
   siteMetadata: {
     title: `张小伦的网络日志`,
