@@ -15,7 +15,7 @@ module.exports = {
 		一个记录生活，分享心得的博客`,
     siteUrl: `https://zhanglun.github.io`,
     social: {
-      twitter: `asdf`,
+      twitter: `zhanglun1410`,
     },
     menu: [
       {
