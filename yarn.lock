@@ -1443,7 +1443,8 @@
 
 "@notionhq/client@^1.0.4":
   version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-1.0.4.tgz#405e9468576baf81019db4d791f4b52d091f4a57"
+  resolved "https://registry.npmmirror.com/@notionhq/client/-/client-1.0.4.tgz#405e9468576baf81019db4d791f4b52d091f4a57"
+  integrity sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==
   dependencies:
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
@@ -1674,7 +1675,8 @@
 
 "@types/node-fetch@^2.5.10":
   version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
+  resolved "https://registry.npmmirror.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
+  integrity sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==
   dependencies:
     "@types/node" "*"
     form-data "^3.0.0"
@@ -4775,8 +4777,7 @@ gatsby-source-filesystem@^4.3.0:
 
 "gatsby-source-notion-api@git+https://github.com/zhanglun/gatsby-source-notion-api.git#main":
   version "0.0.0"
-  uid eff808e9f4a498c311644f03fbbc24efb3a15a35
-  resolved "git+https://github.com/zhanglun/gatsby-source-notion-api.git#eff808e9f4a498c311644f03fbbc24efb3a15a35"
+  resolved "git+https://github.com/zhanglun/gatsby-source-notion-api.git#21ac8d999fe66945a23bdad7ef14ea2fa1071a79"
   dependencies:
     "@notionhq/client" "^1.0.4"
     node-fetch "^2.6.1"
@@ -7112,7 +7113,8 @@ not@^0.1.0:
 
 notion-to-md@^2.3.2:
   version "2.3.2"
-  resolved "https://registry.yarnpkg.com/notion-to-md/-/notion-to-md-2.3.2.tgz#e048f01f4bbd7c6bb878a71a8bd59e20a3163b94"
+  resolved "https://registry.npmmirror.com/notion-to-md/-/notion-to-md-2.3.2.tgz#e048f01f4bbd7c6bb878a71a8bd59e20a3163b94"
+  integrity sha512-KKCueAqUvuqTl2y/c5uGzwjGG1a+7Yt6XMrk2jDf/M7v3i3U4YVBpEpWxHIvq8TdRSaLmXxpyoalovtymY2dBg==
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -7296,7 +7298,8 @@ optionator@^0.9.1:
 
 or-pipets@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/or-pipets/-/or-pipets-1.0.1.tgz#0699c99f95a535614a585cd7fb3a1a216a47b5c0"
+  resolved "https://registry.npmmirror.com/or-pipets/-/or-pipets-1.0.1.tgz#0699c99f95a535614a585cd7fb3a1a216a47b5c0"
+  integrity sha512-xgIIdB4w00pbhtNPYLF/caifwbc4KrE7jy4WqiDRzRrC2g3YVR4ypRwbKRA/bXzftQEA2SK8c+wKI2R7kqKiLQ==
 
 ordered-binary@^1.0.0:
   version "1.2.1"
@@ -7933,7 +7936,7 @@ pretty-format@^25.5.0:
 
 prismjs@^1.27.0:
   version "1.27.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.27.0.tgz#bb6ee3138a0b438a3653dd4d6ce0cc6510a45057"
+  resolved "https://registry.npmjs.org/prismjs/-/prismjs-1.27.0.tgz"
 
 probe-image-size@^6.0.0:
   version "6.0.0"
