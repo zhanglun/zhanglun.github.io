@@ -55,6 +55,8 @@ module.exports = {
       },
     },
     {
+      // resolve: require.resolve(`../gatsby-source-notion-api`),
+      // resolve: require.resolve(`../gatsby-source-notion-api-0.11.0`),
       resolve: `gatsby-source-notion-api`,
       options: {
         token: `${INTEGRATION_TOKEN}`,
@@ -151,7 +153,7 @@ module.exports = {
               }
             `,
             output: "/rss.xml",
-            title: "Gatsby Starter Blog RSS Feed",
+            title: "张小伦的网络日志",
           },
         ],
       },

@@ -1,6 +1,5 @@
 const path = require(`path`);
 const { createFilePath } = require(`gatsby-source-filesystem`);
-const { start } = require("repl");
 const POSTSTATUS = {
   PUBLISH: "publish",
   WORKING: "working",
@@ -95,7 +94,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   categories.forEach((category) => {
     createPage({
-      path: `/categories/${category.fieldValue}`,
+      path: `/categories/${encodeURI(category.fieldValue)}`,
       component: categoryTemplate,
       context: {
         category: category.fieldValue,
@@ -240,10 +239,6 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           resolve(source) {
             if (source.status && source.status.name) {
               return source.status.name;
-            }
-
-            if (source.draft) {
-              return POSTSTATUS.WORKING;
             }
 
             return POSTSTATUS.PUBLISH;
