@@ -55,6 +55,15 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-notion-api`,
+      options: {
+        token: `${INTEGRATION_TOKEN}`,
+        databaseId: `${DATABASE_ID}`,
+        propsToFrontmatter: true,
+        lowerTitleLevel: true,
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
@@ -160,15 +169,6 @@ module.exports = {
         // theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/icon.png`, // This path is relative to the root of the site.
-      },
-    },
-    {
-      resolve: `gatsby-source-notion-api`,
-      options: {
-        token: `${INTEGRATION_TOKEN}`,
-        databaseId: `${DATABASE_ID}`,
-        propsToFrontmatter: true,
-        lowerTitleLevel: true,
       },
     },
     `gatsby-plugin-react-helmet`,

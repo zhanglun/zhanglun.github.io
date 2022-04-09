@@ -73,7 +73,6 @@ export const pageQuery = graphql`
           date(formatString: "MMMM DD, YYYY")
           title
           description
-          draft
           status
           categories
           tags
