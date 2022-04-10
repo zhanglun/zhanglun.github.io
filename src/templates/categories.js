@@ -42,7 +42,7 @@ const CategoryTempalte = ({ data, location, pageContext }) => {
 export default CategoryTempalte
 
 export const pageQuery = graphql`
-  query categoryQuerPage ($category: String) {
+  query categoryQueryPage ($category: String) {
     site {
       siteMetadata {
         title

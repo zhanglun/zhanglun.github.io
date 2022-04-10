@@ -1441,14 +1441,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@notionhq/client@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/@notionhq/client/-/client-1.0.4.tgz#405e9468576baf81019db4d791f4b52d091f4a57"
-  integrity sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==
-  dependencies:
-    "@types/node-fetch" "^2.5.10"
-    node-fetch "^2.6.1"
-
 "@pmmmwh/react-refresh-webpack-plugin@^0.4.3":
   version "0.4.3"
   resolved "https://registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz"
@@ -1669,14 +1661,6 @@
 "@types/node-fetch@2":
   version "2.5.12"
   resolved "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.5.12.tgz"
-  dependencies:
-    "@types/node" "*"
-    form-data "^3.0.0"
-
-"@types/node-fetch@^2.5.10":
-  version "2.6.1"
-  resolved "https://registry.npmmirror.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
-  integrity sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==
   dependencies:
     "@types/node" "*"
     form-data "^3.0.0"
@@ -4775,13 +4759,12 @@ gatsby-source-filesystem@^4.3.0:
     valid-url "^1.0.9"
     xstate "^4.25.0"
 
-"gatsby-source-notion-api@git+https://github.com/zhanglun/gatsby-source-notion-api.git#main":
-  version "0.0.0"
-  resolved "git+https://github.com/zhanglun/gatsby-source-notion-api.git#21ac8d999fe66945a23bdad7ef14ea2fa1071a79"
+gatsby-source-notion-api@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.npmmirror.com/gatsby-source-notion-api/-/gatsby-source-notion-api-0.11.0.tgz#457a61b87df3a695d10584041c13a2c7a2c4ff36"
+  integrity sha512-u+Bb+/4A1zKNCVxc6htxK17FhkpDEdO8MOiVl0hPz2nHVDxh64TTDu6uRC1z5lDI6OnR5eEXcNiOA+fUdhj3aA==
   dependencies:
-    "@notionhq/client" "^1.0.4"
     node-fetch "^2.6.1"
-    notion-to-md "^2.3.2"
     or-pipets "^1.0.1"
     yaml "^1.10.2"
 
@@ -7110,11 +7093,6 @@ normalize-url@^6.0.1, normalize-url@^6.1.0:
 not@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/not/-/not-0.1.0.tgz"
-
-notion-to-md@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.npmmirror.com/notion-to-md/-/notion-to-md-2.3.2.tgz#e048f01f4bbd7c6bb878a71a8bd59e20a3163b94"
-  integrity sha512-KKCueAqUvuqTl2y/c5uGzwjGG1a+7Yt6XMrk2jDf/M7v3i3U4YVBpEpWxHIvq8TdRSaLmXxpyoalovtymY2dBg==
 
 npm-run-path@^2.0.0:
   version "2.0.2"
