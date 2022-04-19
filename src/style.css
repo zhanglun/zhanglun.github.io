@@ -2,7 +2,7 @@
 
 /* CSS Custom Properties Definitions */
 :root {
-  --sans-font: "Noto Sans", "Noto Sans TC", "Noto Sans SC", sans-serif !important;
+  --sans-font: "'Montserrat'", "Noto Sans", "Noto Sans TC", "Noto Sans SC", sans-serif !important;
   --serif-font: "Noto Serif", "Noto Serif TC", "Noto Sans TC", serif !important;
   --inline-code-font: monospace !important;
   --mono-font: "JetBrains Mono", monospace !important;
@@ -36,14 +36,14 @@
   --spacing-24: 6rem;
   --spacing-32: 8rem;
   --main-spacing: 100px;
-  --font-sans: "Noto Serif SC", Montserrat, system-ui, -apple-system,
+  --fontFamily-sans: 'Montserrat', "Noto Serif SC", system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
-  --font-serif: "Noto Serif SC", "Merriweather", "Georgia", Cambria,
+  --fontFamily-serif: "Noto Serif SC", "Merriweather", "Georgia", Cambria,
     "Times New Roman", Times, serif;
-  --font-body: var(--font-serif);
-  --font-heading: var(--font-sans);
+  --font-body: 'Montserrat';
+  --font-heading: 'Montserrat';
   --fontWeight-normal: 400;
   --fontWeight-medium: 500;
   --fontWeight-semibold: 600;
@@ -54,7 +54,7 @@
   --lineHeight-none: 1;
   --lineHeight-tight: 1.1;
   --lineHeight-normal: 1.5;
-  --lineHeight-relaxed: 1.625;
+  --lineHeight-relaxed: 1.9;
   /* 1.200 Minor Third Type Scale */
   --fontSize-0: 0.833rem;
   --fontSize-1: 1rem;
@@ -65,14 +65,15 @@
   --fontSize-6: 2.488rem;
   --fontSize-7: 2.986rem;
   --color-primary: #005b99;
-  --color-text: #2e353f;
+  /* --color-text: #2e353f; */
+  --color-text: rgb(29,43,54);
   --color-text-light: #4f5969;
   --color-heading: #45525b;
   --color-heading-black: black;
   --color-accent: #d1dce5;
 
   --header-height: 60px;
-  
+    
   /* --background-color: #fafafa;
   --main-color: #fff; */
   --background-color: #fafafa;
@@ -127,7 +128,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--fontSize-1);
   color: var(--color-text);
-  background-color: var(--background-color);
+  background-color: #fafafa;
 }
 
 hr {
@@ -147,7 +148,7 @@ h6 {
   font-family: var(--font-heading);
   margin-top: var(--spacing-12);
   margin-bottom: var(--spacing-6);
-  line-height: var(--lineHeight-tight);
+  line-height: var(--lineHeight-normal);
   letter-spacing: -0.025em;
 }
 
@@ -247,11 +248,11 @@ li > ul {
 
 blockquote {
   color: var(--color-text-light);
-  margin-left: calc(-1 * var(--spacing-6));
+  margin-left: calc(-1 * var(--spacing-0));
   margin-right: var(--spacing-8);
-  padding: var(--spacing-0) var(--spacing-0) var(--spacing-0) var(--spacing-6);
+  padding: var(--spacing-0) var(--spacing-0) var(--spacing-0) var(--spacing-3);
   border-left: var(--spacing-1) solid var(--color-primary);
-  font-size: var(--fontSize-2);
+  font-size: var(--fontSize-1);
   font-style: italic;
   margin-bottom: var(--spacing-8);
 }
@@ -260,9 +261,17 @@ blockquote > :last-child {
   margin-bottom: var(--spacing-0);
 }
 
+blockquote p {
+  margin-bottom: var(--spacing-3);
+}
+blockquote li {
+  margin: 0;
+}
+
 blockquote > ul,
 blockquote > ol {
   list-style-position: inside;
+  padding-left: var(--spacing-4);
 }
 
 table {
@@ -284,18 +293,18 @@ p img {
 
 a {
   color: var(--color-primary);
+  text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* Custom classes */
 
 .global-wrapper {
-  background-color: var(--background-color);
-  min-width: 100%;
+  background-color: #fafafa;
 }
 
 .global-header {
@@ -324,14 +333,82 @@ a:focus {
   font-size: var(--fontSize-2);
 }
 
+.article-section {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 999px) {
+  .article-section {
+    max-width: 100%;
+    padding: 0 20px 0;
+  }
+}
+
+
+.blog-post {
+  position: relative;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(29,43,54);
+  padding-bottom: 80px;
+  line-height: 1.9;
+}
+
+.blog-post::before {
+  position: absolute;
+  content: "";
+  width: 3px;
+  height: 3px;
+  bottom: -2px;
+  left: 0;
+  background: rgb(29,43,54);
+}
+
+.blog-post:after {
+  position: absolute;
+  content: "";
+  width: 3px;
+  height: 3px;
+  bottom: -2px;
+  right: 0;
+  background: rgb(29,43,54);
+}
+
+
 .blog-post header {
-  padding-top: 50px;
-  text-align: center;
+  position: relative;
+  margin-top: 50px;
+  border-top: 1px solid rgb(29,43,54);
+}
+
+.blog-post header::before {
+  position: absolute;
+  content: "";
+  width: 3px;
+  height: 3px;
+  top: -2px;
+  left: 0;
+  background: rgb(29,43,54);
+}
+
+.blog-post header:after {
+  position: absolute;
+  content: "";
+  width: 3px;
+  height: 3px;
+  top: -2px;
+  right: 0;
+  background: rgb(29,43,54);
 }
 
 .blog-post header h1 {
-  margin: var(--spacing-0) var(--spacing-0) var(--spacing-4) var(--spacing-0);
-  line-height: 1.2;
+  /* margin: var(--spacing-0) var(--spacing-0) var(--spacing-4) var(--spacing-0); */
+  margin: 60px 0;
+  line-height: 1.4;
+  font-size: 36px;
+  font-weight: 700;
 }
 
 .blog-post header p {
@@ -448,13 +525,12 @@ a:focus {
 
 .archive-item-list {
   list-style-type: none;
-  padding: 10px 0 0;
+  padding-top: 10px;
   margin-left: 0;
 }
 
 .archive-item-list li {
   margin: 8px 0;
-  display: flex;
 }
 
 .archive-item-list a {
@@ -466,8 +542,7 @@ a:focus {
 }
 
 .archive-date {
-  margin-right: 12px;
-  width: 58px;
+  margin-right: 20px;
 }
 
 
