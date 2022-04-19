@@ -1,16 +1,16 @@
-import * as React from "react"
-import { Link, graphql } from "gatsby"
+import * as React from "react";
+import { Link, graphql } from "gatsby";
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
-import { CategoryLabel } from "../components/CategoryLabel"
+import Layout from "../components/CleanLayout";
+import Seo from "../components/seo";
+import { CategoryLabel } from "../components/CategoryLabel";
 
 const BlogPostTemplate = ({ data, location }) => {
-  const post = data.markdownRemark
-  const siteTitle = data.site.siteMetadata?.title || `Title`
-  const siteMenu = data.site.siteMetadata?.menu || []
-  const description = data.site.siteMetadata?.description || ""
-  const { previous, next } = data
+  const post = data.markdownRemark;
+  const siteTitle = data.site.siteMetadata?.title || `Title`;
+  const siteMenu = data.site.siteMetadata?.menu || [];
+  const description = data.site.siteMetadata?.description || "";
+  const { previous, next } = data;
 
   return (
     <Layout
@@ -23,43 +23,47 @@ const BlogPostTemplate = ({ data, location }) => {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
-        <header>
-          {post.frontmatter.categories && (
-            <CategoryLabel items={post.frontmatter.categories} />
+      <section className="article-section">
+        <article
+          className="blog-post"
+          itemScope
+          itemType="http://schema.org/Article"
+        >
+          <header>
+            {post.frontmatter.categories && (
+              <CategoryLabel items={post.frontmatter.categories} />
+            )}
+            <h1 itemProp="headline">{post.frontmatter.title}</h1>
+            <p>{post.frontmatter.date}</p>
+          </header>
+          <section
+            dangerouslySetInnerHTML={{ __html: post.html }}
+            itemProp="articleBody"
+            className="content"
+          />
+        </article>
+        <nav className="pagination">
+          {previous ? (
+            <Link to={previous.fields.slug} className="prev" rel="prev">
+              ← {previous.frontmatter.title}
+            </Link>
+          ) : (
+            <Link className="prev" rel="prev"></Link>
           )}
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>{post.frontmatter.date}</p>
-        </header>
-        <section
-          dangerouslySetInnerHTML={{ __html: post.html }}
-          itemProp="articleBody"
-          className="content"
-        />
-        <hr />
-        <footer></footer>
-      </article>
-      <nav className="pagination">
-        {previous && (
-          <Link to={previous.fields.slug} rel="prev">
-            ← {previous.frontmatter.title}
-          </Link>
-        )}
-        {next && (
-          <Link to={next.fields.slug} rel="next">
-            {next.frontmatter.title} →
-          </Link>
-        )}
-      </nav>
+          {next ? (
+            <Link to={next.fields.slug} className="next" rel="next">
+              {next.frontmatter.title} →
+            </Link>
+          ) : (
+            <Link className="next" rel="next"></Link>
+          )}
+        </nav>
+      </section>
     </Layout>
-  )
-}
+  );
+};
 
-export default BlogPostTemplate
+export default BlogPostTemplate;
 
 export const pageQuery = graphql`
   query BlogPostBySlug(
@@ -80,7 +84,6 @@ export const pageQuery = graphql`
     }
     markdownRemark(id: { eq: $id }) {
       id
-      excerpt(truncate: true, pruneLength: 140)
       html
       frontmatter {
         title
@@ -104,10 +107,11 @@ export const pageQuery = graphql`
       }
       frontmatter {
         title
+        draft
         tags
         categories
         status
       }
     }
   }
-`
+`;
