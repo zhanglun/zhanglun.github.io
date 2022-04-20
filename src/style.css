@@ -129,6 +129,7 @@ body {
   font-size: var(--fontSize-1);
   color: var(--color-text);
   background-color: #fafafa;
+  letter-spacing: 1px;
 }
 
 hr {
