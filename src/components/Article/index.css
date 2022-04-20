@@ -87,6 +87,53 @@
   left: 0px;
 }
 
+.article-aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100%;
+  margin: 60px 0;
+  padding: 0 10px 60px 20px;
+  line-height: 1.2;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.article-aside__item {
+  margin-bottom: var(--spacing-5)
+}
+
+.aside-item__title {
+  font-size: 11px;
+  color: rgb(147,161,176);
+}
+
+.aside-item__content time {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 700; 
+}
+
+.aside-item__content .category-item {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.aside-item__content .tag-item {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.aside-item__content .tag-item::before {
+  content: "#";
+}
+
+
 /* 文章样式 */
 blockquote {
   font-weight: 400;

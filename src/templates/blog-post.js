@@ -3,7 +3,6 @@ import { Link, graphql } from "gatsby";
 
 import Layout from "../components/CleanLayout";
 import Seo from "../components/seo";
-import { CategoryLabel } from "../components/CategoryLabel";
 
 const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark;
@@ -11,6 +10,8 @@ const BlogPostTemplate = ({ data, location }) => {
   const siteMenu = data.site.siteMetadata?.menu || [];
   const description = data.site.siteMetadata?.description || "";
   const { previous, next } = data;
+
+  console.log(post);
 
   return (
     <Layout
@@ -24,15 +25,40 @@ const BlogPostTemplate = ({ data, location }) => {
         description={post.frontmatter.description || post.excerpt}
       />
       <section className="article-section">
+        <aside className="article-aside">
+          <div className="article-aside__item">
+            <div className="aside-item__title">Published</div>
+            <div className="aside-item__content">
+              <time>{post.frontmatter.date}</time>
+            </div>
+          </div>
+          {post.frontmatter.categories.length > 0 && (
+            <div className="article-aside__item">
+              <div className="aside-item__title">Category</div>
+              <div className="aside-item__content">
+                {post.frontmatter.categories.map((category) => {
+                  return <div className="category-item">{category}</div>;
+                })}
+              </div>
+            </div>
+          )}
+          {post.frontmatter.tags.length > 0 && (
+            <div className="article-aside__item">
+              <div className="aside-item__title">Tags</div>
+              <div className="aside-item__content">
+                {post.frontmatter.tags.map((tag) => {
+                  return <div className="tag-item">{tag}</div>;
+                })}
+              </div>
+            </div>
+          )}
+        </aside>
         <article
           className="blog-post"
           itemScope
           itemType="http://schema.org/Article"
         >
           <header>
-            {post.frontmatter.categories && (
-              <CategoryLabel items={post.frontmatter.categories} />
-            )}
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
             <p>{post.frontmatter.date}</p>
           </header>
@@ -48,14 +74,14 @@ const BlogPostTemplate = ({ data, location }) => {
               ← {previous.frontmatter.title}
             </Link>
           ) : (
-            <Link className="prev" rel="prev"></Link>
+            <a className="prev" rel="prev"></a>
           )}
           {next ? (
             <Link to={next.fields.slug} className="next" rel="next">
               {next.frontmatter.title} →
             </Link>
           ) : (
-            <Link className="next" rel="next"></Link>
+            <a className="next" rel="next"></a>
           )}
         </nav>
       </section>
@@ -85,9 +111,15 @@ export const pageQuery = graphql`
     markdownRemark(id: { eq: $id }) {
       id
       html
+      tableOfContents
+      headings {
+        id
+        depth
+        value
+      }
       frontmatter {
         title
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "YYYY-MM-DD")
         description
         categories
         tags
