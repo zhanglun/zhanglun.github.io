@@ -62,7 +62,7 @@ module.exports = {
         token: `${INTEGRATION_TOKEN}`,
         databaseId: `${DATABASE_ID}`,
         propsToFrontmatter: true,
-        lowerTitleLevel: true,
+        lowerTitleLevel: false,
       },
     },
     {
