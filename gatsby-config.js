@@ -77,6 +77,18 @@ module.exports = {
       options: {
         plugins: [
           {
+            resolve: `gatsby-remark-classes`,
+            options: {
+              classMap: {
+                "heading[depth=1]": "title",
+                "heading[depth=2]": "subtitle",
+                paragraph: "para",
+                "link": "link-underline",
+                blockquote: "quote"
+              }
+            }
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 630,
