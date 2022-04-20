@@ -248,13 +248,18 @@ li > ul {
 
 blockquote {
   color: var(--color-text-light);
-  margin-left: calc(-1 * var(--spacing-0));
-  margin-right: var(--spacing-8);
-  padding: var(--spacing-0) var(--spacing-0) var(--spacing-0) var(--spacing-3);
+  padding: var(--spacing-5);
   border-left: var(--spacing-1) solid var(--color-primary);
   font-size: var(--fontSize-1);
   font-style: italic;
   margin-bottom: var(--spacing-8);
+}
+
+.quote {
+  border: 2px solid #636363;
+  color: #636363;
+  box-shadow: 15px 15px 0 0 #636363;
+  margin: var(--spacing-16) 15px  var(--spacing-16) 0;
 }
 
 blockquote > :last-child {
@@ -298,7 +303,7 @@ a {
 
 a:hover,
 a:focus {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* Custom classes */
@@ -440,6 +445,18 @@ a:focus {
   padding: 50px 0;
 }
 
+.link-underline {
+  box-shadow: inset 0 0 0 0 var(--color-primary);
+  padding: 0 0.25rem;
+  margin: 0 0.25rem;
+  transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.link-underline:hover {
+  color: #fff;
+  box-shadow: inset 0 -40px 0 0 var(--color-primary);
+}
+
 .hover-underline {
   display: inline-block;
   position: relative;
@@ -451,7 +468,7 @@ a:focus {
   width: 100%;
   transform: scaleX(0);
   height: 2px;
-  bottom: 0;
+  bottom: 4px;
   left: 0;
   background-color: var(--color-text);
   transform-origin: bottom right;
