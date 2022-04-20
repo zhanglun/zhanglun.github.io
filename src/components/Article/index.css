@@ -42,27 +42,49 @@
 
 .article-list-item .read-more {
   display: inline-block;
-  width: 176px;
+  width: 190px;
   height: 50px;
   line-height: 44px;
-  border: 3px solid #636363;
+  border: 2px solid #636363;
   font-size: 13px;
   font-weight: var(--fontWeight-bold);
-  color: #636363;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
   background-color: transparent;
   outline: none;
   cursor: pointer;
   transition: ease-in-out 0.25s;
   text-decoration: none;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .article-list-item .read-more:link {
-  color: #636363;
+  color: var(--button-text-color);
 }
 
-.article-list-item .read-more:hover {
+/* .article-list-item .read-more:hover {
   border-color: var(--color-heading);
   color: var(--color-heading);
+} */
+
+.article-list-item .read-more:after {
+  content: "";
+  background-color: var(--button-color);
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 7px;
+  left: 7px;
+  transition: 0.2s;
+}
+
+.article-list-item .read-more:hover:after {
+  top: 0px;
+  left: 0px;
 }
 
 /* 文章样式 */
