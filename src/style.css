@@ -346,6 +346,15 @@ a:focus {
   margin: 0 auto;
 }
 
+.article-cover {
+  width: 100%;
+  height: 380px;
+  margin-bottom: 60px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 @media screen and (max-width: 999px) {
   .article-section {
     max-width: 100%;
