@@ -1441,6 +1441,14 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@notionhq/client@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmmirror.com/@notionhq/client/-/client-1.0.4.tgz#405e9468576baf81019db4d791f4b52d091f4a57"
+  integrity sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==
+  dependencies:
+    "@types/node-fetch" "^2.5.10"
+    node-fetch "^2.6.1"
+
 "@pmmmwh/react-refresh-webpack-plugin@^0.4.3":
   version "0.4.3"
   resolved "https://registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz"
@@ -1661,6 +1669,14 @@
 "@types/node-fetch@2":
   version "2.5.12"
   resolved "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.5.12.tgz"
+  dependencies:
+    "@types/node" "*"
+    form-data "^3.0.0"
+
+"@types/node-fetch@^2.5.10":
+  version "2.6.1"
+  resolved "https://registry.npmmirror.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
+  integrity sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==
   dependencies:
     "@types/node" "*"
     form-data "^3.0.0"
@@ -7101,6 +7117,11 @@ not@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/not/-/not-0.1.0.tgz"
 
+notion-to-md@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.npmmirror.com/notion-to-md/-/notion-to-md-2.3.2.tgz#e048f01f4bbd7c6bb878a71a8bd59e20a3163b94"
+  integrity sha512-KKCueAqUvuqTl2y/c5uGzwjGG1a+7Yt6XMrk2jDf/M7v3i3U4YVBpEpWxHIvq8TdRSaLmXxpyoalovtymY2dBg==
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.npmjs.org/npm-run-path/-/npm-run-path-2.0.2.tgz"
@@ -10271,6 +10292,11 @@ yaml-loader@^0.6.0:
 yaml@^1.10.0, yaml@^1.10.2, yaml@^1.7.2, yaml@^1.8.3:
   version "1.10.2"
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz"
+
+yaml@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmmirror.com/yaml/-/yaml-2.0.1.tgz#71886d6021f3da28169dbefde78d4dd0f8d83650"
+  integrity sha512-1NpAYQ3wjzIlMs0mgdBmYzLkFgWBIWrzYVDYfrixhoFNNgJ444/jT2kUT2sicRbJES3oQYRZugjB6Ro8SjKeFg==
 
 yargs-parser@^18.1.2:
   version "18.1.3"
