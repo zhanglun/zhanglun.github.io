@@ -1,7 +1,10 @@
 ---
 title: "ParseInt()的迷幻行为"
 date: 2021-04-23T14:20:51+08:00
-draft: false
+categories:
+  - 技术研究
+tags:
+  - Javascript
 ---
 
 最近看到一片文章 [Solving a Mystery Behavior of parseInt() in JavaScript]([https://dmitripavlutin.com/parseint-mystery-javascript/](https://dmitripavlutin.com/parseint-mystery-javascript/))，讲的是JavaScript中的`parseInt()`的一个奇怪现象。

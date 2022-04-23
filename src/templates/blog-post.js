@@ -37,7 +37,7 @@ const BlogPostTemplate = ({ data, location }) => {
               <div className="aside-item__title">Category</div>
               <div className="aside-item__content">
                 {post.frontmatter.categories.map((category) => {
-                  return <div className="category-item">{category}</div>;
+                  return <div className="category-item" key={category}>{category}</div>;
                 })}
               </div>
             </div>
@@ -47,7 +47,7 @@ const BlogPostTemplate = ({ data, location }) => {
               <div className="aside-item__title">Tags</div>
               <div className="aside-item__content">
                 {post.frontmatter.tags.map((tag) => {
-                  return <div className="tag-item">{tag}</div>;
+                  return <div className="tag-item" key={tag}>{tag}</div>;
                 })}
               </div>
             </div>
@@ -60,8 +60,8 @@ const BlogPostTemplate = ({ data, location }) => {
         >
           <header>
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
-            <p>{post.frontmatter.date}</p>
           </header>
+          { post.frontmatter.cover && <div className="article-cover" style={{ backgroundImage: `url("${post.frontmatter.cover}")`}}/> }
           <section
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
@@ -74,14 +74,14 @@ const BlogPostTemplate = ({ data, location }) => {
               ← {previous.frontmatter.title}
             </Link>
           ) : (
-            <a className="prev" rel="prev"></a>
+            <a className="prev" rel="prev"/>
           )}
           {next ? (
             <Link to={next.fields.slug} className="next" rel="next">
               {next.frontmatter.title} →
             </Link>
           ) : (
-            <a className="next" rel="next"></a>
+            <a className="next" rel="next"/>
           )}
         </nav>
       </section>
@@ -120,6 +120,7 @@ export const pageQuery = graphql`
       frontmatter {
         title
         date(formatString: "YYYY-MM-DD")
+        cover
         description
         categories
         tags
@@ -139,7 +140,6 @@ export const pageQuery = graphql`
       }
       frontmatter {
         title
-        draft
         tags
         categories
         status
