@@ -187,6 +187,9 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         description: {
           type: "String",
         },
+        cover: {
+          type: "String",
+        },
         date: {
           type: "Date",
           extensions: {
