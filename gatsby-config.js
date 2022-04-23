@@ -1,8 +1,8 @@
 const INTEGRATION_TOKEN = 'secret_6buUNCr4GKBMmLH6jhICx7tRJvb7iBWf6PtWgrnfmIy';
-const DATABASE_ID = '45ab44626c7b4b8d9ecd22c9b70980b5';
+// const DATABASE_ID = '45ab44626c7b4b8d9ecd22c9b70980b5';
 
 // test database
-// const DATABASE_ID = '4966151ea10d481ab144825e16bc9e3b';
+const DATABASE_ID = 'c505f836d00a407fbd473a5acc7347ac';
 
 module.exports = {
   siteMetadata: {
@@ -55,16 +55,23 @@ module.exports = {
       },
     },
     {
-      // resolve: require.resolve(`../gatsby-source-notion-api`),
-      // resolve: require.resolve(`../gatsby-source-notion-api-0.11.0`),
-      resolve: `gatsby-source-notion-api`,
+      resolve: `gatsby-source-filesystem`,
       options: {
-        token: `${INTEGRATION_TOKEN}`,
-        databaseId: `${DATABASE_ID}`,
-        propsToFrontmatter: true,
-        lowerTitleLevel: false,
+        path: `${__dirname}/content/notion`,
+        name: `notion`,
       },
     },
+    // {
+    //   // resolve: require.resolve(`../gatsby-source-notion-api`),
+    //   // resolve: require.resolve(`../gatsby-source-notion-api-0.11.0`),
+    //   // resolve: `gatsby-source-notion-api`,
+    //   options: {
+    //     token: `${INTEGRATION_TOKEN}`,
+    //     databaseId: `${DATABASE_ID}`,
+    //     propsToFrontmatter: true,
+    //     lowerTitleLevel: false,
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -75,6 +82,7 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
+        gfm: true,
         plugins: [
           {
             resolve: `gatsby-remark-classes`,
@@ -94,12 +102,12 @@ module.exports = {
               maxWidth: 630,
             },
           },
-          {
-            resolve: `gatsby-remark-responsive-iframe`,
-            options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
-            },
-          },
+           {
+             resolve: `gatsby-remark-responsive-iframe`,
+             options: {
+               wrapperStyle: `margin-bottom: 1.0725rem`,
+             },
+           },
           {
             resolve: `gatsby-remark-images-anywhere`,
           },
