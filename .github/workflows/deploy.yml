@@ -17,9 +17,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '17'
-          cache: 'npm'
-      - run: npm install
-      - run: npm run download
+      - run: yarn install
+      - run: yarn run download
       - uses: enriikke/gatsby-gh-pages-action@v2
         with:
           access-token: ${{ secrets.gatsbyDeploy }}
