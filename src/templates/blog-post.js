@@ -61,7 +61,7 @@ const BlogPostTemplate = ({ data, location }) => {
           <header>
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
           </header>
-          { post.frontmatter.cover && <div className="article-cover" style={{ backgroundImage: `url("${post.frontmatter.cover}")`}}/> }
+          { post.frontmatter.cover && <img className="article-cover" src={post.frontmatter.cover} /> }
           <section
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
