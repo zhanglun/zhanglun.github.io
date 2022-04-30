@@ -16,12 +16,12 @@
 
 .article-list-item header {
   margin-bottom: var(--spacing-4);
-  padding-top: 50px;
+  padding: var(--spacing-4) 0;
   text-align: center;
 }
 
 .article-list-item h2 {
-  font-size: var(--fontSize-6);
+  font-size: var(--fontSize-5);
   color: var(--color-heading);
   margin-bottom: var(--spacing-5);
   margin-top: 0;
