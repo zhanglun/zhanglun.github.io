@@ -8,7 +8,7 @@ exports.getPages = async (notionClient, databaseId) => {
       // eslint-disable-next-line no-await-in-loop
       const result = await notionClient.databases.query({
         database_id: databaseId,
-        start_cursor: startCursor,
+        start_cursor: startCursor || undefined,
       });
 
       startCursor = result.next_cursor;
