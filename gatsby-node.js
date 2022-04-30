@@ -1,16 +1,17 @@
-const path = require(`path`);
-const { createFilePath } = require(`gatsby-source-filesystem`);
+const path = require('path');
+const { createFilePath } = require('gatsby-source-filesystem');
+
 const POSTSTATUS = {
-  PUBLISH: "publish",
-  WORKING: "working",
+  PUBLISH: 'publish',
+  WORKING: 'working',
 };
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
   // Define a template for blog post
-  const blogPost = path.resolve(`./src/templates/blog-post.js`);
-  const blogList = path.resolve("./src/templates/blog-list.js");
+  const blogPost = path.resolve('./src/templates/blog-post.tsx');
+  const blogList = path.resolve('./src/templates/blog-list.js');
 
   // Get all markdown blog posts sorted by date
   const result = await graphql(
@@ -36,13 +37,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
       }
-    `
+    `,
   );
 
   if (result.errors) {
     reporter.panicOnBuild(
-      `There was an error loading your blog posts`,
-      result.errors
+      'There was an error loading your blog posts',
+      result.errors,
     );
     return;
   }
@@ -56,8 +57,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   if (posts.length > 0) {
     posts.forEach((post, index) => {
       const previousPostId = index === 0 ? null : posts[index - 1].id;
-      const nextPostId =
-        index === posts.length - 1 ? null : posts[index + 1].id;
+      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id;
 
       createPage({
         path: post.fields.slug,
@@ -77,7 +77,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
-      path: i === 0 ? `/` : `/page/${i + 1}`,
+      path: i === 0 ? '/' : `/page/${i + 1}`,
       component: blogList,
       context: {
         limit: postsPerPage,
@@ -89,7 +89,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   });
 
   // 创建分类页面
-  const categoryTemplate = path.resolve("./src/templates/categories.js");
+  const categoryTemplate = path.resolve('./src/templates/categories.js');
   const categories = result.data.categoryGroup.group;
 
   categories.forEach((category) => {
@@ -107,8 +107,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions;
 
-  if (node.internal.type === `MarkdownRemark`) {
-    let value = "";
+  if (node.internal.type === 'MarkdownRemark') {
+    let value = '';
 
     try {
       value = `/blogs${createFilePath({
@@ -120,7 +120,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     }
 
     createNodeField({
-      name: `slug`,
+      name: 'slug',
       node,
       value: value.trim(),
     });
@@ -134,10 +134,10 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
       const yearMonth = `${year}-${month}`;
       const day = date.getDate();
 
-      createNodeField({ node, name: "year", value: year });
-      createNodeField({ node, name: "month", value: month });
-      createNodeField({ node, name: "year-month", value: yearMonth });
-      createNodeField({ node, name: "day", value: day });
+      createNodeField({ node, name: 'year', value: year });
+      createNodeField({ node, name: 'month', value: month });
+      createNodeField({ node, name: 'year-month', value: yearMonth });
+      createNodeField({ node, name: 'day', value: day });
     }
   }
 };
@@ -169,29 +169,29 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
   `);
 
   const typeDefs = [
-    "type MarkdownRemark implements Node { frontmatter: Frontmatter, fields: Fields }",
+    'type MarkdownRemark implements Node { frontmatter: Frontmatter, fields: Fields }',
     schema.buildObjectType({
-      name: "Fields",
+      name: 'Fields',
       fields: {
         slug: {
-          type: "String!",
+          type: 'String!',
         },
       },
     }),
     schema.buildObjectType({
-      name: "Frontmatter",
+      name: 'Frontmatter',
       fields: {
         title: {
-          type: "String!",
+          type: 'String!',
         },
         description: {
-          type: "String",
+          type: 'String',
         },
         cover: {
-          type: "String",
+          type: 'String',
         },
         date: {
-          type: "Date",
+          type: 'Date',
           extensions: {
             dateformat: {},
           },
@@ -206,7 +206,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           },
         },
         tags: {
-          type: "[String]",
+          type: '[String]',
           resolve(source) {
             const { tags = [] } = source;
 
@@ -222,7 +222,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           },
         },
         categories: {
-          type: "[String]",
+          type: '[String]',
           resolve(source) {
             const { categories = [] } = source;
 
@@ -238,7 +238,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
           },
         },
         status: {
-          type: "String",
+          type: 'String',
           resolve(source) {
             if (source.status && source.status.name) {
               return source.status.name;

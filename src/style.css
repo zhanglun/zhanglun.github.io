@@ -285,10 +285,18 @@ table {
   margin-bottom: var(--spacing-8);
   border-collapse: collapse;
   border-spacing: 0.25rem;
+  border: 1px solid #e9e9e7;
+  font-size: 14px;
+}
+
+table td, table th {
+  border-bottom: 1px solid #e9e9e7;
+  padding: 8px 10px;
 }
 
 table thead tr th {
-  border-bottom: 1px solid var(--color-accent);
+  text-align: left;
+  background-color: #f7f6f3;
 }
 
 p img {
@@ -438,12 +446,12 @@ a:focus {
 
 @media (max-width: 42rem) {
   blockquote {
-    padding: var(--spacing-0) var(--spacing-0) var(--spacing-0) var(--spacing-4);
+    padding: var(--spacing-3);
     margin-left: var(--spacing-0);
   }
   ul,
   ol {
-    list-style-position: inside;
+    padding-left: 14px;
   }
 }
 
@@ -452,6 +460,10 @@ a:focus {
   align-items: center;
   justify-content: space-between;
   padding: 50px 0;
+}
+
+.pagination .prev:hover, .pagination .next:hover {
+  text-decoration: underline;
 }
 
 .link-underline {
