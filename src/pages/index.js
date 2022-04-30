@@ -1,15 +1,15 @@
-import * as React from "react"
-import { Link, graphql } from "gatsby"
+import * as React from 'react';
+import { Link, graphql } from 'gatsby';
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
-import { ArticleList } from "../components/Article/ArticleList"
+import Layout from '../components/layout';
+import Seo from '../components/seo';
+import { ArticleList } from '../components/Article/ArticleList';
 
-const BlogIndex = ({ data, location }) => {
-  const siteTitle = data.site.siteMetadata?.title || `Title`
-  const posts = data.allMarkdownRemark.nodes
-  const siteMenu = data.site.siteMetadata?.menu || []
-  const description = data.site.siteMetadata?.description || ""
+function BlogIndex({ data, location }) {
+  const siteTitle = data.site.siteMetadata?.title || 'Title';
+  const posts = data.allMarkdownRemark.nodes;
+  const siteMenu = data.site.siteMetadata?.menu || [];
+  const description = data.site.siteMetadata?.description || '';
 
   if (posts.length === 0) {
     return (
@@ -21,7 +21,7 @@ const BlogIndex = ({ data, location }) => {
           gatsby-config.js).
         </p>
       </Layout>
-    )
+    );
   }
 
   return (
@@ -34,17 +34,17 @@ const BlogIndex = ({ data, location }) => {
       <Seo title="All posts" />
       <ArticleList posts={posts} />
       <div className="pagination">
-        {" "}
-        <span></span>
-        <Link to={'/page/2'} rel="next">
+        {' '}
+        <span />
+        <Link to="/page/2" rel="next">
           Next Page →
         </Link>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default BlogIndex
+export default BlogIndex;
 
 export const pageQuery = graphql`
   query {
@@ -79,4 +79,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
