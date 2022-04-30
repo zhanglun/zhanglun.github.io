@@ -37,12 +37,13 @@ function BlogPostTemplate({ data, location }) {
               <div className="aside-item__title">Category</div>
               <div className="aside-item__content">
                 {post.frontmatter.categories.map((category) => (
-                  <div
+                  <Link
                     className="category-item"
+                    to={`/categories/${category}`}
                     key={category}
                   >
                     {category}
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
