@@ -36,7 +36,14 @@ function BlogPostTemplate({ data, location }) {
             <div className="article-aside__item">
               <div className="aside-item__title">Category</div>
               <div className="aside-item__content">
-                {post.frontmatter.categories.map((category) => <div className="category-item" key={category}>{category}</div>)}
+                {post.frontmatter.categories.map((category) => (
+                  <div
+                    className="category-item"
+                    key={category}
+                  >
+                    {category}
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -57,7 +64,8 @@ function BlogPostTemplate({ data, location }) {
           <header>
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
           </header>
-          { post.frontmatter.cover && <img className="article-cover" src={post.frontmatter.cover} /> }
+          {post.frontmatter.cover
+              && <img className="article-cover" alt={post.frontmatter.cover} src={post.frontmatter.cover} />}
           <section
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
@@ -72,7 +80,7 @@ function BlogPostTemplate({ data, location }) {
               {previous.frontmatter.title}
             </Link>
           ) : (
-            <a className="prev" rel="prev" />
+            <span className="prev" />
           )}
           {next ? (
             <Link to={next.fields.slug} className="next" rel="next">
@@ -81,7 +89,7 @@ function BlogPostTemplate({ data, location }) {
               →
             </Link>
           ) : (
-            <a className="next" rel="next" />
+            <span className="next" />
           )}
         </nav>
       </section>
