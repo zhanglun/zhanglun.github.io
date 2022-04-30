@@ -1,27 +1,28 @@
-const { errorMessage } = require("../error-message")
-const { getBlocks } = require("./get-blocks")
-
 exports.getPages = async (notionClient, databaseId) => {
-    let hasMore = true
-    let startCursor = ""
-    const pages = []
+  let hasMore = true;
+  let startCursor = '';
+  const pages = [];
 
-    while (hasMore) {
-        try {
-            const result = await notionClient.databases.query({
-                database_id: databaseId,
-            })
-            startCursor = result.next_cursor
-            hasMore = result.has_more
+  while (hasMore) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const result = await notionClient.databases.query({
+        database_id: databaseId,
+        start_cursor: startCursor,
+      });
 
-            for (let page of result.results) {
-                pages.push(page)
-            }
+      startCursor = result.next_cursor;
+      hasMore = result.has_more;
 
-        } catch (e) {
-            console.error(e.message)
-        }
+      for (let i = 0; i < result.results.length; i++) {
+        const page = result.results[i];
+        page.markdown = '';
+        pages.push(page);
+      }
+    } catch (e) {
+      console.error(e.message);
     }
+  }
 
-    return pages
-}
+  return pages;
+};

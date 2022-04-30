@@ -1,29 +1,29 @@
-const { errorMessage } = require("../error-message")
+const { errorMessage } = require('../error-message');
 
 exports.getBlocks = async (notionClient, blockId, reporter) => {
-	let hasMore = true
-	let blockContent = []
-	
-	while (hasMore) {
-		try {
-			const result = await notionClient.blocks.children.list({
-				block_id: blockId,
-				page_size: 100,
-			})
+  let hasMore = true;
+  let blockContent = [];
 
-			for (let childBlock of result.results) {
-				if (childBlock.has_children) {
-					childBlock.children = await this.getBlocks(notionClient, childBlock.id, reporter);
-				}
-			}
+  while (hasMore) {
+    try {
+      const result = await notionClient.blocks.children.list({
+        block_id: blockId,
+        page_size: 100,
+      });
 
-			blockContent = blockContent.concat(result.results)
+      for (const childBlock of result.results) {
+        if (childBlock.has_children) {
+          childBlock.children = await this.getBlocks(notionClient, childBlock.id, reporter);
+        }
+      }
 
-			hasMore = result.has_more
-		} catch (e) {
-			reporter.panic(errorMessage)
-		}
-	}
+      blockContent = blockContent.concat(result.results);
 
-	return blockContent
-}
+      hasMore = result.has_more;
+    } catch (e) {
+      reporter.panic(errorMessage);
+    }
+  }
+
+  return blockContent;
+};
