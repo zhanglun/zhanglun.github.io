@@ -1,9 +1,3 @@
-const INTEGRATION_TOKEN = 'secret_6buUNCr4GKBMmLH6jhICx7tRJvb7iBWf6PtWgrnfmIy';
-// const DATABASE_ID = '45ab44626c7b4b8d9ecd22c9b70980b5';
-
-// test database
-const DATABASE_ID = 'c505f836d00a407fbd473a5acc7347ac';
-
 module.exports = {
   siteMetadata: {
     title: `张小伦的网络日志`,
@@ -61,17 +55,6 @@ module.exports = {
         name: `notion`,
       },
     },
-    // {
-    //   // resolve: require.resolve(`../gatsby-source-notion-api`),
-    //   // resolve: require.resolve(`../gatsby-source-notion-api-0.11.0`),
-    //   // resolve: `gatsby-source-notion-api`,
-    //   options: {
-    //     token: `${INTEGRATION_TOKEN}`,
-    //     databaseId: `${DATABASE_ID}`,
-    //     propsToFrontmatter: true,
-    //     lowerTitleLevel: false,
-    //   },
-    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

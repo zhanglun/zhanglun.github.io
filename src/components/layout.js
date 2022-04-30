@@ -1,12 +1,14 @@
-import * as React from "react"
-import { Header } from "./Header"
-import { Banner } from "./Banner"
+import * as React from 'react';
+import { Header } from './Header';
+import { Banner } from './Banner';
 import { Footer } from './Footer';
 
-const Layout = ({ location, children, title, menu, description }) => {
-  const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = location.pathname === rootPath
-  
+function Layout({
+  location, children, title, menu, description,
+}) {
+  const rootPath = `${__PATH_PREFIX__}/`;
+  const isRootPath = location.pathname === rootPath;
+
   return (
     <div className="global-wrapper" data-is-root-path={isRootPath}>
       <Header
@@ -17,7 +19,7 @@ const Layout = ({ location, children, title, menu, description }) => {
       <section className="main">{children}</section>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

@@ -1,14 +1,14 @@
-import * as React from "react";
-import { Link, graphql } from "gatsby";
+import * as React from 'react';
+import { Link, graphql } from 'gatsby';
 
-import Layout from "../components/CleanLayout";
-import Seo from "../components/seo";
+import Layout from '../components/CleanLayout';
+import Seo from '../components/seo';
 
-const BlogPostTemplate = ({ data, location }) => {
+function BlogPostTemplate({ data, location }) {
   const post = data.markdownRemark;
-  const siteTitle = data.site.siteMetadata?.title || `Title`;
+  const siteTitle = data.site.siteMetadata?.title || 'Title';
   const siteMenu = data.site.siteMetadata?.menu || [];
-  const description = data.site.siteMetadata?.description || "";
+  const description = data.site.siteMetadata?.description || '';
   const { previous, next } = data;
 
   console.log(post);
@@ -36,9 +36,7 @@ const BlogPostTemplate = ({ data, location }) => {
             <div className="article-aside__item">
               <div className="aside-item__title">Category</div>
               <div className="aside-item__content">
-                {post.frontmatter.categories.map((category) => {
-                  return <div className="category-item" key={category}>{category}</div>;
-                })}
+                {post.frontmatter.categories.map((category) => <div className="category-item" key={category}>{category}</div>)}
               </div>
             </div>
           )}
@@ -46,9 +44,7 @@ const BlogPostTemplate = ({ data, location }) => {
             <div className="article-aside__item">
               <div className="aside-item__title">Tags</div>
               <div className="aside-item__content">
-                {post.frontmatter.tags.map((tag) => {
-                  return <div className="tag-item" key={tag}>{tag}</div>;
-                })}
+                {post.frontmatter.tags.map((tag) => <div className="tag-item" key={tag}>{tag}</div>)}
               </div>
             </div>
           )}
@@ -71,23 +67,27 @@ const BlogPostTemplate = ({ data, location }) => {
         <nav className="pagination">
           {previous ? (
             <Link to={previous.fields.slug} className="prev" rel="prev">
-              ← {previous.frontmatter.title}
+              ←
+              {' '}
+              {previous.frontmatter.title}
             </Link>
           ) : (
-            <a className="prev" rel="prev"/>
+            <a className="prev" rel="prev" />
           )}
           {next ? (
             <Link to={next.fields.slug} className="next" rel="next">
-              {next.frontmatter.title} →
+              {next.frontmatter.title}
+              {' '}
+              →
             </Link>
           ) : (
-            <a className="next" rel="next"/>
+            <a className="next" rel="next" />
           )}
         </nav>
       </section>
     </Layout>
   );
-};
+}
 
 export default BlogPostTemplate;
 

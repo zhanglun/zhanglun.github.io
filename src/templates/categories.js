@@ -1,19 +1,19 @@
-import * as React from "react"
-import { Link, graphql } from "gatsby"
+import * as React from 'react';
+import { Link, graphql } from 'gatsby';
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
-import { ArticleList } from "../components/Article/ArticleList"
-import A from "../images/a.png"
+import Layout from '../components/layout';
+import Seo from '../components/seo';
+import { ArticleList } from '../components/Article/ArticleList';
+import A from '../images/a.png';
 
-const CategoryTempalte = ({ data, location, pageContext }) => {
-  const siteTitle = data.site.siteMetadata?.title || `Title`
-  const siteMenu = data.site.siteMetadata?.menu || []
-  const description = data.site.siteMetadata?.description || ""
-  const { category, count } = pageContext
+function CategoryTempalte({ data, location, pageContext }) {
+  const siteTitle = data.site.siteMetadata?.title || 'Title';
+  const siteMenu = data.site.siteMetadata?.menu || [];
+  const description = data.site.siteMetadata?.description || '';
+  const { category, count } = pageContext;
   const { nodes: posts } = data.allMarkdownRemark;
 
-  console.log(pageContext)
+  console.log(pageContext);
 
   return (
     <Layout
@@ -28,18 +28,21 @@ const CategoryTempalte = ({ data, location, pageContext }) => {
           {/* <div className="category-img">
             <img src={A} alt="" />
           </div> */}
-          <div># {category.name || category}</div>
+          <div>
+            #
+            {category.name || category}
+          </div>
           <div>{count}</div>
         </div>
       </div>
       <div className="category-page-body">
-      <ArticleList posts={posts} />
+        <ArticleList posts={posts} />
       </div>
     </Layout>
-  )
+  );
 }
 
-export default CategoryTempalte
+export default CategoryTempalte;
 
 export const pageQuery = graphql`
   query categoryQueryPage ($category: String) {
@@ -71,4 +74,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
