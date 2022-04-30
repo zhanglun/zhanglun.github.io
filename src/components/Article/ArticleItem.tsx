@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "gatsby";
-import { CategoryLabel } from "../CategoryLabel";
+import React from 'react';
+import { Link } from 'gatsby';
+import { CategoryLabel } from '../CategoryLabel';
 
-export const ArticleItem = ({ post }) => {
+export function ArticleItem({ post }) {
   const title = post.frontmatter.title || post.fields.slug;
   const frontmatter = post.frontmatter || {};
 
@@ -28,20 +28,20 @@ export const ArticleItem = ({ post }) => {
           </h2>
           <small>{post.frontmatter.date}</small>
         </header>
-        <section>
-          <p
-            dangerouslySetInnerHTML={{
-              __html: post.frontmatter.description || post.excerpt,
-            }}
-            itemProp="description"
-          />
-        </section>
-        <footer>
-          <Link to={post.fields.slug} itemProp="url" className="read-more">
-            READ MORE
-          </Link>
-        </footer>
+        {/* <section> */}
+        {/*  <p */}
+        {/*    dangerouslySetInnerHTML={{ */}
+        {/*      __html: post.frontmatter.description || post.excerpt, */}
+        {/*    }} */}
+        {/*    itemProp="description" */}
+        {/*  /> */}
+        {/* </section> */}
+        {/* <footer> */}
+        {/*  <Link to={post.fields.slug} itemProp="url" className="read-more"> */}
+        {/*    READ MORE */}
+        {/*  </Link> */}
+        {/* </footer> */}
       </article>
     </li>
   );
-};
+}

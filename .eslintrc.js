@@ -24,5 +24,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-filename-extension': 'off',
     'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
   },
 };
