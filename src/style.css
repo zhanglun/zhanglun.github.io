@@ -128,7 +128,6 @@ body {
   font-family: var(--font-body);
   font-size: var(--fontSize-1);
   color: var(--color-text);
-  background-color: #fafafa;
   letter-spacing: 1px;
 }
 
@@ -301,6 +300,7 @@ table thead tr th {
 
 p img {
   max-width: 100%;
+  border: 1px solid rgb(240,240,240);
 }
 
 /* Link */
@@ -318,7 +318,6 @@ a:focus {
 /* Custom classes */
 
 .global-wrapper {
-  background-color: #fafafa;
 }
 
 .global-header {
@@ -331,7 +330,7 @@ a:focus {
   max-width: var(--main-max-width);
   width: 90%;
   margin: 0 auto;
-  padding: 10px var(--main-spacing) 10px;
+  padding: 100px var(--main-spacing) 20px;
   background-color: var(--background-color-2);
 }
 
@@ -359,7 +358,7 @@ a:focus {
   height: 380px;
   margin-bottom: 60px;
   object-fit: cover;
-  border: 1px solid rgb(29,43,54);
+  border: 1px solid rgb(240,240,240);
 }
 
 @media screen and (max-width: 999px) {

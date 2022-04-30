@@ -1,14 +1,12 @@
-import React from "react"
-import { ArticleItem } from "./ArticleItem"
+import React from 'react';
+import { ArticleItem } from './ArticleItem';
 
-import "./index.css"
+import './index.css';
 
-export const ArticleList = ({ posts }) => {
+export function ArticleList({ posts }) {
   return (
     <ul className="article-list">
-      {posts.map((post, idx) => {
-        return <ArticleItem post={post} key={idx} />
-      })}
+      {posts.map((post) => <ArticleItem post={post} key={post.id} />)}
     </ul>
-  )
+  );
 }
