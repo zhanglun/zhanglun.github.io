@@ -14,7 +14,7 @@ export function ArticleCard({ post }) {
         itemType="http://schema.org/Article"
       >
         <div className="article-card__cover">
-          {/* <img src={frontmatter.cover} alt="post.cover" /> */}
+          <img src={frontmatter.cover} alt="post.cover" />
         </div>
         <Link
           className="article-card__body"

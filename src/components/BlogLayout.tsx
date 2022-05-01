@@ -9,7 +9,9 @@ function Layout({
 
   return (
     <div className="global-wrapper" data-is-root-path={isRootPath}>
-      {children}
+      <div className="article-main">
+        {children}
+      </div>
     </div>
   );
 }

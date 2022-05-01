@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Header } from './Header';
-import { Footer } from './Footer';
 
 function Layout({
   location, children, title, menu, description,
@@ -14,8 +13,7 @@ function Layout({
         title={title}
         menu={menu}
       />
-      <section className="main">{children}</section>
-      <Footer />
+      {children}
     </div>
   );
 }

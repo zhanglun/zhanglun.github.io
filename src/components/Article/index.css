@@ -180,17 +180,30 @@ blockquote {
 
 /* Article Card */
 
+.article-main {
+  height: calc(100vh);
+  padding-top: var(--header-height);
+}
+
 .article-list {
-  display: flex;
-  max-width: 100%;
-  /*height: calc(100vh - 6.875rem);*/
   position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  padding-top: 5.5vmin;
+  padding-bottom: 9vmin;
+  height: calc(100vh - 6.875rem);
+}
+
+.article-list li{
+  margin:0;
+  height: 100%;
 }
 
 .article-card {
   position: relative;
   width: 0;
-  height: calc(100vh - 6.875rem);
+  height: 100%;
   /*padding: 4.5vmin;*/
   padding-right: calc(.54545455 * calc(calc(100vh - 6.875rem) - 5.5vmin - 9vmin));
   margin: 0 4.2vmin;
@@ -229,7 +242,7 @@ blockquote {
   object-fit: cover;
   object-position: center;
   max-height: 100%;
-  margin-left: -50%;
+  margin-left: -25%;
 }
 
 .article-card__body {
