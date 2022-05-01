@@ -14,7 +14,9 @@ const databaseId = '45ab44626c7b4b8d9ecd22c9b70980b5';
 
 console.log('Loaded Source From Notion API');
 
-fs.mkdirSync(dist);
+if (!fs.existsSync(dist)) {
+  fs.mkdirSync(dist);
+}
 
 // eslint-disable-next-line no-shadow
 const download = async (token, databaseId) => {
