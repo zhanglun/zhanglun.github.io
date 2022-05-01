@@ -32,14 +32,16 @@ function BlogIndex({ data, location }) {
       description={description}
     >
       <Seo title="All posts" />
-      <ArticleList posts={posts} />
-      <div className="pagination">
-        {' '}
-        <span />
-        <Link to="/blogs/2" rel="next">
-          Next Page →
-        </Link>
-      </div>
+      <section className="article-main">
+        <ArticleList posts={posts} />
+      </section>
+      {/* <div className="pagination"> */ }
+      {/*  {' '} */ }
+      {/*  <span /> */ }
+      {/*  <Link to="/blogs/2" rel="next"> */ }
+      {/*    Next Page → */ }
+      {/*  </Link> */ }
+      {/* </div> */ }
     </Layout>
   );
 }
