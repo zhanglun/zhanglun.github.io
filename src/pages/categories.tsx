@@ -36,22 +36,24 @@ function CategoryPage({ data, location }) {
       description={description}
     >
       <Seo title="All posts" />
-      <div className="page-title">分类</div>
-      <div className="category-list">
-        {categoryGroup.map((category) => (
-          <Link
-            to={`/categories/${category.fieldValue}`}
-            key={category.fieldValue}
-            className="category-item"
-          >
-            <div>
-              #
-              {category.fieldValue}
-            </div>
-            <div>{category.totalCount}</div>
-          </Link>
-        ))}
-      </div>
+      <section className="main">
+        <div className="page-title">分类</div>
+        <div className="category-list">
+          {categoryGroup.map((category) => (
+            <Link
+              to={`/categories/${category.fieldValue}`}
+              key={category.fieldValue}
+              className="category-item"
+            >
+              <div>
+                #
+                {category.fieldValue}
+              </div>
+              <div>{category.totalCount}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </Layout>
   );
 }
