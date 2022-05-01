@@ -27,15 +27,15 @@ function BlogList({ data, pageContext, location }) {
       <ArticleList posts={posts} />
       <div className="pagination">
         {!isFirst && (
-          <Link to={prevPage} rel="prev">
-            ← Previous Page
-          </Link>
+        <Link to={prevPage} rel="prev">
+          ← Previous Page
+        </Link>
         )}
         <span />
         {!isLast && (
-          <Link to={nextPage} rel="next">
-            Next Page →
-          </Link>
+        <Link to={nextPage} rel="next">
+          Next Page →
+        </Link>
         )}
       </div>
     </Layout>
@@ -73,6 +73,7 @@ export const pageQuery = graphql`
           title
           description
           status
+          cover
           categories
           tags
         }

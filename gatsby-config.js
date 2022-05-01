@@ -17,6 +17,11 @@ module.exports = {
         url: '/',
       },
       {
+        id: 'blog',
+        name: '博文',
+        url: '/blogs',
+      },
+      {
         id: 'category',
         name: '分类',
         url: '/categories',

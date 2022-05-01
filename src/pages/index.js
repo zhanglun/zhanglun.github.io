@@ -36,7 +36,7 @@ function BlogIndex({ data, location }) {
       <div className="pagination">
         {' '}
         <span />
-        <Link to="/page/2" rel="next">
+        <Link to="/blogs/2" rel="next">
           Next Page →
         </Link>
       </div>
@@ -62,7 +62,7 @@ export const pageQuery = graphql`
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       filter: {frontmatter: {status: {eq: "publish"}}}
-      limit: 5
+      limit: 20
       ) {
       nodes {
         excerpt(truncate: true, pruneLength: 140)
@@ -70,10 +70,11 @@ export const pageQuery = graphql`
           slug
         }
         frontmatter {
-          date(formatString: "MMMM DD, YYYY")
+          date(formatString: "YYYY-MM-DD")
           title
           description
           tags
+          cover
           categories
         }
       }
