@@ -9,7 +9,7 @@
   --content-font-size: 16px;
 
   --maxWidth-none: "none";
-  --maxWidth-xs: 20rem;
+  --maxWidth-xs: 999px;
   --maxWidth-sm: 24rem;
   --maxWidth-md: 28rem;
   --maxWidth-lg: 32rem;
@@ -17,6 +17,7 @@
   --maxWidth-2xl: 42rem;
   --maxWidth-3xl: 48rem;
   --maxWidth-4xl: 56rem;
+  --maxWidth-5xl: 64rem;
   --maxWidth-full: "100%";
   --maxWidth-wrapper: var(--maxWidth-2xl);
   --main-max-width: 1040px;
