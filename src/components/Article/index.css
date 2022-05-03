@@ -256,7 +256,7 @@ blockquote {
   color: #fff;
 }
 
-.article-card__body h2 {
+.article-card__title {
   line-height: 1.4;
   color: #fff;
   font-size: 3.4vmin;
@@ -292,11 +292,6 @@ blockquote {
 }
 
 @media screen and (max-width: 768px) {
-  .article-list {
-    /*display: block;*/
-    /*position: static;*/
-  }
-
   .article-card {
     padding-right: calc(100vw - 4rem);
   }
@@ -304,5 +299,14 @@ blockquote {
   .article-card__cover img {
     max-width: 100%;
     max-height: initial;
+  }
+
+  .article-card__title {
+    margin: 4vmin 0;
+    font-size: 8vmin;
+  }
+
+  .article-card__tag, .article-card__category, .article-card__body time {
+    font-size: 4vmin;
   }
 }
