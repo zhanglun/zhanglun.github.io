@@ -24,13 +24,6 @@ export function ArticleCard({ post }) {
           {frontmatter.categories.length > 0 && (
             <div className="article-card__categories">
               {frontmatter.categories.map((category) => (
-                // <Link
-                //   className="article-card__category"
-                //   to={`/categories/${category}`}
-                //   key={category}
-                // >
-                //   {category}
-                // </Link>
                 <span
                   className="article-card__category"
                   key={category}

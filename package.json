@@ -61,6 +61,7 @@
   "scripts": {
     "download": "node ./scripts/notion",
     "build": "gatsby build",
+    "deploy": "gatsby build && npx gh-pages -d public",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "gatsby develop",
