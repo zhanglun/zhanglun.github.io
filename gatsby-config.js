@@ -33,6 +33,7 @@ module.exports = {
       },
       {
         id: 'lab',
+        name: '实验室',
         url: '/labs',
       },
       {
