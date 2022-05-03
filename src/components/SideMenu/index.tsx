@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { Ham4 } from './MenuButtons';
 import './index.css';
