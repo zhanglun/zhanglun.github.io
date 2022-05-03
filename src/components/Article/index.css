@@ -238,10 +238,9 @@ blockquote {
 }
 
 .article-card__cover img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
-  max-height: 100%;
-  margin-left: -25%;
 }
 
 .article-card__body {
