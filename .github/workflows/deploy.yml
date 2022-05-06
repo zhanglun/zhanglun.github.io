@@ -8,6 +8,8 @@ on:
     branches:
       - source
       - master
+env:
+  GATSBY_DISABLE_CACHE_PERSISTENCE: true
 
 jobs:
   build:
