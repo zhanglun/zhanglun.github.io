@@ -22,6 +22,7 @@ jobs:
       - run: yarn install
       - run: yarn run download
       - run: npx gatsby clean
+      - run: export GATSBY_DISABLE_CACHE_PERSISTENCE=true
       - run: npm cache clean --force
       - uses: enriikke/gatsby-gh-pages-action@v2
         with:
