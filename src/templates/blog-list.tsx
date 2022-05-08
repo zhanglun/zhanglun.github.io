@@ -51,14 +51,12 @@ export const BlogListQuery = graphql`
       skip: $skip
     ) {
       nodes {
-        excerpt(truncate: true, pruneLength: 140)
         fields {
           slug
         }
         frontmatter {
           date(formatString: "YYYY-MM-DD")
           title
-          description
           status
           cover
           categories
