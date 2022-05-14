@@ -14,7 +14,7 @@ exports.getPages = async (notionClient, databaseId) => {
       startCursor = result.next_cursor;
       hasMore = result.has_more;
 
-      for (let i = 0; i < result.results.length; i++) {
+      for (let i = 0; i < result.results.length; i += 1) {
         const page = result.results[i];
         page.markdown = '';
         pages.push(page);

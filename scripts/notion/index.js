@@ -9,7 +9,6 @@ const { getNotionPageTitle } = require('./src/transformers/get-page-title');
 
 const dist = path.resolve(process.cwd(), './content/notion');
 const token = 'secret_6buUNCr4GKBMmLH6jhICx7tRJvb7iBWf6PtWgrnfmIy';
-// const databaseId = 'c505f836d00a407fbd473a5acc7347ac'
 const databaseId = '45ab44626c7b4b8d9ecd22c9b70980b5';
 
 console.log('Loaded Source From Notion API');
@@ -22,6 +21,7 @@ if (!fs.existsSync(dist)) {
 const download = async (token, databaseId) => {
   const notionClient = new Client({
     auth: token,
+    notionVersion: '2021-05-13',
   });
   const n2m = new NotionToMarkdown({ notionClient });
   const pages = await getPages(notionClient, databaseId);
@@ -52,7 +52,6 @@ const download = async (token, databaseId) => {
     const task = taskList[i];
     const results = await Promise.all(task);
     pageResults.push(...results);
-    console.log(pageResults.length);
   }
 
   console.log('===> Pages ALL DONE!');
