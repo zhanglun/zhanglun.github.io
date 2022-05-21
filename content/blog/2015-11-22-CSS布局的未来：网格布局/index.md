@@ -58,6 +58,8 @@ Finally, a polyfill exists, so you have no excuses not to start experimenting (a
 * 轨道（tracks）：轨道值得是两条平行线之间的空间。所以在上面的例子中，有三条垂直的轨道，两条水平的轨道。行的作用在于告诉内容的排列摆放从何处开始，到何处停止，而轨道的作用则是在根本上决定内容的位置。
 * 单元格（cells）：单元格是两条相互垂直的轨道交叉的地方。在上面的例子中，只有一个cell 被高亮标注，其实在上面的网格中有6个 cell。
 * 区域（areas）：区域指的是跨越任意数量 cell 的矩形区域。就像行一样，区域也是可以有名字的。在上面的网格中，我们可以示范性的定义三个区域：A，B和C，就像下面的图片中展现的一样:
+  
+
 ![][image-2]
 
 现在我们已经明白了一些基本的定义，接下来让我们看看究竟是什么使得网格系统如此的流弊。
@@ -287,12 +289,12 @@ item1和 item2被放置在水平的line1 和 line2中，垂直的line1，line3�
 [1]:	https://medium.com/@patrickbrosset/css-grid-layout-6c9cba6e8a5a#.cz5qhhi87 "CSS"
 [2]:	http://dev.w3.org/csswg/css-grid-1/
 
-[image-1]:	http://7xnrrd.com1.z0.glb.clouddn.com/1-zcOcwuBtMoBaUfHHAJPNyg.png
-[image-2]:	http://7xnrrd.com1.z0.glb.clouddn.com/1-LyY-gAwN4xdr8FmReEdMMw.png
-[image-3]:	https://cdn-images-1.medium.com/max/1600/1*oB_sweiQByIMdVPXGZrw4Q.png
-[image-4]:	http://7xnrrd.com1.z0.glb.clouddn.com/1-xr308r1kDYPKpkzVdYDglQ.png "media"
-[image-5]:  https://cdn-images-1.medium.com/max/1600/1*jKRGeZkE48QTInEV5Tkg5g.png
-[image-6]:  https://cdn-images-1.medium.com/max/1600/1*T9K3kTj703RsKij1Aa4d-Q.png
-[image-7]:  https://cdn-images-1.medium.com/max/1600/1*iqlMwj0VrgJQtZfGf8boaA.png
-[image-8]:  https://cdn-images-1.medium.com/max/1600/1*3mqdeWGgegfStF9MZ9w0Bw.png
-[image-9]:  https://cdn-images-1.medium.com/max/1600/1*9L3FlV6ttO-5ZLM3cZNp1A.png
+[image-1]:	./images/1_zcOcwuBtMoBaUfHHAJPNyg.png
+[image-2]:	./images/1_LyY-gAwN4xdr8FmReEdMMw.png
+[image-3]:	./images/1_oB_sweiQByIMdVPXGZrw4Q.png
+[image-4]:	./images/1_xr308r1kDYPKpkzVdYDglQ.png
+[image-5]:  ./images/1_jKRGeZkE48QTInEV5Tkg5g.png
+[image-6]:  ./images/1_T9K3kTj703RsKij1Aa4d-Q.png
+[image-7]:  ./images/1_iqlMwj0VrgJQtZfGf8boaA.png
+[image-8]:  ./images/1_3mqdeWGgegfStF9MZ9w0Bw.png
+[image-9]:  ./images/1_9L3FlV6ttO-5ZLM3cZNp1A.png

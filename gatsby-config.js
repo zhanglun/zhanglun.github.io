@@ -96,7 +96,7 @@ module.exports = {
             },
           },
           // {
-          //   resolve: 'gatsby-remark-images-anywhere',
+          //   resolve: 'gatsby-remark-images-remote',
           // },
           'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',

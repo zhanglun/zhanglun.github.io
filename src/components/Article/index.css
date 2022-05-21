@@ -205,7 +205,7 @@ blockquote {
   position: relative;
   width: 0;
   height: 100%;
-  padding-right: calc(.54545455 * calc(calc(100vh - 6.875rem) - 5.5vmin - 9vmin));
+  padding-right: calc(.54545455 * calc(calc(100vh - 10.875rem) - 5.5vmin - 9vmin));
   margin: 0 4.2vmin;
   border-radius: 0.8rem;
   overflow: hidden;
