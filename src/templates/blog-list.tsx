@@ -46,7 +46,6 @@ export const BlogListQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: {frontmatter: {status: {eq: "publish"}}}
       limit: $limit
       skip: $skip
     ) {
