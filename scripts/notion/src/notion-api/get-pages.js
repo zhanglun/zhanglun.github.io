@@ -9,6 +9,12 @@ exports.getPages = async (notionClient, databaseId) => {
       const result = await notionClient.databases.query({
         database_id: databaseId,
         start_cursor: startCursor || undefined,
+        filter: {
+          property: 'status',
+          select: {
+            equals: 'publish',
+          },
+        },
       });
 
       startCursor = result.next_cursor;
