@@ -69,7 +69,7 @@ const download = async (token, databaseId) => {
 
     let { markdown } = page;
 
-    const frontmatter = Object.keys(properties).reduce(
+    let frontmatter = Object.keys(properties).reduce(
       (acc, key) => ({
         ...acc,
         [key]: properties[key]?.value?.remoteImage || properties[key].value,
@@ -77,7 +77,17 @@ const download = async (token, databaseId) => {
       { title },
     );
 
-    frontmatter.cover = cover || '';
+    frontmatter = {
+      ...frontmatter,
+      categories: frontmatter.categories.name,
+      tags: frontmatter.tags.reduce((acu, cur) => {
+        acu.push(cur.name);
+        return acu;
+      }, []),
+      date: frontmatter?.date?.start,
+      cover: cover || '',
+      status: frontmatter?.status?.name,
+    };
 
     markdown = '---\n'.concat(YAML.stringify(frontmatter)).concat('\n---\n\n').concat(markdown);
 
