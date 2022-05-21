@@ -2,21 +2,6 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { ArticleCard } from './ArticleCard';
 import './index.css';
 
-const debounce = (fn: any, wait: number, immediate: boolean = false) => {
-  let timer = null;
-  return function (...args) {
-    clearTimeout(timer);
-
-    if (immediate && !timer) {
-      fn.apply(this, args);
-    }
-
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-    }, wait);
-  };
-};
-
 const useDebounce = (fn: any, wait: number, immediate: boolean = false, dep = []) => {
   const { current } = useRef({ fn, timer: null });
   useEffect(() => {
@@ -35,23 +20,6 @@ const useDebounce = (fn: any, wait: number, immediate: boolean = false, dep = []
     current.timer = setTimeout(() => {
       current.fn.call(this, ...args);
     }, wait);
-  }, dep);
-};
-
-const useThrottle = (fn: any, delay: number, dep = []) => {
-  const { current } = useRef({ fn, timer: null });
-  useEffect(() => {
-    current.fn = fn;
-  }, [fn]);
-
-  return useCallback((...args) => {
-    if (!current.timer) {
-      current.timer = setTimeout(() => {
-        delete current.timer;
-      }, delay);
-
-      current.fn.call(this, ...args);
-    }
   }, dep);
 };
 
@@ -82,6 +50,7 @@ export function ArticleList({ posts }) {
 
     // eslint-disable-next-line consistent-return
     return () => {
+      document.body.style.height = null;
       window.removeEventListener('scroll', delayScroll);
     };
   }, []);
