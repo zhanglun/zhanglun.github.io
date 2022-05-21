@@ -105,6 +105,26 @@
   margin-bottom: var(--spacing-5)
 }
 
+.aside-toc {
+  list-style-type: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
+.aside-toc li {
+  margin: 0;
+  padding: 2px 0;
+}
+
+.aside-toc a {
+  font-size: 13px;
+  color: #93a1b0;
+}
+
+.aside-toc a:hover {
+  color: #1d2b36;
+}
+
 .aside-item__title {
   font-size: 11px;
   color: rgb(147, 161, 176);
@@ -133,6 +153,9 @@
   content: "#";
 }
 
+:target {
+  background-color: #ffa;
+}
 
 /* 文章样式 */
 blockquote {
@@ -196,8 +219,8 @@ blockquote {
   transition: transform 0.5s cubic-bezier(.23, 1, .32, 1);
 }
 
-.article-list li{
-  margin:0;
+.article-list li {
+  margin: 0;
   height: 100%;
 }
 

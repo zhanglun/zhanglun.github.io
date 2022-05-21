@@ -64,7 +64,7 @@ export const pageQuery = graphql`
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       filter: {frontmatter: {status: {eq: "publish"}}}
-      limit: 20
+      limit: 999
       ) {
       nodes {
         excerpt(truncate: true, pruneLength: 140)

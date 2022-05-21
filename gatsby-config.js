@@ -84,6 +84,13 @@ module.exports = {
             },
           },
           {
+            resolve: 'gatsby-remark-autolink-headers',
+            options: {
+              maintainCase: true,
+              removeAccents: true,
+            },
+          },
+          {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 630,
