@@ -41,12 +41,12 @@ const createPost = (title, content) => {
   const folder = path.join(DIST, title);
   const imageFolder = path.join(folder, 'images');
 
-  if (!fs.existsSync(CACHE_DIST)) {
-    fs.mkdirSync(CACHE_DIST);
-  }
-
   if (!fs.existsSync(folder)) {
     fs.mkdirSync(folder);
+  }
+
+  if (!fs.existsSync(CACHE_DIST)) {
+    fs.mkdirSync(CACHE_DIST);
   }
 
   if (!fs.existsSync(imageFolder)) {
