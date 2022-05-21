@@ -259,7 +259,7 @@ blockquote {
 .quote {
   border: 2px solid #636363;
   color: #636363;
-  box-shadow: 15px 15px 0 0 #636363;
+  box-shadow: 10px 10px 0 0 #636363;
   margin: var(--spacing-16) 15px  var(--spacing-16) 0;
 }
 

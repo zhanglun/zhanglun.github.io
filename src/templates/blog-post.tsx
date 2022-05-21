@@ -13,6 +13,12 @@ function BlogPostTemplate({ data, location }) {
 
   console.log(post);
 
+  if (post.headings) {
+    post.headings.forEach((heading) => {
+      heading.value = heading.value.replace(/\s/ig, '-').replace(/\./, '');
+    });
+  }
+
   return (
     <Layout
       location={location}
@@ -56,6 +62,21 @@ function BlogPostTemplate({ data, location }) {
               </div>
             </div>
           )}
+          {post.tableOfContents && (
+            <div className="article-aside__item">
+              <div className="aside-item__title">Content</div>
+              <div className="aside-item__content">
+                <ul className="aside-toc">
+                  {post.headings.map((heading) => (
+                    <li>
+                      <a href={`#${decodeURIComponent(heading.value)}`}>{heading.value}</a>
+                    </li>
+                  ))}
+                </ul>
+                {/* <div dangerouslySetInnerHTML={{ __html: post.tableOfContents }} /> */}
+              </div>
+            </div>
+          )}
         </aside>
         <article
           className="blog-post"
@@ -66,7 +87,7 @@ function BlogPostTemplate({ data, location }) {
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
           </header>
           {post.frontmatter.cover
-              && <img className="article-cover" alt={post.frontmatter.cover} src={post.frontmatter.cover} />}
+            && <img className="article-cover" alt={post.frontmatter.cover} src={post.frontmatter.cover} />}
           <section
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
