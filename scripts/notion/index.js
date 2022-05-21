@@ -50,6 +50,7 @@ const download = async (token, databaseId) => {
 
   for (let i = 0; i < taskList.length; i += 1) {
     const task = taskList[i];
+    // eslint-disable-next-line no-await-in-loop
     const results = await Promise.all(task);
     pageResults.push(...results);
   }
