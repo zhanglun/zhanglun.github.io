@@ -10,6 +10,8 @@ function ArchivePage({ data, location }) {
   const siteMenu = data.site.siteMetadata?.menu || [];
   const description = data.site.siteMetadata?.description || '';
 
+  console.log(postGroup);
+
   // Gatsby group不支持sort，先在逻辑中排序。
   postGroup.forEach((group) => {
     const { nodes } = group;
@@ -96,7 +98,6 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { status: { eq: "publish" } } }
     ) {
       group(field: fields___year) {
         fieldValue
