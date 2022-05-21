@@ -1,11 +1,6 @@
 const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
 
-const POSTSTATUS = {
-  PUBLISH: 'publish',
-  WORKING: 'working',
-};
-
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
@@ -19,7 +14,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       {
         postsRemark: allMarkdownRemark(
           sort: { fields: [frontmatter___date], order: DESC }
-          filter: {frontmatter: {status: {eq: "${POSTSTATUS.PUBLISH}"}}}
         ) {
           nodes {
             id
@@ -28,9 +22,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
           }
         }
-        categoryGroup: allMarkdownRemark (
-          filter: {frontmatter: {status: {eq: "${POSTSTATUS.PUBLISH}"}}}
-        ) {
+        categoryGroup: allMarkdownRemark {
           group(field: frontmatter___categories) {
             fieldValue
             totalCount
@@ -240,11 +232,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         status: {
           type: 'String',
           resolve(source) {
-            if (source.status && source.status.name) {
-              return source.status.name;
-            }
-
-            return POSTSTATUS.PUBLISH;
+            return source.status;
           },
         },
       },
