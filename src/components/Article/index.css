@@ -91,7 +91,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 220px;
+  width: 320px;
   height: 100%;
   margin: 60px 0;
   padding: 0 10px 60px 20px;
@@ -117,8 +117,15 @@
 }
 
 .aside-toc a {
+  display: block;
   font-size: 13px;
   color: #93a1b0;
+  margin: 2px 0;
+  padding: 2px 0;
+}
+.aside-toc a.visible ~ a {
+  font-size: 13px;
+  color: #000;
 }
 
 .aside-toc a:hover {
@@ -153,8 +160,9 @@
   content: "#";
 }
 
-:target {
-  background-color: #ffa;
+.anchor.before {
+  top: 50%;
+  margin-top: -24px;
 }
 
 /* 文章样式 */
@@ -228,8 +236,8 @@ blockquote {
   position: relative;
   width: 0;
   height: 100%;
-  padding-right: calc(.54545455 * calc(calc(100vh - 10.875rem) - 5.5vmin - 9vmin));
-  margin: 0 4.2vmin;
+  padding-right: calc(.54545455 * calc(calc(100vh - 16.875rem) - 5.5vmin - 9vmin));
+  margin: 0 2vmin;
   border-radius: 0.8rem;
   overflow: hidden;
 }
@@ -275,7 +283,7 @@ blockquote {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 3.5vmin;
+  padding: 2.5vmin;
   color: #fff;
 }
 

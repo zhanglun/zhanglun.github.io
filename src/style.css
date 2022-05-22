@@ -231,7 +231,11 @@ ol {
 ul li,
 ol li {
   padding-left: var(--spacing-0);
-  margin-bottom: calc(var(--spacing-8) / 2);
+  /*margin-bottom: calc(var(--spacing-8) / 2);*/
+}
+
+ul, ol {
+  margin-bottom: 1.5em;
 }
 
 li > p {
@@ -257,10 +261,14 @@ blockquote {
 }
 
 .quote {
-  border: 2px solid #636363;
+  border-left: 2px solid #636363;
   color: #636363;
-  box-shadow: 10px 10px 0 0 #636363;
-  margin: var(--spacing-16) 15px  var(--spacing-16) 0;
+  margin: 0 0 var(--spacing-16) 0;
+  padding: 1.5em;
+  margin-bottom: 1.5em;
+  background: #f9f9f9;
+  font-style: italic;
+  transition: .3s;
 }
 
 blockquote > :last-child {
