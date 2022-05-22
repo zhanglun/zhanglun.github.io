@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, graphql } from 'gatsby';
 
+import { useEffect, useRef, useState } from 'react';
 import Layout from '../components/CleanLayout';
 import Seo from '../components/seo';
 
@@ -10,14 +11,34 @@ function BlogPostTemplate({ data, location }) {
   const siteMenu = data.site.siteMetadata?.menu || [];
   const description = data.site.siteMetadata?.description || '';
   const { previous, next } = data;
+  const anchors = useRef(null);
 
-  console.log(post);
+  useEffect(() => {
+    anchors.current = document.querySelectorAll('.heading');
 
-  if (post.headings) {
-    post.headings.forEach((heading) => {
-      heading.value = heading.value.replace(/\s/ig, '-').replace(/\./, '');
+    const scrollHandler = (entries) => entries.forEach((entry) => {
+      const section = entry.target;
+      const sectionId = section.id;
+      const sectionLink = document.querySelector(`a[href="#${sectionId}"]`);
+
+      if (entry.intersectionRatio > 0) {
+        section.classList.add('visible');
+        sectionLink.classList.add('visible');
+      } else {
+        section.classList.remove('visible');
+        sectionLink.classList.remove('visible');
+      }
     });
-  }
+
+    // Creates a new scroll observer
+    let observer = new IntersectionObserver(scrollHandler);
+
+    anchors.current.forEach((anchor) => observer.observe(anchor));
+
+    return () => {
+      observer = null;
+    };
+  }, []);
 
   return (
     <Layout
@@ -66,14 +87,11 @@ function BlogPostTemplate({ data, location }) {
             <div className="article-aside__item">
               <div className="aside-item__title">Content</div>
               <div className="aside-item__content">
-                <ul className="aside-toc">
+                <div className="aside-toc">
                   {post.headings.map((heading) => (
-                    <li>
-                      <a href={`#${decodeURIComponent(heading.value)}`}>{heading.value}</a>
-                    </li>
+                    <a key={heading.id} href={`#${decodeURIComponent(heading.id)}`}>{heading.value}</a>
                   ))}
-                </ul>
-                {/* <div dangerouslySetInnerHTML={{ __html: post.tableOfContents }} /> */}
+                </div>
               </div>
             </div>
           )}

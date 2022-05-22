@@ -75,8 +75,9 @@ module.exports = {
             resolve: 'gatsby-remark-classes',
             options: {
               classMap: {
-                'heading[depth=1]': 'title',
-                'heading[depth=2]': 'subtitle',
+                'heading[depth=1]': 'heading title',
+                'heading[depth=2]': 'heading subtitle',
+                heading: 'heading',
                 paragraph: 'para',
                 link: 'link-underline',
                 blockquote: 'quote',
@@ -87,7 +88,6 @@ module.exports = {
             resolve: 'gatsby-remark-autolink-headers',
             options: {
               maintainCase: true,
-              removeAccents: true,
             },
           },
           {
@@ -102,9 +102,6 @@ module.exports = {
               wrapperStyle: 'margin-bottom: 1.0725rem',
             },
           },
-          // {
-          //   resolve: 'gatsby-remark-images-remote',
-          // },
           'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
