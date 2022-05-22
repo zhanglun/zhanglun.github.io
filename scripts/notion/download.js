@@ -1,11 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const { URL } = require('url');
 const client = require('https');
 const crypto = require('crypto');
 
 const DIST = path.resolve(process.cwd(), './content/notion');
 const CACHE_DIST = path.resolve(DIST, '.cache');
-const ImageReg = /!\[.*\]\((.*)\)/g;
+// const ImageReg = /(!\[.*\]\(|cover:\s*)([^)\s]*)/g; // 包含封面
+const ImageReg = /(!\[.*\]\()([^)\s]*)/g;
 
 const getImageURLs = (content) => {
   const reg = new RegExp(ImageReg);
@@ -14,7 +16,7 @@ const getImageURLs = (content) => {
   let result = reg.exec(content);
 
   while (result !== null) {
-    imageList.push(result[1]);
+    imageList.push(result[2]);
     result = reg.exec(content);
   }
 
@@ -23,17 +25,25 @@ const getImageURLs = (content) => {
 
 function downloadImage(url, filepath) {
   return new Promise((resolve, reject) => {
-    client.get(url, (res) => {
-      if (res.statusCode === 200) {
-        res.pipe(fs.createWriteStream(filepath))
-          .on('error', reject)
-          .once('close', () => resolve(filepath));
-      } else {
-        // Consume response data to free up memory
-        res.resume();
-        reject(new Error(`Request Failed With a Status Code: ${res.statusCode}`));
-      }
-    });
+    try {
+      client.get(new URL(url).href, (res) => {
+        if (res.statusCode === 200) {
+          res.pipe(fs.createWriteStream(filepath))
+            .on('error', reject)
+            .once('close', () => {
+              console.log(`Download ${url} to ${filepath}`);
+              resolve(filepath);
+            });
+        } else {
+          // Consume response data to free up memory
+          res.resume();
+          reject(new Error(`Request Failed With a Status Code: ${res.statusCode}`));
+        }
+      });
+    } catch {
+      console.log('url Error', url);
+      resolve(filepath);
+    }
   });
 }
 
@@ -62,7 +72,7 @@ const createPost = (title, content) => {
   let p = Promise.resolve();
 
   imageURLs.forEach((url, idx) => {
-    const ext = path.extname(url).replace(/\?.*/ig, '');
+    const ext = path.extname(url.replace(/\?.*/ig, '')) || '.jpg';
     const filename = `${crypto.randomBytes(8).toString('hex')}${ext}`;
 
     p = p.then(() => downloadImage(url, path.join(imageFolder, filename))).then(() => {
