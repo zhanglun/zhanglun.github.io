@@ -6410,10 +6410,10 @@ gatsby-remark-images@^6.3.0:
     unist-util-select "^3.0.4"
     unist-util-visit-parents "^3.1.1"
 
-gatsby-remark-prismjs@^6.3.0:
-  version "6.13.0"
-  resolved "https://registry.npmmirror.com/gatsby-remark-prismjs/-/gatsby-remark-prismjs-6.13.0.tgz#e7d2ebc1ffd7ab5b6c1b271fd25d405bdfc9b7e1"
-  integrity sha512-kTiVqD7GakDxywojzF7eAQYXVkdHZJFK7oM25etMjCVNEmi2O7MqwvCMVTp8b+J/8MHlAtDAnlCfut9Sj4G99w==
+gatsby-remark-prismjs@^6.15.0:
+  version "6.15.0"
+  resolved "https://registry.npmmirror.com/gatsby-remark-prismjs/-/gatsby-remark-prismjs-6.15.0.tgz#ae020f8f4320409e37bd6f183e77e983ff6ad81a"
+  integrity sha512-uPtHsJuljVZFXDex0o55J8YyD0yOxL9UOhui0fM32AzPnn/7Rfn5PslAbhw2lYfODvSXqUlFWe6U6czJ7e5uIg==
   dependencies:
     "@babel/runtime" "^7.15.4"
     parse-numeric-range "^1.2.0"
@@ -10141,6 +10141,11 @@ pretty-error@^2.1.2:
   dependencies:
     lodash "^4.17.20"
     renderkid "^2.0.4"
+
+prism-themes@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.npmmirror.com/prism-themes/-/prism-themes-1.9.0.tgz#19c034f3205f1e28d75d89728e54ccd745f7e3dd"
+  integrity sha512-tX2AYsehKDw1EORwBps+WhBFKc2kxfoFpQAjxBndbZKr4fRmMkv47XN0BghC/K1qwodB1otbe4oF23vUTFDokw==
 
 prismjs@^1.27.0:
   version "1.28.0"
