@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, graphql } from 'gatsby';
 
-import { useEffect, useRef, useState } from 'react';
 import Layout from '../components/CleanLayout';
 import Seo from '../components/seo';
 
@@ -21,7 +20,7 @@ function BlogPostTemplate({ data, location }) {
       const sectionId = section.id;
       const sectionLink = document.querySelector(`a[href="#${sectionId}"]`);
 
-      if (entry.intersectionRatio > 0) {
+      if (entry.isIntersecting) {
         section.classList.add('visible');
         sectionLink.classList.add('visible');
       } else {
@@ -31,7 +30,9 @@ function BlogPostTemplate({ data, location }) {
     });
 
     // Creates a new scroll observer
-    let observer = new IntersectionObserver(scrollHandler);
+    let observer = new IntersectionObserver(scrollHandler, {
+      threshold: 0.5,
+    });
 
     anchors.current.forEach((anchor) => observer.observe(anchor));
 

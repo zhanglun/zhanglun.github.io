@@ -202,6 +202,17 @@ h6 > a {
   color: inherit;
 }
 
+pre[class*="language-"] {
+  white-space: pre-wrap;
+  border-radius: 0px;
+}
+
+code[class*="language-"] {
+  font-size: 14px;
+  white-space: pre-wrap;
+  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+}
+
 /* Prose */
 
 p {

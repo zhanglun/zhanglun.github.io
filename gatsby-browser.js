@@ -1,8 +1,12 @@
 // custom typefaces
 import "typeface-montserrat"
 import "typeface-merriweather"
-// custom CSS styles
-import "./src/style.css"
 
 // Highlighting for code blocks
-import "prismjs/themes/prism.css"
+// import "prism-themes/themes/prism-hopscotch.min.css"
+// import "prismjs/themes/prism.css"
+
+// custom CSS styles
+import "./src/styles/prism-theme.css"
+import "./src/styles/heti.css"
+import "./src/style.css"
