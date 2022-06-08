@@ -1,5 +1,6 @@
 ---
 title: "使用 CSS variables 实现主题色切换"
+categories: 技术研究
 date: 2020-03-21T10:33:56+08:00
 draft: false
 tags: 

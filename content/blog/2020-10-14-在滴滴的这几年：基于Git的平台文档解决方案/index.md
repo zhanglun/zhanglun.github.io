@@ -1,5 +1,6 @@
 ---
 title: "在滴滴的这几年：基于Git的平台文档解决方案"
+categories: 解决方案
 date: 2020-10-14T10:28:34+08:00
 draft: false
 ---
