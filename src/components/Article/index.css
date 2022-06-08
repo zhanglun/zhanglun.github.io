@@ -125,6 +125,10 @@
   justify-content: space-between;
 }
 
+.article-list-item:hover .article-item__text {
+  text-decoration: underline;
+}
+
 .article-list-item:hover .article-item-header__arrow {
   opacity: 1;
 }

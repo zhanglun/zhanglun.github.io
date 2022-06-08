@@ -1,5 +1,6 @@
 ---
 title: "Zen Reborn 计划"
+categories: 解决方案
 date: 2020-09-20T18:20:51+08:00
 draft: false
 ---

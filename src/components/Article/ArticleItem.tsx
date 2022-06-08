@@ -31,7 +31,7 @@ export function ArticleItem({ post }) {
               </svg>
             </div>
           </div>
-          <span itemProp="headline" className="hover-underline">{title}</span>
+          <span itemProp="headline" className="article-item__text">{title}</span>
         </Link>
         {/* <small>{post.frontmatter.date}</small> */}
         {/* <section> */}
