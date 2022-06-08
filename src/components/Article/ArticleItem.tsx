@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { CategoryLabel } from '../CategoryLabel';
 
 export function ArticleItem({ post }) {
   const title = post.frontmatter.title || post.fields.slug;
@@ -13,21 +12,28 @@ export function ArticleItem({ post }) {
         itemScope
         itemType="http://schema.org/Article"
       >
-        <header>
-          {frontmatter.categories && (
-            <CategoryLabel items={frontmatter.categories} />
-          )}
-          <h2>
-            <Link
-              to={post.fields.slug}
-              itemProp="url"
-              className="article-item-title hover-underline"
-            >
-              <span itemProp="headline">{title}</span>
-            </Link>
-          </h2>
-          <small>{post.frontmatter.date}</small>
-        </header>
+        <Link
+          to={post.fields.slug}
+          itemProp="url"
+          className="article-item-title"
+        >
+          <div className="article-item-header">
+            <span className="article-item-category">{frontmatter.categories}</span>
+            <div className="article-item-header__arrow">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="none"
+              >
+                <path stroke="currentColor" strokeWidth="1.4" d="M12 3v17M19 13l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+          <span itemProp="headline" className="hover-underline">{title}</span>
+        </Link>
+        {/* <small>{post.frontmatter.date}</small> */}
         {/* <section> */}
         {/*  <p */}
         {/*    dangerouslySetInnerHTML={{ */}

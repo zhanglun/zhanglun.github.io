@@ -6,10 +6,10 @@ import BlogLayout from '../components/BlogLayout';
 
 function BlogList({ data, pageContext, location }) {
   const { currentPage, numPages } = pageContext;
-  // const isFirst = currentPage === 1;
-  // const isLast = currentPage === numPages;
-  // const prevPage = currentPage - 1 === 1 ? '/' : `/page/${(currentPage - 1).toString()}`;
-  // const nextPage = `/page/${(currentPage + 1).toString()}`;
+  const isFirst = currentPage === 1;
+  const isLast = currentPage === numPages;
+  const prevPage = currentPage - 1 === 1 ? '/' : `/blogs/${(currentPage - 1).toString()}`;
+  const nextPage = `/blogs/${(currentPage + 1).toString()}`;
 
   const siteTitle = data.site.siteMetadata?.title || 'Title';
   const posts = data.allMarkdownRemark.nodes;
@@ -25,6 +25,19 @@ function BlogList({ data, pageContext, location }) {
     >
       <Seo title="All posts" />
       <ArticleList posts={posts} />
+      <div className="pagination">
+        {!isFirst && (
+        <Link to={prevPage} rel="prev">
+          ← Previous Page
+        </Link>
+        )}
+        <span />
+        {!isLast && (
+        <Link to={nextPage} rel="next">
+          Next Page →
+        </Link>
+        )}
+      </div>
     </BlogLayout>
   );
 }

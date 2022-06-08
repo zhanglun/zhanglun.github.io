@@ -14,21 +14,31 @@
   text-align: center;
 }
 
-.article-list-item header {
-  margin-bottom: var(--spacing-4);
-  padding: var(--spacing-4) 0;
-  text-align: center;
-}
-
-.article-list-item h2 {
-  font-size: var(--fontSize-5);
-  color: var(--color-heading);
-  margin-bottom: var(--spacing-5);
-  margin-top: 0;
-}
-
-.article-list-item h2:hover {
+.article-item-title {
+  display: block;
+  padding: 1.3vmin 0;
+  font-size: 1.5vh;
+  font-weight: 700;
   color: var(--color-heading-black);
+}
+
+.article-item-category{
+  display: flex;
+  align-items: center;
+  font-size: 1vh;
+  font-weight: 700;
+  margin-bottom: 0.5vh;
+}
+
+.article-item-category:before {
+  display: block;
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.25rem;
+  border-radius: 1rem;
+  background-color: currentColor;
+  transform: translateY(-1px);
 }
 
 .article-list-item section {
@@ -65,6 +75,15 @@
   color: var(--button-text-color);
 }
 
+.article-list {
+  max-width: var(--main-max-width);
+  width: 100%;
+  margin: 0 auto;
+  /* display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 1vmin; */
+}
+
 /* .article-list-item .read-more:hover {
   border-color: var(--color-heading);
   color: var(--color-heading);
@@ -99,6 +118,26 @@
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.article-item-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.article-list-item:hover .article-item-header__arrow {
+  opacity: 1;
+}
+
+.article-item-header__arrow {
+  opacity: 0;
+  display: block;
+  font-size: 0;
+  background-color: var(--color-heading-black);
+  color: #FFFFFF;
+  padding: 4px;
+  border-radius: 50%;
+  transform: rotate(-135deg);
 }
 
 @media screen and (max-width: 999px) {
@@ -229,7 +268,7 @@ blockquote {
 }
 
 .article-list {
-  position: fixed;
+  /* position: fixed;
   display: flex;
   align-items: center;
   width: max-content;
@@ -237,7 +276,7 @@ blockquote {
   padding-bottom: 9vmin;
   height: calc(100vh - 6.875rem);
   will-change: transform;
-  transition: transform 0.5s cubic-bezier(.23, 1, .32, 1);
+  transition: transform 0.5s cubic-bezier(.23, 1, .32, 1); */
 }
 
 .article-list li {

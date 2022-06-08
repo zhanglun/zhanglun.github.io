@@ -35,13 +35,13 @@ function BlogIndex({ data, location }) {
       <section className="article-main">
         <ArticleList posts={posts} />
       </section>
-      {/* <div className="pagination"> */ }
-      {/*  {' '} */ }
-      {/*  <span /> */ }
-      {/*  <Link to="/blogs/2" rel="next"> */ }
-      {/*    Next Page → */ }
-      {/*  </Link> */ }
-      {/* </div> */ }
+      <div className="pagination">
+        {' '}
+        <span />
+        <Link to="/blogs/2" rel="next">
+          Next Page →
+        </Link>
+      </div>
     </Layout>
   );
 }
@@ -63,7 +63,7 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: 999
+      limit: 20
       ) {
       nodes {
         excerpt(truncate: true, pruneLength: 140)
