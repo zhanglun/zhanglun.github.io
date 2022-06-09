@@ -6,7 +6,7 @@ export function ArticleItem({ post }) {
   const frontmatter = post.frontmatter || {};
 
   return (
-    <li key={post.fields.slug}>
+    <li>
       <article
         className="article-list-item"
         itemScope

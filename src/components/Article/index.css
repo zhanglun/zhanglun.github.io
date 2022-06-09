@@ -131,6 +131,7 @@
 
 .article-list-item:hover .article-item-header__arrow {
   opacity: 1;
+  transform: scale(0.8);
 }
 
 .article-item-header__arrow {
@@ -141,8 +142,13 @@
   color: #FFFFFF;
   padding: 4px;
   border-radius: 50%;
-  transform: rotate(-135deg);
+  transform: scale(0.6);
+  transition: all 150ms ease-in-out;
 }
+
+.article-item-header__arrow svg {
+  transform: rotate(-135deg);
+ }
 
 @media screen and (max-width: 999px) {
   .article-aside {

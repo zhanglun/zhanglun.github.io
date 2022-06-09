@@ -1,5 +1,6 @@
 ---
 title: "在滴滴的这几年：基于 Node.js 的私有云 Web 管控系统"
+categories: 解决方案
 date: 2020-06-14T20:20:01+08:00
 draft: false
 ---

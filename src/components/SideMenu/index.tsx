@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { Ham4 } from './MenuButtons';
-import './index.css';
+// @ts-ignore
+import * as styles from './index.module.css';
+
+console.log(styles);
 
 export function SideMenu(props: any) {
   const { title, menu } = props;
@@ -12,21 +15,21 @@ export function SideMenu(props: any) {
   };
 
   const renderMenu = () => menu.map((item) => (
-    <Link className="sidemenu-nav-item hover-underline" to={item.url} key={item.id}>
+    <Link className={styles.navItem} to={item.url} key={item.id}>
       {item.name}
     </Link>
   ));
 
   return (
-    <div className="sidemenu">
-      <div className="sidemenu-button" onClick={handleToggleMenu}>
+    <div className={styles.menu}>
+      <div className={styles.menuButton} onClick={handleToggleMenu}>
         <Ham4 active={active} />
       </div>
-      <div className={`sidemenu-main ${active ? 'open' : ''}`}>
-        <div className="sidemenu-title">
-          <Link className="sidemenu-title-link" to="/">{title}</Link>
+      <div className={`${styles.menuMain} ${active ? styles.open : ''}`}>
+        <div className={styles.menuTitle}>
+          <Link className={styles.titleLink} to="/">{title}</Link>
         </div>
-        <nav className="sidemenu-nav">{renderMenu()}</nav>
+        <nav className={styles.nav}>{renderMenu()}</nav>
       </div>
     </div>
   );
