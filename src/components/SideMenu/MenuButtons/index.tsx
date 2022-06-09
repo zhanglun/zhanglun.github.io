@@ -1,3 +1,5 @@
+import './index.css';
+
 export { Ham1 } from './Ham1';
 export { Ham2 } from './Ham2';
 export { Ham3 } from './Ham3';

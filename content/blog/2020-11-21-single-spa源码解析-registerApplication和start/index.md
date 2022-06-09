@@ -1,5 +1,7 @@
 ---
 title: "single-spa源码解析-registerApplication和start"
+categories:
+- 技术研究
 date: 2020-11-21T21:28:13+08:00
 draft: false
 ---
