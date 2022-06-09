@@ -1,5 +1,7 @@
 ---
 title: "关于JavaScript的随机数"
+categories:
+- 技术研究
 date: 2020-12-14T15:29:41+08:00
 draft: false
 ---
