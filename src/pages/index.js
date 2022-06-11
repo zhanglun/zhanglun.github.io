@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby';
 import Layout from '../components/layout';
 import Seo from '../components/seo';
 import { ArticleList } from '../components/Article/ArticleList';
+import { ListPagination } from '../components/ListPagination';
 
 function BlogIndex({ data, location }) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
@@ -36,11 +37,7 @@ function BlogIndex({ data, location }) {
         <ArticleList posts={posts} />
       </section>
       <div className="pagination">
-        {' '}
-        <span />
-        <Link to="/blogs/2" rel="next">
-          Next Page →
-        </Link>
+        <ListPagination nextPage="/blogs/2" isFirst />
       </div>
     </Layout>
   );
@@ -63,7 +60,7 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: 20
+      limit: 10
       ) {
       nodes {
         excerpt(truncate: true, pruneLength: 140)
