@@ -58,6 +58,7 @@ export function ListPagination(props: ListPaginationProps) {
   return (
     <div className={styles.pagination}>
       {renderPrevItem()}
+      <span />
       {renderNextItem()}
     </div>
   );
