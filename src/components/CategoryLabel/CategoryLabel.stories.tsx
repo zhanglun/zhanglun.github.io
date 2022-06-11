@@ -20,22 +20,5 @@ const Template: ComponentStory<typeof CategoryLabel> = (args) => <CategoryLabel 
 export const Default = Template.bind({});
 
 Default.args = {
-  size: 24,
-  rotate: 0,
-  theme: 'dark',
-};
-
-export const Theme = Template.bind({
-});
-
-Theme.args = {
-  theme: 'dark',
-};
-
-export const Rotate = Template.bind({
-});
-
-Rotate.args = {
-  rotate: 0,
-  size: 24,
+  items: ['分类1', '分类2'],
 };
