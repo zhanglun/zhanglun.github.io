@@ -2,10 +2,13 @@
 import React from 'react';
 import * as styles from './index.module.css';
 
+export enum CircleArrowThemeEnum {
+  'dark', 'light'
+}
 export interface CircleArrowProps {
   size?: number,
   rotate?: number,
-  theme?: 'dark' | 'light' | undefined
+  theme?: CircleArrowThemeEnum,
 }
 
 export function CircleArrow(props: CircleArrowProps) {
