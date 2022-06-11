@@ -1,10 +1,11 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import * as styles from './index.module.css';
 
 export interface CircleArrowProps {
-  size: Number,
-  rotate: Number,
-  theme: 'dark' | 'light'
+  size?: number,
+  rotate?: number,
+  theme?: 'dark' | 'light' | undefined
 }
 
 export function CircleArrow(props: CircleArrowProps) {

@@ -3,17 +3,23 @@ import React, { useState } from 'react';
 import { CircleArrow } from '../CircleArrow';
 import * as styles from './index.module.css';
 
-export function ListPagination(props) {
+export interface ListPaginationProps {
+  prevPage?: string,
+  nextPage?: string,
+  isFirst?: boolean,
+  isLast?: boolean,
+}
+export function ListPagination(props: ListPaginationProps) {
   const {
-    prevPage, nextPage, isFirst, isLast,
+    prevPage = '', nextPage = '', isFirst = false, isLast = false,
   } = props;
 
   const [prevTheme, setPrevTheme] = useState('light');
   const [nextTheme, setNextTheme] = useState('light');
 
-  return (
-    <div className={styles.pagination}>
-      {!isFirst && (
+  const renderPrevItem = () => {
+    if (!isFirst) {
+      return (
         <Link
           className={styles.paginationItem}
           to={prevPage}
@@ -25,9 +31,14 @@ export function ListPagination(props) {
           {' '}
           <span className={styles.paginationItemPrev}>Previous Page</span>
         </Link>
-      )}
-      <span />
-      {!isLast && (
+      );
+    }
+    return null;
+  };
+
+  const renderNextItem = () => {
+    if (!isLast) {
+      return (
         <Link
           className={styles.paginationItem}
           to={nextPage}
@@ -39,7 +50,15 @@ export function ListPagination(props) {
           {' '}
           <CircleArrow size={16} rotate={-90} theme={nextTheme} />
         </Link>
-      )}
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className={styles.pagination}>
+      {renderPrevItem()}
+      {renderNextItem()}
     </div>
   );
 }
