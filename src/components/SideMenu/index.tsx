@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { Ham4 } from './MenuButtons';
-// @ts-ignore
 import * as styles from './index.module.css';
-
-console.log(styles);
 
 export function SideMenu(props: any) {
   const { title, menu } = props;

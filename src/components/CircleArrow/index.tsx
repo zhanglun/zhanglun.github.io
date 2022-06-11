@@ -1,7 +1,13 @@
 import React from 'react';
 import * as styles from './index.module.css';
 
-export function CircleArrow(props) {
+export interface CircleArrowProps {
+  size: Number,
+  rotate: Number,
+  theme: 'dark' | 'light'
+}
+
+export function CircleArrow(props: CircleArrowProps) {
   const { size = 24, rotate = 0, theme = 'dark' } = props;
 
   const style = {
