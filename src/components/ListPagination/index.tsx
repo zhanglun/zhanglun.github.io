@@ -1,6 +1,6 @@
 import { Link } from 'gatsby';
 import React, { useState } from 'react';
-import { CircleArrow } from '../CircleArrow';
+import { CircleArrow, CircleArrowThemeEnum } from '../CircleArrow';
 import * as styles from './index.module.css';
 
 export interface ListPaginationProps {
@@ -14,8 +14,8 @@ export function ListPagination(props: ListPaginationProps) {
     prevPage = '', nextPage = '', isFirst = false, isLast = false,
   } = props;
 
-  const [prevTheme, setPrevTheme] = useState('light');
-  const [nextTheme, setNextTheme] = useState('light');
+  const [prevTheme, setPrevTheme] = useState(CircleArrowThemeEnum.light);
+  const [nextTheme, setNextTheme] = useState(CircleArrowThemeEnum.light);
 
   const renderPrevItem = () => {
     if (!isFirst) {
@@ -24,8 +24,8 @@ export function ListPagination(props: ListPaginationProps) {
           className={styles.paginationItem}
           to={prevPage}
           rel="prev"
-          onMouseOver={() => setPrevTheme('dark')}
-          onMouseOut={() => setPrevTheme('light')}
+          onMouseOver={() => setPrevTheme(CircleArrowThemeEnum.dark)}
+          onMouseOut={() => setPrevTheme(CircleArrowThemeEnum.light)}
         >
           <CircleArrow size={16} rotate={90} theme={prevTheme} />
           {' '}
@@ -43,8 +43,8 @@ export function ListPagination(props: ListPaginationProps) {
           className={styles.paginationItem}
           to={nextPage}
           rel="next"
-          onMouseOver={() => setNextTheme('dark')}
-          onMouseOut={() => setNextTheme('light')}
+          onMouseOver={() => setNextTheme(CircleArrowThemeEnum.dark)}
+          onMouseOut={() => setNextTheme(CircleArrowThemeEnum.light)}
         >
           <span className={styles.paginationItemNext}>Next Page</span>
           {' '}
