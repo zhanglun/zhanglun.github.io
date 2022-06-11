@@ -1,0 +1,26 @@
+.circle {
+  display: inline-block;
+  font-size: 0;
+  padding: 4px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-heading-black);
+  border-radius: 50%;
+  transition: all 150ms ease-in-out;
+}
+
+.dark {
+  background-color: var(--color-heading-black);
+  color: #FFFFFF;
+}
+
+.light {
+  background-color: #FFFFFF;
+  color: var(--color-heading-black);
+}
+
+.light:hover {
+  background-color: var(--color-heading-black);
+  color: #FFFFFF;
+}
+

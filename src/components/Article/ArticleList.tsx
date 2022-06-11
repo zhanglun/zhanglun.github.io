@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-// import { ArticleCard } from './ArticleCard';
 import { ArticleItem } from './ArticleItem';
 import './index.css';
 

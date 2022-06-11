@@ -475,9 +475,6 @@ a:focus {
 
 .pagination {
   max-width: var(--main-max-width);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 50px 0;
   margin: 0 auto;
 }
