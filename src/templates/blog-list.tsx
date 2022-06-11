@@ -3,6 +3,8 @@ import { Link, graphql } from 'gatsby';
 import Seo from '../components/seo';
 import { ArticleList } from '../components/Article/ArticleList';
 import BlogLayout from '../components/BlogLayout';
+import { CircleArrow } from '../components/CircleArrow';
+import { ListPagination } from '../components/ListPagination';
 
 function BlogList({ data, pageContext, location }) {
   const { currentPage, numPages } = pageContext;
@@ -26,17 +28,7 @@ function BlogList({ data, pageContext, location }) {
       <Seo title="All posts" />
       <ArticleList posts={posts} />
       <div className="pagination">
-        {!isFirst && (
-        <Link to={prevPage} rel="prev">
-          ← Previous Page
-        </Link>
-        )}
-        <span />
-        {!isLast && (
-        <Link to={nextPage} rel="next">
-          Next Page →
-        </Link>
-        )}
+        <ListPagination prevPage={prevPage} nextPage={nextPage} isFirst={isFirst} isLast={isLast} />
       </div>
     </BlogLayout>
   );
