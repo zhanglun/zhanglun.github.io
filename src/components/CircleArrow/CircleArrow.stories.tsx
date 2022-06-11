@@ -2,7 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { CircleArrow } from './index';
+import { CircleArrow, CircleArrowThemeEnum } from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -22,14 +22,14 @@ export const Default = Template.bind({});
 Default.args = {
   size: 24,
   rotate: 0,
-  theme: 'dark',
+  theme: CircleArrowThemeEnum.dark,
 };
 
 export const Theme = Template.bind({
 });
 
 Theme.args = {
-  theme: 'dark',
+  theme: CircleArrowThemeEnum.dark,
 };
 
 export const Rotate = Template.bind({
