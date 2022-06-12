@@ -27,7 +27,7 @@ export function ListPagination(props: ListPaginationProps) {
           onMouseOver={() => setPrevTheme(CircleArrowThemeEnum.dark)}
           onMouseOut={() => setPrevTheme(CircleArrowThemeEnum.light)}
         >
-          <CircleArrow size={16} rotate={90} theme={prevTheme} />
+          <CircleArrow size={14} rotate={90} theme={prevTheme} />
           {' '}
           <span className={styles.paginationItemPrev}>Previous Page</span>
         </Link>
@@ -48,7 +48,7 @@ export function ListPagination(props: ListPaginationProps) {
         >
           <span className={styles.paginationItemNext}>Next Page</span>
           {' '}
-          <CircleArrow size={16} rotate={-90} theme={nextTheme} />
+          <CircleArrow size={14} rotate={-90} theme={nextTheme} />
         </Link>
       );
     }
