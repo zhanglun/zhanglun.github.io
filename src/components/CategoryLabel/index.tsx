@@ -10,8 +10,8 @@ export function CategoryLabel(props: CategoryListProps) {
 
   return (
     <div className="article-category-list">
-      {items.map((category, idx) => (
-        <span className="article-category" key={idx}>
+      {items.map((category) => (
+        <span className="article-category" key={category}>
           {category}
         </span>
       ))}
