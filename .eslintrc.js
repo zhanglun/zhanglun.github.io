@@ -22,6 +22,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'no-use-before-define': 'off',
     'react/require-default-props': 'off',
+    'react/function-component-definition': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
   },
 };
