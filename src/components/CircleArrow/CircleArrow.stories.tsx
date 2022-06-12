@@ -29,7 +29,7 @@ export const Theme = Template.bind({
 });
 
 Theme.args = {
-  theme: CircleArrowThemeEnum.dark,
+  theme: CircleArrowThemeEnum.light,
 };
 
 export const Rotate = Template.bind({
