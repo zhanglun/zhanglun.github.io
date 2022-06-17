@@ -599,4 +599,7 @@ a:focus {
   margin-right: 20px;
 }
 
-
+.root {
+  min-height: 100vh;
+  background-color: #ffbc4b;
+}

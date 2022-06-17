@@ -8,12 +8,12 @@ function Layout({
   const isRootPath = location.pathname === rootPath;
 
   return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
-      <SideMenu
-        title={title}
-        menu={menu}
-      />
-      { children }
+    <div
+      className={`global-wrapper ${isRootPath ? 'root' : ''}`}
+      data-is-root-path={isRootPath}
+    >
+      <SideMenu title={title} menu={menu} />
+      {children}
     </div>
   );
 }

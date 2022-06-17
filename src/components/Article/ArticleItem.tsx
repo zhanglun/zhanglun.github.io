@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
-export function ArticleItem({ post }) {
+export function ArticleItem({ post }: { post: any }) {
   const title = post.frontmatter.title || post.fields.slug;
   const frontmatter = post.frontmatter || {};
 
@@ -18,7 +18,9 @@ export function ArticleItem({ post }) {
           className="article-item-title"
         >
           <div className="article-item-header">
-            <span className="article-item-category">{frontmatter.categories}</span>
+            <span className="article-item-category">
+              {frontmatter.categories}
+            </span>
             <div className="article-item-header__arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -27,11 +29,17 @@ export function ArticleItem({ post }) {
                 height="24"
                 fill="none"
               >
-                <path stroke="currentColor" strokeWidth="1.4" d="M12 3v17M19 13l-7 7-7-7" />
+                <path
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  d="M12 3v17M19 13l-7 7-7-7"
+                />
               </svg>
             </div>
           </div>
-          <span itemProp="headline" className="article-item__text">{title}</span>
+          <span itemProp="headline" className="article-item__text">
+            {title}
+          </span>
         </Link>
         {/* <small>{post.frontmatter.date}</small> */}
         {/* <section> */}
