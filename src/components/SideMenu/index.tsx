@@ -11,7 +11,7 @@ export function SideMenu(props: any) {
     setActive(!active);
   };
 
-  const renderMenu = () => menu.map((item) => (
+  const renderMenu = () => menu.map((item: any) => (
     <Link className={styles.navItem} to={item.url} key={item.id}>
       {item.name}
     </Link>
@@ -19,12 +19,19 @@ export function SideMenu(props: any) {
 
   return (
     <div className={styles.menu}>
-      <div className={styles.menuButton} onClick={handleToggleMenu}>
+      <div
+        className={styles.menuButton}
+        role="button"
+        aria-hidden="true"
+        onClick={handleToggleMenu}
+      >
         <Ham4 active={active} />
       </div>
       <div className={`${styles.menuMain} ${active ? styles.open : ''}`}>
         <div className={styles.menuTitle}>
-          <Link className={styles.titleLink} to="/">{title}</Link>
+          <Link className={styles.titleLink} to="/">
+            {title}
+          </Link>
         </div>
         <nav className={styles.nav}>{renderMenu()}</nav>
       </div>

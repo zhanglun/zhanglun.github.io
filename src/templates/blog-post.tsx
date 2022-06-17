@@ -3,6 +3,7 @@ import { Link, graphql } from 'gatsby';
 
 import Layout from '../components/CleanLayout';
 import Seo from '../components/seo';
+import { ListPagination } from '../components/ListPagination';
 
 function BlogPostTemplate({ data, location }) {
   const post = data.markdownRemark;
@@ -80,7 +81,11 @@ function BlogPostTemplate({ data, location }) {
             <div className="article-aside__item">
               <div className="aside-item__title">Tags</div>
               <div className="aside-item__content">
-                {post.frontmatter.tags.map((tag) => <div className="tag-item" key={tag}>{tag}</div>)}
+                {post.frontmatter.tags.map((tag: string) => (
+                  <div className="tag-item" key={tag}>
+                    {tag}
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -89,8 +94,13 @@ function BlogPostTemplate({ data, location }) {
               <div className="aside-item__title">Content</div>
               <div className="aside-item__content">
                 <div className="aside-toc">
-                  {post.headings.map((heading) => (
-                    <a key={heading.id} href={`#${decodeURIComponent(heading.id)}`}>{heading.value}</a>
+                  {post.headings.map((heading: any) => (
+                    <a
+                      key={heading.id}
+                      href={`#${decodeURIComponent(heading.id)}`}
+                    >
+                      {heading.value}
+                    </a>
                   ))}
                 </div>
               </div>
@@ -105,34 +115,28 @@ function BlogPostTemplate({ data, location }) {
           <header>
             <h1 itemProp="headline">{post.frontmatter.title}</h1>
           </header>
-          {post.frontmatter.cover
-            && <img className="article-cover" alt={post.frontmatter.cover} src={post.frontmatter.cover} />}
+          {post.frontmatter.cover && (
+            <img
+              className="article-cover"
+              alt={post.frontmatter.cover}
+              src={post.frontmatter.cover}
+            />
+          )}
           <section
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: post.html }}
             itemProp="articleBody"
             className="content"
           />
         </article>
-        <nav className="pagination">
-          {previous ? (
-            <Link to={previous.fields.slug} className="prev" rel="prev">
-              ←
-              {' '}
-              {previous.frontmatter.title}
-            </Link>
-          ) : (
-            <span className="prev" />
-          )}
-          {next ? (
-            <Link to={next.fields.slug} className="next" rel="next">
-              {next.frontmatter.title}
-              {' '}
-              →
-            </Link>
-          ) : (
-            <span className="next" />
-          )}
-        </nav>
+        <div className="pagination">
+          <ListPagination
+            prevPage={previous ? previous.fields.slug : null}
+            prevPageTitle={previous ? previous.frontmatter.title : null}
+            nextPage={next ? next.fields.slug : ''}
+            nextPageTitle={next ? next.frontmatter.title : ''}
+          />
+        </div>
       </section>
     </Layout>
   );
