@@ -28,7 +28,10 @@ function BlogList({ data, pageContext, location }) {
       <Seo title="All posts" />
       <ArticleList posts={posts} />
       <div className="pagination">
-        <ListPagination prevPage={prevPage} nextPage={nextPage} isFirst={isFirst} isLast={isLast} />
+        <ListPagination
+          prevPage={isFirst ? '' : prevPage}
+          nextPage={isLast ? '' : nextPage}
+        />
       </div>
     </BlogLayout>
   );

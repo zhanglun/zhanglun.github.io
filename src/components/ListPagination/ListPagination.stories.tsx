@@ -19,6 +19,15 @@ const Template: ComponentStory<typeof ListPagination> = (args) => <ListPaginatio
 export const Default = Template.bind({});
 
 Default.args = {
-  isFirst: false,
-  isLast: false,
+  prevPage: '/1',
+  nextPage: '/2',
+};
+
+export const SetTitle = Template.bind({});
+
+SetTitle.args = {
+  prevPage: '/上一篇文章',
+  prevPageTitle: '上一篇文章的标题',
+  nextPage: '/下一篇文章',
+  nextPageTitle: '下一篇文章的标题',
 };
