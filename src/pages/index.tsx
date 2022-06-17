@@ -8,22 +8,8 @@ import { ListPagination } from '../components/ListPagination';
 
 function BlogIndex({ data, location }) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
-  const posts = data.allMarkdownRemark.nodes;
   const siteMenu = data.site.siteMetadata?.menu || [];
   const description = data.site.siteMetadata?.description || '';
-
-  if (posts.length === 0) {
-    return (
-      <Layout location={location} title={siteTitle} menu={siteMenu}>
-        <Seo title="All posts" />
-        <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
-      </Layout>
-    );
-  }
 
   return (
     <Layout
@@ -32,12 +18,9 @@ function BlogIndex({ data, location }) {
       menu={siteMenu}
       description={description}
     >
-      <Seo title="All posts" />
-      <section className="article-main">
-        <ArticleList posts={posts} />
-      </section>
-      <div className="pagination">
-        <ListPagination nextPage="/blogs/2" isFirst />
+      <Seo title="首页" />
+      <div>
+        Hello
       </div>
     </Layout>
   );
