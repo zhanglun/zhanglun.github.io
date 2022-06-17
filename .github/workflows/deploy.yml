@@ -25,7 +25,7 @@ jobs:
       - run: export GATSBY_DISABLE_CACHE_PERSISTENCE=true
       - run: npm cache clean --force
       - run: npm run build-storybook
-      - run: ll ./public/storybook
+      - run: ls ./public/storybook
       - uses: enriikke/gatsby-gh-pages-action@v2
         with:
           access-token: ${{ secrets.gatsbyDeploy }}
