@@ -2,7 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-// @ts-ignore
+// @ts-ignores
 import { siteMetadata } from '../../../gatsby-config.js';
 import { SideMenu } from './index';
 
