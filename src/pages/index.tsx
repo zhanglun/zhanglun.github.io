@@ -3,8 +3,7 @@ import { Link, graphql } from 'gatsby';
 
 import Layout from '../components/layout';
 import Seo from '../components/seo';
-import { ArticleList } from '../components/Article/ArticleList';
-import { ListPagination } from '../components/ListPagination';
+import { Home } from '../components/Home';
 
 function BlogIndex({ data, location }) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
@@ -19,9 +18,7 @@ function BlogIndex({ data, location }) {
       description={description}
     >
       <Seo title="首页" />
-      <div>
-        Hello
-      </div>
+      <Home siteMetadata={data.site.siteMetadata} />
     </Layout>
   );
 }
