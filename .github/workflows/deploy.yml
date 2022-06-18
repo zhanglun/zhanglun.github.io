@@ -25,16 +25,17 @@ jobs:
           node-version: '17'
 
       - name: Install Dependenices
-        run: yarn install
-        run: yarn run download
-        run: npx gatsby clean
-        run: npm cache clean --force
+        run: |
+          yarn install
+          yarn run download
+          npx gatsby clean
+          npm cache clean --force
 
       - name: Build
         run: |
           echo "Starting building..."
-          npm run build
-          npm run build-storybook
+          yarn run build
+          yarn run build-storybook
           cp ./CNAME ./public/CNAME
           cp ./ads.txt ./public/ads.txt
 
