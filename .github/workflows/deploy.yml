@@ -8,27 +8,41 @@ on:
     branches:
       - source
       - master
-env:
-  GATSBY_DISABLE_CACHE_PERSISTENCE: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v3
+      - name: BeforeScript
+        run: |
+          git config --global user.name "zhanglun"
+          git config --global user.email "zhanglun1410@gmail.com"
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set Node Enviroment
+        uses: actions/setup-node@v3
         with:
           node-version: '17'
-      - run: yarn install
-      - run: yarn run download
-      - run: npx gatsby clean
-      - run: export GATSBY_DISABLE_CACHE_PERSISTENCE=true
-      - run: npm cache clean --force
-      - run: npm run build-storybook
-      - run: ls ./public/storybook
-      - uses: enriikke/gatsby-gh-pages-action@v2
+
+      - name: Install Dependenices
+        run: yarn install
+        run: yarn run download
+        run: npx gatsby clean
+        run: npm cache clean --force
+
+      - name: Build
+        run: |
+          echo "Starting building..."
+          npm run build
+          npm run build-storybook
+          cp ./CNAME ./public/CNAME
+          cp ./ads.txt ./public/ads.txt
+
+      # 部署到 GitHub Pages
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          access-token: ${{ secrets.gatsbyDeploy }}
-          deploy-branch: gh-pages
-          deploy-repo: zhanglun.github.io
+          ACCESS_TOKEN: ${{ secrets.gatsbyDeploy }}
+          BRANCH: gh-pages
+          FOLDER: public
 

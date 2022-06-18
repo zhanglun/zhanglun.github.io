@@ -3,7 +3,6 @@ import { Link, graphql } from 'gatsby';
 import Seo from '../components/seo';
 import { ArticleList } from '../components/Article/ArticleList';
 import BlogLayout from '../components/BlogLayout';
-import { CircleArrow } from '../components/CircleArrow';
 import { ListPagination } from '../components/ListPagination';
 
 function BlogList({ data, pageContext, location }) {
