@@ -601,5 +601,5 @@ a:focus {
 
 .root {
   min-height: 100vh;
-  background-color: #ffbc4b;
+  /* background-color: #ffbc4b; */
 }
