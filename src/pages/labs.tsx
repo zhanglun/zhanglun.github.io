@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 
 import Layout from '../components/layout';
 import Seo from '../components/seo';
+import { PageHero } from '../components/PageHero';
 
 function About({ data, location }) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
@@ -18,7 +19,7 @@ function About({ data, location }) {
     >
       <Seo title="张伦 实验室" />
       <div className="main">
-        <h1>实验室</h1>
+        <PageHero title="实验室" subTitle="各种奇思妙想的实验" />
       </div>
     </Layout>
   );

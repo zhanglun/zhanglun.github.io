@@ -1,0 +1,15 @@
+.container {
+  display: grid;
+  align-items: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  font-size: 4rem;
+}
+
+.subTitle {
+  font-size: 2rem;
+  margin-top: 1.75rem;
+}
