@@ -56,11 +56,13 @@
 .paginationItemPrev {
   position: relative;
   line-height: 1.031;
-  margin-left: 0.8rem;
+  margin-left: 1rem;
+  font-size: 1.4rem;
 }
 
 .paginationItemNext {
   position: relative;
   line-height: 1.031;
-  margin-right: 0.8rem;
+  margin-right: 1rem;
+  font-size: 1.4rem;
 }
