@@ -51,7 +51,7 @@
   --fontWeight-bold: 700;
   --fontWeight-extrabold: 800;
   --fontWeight-black: 900;
-  --fontSize-root: 16px;
+  --fontSize-root: 10px;
   --lineHeight-none: 1;
   --lineHeight-tight: 1.1;
   --lineHeight-normal: 1.5;
@@ -65,12 +65,12 @@
   --fontSize-5: 2.074rem;
   --fontSize-6: 2.488rem;
   --fontSize-7: 2.986rem;
-  --color-primary: #005b99;
-  /* --color-text: #2e353f; */
-  --color-text: rgb(29,43,54);
+  --color-primary: #4b5cc4;
+  --color-text: #312520;
+  /* --color-text: rgb(29,43,54); */
   --color-text-light: #4f5969;
-  --color-heading: #45525b;
-  --color-heading-black: #171313;
+  --color-heading: #312520;
+  --color-heading-black: #161823;
   --color-accent: #d1dce5;
 
   --header-height: 60px;
@@ -220,6 +220,7 @@ p {
   --x-height-multiplier: 0.35;
   margin: var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);
   padding: var(--spacing-0);
+  font-size: 1.6rem;
 }
 
 ul,
