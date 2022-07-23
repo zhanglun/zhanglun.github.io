@@ -16,8 +16,8 @@
 
 .article-item-title {
   display: block;
-  padding: 1.3vmin 0;
-  font-size: 1.5vh;
+  padding: 1.4rem 0;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--color-heading-black);
 }
@@ -25,7 +25,7 @@
 .article-item-category{
   display: flex;
   align-items: center;
-  font-size: 1vh;
+  font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 0.5vh;
 }
@@ -175,7 +175,7 @@
   display: block;
   font-size: 14px;
   line-height: 1.2;
-  color: #93a1b0;
+  color: #808080;
   margin: 2px 0;
   padding: 2px 0;
 }
@@ -194,7 +194,7 @@
 
 .aside-item__title {
   font-size: 11px;
-  color: rgb(147, 161, 176);
+  color: #312520;
 }
 
 .aside-item__content time {
