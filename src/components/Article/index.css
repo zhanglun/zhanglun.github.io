@@ -243,6 +243,10 @@ blockquote {
   font-size: calc(var(--content-font-size) * 1.2);
 }
 
+.content {
+  font-size: 1.4rem;
+}
+
 .content h2 {
   position: relative;
   margin: 80px 0 0;

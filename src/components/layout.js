@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
 import { SideMenu } from './SideMenu';
+
+deckDeckGoHighlightElement();
 
 function Layout({
   location, children, title, menu, description,
