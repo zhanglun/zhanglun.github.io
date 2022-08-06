@@ -1,32 +1,54 @@
 import React, { useEffect, useRef } from 'react';
-import { Link, graphql } from 'gatsby';
+import { Link, graphql, PageProps } from 'gatsby';
 
 import Layout from '../components/CleanLayout';
 import Seo from '../components/seo';
 import { ListPagination } from '../components/ListPagination';
 
-function BlogPostTemplate({ data, location }) {
+type DataType = {
+  site: {
+    siteMetadata: {
+      title: string;
+      menu?: any[];
+      description?: string;
+    };
+  };
+  allMarkdownRemark: {
+    nodes: any[];
+  };
+  previous?: any;
+  next?: any;
+  markdownRemark: any;
+};
+
+function BlogPostTemplate({ data, location }: PageProps<DataType>) {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata?.title || 'Title';
   const siteMenu = data.site.siteMetadata?.menu || [];
   const description = data.site.siteMetadata?.description || '';
   const { previous, next } = data;
-  const anchors = useRef(null);
+  const anchors = useRef<HTMLElement[]>(null);
 
   useEffect(() => {
-    anchors.current = document.querySelectorAll('.heading');
+    const headings = document.querySelectorAll('.heading');
 
-    const scrollHandler = (entries) => entries.forEach((entry) => {
+    if (!headings) {
+      return false;
+    }
+
+    anchors.current = headings;
+
+    const scrollHandler = (entries: any[]) => entries.forEach((entry) => {
       const section = entry.target;
       const sectionId = section.id;
       const sectionLink = document.querySelector(`a[href="#${sectionId}"]`);
 
       if (entry.isIntersecting) {
         section.classList.add('visible');
-        sectionLink.classList.add('visible');
+        sectionLink?.classList.add('visible');
       } else {
         section.classList.remove('visible');
-        sectionLink.classList.remove('visible');
+        sectionLink?.classList.remove('visible');
       }
     });
 
@@ -35,7 +57,9 @@ function BlogPostTemplate({ data, location }) {
       threshold: 0.5,
     });
 
-    anchors.current.forEach((anchor) => observer.observe(anchor));
+    if (anchors.current) {
+      anchors.current.forEach((anchor: any) => observer.observe(anchor));
+    }
 
     return () => {
       observer = null;

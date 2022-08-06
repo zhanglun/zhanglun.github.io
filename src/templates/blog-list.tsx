@@ -1,11 +1,29 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { graphql, PageProps } from 'gatsby';
 import Seo from '../components/seo';
 import { ArticleList } from '../components/Article/ArticleList';
 import BlogLayout from '../components/BlogLayout';
 import { ListPagination } from '../components/ListPagination';
 
-function BlogList({ data, pageContext, location }) {
+type DataProps = {
+  site: {
+    siteMetadata: {
+      title: string,
+      menu?: any[],
+      description?: string
+    },
+  },
+  allMarkdownRemark: {
+    nodes: any[]
+  }
+}
+
+type PageContextType = {
+  currentPage: number,
+  numPages: number
+}
+
+function BlogList({ data, pageContext, location }: PageProps<DataProps, PageContextType>) {
   const { currentPage, numPages } = pageContext;
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
@@ -57,6 +75,7 @@ export const BlogListQuery = graphql`
       skip: $skip
     ) {
       nodes {
+        id
         fields {
           slug
         }
