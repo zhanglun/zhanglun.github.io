@@ -18,7 +18,7 @@
   display: block;
   padding: 1.4rem 0;
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: var(--fontWeight-semibold);
   color: var(--color-heading-black);
 }
 
@@ -26,7 +26,7 @@
   display: flex;
   align-items: center;
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: var(--fontWeight-normal);
   margin-bottom: 0.5vh;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .article-aside__item {
-  margin-bottom: var(--spacing-5)
+  margin-bottom: var(--spacing-8)
 }
 
 .aside-toc {
@@ -193,14 +193,14 @@
 }
 
 .aside-item__title {
-  font-size: 11px;
+  font-size: 12px;
   color: #312520;
 }
 
 .aside-item__content time {
   font-size: 14px;
   line-height: 1.7;
-  font-weight: 700;
+  font-weight: var(--fontWeight-semibold);
 }
 
 .aside-item__content .category-item {
@@ -209,13 +209,13 @@
   color: #000;
   font-size: 14px;
   line-height: 1.7;
-  font-weight: 700;
+  font-weight: var(--fontWeight-semibold);
 }
 
 .aside-item__content .tag-item {
   font-size: 14px;
   line-height: 1.7;
-  font-weight: 700;
+  font-weight: var(--fontWeight-semibold);
 }
 
 .aside-item__content .tag-item::before {
@@ -234,12 +234,10 @@ blockquote {
 }
 
 .title {
-  /* font-family: var(--sans-font); */
   font-size: calc(var(--content-font-size) * 2.5);
 }
 
 .desc {
-  /* font-family: var(--sans-font); */
   font-size: calc(var(--content-font-size) * 1.2);
 }
 
@@ -381,7 +379,7 @@ blockquote {
   display: block;
   font-size: 14px;
   line-height: 1.7;
-  font-weight: 700;
+  font-weight: var(--fontWeight-semibold);
 }
 
 .article-card__tag::before {
