@@ -18,8 +18,8 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 420px;
-  padding: 60px 40px;
+  width: 520px;
+  padding: 100px 100px;
   transform: translate3d(100%, 0, 0);
   transition: all 0.4s;
   background-color: #000000;
@@ -37,7 +37,7 @@
 
 .title-link {
   color: #FFFFFF;
-  font-size: var(--fontSize-4);
+  font-size: var(--fontSize-7);
 }
 
 .nav {
@@ -56,6 +56,34 @@
   color: #FFFFFF;
   letter-spacing: 1px;
   transition: all 0.3s;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  filter: invert(0.5);
+  text-decoration: line-through;
+}
+
+.nav-item.theme-1:hover {
+  text-decoration: underline;
+}
+.nav-item.theme-2:hover {
+  text-decoration: underline;
+}
+.nav-item.theme-3:hover {
+  text-decoration: underline;
+}
+
+.nav-item.theme-4:hover {
+  text-decoration: underline;
+}
+.nav-item.theme-5:hover {
+  text-decoration: underline;
+}
+
+.nav-item.theme-6:hover {
+  text-decoration: underline;
 }
 
 .sidemenu-nav-item:hover {

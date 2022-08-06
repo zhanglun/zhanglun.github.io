@@ -11,8 +11,12 @@ export function SideMenu(props: any) {
     setActive(!active);
   };
 
-  const renderMenu = () => menu.map((item: any) => (
-    <Link className={styles.navItem} to={item.url} key={item.id}>
+  const renderMenu = () => menu.map((item: any, idx: number) => (
+    <Link
+      className={`${styles.navItem} theme-${idx + 1}`}
+      to={item.url}
+      key={item.id}
+    >
       {item.name}
     </Link>
   ));
