@@ -157,13 +157,18 @@
 }
 
 .article-aside__item {
-  margin-bottom: var(--spacing-8)
+  margin-bottom: var(--spacing-10)
 }
 
 .aside-toc {
   list-style-type: none;
   padding: 0;
   margin: 6px 0 0;
+  display: flex;
+  gap: 6px;
+  box-orient: vertical;
+  box-direction: normal;
+  flex-direction: column;
 }
 
 .aside-toc li {
@@ -176,8 +181,13 @@
   font-size: 14px;
   line-height: 1.2;
   color: #808080;
-  margin: 2px 0;
-  padding: 2px 0;
+  font-family: var(--font-mono);
+  color: var(--theme-text-header);
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: block;
+  -webkit-margin-after: 8px;
+  margin-block-end: 8px;
 }
 
 .aside-toc a:hover {
@@ -193,7 +203,10 @@
 }
 
 .aside-item__title {
-  font-size: 12px;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  -webkit-margin-after: var(--spacing-6);
+  margin-block-end: var(--spacing-6);
   color: #312520;
 }
 

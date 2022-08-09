@@ -1,18 +1,40 @@
 .main {
-  padding: 1px;
-  width: 80%;
+  height: 100vh;
   margin: 0 auto;
   display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile {
+  display: grid;
+  grid-gap: 40px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.headline {
+  display: grid;
+  grid-gap: 32px;
+  align-items: center;
+  grid-template-columns: 120px 1fr;
 }
 
 .title {
   text-align: center;
-  font-size: 3rem;
+  font-size: 7rem;
   color: var(--color-heading-black);
+  padding: 0;
+  margin: 0;
 }
 
 .subTitle {
   font-size: 2rem;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
 }
 
 .entry {

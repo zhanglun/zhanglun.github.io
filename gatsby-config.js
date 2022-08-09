@@ -93,7 +93,7 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 630,
+              maxWidth: 750,
             },
           },
           {
@@ -108,7 +108,6 @@ module.exports = {
             resolve: 'gatsby-remark-highlight-code',
             options: {
               lineNumbers: true,
-              editable: true,
               theme: 'one-dark',
             },
           },
