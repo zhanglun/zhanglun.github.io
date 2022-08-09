@@ -71,6 +71,9 @@
 
   --header-height: 60px;
 
+  --img-border-color: #313B44;
+  --img-border-radius: 8px;
+
   /* --background-color: #fafafa;
   --main-color: #fff; */
   --background-color: #fafafa;
@@ -316,7 +319,8 @@ table thead tr th {
 
 p img {
   max-width: 100%;
-  border: 1px solid rgb(240,240,240);
+  border-radius: var(--img-border-radius);
+  border: 0.5px solid var(--img-border-color);
 }
 
 /* Link */
@@ -374,6 +378,7 @@ a:focus {
   height: 380px;
   margin-bottom: 60px;
   object-fit: cover;
+  border-radius: var(--img-border-radius);
   border: 1px solid rgb(240,240,240);
 }
 
@@ -484,6 +489,7 @@ a:focus {
   padding: 0 0.25rem;
   margin: 0 0.25rem;
   transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+  text-decoration: underline;
 }
 
 .link-underline:hover {
