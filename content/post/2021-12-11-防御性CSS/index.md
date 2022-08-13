@@ -3,7 +3,7 @@ title: "防御性CSS"
 date: 2021-12-11T20:12:31+08:00
 draft: false
 categories: ['前端'] 
-tag: ["CSS", "译文"]
+tags: ["CSS", "译文"]
 ---
 
 > 原文标题：Defensive CSS

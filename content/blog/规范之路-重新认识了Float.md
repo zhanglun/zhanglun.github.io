@@ -1,7 +1,7 @@
 ---
 title: 规范之路-重新认识了Float
 date: 2014-10-15 14:50:00
-category: ['重构']
+categories: ['重构']
 tags: ['CSS', '笔记']
 
 ---
