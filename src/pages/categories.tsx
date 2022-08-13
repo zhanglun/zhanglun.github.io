@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link, graphql } from 'gatsby';
-
 import Layout from '../components/layout';
 import Seo from '../components/seo';
+import { PageHero } from '../components/PageHero';
 
 function CategoryPage({ data, location }) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
@@ -35,9 +35,9 @@ function CategoryPage({ data, location }) {
       menu={siteMenu}
       description={description}
     >
-      <Seo title="All posts" />
-      <section className="main">
-        <div className="page-title">分类</div>
+      <Seo title="纸上得来终觉浅，绝知此事要躬行·Category·分类" />
+      <section className="category-page">
+        <PageHero title="分类" subTitle="纸上得来终觉浅，绝知此事要躬行" />
         <div className="category-list">
           {categoryGroup.map((category) => (
             <Link
@@ -47,6 +47,7 @@ function CategoryPage({ data, location }) {
             >
               <div>
                 #
+                {' '}
                 {category.fieldValue}
               </div>
               <div>{category.totalCount}</div>

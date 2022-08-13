@@ -18,7 +18,7 @@ function BlogIndex({ data, location }) {
       description={description}
     >
       <Seo title="首页" />
-      <Home siteMetadata={data.site.siteMetadata} />
+      <Home siteMetadata={data.site.siteMetadata} menu={siteMenu} />
     </Layout>
   );
 }
@@ -41,7 +41,7 @@ export const pageQuery = graphql`
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 10
-      ) {
+    ) {
       nodes {
         excerpt(truncate: true, pruneLength: 140)
         fields {
