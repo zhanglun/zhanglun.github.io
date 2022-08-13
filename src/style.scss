@@ -527,46 +527,5 @@ a:focus {
   margin-bottom: var(--spacing-5);
 }
 
-/* 分类卡片 */
-.category-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-items: center;
-  grid-row-gap: 40px;
-  padding: 30px 0 60px;
-}
-
-.category-img {
-  width: 150px;
-  height: 150px;
-  padding: 10px;
-  margin-bottom: 20px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 100%;
-  transition: all ease-in-out 0.3s;
-}
-
-.category-img img {
-  width: 100%;
-}
-
-.category-item {
-  text-align: center;
-  text-decoration: none;
-}
-
-.category-item:hover {
-  color: var(--color-text);
-}
-
-.category-item:hover .category-img {
-  background-color: rgba(0, 0, 0, 0.35);
-}
-
-.category-page-header {
-  padding: 50px 0;
-  display: grid;
-  justify-items: center;
-}
-
 @import "./styles/archive.scss";
+@import "./styles/category.scss";

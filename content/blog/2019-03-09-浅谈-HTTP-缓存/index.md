@@ -1,8 +1,7 @@
 ---
 title: 浅谈 HTTP 缓存
 date: 2019-03-09 15:41:38
-categories: 
-  - 全栈
+categories: ['技术学习']
 tags:
   - HTTP
 ---

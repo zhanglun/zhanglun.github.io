@@ -72,7 +72,7 @@ function ArchivePage({
       menu={siteMenu}
       description={description}
     >
-      <Seo title="All posts" />
+      <Seo title="花有重开日，人无再少年·Archive·归档" />
       <section className="archive-page">
         <div className="archive-page__container">
           <PageHero title="归档" subTitle="花有重开日，人无再少年" />
