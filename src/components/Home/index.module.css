@@ -39,3 +39,19 @@
 
 .entry {
 }
+
+.menu {
+  display: grid;
+  font-size: 1.8rem;
+  grid-auto-flow: column;
+  justify-items: center;
+}
+
+.menuItem div {
+  opacity: 0;
+  margin-left: 0.6rem;
+}
+
+.menuItem:hover div {
+  opacity: 1;
+}
