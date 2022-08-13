@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: '17'
 
+      # 安装
       - name: Install Dependenices
         run: |
           yarn install
