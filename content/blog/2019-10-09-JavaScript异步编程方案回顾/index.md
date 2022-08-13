@@ -1,6 +1,8 @@
 ---
 title: "JavaScript异步编程方案回顾"
 date: 2019-10-09T10:16:54+08:00
+categories: ['技术学习']
+tags: ['JavaScrtipt']
 draft: false
 ---
 

@@ -13,6 +13,7 @@ export default function HTML(props) {
     body,
     postBodyComponents,
   } = props;
+  console.log(props);
   return (
     <html {...htmlAttributes}>
       <head>

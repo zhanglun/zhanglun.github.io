@@ -1,10 +1,34 @@
 import * as React from 'react';
-import { Link, graphql } from 'gatsby';
-
+import { Link, graphql, PageProps } from 'gatsby';
 import Layout from '../components/layout';
 import Seo from '../components/seo';
+import { PageHero } from '../components/PageHero';
 
-function ArchivePage({ data, location }) {
+type DataProps = {
+  site: {
+    siteMetadata: {
+      title: string;
+      menu?: any[];
+      description?: string;
+    };
+  };
+  allMarkdownRemark: {
+    nodes: any[];
+    group: {
+      nodes: any[];
+    }[];
+  };
+};
+
+type PageContextType = {
+  currentPage: number;
+  numPages: number;
+};
+
+function ArchivePage({
+  data,
+  location,
+}: PageProps<DataProps, PageContextType>) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
   const postGroup = data.allMarkdownRemark.group.slice(0).reverse();
   const siteMenu = data.site.siteMetadata?.menu || [];
@@ -36,11 +60,7 @@ function ArchivePage({ data, location }) {
         description={description}
       >
         <Seo title="All posts" />
-        <p>
-          No category found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
+        <p>No category found.</p>
       </Layout>
     );
   }
@@ -53,29 +73,37 @@ function ArchivePage({ data, location }) {
       description={description}
     >
       <Seo title="All posts" />
-      <section className="main">
-        <div className="page-title" />
-        {postGroup.map((archive) => (
-          <div className="archive-item" key={archive.fieldValue}>
-            <div className="archive-item-head">
-              <div className="archive-year">{archive.fieldValue}</div>
-            </div>
-            <ul className="archive-item-list">
-              {archive.nodes.map((node) => {
-                const date = `${(`${node.fields.month}`).padStart(2, '0')}-${(
-                  `${node.fields.day}`
-                ).padStart(2, '0')}`;
+      <section className="archive-page">
+        <div className="archive-page__container">
+          <PageHero title="归档" subTitle="花有重开日，人无再少年" />
+          {postGroup.map((archive) => (
+            <div className="archive-section" key={archive.fieldValue}>
+              <div className="archive-section__head">
+                <div className="archive-section__year">{archive.fieldValue}</div>
+              </div>
+              <ul className="archive-posts">
+                {archive.nodes.map((node) => {
+                  const date = `${`${node.fields.month}`.padStart(
+                    2,
+                    '0',
+                  )}-${`${node.fields.day}`.padStart(2, '0')}`;
 
-                return (
-                  <li key={node.fields.slug}>
-                    <span className="archive-date">{date}</span>
-                    <Link to={node.fields.slug}>{node.frontmatter.title}</Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+                  return (
+                    <li key={node.fields.slug} className="archive-posts__item">
+                      <h3 className="archive-page__post-title">
+                        <Link to={node.fields.slug}>
+                          {node.frontmatter.title}
+                        </Link>
+                      </h3>
+                      <span className="archive-page__post-date">{date}</span>
+                      <p className="archive-page__post-excerpt">{node.excerpt}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
     </Layout>
   );
@@ -96,9 +124,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
-    ) {
+    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
       group(field: fields___year) {
         fieldValue
         totalCount
@@ -115,6 +141,7 @@ export const pageQuery = graphql`
             month
             day
           }
+          excerpt(truncate: true, pruneLength: 80)
         }
       }
     }

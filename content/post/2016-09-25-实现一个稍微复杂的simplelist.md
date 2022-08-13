@@ -1,7 +1,7 @@
 ---
 title: 实现一个稍微复杂的simplelist
 date: 2016-09-25 18:40:45
-categories: ['JavaScript']
+categories: ['技术学习']
 tags: [前端]
 ---
 

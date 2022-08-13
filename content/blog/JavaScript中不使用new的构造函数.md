@@ -1,7 +1,7 @@
 ---
 title: JavaScript 中不使用 new 的构造函数（以及由此引发的联想）
 date: 2015-01-28 21:09:00
-category: ['JavaScript']
+categories: ['技术学习']
 tags: ['笔记']
 ---
 

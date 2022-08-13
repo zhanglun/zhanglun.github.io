@@ -1,11 +1,12 @@
 ---
 title: JavaScript 中不使用 new 的构造函数（以及由此引发的联想）
 date: 2015-01-28 :00 12:33
-category: ['JavaScript']
-tag: ['笔记']
+categories: ['技术学习']
+tags: ['JavaScript']
 ---
 
-### 前戏
+### 前言
+
 在JavaScript 中，调用构造函数的方法很简单。
 
 ```js

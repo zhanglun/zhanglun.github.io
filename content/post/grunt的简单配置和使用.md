@@ -1,7 +1,7 @@
 ---
 title: Grunt的简单配置和使用
 date: 2014-08-08 21:09:00
-tag: [Grunt, 工具]
+tags: [Grunt, 工具]
 
 ---
 

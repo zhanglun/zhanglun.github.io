@@ -1,4 +1,4 @@
-import '../src/style.css';
+import '../src/style.scss';
 import { themes } from '@storybook/theming';
 import {CodeBlock} from './CodeBlock';
 
