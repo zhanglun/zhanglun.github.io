@@ -81,7 +81,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   });
 
   // 创建分类页面
-  const categoryTemplate = path.resolve('./src/templates/categories.js');
+  const categoryTemplate = path.resolve('./src/templates/categories.tsx');
   const categories = result.data.categoryGroup.group;
 
   categories.forEach((category) => {
