@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 
 import Layout from '../components/layout';
 import Seo from '../components/seo';
 import { ArticleList } from '../components/Article/ArticleList';
-import A from '../images/a.png';
+import { PageHero } from '../components/PageHero';
 
 function CategoryTempalte({ data, location, pageContext }) {
   const siteTitle = data.site.siteMetadata?.title || 'Title';
@@ -23,18 +23,7 @@ function CategoryTempalte({ data, location, pageContext }) {
       description={description}
     >
       <Seo title="All posts" />
-      <div className="category-page-header">
-        <div className="category-item">
-          {/* <div className="category-img">
-            <img src={A} alt="" />
-          </div> */}
-          <div>
-            #
-            {category.name || category}
-          </div>
-          <div>{count}</div>
-        </div>
-      </div>
+      <PageHero title={`#${category.name || category}`} subTitle={count} />
       <div className="category-page-body">
         <ArticleList posts={posts} />
       </div>
