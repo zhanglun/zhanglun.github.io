@@ -4,23 +4,23 @@
   padding: 4px;
   border-width: 1px;
   border-style: solid;
-  border-color: var(--color-heading-black);
+  border-color: var(--color-black);
   border-radius: 50%;
   transition: all 150ms ease-in-out;
 }
 
 .dark {
-  background-color: var(--color-heading-black);
+  background-color: var(--color-black);
   color: #FFFFFF;
 }
 
 .light {
   background-color: #FFFFFF;
-  color: var(--color-heading-black);
+  color: var(--color-black);
 }
 
 .light:hover {
-  background-color: var(--color-heading-black);
+  background-color: var(--color-black);
   color: #FFFFFF;
 }
 
