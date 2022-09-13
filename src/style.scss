@@ -61,11 +61,11 @@
   --fontSize-5: 2.074rem;
   --fontSize-6: 2.488rem;
   --fontSize-7: 2.986rem;
-  --color-primary: #4b5cc4;
+  --color-primary: #492d22;
   --color-light-cream: #FCFBF7;
   --color-cream: #F6F5F1;
   --color-tinted-cream: #E6E3E1;
-  --color-black: #353534;
+  --color-black: #1e2732;
   --color-gray-800: #4A4A46;
   --color-gray-600: #73706D;
   --color-gray-500: #8E8F94;
@@ -81,7 +81,7 @@
   --color-salmon: #FD8370;
   --color-text: #353534;
   --color-text-light: #4f5969;
-  --color-heading: #312520;
+  --color-heading: #1e2732;
   --color-accent: #d1dce5;
 
   --header-height: 60px;
@@ -547,12 +547,12 @@ a:focus {
 
 ::selection {
   color:#fff;
-  background-color: #000;
+  background-color: #1e2732;
 }
 
 ::-moz-selection {
   color:#fff;
-  background-color: #000;
+  background-color: #1e2732;
 }
 
 @import "./styles/archive.scss";
