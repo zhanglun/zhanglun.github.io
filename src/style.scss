@@ -545,5 +545,15 @@ a:focus {
   margin-bottom: var(--spacing-5);
 }
 
+::selection {
+  color:#fff;
+  background-color: #000;
+}
+
+::-moz-selection {
+  color:#fff;
+  background-color: #000;
+}
+
 @import "./styles/archive.scss";
 @import "./styles/category.scss";
