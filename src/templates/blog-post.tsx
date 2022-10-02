@@ -27,43 +27,51 @@ function BlogPostTemplate({ data, location }: PageProps<DataType>) {
   const siteMenu = data.site.siteMetadata?.menu || [];
   const description = data.site.siteMetadata?.description || '';
   const { previous, next } = data;
-  const anchors = useRef<HTMLElement[]>(null);
+  const headingRef = useRef<any>([]);
+  const linkRef = useRef<any>([]);
+
+  const updateLinks = (visibleId: string) => {
+    linkRef.current.forEach((link: HTMLAnchorElement) => {
+      link.classList.remove('visible');
+      const href = link.getAttribute('href') as string;
+
+      if (href.indexOf(visibleId) > -1) {
+        link.classList.add('visible');
+      }
+    });
+  };
+
+  const handleObserver = (entries: any[]) => {
+    entries.forEach((entry) => {
+      const { target, isIntersecting, intersectionRatio } = entry;
+
+      if (isIntersecting && intersectionRatio >= 1) {
+        const visibleId = target.id;
+        updateLinks(visibleId);
+      }
+    });
+  };
 
   useEffect(() => {
     const headings = document.querySelectorAll('.heading');
 
-    if (!headings) {
-      return false;
-    }
+    if (headings) {
+      headingRef.current = headings;
+      linkRef.current = document.querySelectorAll('.aside-toc a');
 
-    anchors.current = headings;
+      const observer = new IntersectionObserver(handleObserver, {
+        threshold: 1,
+      });
 
-    const scrollHandler = (entries: any[]) => entries.forEach((entry) => {
-      const section = entry.target;
-      const sectionId = section.id;
-      const sectionLink = document.querySelector(`a[href="#${sectionId}"]`);
-
-      if (entry.isIntersecting) {
-        section.classList.add('visible');
-        sectionLink?.classList.add('visible');
-      } else {
-        section.classList.remove('visible');
-        sectionLink?.classList.remove('visible');
+      if (headingRef.current) {
+        headingRef.current.forEach((anchor: any) => observer.observe(anchor));
       }
-    });
-
-    // Creates a new scroll observer
-    let observer = new IntersectionObserver(scrollHandler, {
-      threshold: 0.5,
-    });
-
-    if (anchors.current) {
-      anchors.current.forEach((anchor: any) => observer.observe(anchor));
+      return () => {
+        observer.disconnect();
+      };
     }
 
-    return () => {
-      observer = null;
-    };
+    return undefined;
   }, []);
 
   return (
@@ -89,7 +97,7 @@ function BlogPostTemplate({ data, location }: PageProps<DataType>) {
             <div className="article-aside__item">
               <div className="aside-item__title">Category</div>
               <div className="aside-item__content">
-                {post.frontmatter.categories.map((category) => (
+                {post.frontmatter.categories.map((category: string) => (
                   <Link
                     className="category-item"
                     to={`/categories/${category}`}
@@ -122,6 +130,7 @@ function BlogPostTemplate({ data, location }: PageProps<DataType>) {
                     <a
                       key={heading.id}
                       href={`#${decodeURIComponent(heading.id)}`}
+                      className={`aside-toc__link aside-toc__link--depth-${heading.depth}`}
                     >
                       {heading.value}
                     </a>

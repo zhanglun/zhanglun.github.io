@@ -18,7 +18,7 @@ function About({ data, location }) {
       description={description}
     >
       <Seo title="张伦 实验室" />
-      <div className="main">
+      <div>
         <PageHero title="实验室" subTitle="各种奇思妙想的实验" />
       </div>
     </Layout>
