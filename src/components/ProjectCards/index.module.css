@@ -2,8 +2,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3.75rem 2rem;
-  width: 1400px;
+  max-width: 85%;
   margin: 0 auto;
+}
+
+@media screen and (max-width: 999px) {
+  .list {
+    grid-template-columns: 1fr;
+    gap: 3.75rem 2rem;
+  }
 }
 
 .item {
