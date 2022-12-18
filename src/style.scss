@@ -89,39 +89,52 @@
   --img-border-color: #313B44;
   --img-border-radius: 8px;
   --box-shadow-lg: 0.2px 0.4px 0.8px -10px rgba(0,0,0,0.03), 0.4px 0.9px 2px -10px rgba(0,0,0,0.03), 0.8px 1.8px 3.8px -10px rgba(0,0,0,0.038), 1.3px 3.1px 6.7px -10px rgba(0,0,0,0.045), 2.5px 5.8px 12.5px -10px rgba(0,0,0,0.06), 6px 14px 30px -10px rgba(0,0,0,0.08);
-
-  /* --background-color: #fafafa;
-  --main-color: #fff; */
-  --background-color: #fafafa;
-  --background-color-1: #f3d2c1;
-  --background-color-2: #fffffe;
-  --background-color-3: #f582ae;
-  --button-color: #636363;
-  --button-text-color: #fff;
-  --card-backgroud-color: #f3d2c1;
-  --card-background-color: #fef6e4;
-  --card-background-color-1: #001858;
-  --card-heading-color: #001858;
-  --card-headline-color: #fffffe;
-  --card-headline-color-1: #001858;
-  --card-highlight-color: #f582ae;
-  --card-paragraph-color: #172c66;
-  --card-tag-background-color: #636363;;
-  --card-tag-text-color: #fff;
-  --form-button-color: #f582ae;
-  --form-button-text-color: #001858;
-  --form-input-color: #f3d2c1;
-  --headline-color: #001858;
-  --highlight-color: #fef6e4;
-  --label--placeholder-color: #001858;
-  --link-color: #f582ae;
-  --links-color: #fef6e4;
-  --main-color: #f3d2c1;
-  --paragraph-color: #172c66;
-  --secondary-color: #8bd3dd;
-  --stroke-color: #001858;
-  --sub-headline-color: #172c66;
-  --tertiary-color: #f582ae;
+  
+  --lightBlueHS: 199, 33%;
+  --yellowHS: 49, 100%;
+  --redHS: 349, 100%;
+  --yellowHSL: 49, 100%, 50%;
+  --lightGrayHSL: 220, 2%, 66%;
+  --lightBlueHSL: 199, 33%, 61%;
+  --darkBlueHSL: 201, 42%, 35%;
+  --orangeHSL: 22, 100%, 54%;
+  --redHSL: 349, 100%, 45%;
+  --midGrayHSL: 204, 2%, 54%;
+  --darkGrayHSL: 210, 4%, 27%;
+  --darkerGrayHSL: 349, 25%, 16%;
+  --whiteHSL: 0, 0%, 99%;
+  --trueWhiteHSL: 0, 0%, 100%;
+  --blackHSL: 210, 33%, 9%;
+  --trueBlackHSL: 0, 0%, 0%;
+  --white: hsl(var(--whiteHSL));
+  --trueWhite: hsl(var(--trueWhiteHSL));
+  --black: hsl(var(--blackHSL));
+  --trueBlack: hsl(var(--trueBlackHSL));
+  --headingFont: "Averta-Std", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bodyFont: "Alkes", Georgia, serif;
+  --codeFont: "MonoLisa", Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --bodyFontWeight: normal;
+  --yellowHSL: 49, 100%, 50%;
+  --yellow: hsl(var(--yellowHSL));
+  --orange: hsl(var(--orangeHSL));
+  --red: hsl(var(--redHSL));
+  --lightGray: hsl(var(--lightGrayHSL));
+  --midGray: hsl(var(--midGrayHSL));
+  --darkGray: hsl(var(--darkGrayHSL));
+  --darkerGray: hsl(var(--darkerGrayHSL));
+  --lightBlue: hsl(var(--lightBlueHSL));
+  --lighterBlue: hsl(var(--lightBlueHS), 90%);
+  --lightestBlue: hsl(var(--lightBlueHS), 95%);
+  --darkBlue: hsl(var(--darkBlueHSL));
+  --darkerBlue: hsl(var(--darkBlueHSL), 20%);
+  --blueToYellow: #7ba7bc, #75b1bf, #66c6b6, #4fd27b, #56e035, #acef1b, #faf008, #ffd100;
+  --ink: var(--darkGray);
+  --paper: var(--white);
+  --paperHSL: var(--whiteHSL);
+  --headingColor: var(--darkerGray);
+  --accentColor: var(--darkBlue);
+  --linkColor: var(--darkBlue);
+  --highlightColor: var(--darkGray);
 }
 
 /* HTML elements */
@@ -144,7 +157,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--fontSize-1);
   color: var(--color-text);
-  background-color: var(--color-cream);
+  // background-color: var(--color-cream);
 }
 
 hr {
@@ -231,7 +244,7 @@ code[class*="language-"] {
 /* Prose */
 
 p {
-  line-height: var(--lineHeight-relaxed);
+  line-height: var(--lineHeight-normal);
   --baseline-multiplier: 0.179;
   --x-height-multiplier: 0.35;
   margin: var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);
@@ -546,13 +559,13 @@ a:focus {
 }
 
 ::selection {
-  color:#fff;
-  background-color: #1e2732;
+  background: var(--yellow);
+  color: var(--highlightColor);
 }
 
 ::-moz-selection {
-  color:#fff;
-  background-color: #1e2732;
+  background: var(--yellow);
+  color: var(--highlightColor);
 }
 
 @import "./styles/archive.scss";
