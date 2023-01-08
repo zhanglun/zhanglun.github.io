@@ -21,7 +21,7 @@ function About({ data, location }: any) {
     {
       name: 'Gatsby blog theme',
       description: '为Gatsby.js创建的个人博客主题',
-      url: 'https://github.com/zhanglun/gatsby-starter-blog',
+      url: 'https://github.com/zhanglun/gatsby-theme-facile',
     },
     // {
     //   name: 'notify',
