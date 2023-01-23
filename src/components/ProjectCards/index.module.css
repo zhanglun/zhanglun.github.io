@@ -1,12 +1,12 @@
 .list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 3.75rem 2rem;
   max-width: 85%;
   margin: 0 auto;
 }
 
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 1024px) {
   .list {
     grid-template-columns: 1fr;
     gap: 3.75rem 2rem;
@@ -31,4 +31,8 @@
 
 .project-2 {
   background-image: url('./gatsby-blog.webp');
+}
+
+.project-3 {
+  background-image: url('./pavo.webp');
 }
