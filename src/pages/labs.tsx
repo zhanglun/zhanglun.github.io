@@ -23,6 +23,11 @@ function About({ data, location }: any) {
       description: '为Gatsby.js创建的个人博客主题',
       url: 'https://github.com/zhanglun/gatsby-theme-facile',
     },
+    {
+      name: 'Pavo',
+      description: '跨平台的桌面壁纸程序',
+      url: 'https://github.com/zhanglun/pavo',
+    },
     // {
     //   name: 'notify',
     //   description: 'Notify Component',
