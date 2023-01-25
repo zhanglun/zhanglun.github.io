@@ -22,7 +22,7 @@ jobs:
       - name: Set Node Enviroment
         uses: actions/setup-node@v3
         with:
-          node-version: '17'
+          node-version: '18'
 
       # 安装
       - name: Install Dependenices
