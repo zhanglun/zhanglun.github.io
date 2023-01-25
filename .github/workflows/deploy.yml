@@ -37,7 +37,7 @@ jobs:
           echo "Starting building..."
           yarn run build
           yarn run build-storybook
-          cp ./CNAME ./public/CNAME
+          # cp ./CNAME ./public/CNAME
           cp ./ads.txt ./public/ads.txt
 
       # 部署到 GitHub Pages
