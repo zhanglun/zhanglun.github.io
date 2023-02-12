@@ -27,14 +27,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: Sync content from Notion
+        run: |
+          npm run download
       - name: Install, build, and upload your site
         uses: withastro/action@v0
-
       - name: Build storybook and copy some files
         run: |
           # pnpm run build-storybook
           # cp ./CNAME ./dist/CNAME
-          npm run download
           cp ./ads.txt ./dist/ads.txt
   deploy:
     needs: build
