@@ -1,0 +1,366 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;display=swap" rel="stylesheet"/><meta data-react-helmet="true" name="twitter:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" name="twitter:title" content="我的响应式web开发实践笔记-Media Queries 初探"/><meta data-react-helmet="true" name="twitter:creator" content="zhanglun1410"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" property="og:title" content="我的响应式web开发实践笔记-Media Queries 初探"/><meta data-react-helmet="true" name="description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta name="generator" content="Gatsby 4.13.1"/><style data-href="/styles.7aa89aa35ece76996c80.css" data-identity="gatsby-global-css">.theme-1{--background-color:#fef6e4;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#f582ae;--button-text-color:#001858;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#fef6e4;--card-tag-text-color:#001858;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label-placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}.theme-2{--background-color:#55423d;--background-color-1:#271c19;--background-color-2:#ffc0ad;--background-color-3:#9656a1;--button-color:#ffc0ad;--button-text-color:#271c19;--card-backgroud-color:#fffffe;--card-background-color:#55423d;--card-background-color-1:#ffc0ad;--card-heading-color:#fffffe;--card-headline-color:#271c19;--card-highlight-color:#9656a1;--card-paragraph-color:#fff3ec;--card-paragraph-color-1:#271c19;--card-tag-background-color:#fffffe;--card-tag-text-color:#271c19;--form-button-color:#9656a1;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#fffffe;--headline-color-1:#271c19;--highlight-color:#e78fb3;--label-placeholder-color:#271c19;--link-color:#9656a1;--links-color:#e78fb3;--main-color:#fff3ec;--paragraph-color:#fff3ec;--paragraph-color-1:#271c19;--secondary-color:#ffc0ad;--stroke-color:#140d0b;--sub-headline-color:#fff3ec;--tertiary-color:#9656a1}.theme-3{--background-color:#faeee7;--background-color-1:#fffffe;--background-color-2:#fffffe;--background-color-3:#33272a;--button-color:#ff8ba7;--button-text-color:#33272a;--card-backgroud-color:#faeee7;--card-background-color:#faeee7;--card-background-color-1:#fffffe;--card-heading-color:#33272a;--card-headline-color:#33272a;--card-highlight-color:#33272a;--card-paragraph-color:#594a4e;--card-tag-background-color:#ffc6c7;--card-tag-text-color:#33272a;--form-button-color:#ff8ba7;--form-button-text-color:#33272a;--form-input-color:#faeee7;--headline-color:#33272a;--highlight-color:#ff8ba7;--label-placeholder-color:#33272a;--link-color:#ff8ba7;--links-color:#ff8ba7;--main-color:#fffffe;--paragraph-color:#594a4e;--secondary-color:#ffc6c7;--stroke-color:#33272a;--sub-headline-color:#594a4e;--tertiary-color:#c3f0ca}.theme-4{--background-color:#fffffe;--background-color-1:#e3f6f5;--background-color-2:#e3f6f5;--background-color-3:#bae8e8;--button-color:#ffd803;--button-text-color:#272343;--card-backgroud-color:#fffffe;--card-background-color:#fffffe;--card-background-color-1:#272343;--card-heading-color:#272343;--card-headline-color:#fffffe;--card-headline-color-1:#272343;--card-highlight-color:#bae8e8;--card-paragraph-color:#2d334a;--card-tag-background-color:#bae8e8;--card-tag-text-color:#272343;--form-button-color:#272343;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#272343;--highlight-color:#ffd803;--label--placeholder-color:#272343;--link-color:#272343;--links-color:#ffd803;--main-color:#fffffe;--paragraph-color:#2d334a;--secondary-color:#e3f6f5;--stroke-color:#272343;--sub-headline-color:#2d334a;--tertiary-color:#bae8e8}:root{--inline-code-font:monospace!important;--mono-font:"JetBrains Mono",monospace!important;--content-font-size:16px;--maxWidth-none:"none";--maxWidth-xs:999px;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-5xl:64rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--main-max-width:750px;--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--main-spacing:100px;--font-family-sans:"Noto San SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-body:var(--font-family-sans);--font-heading:var(--font-family-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:10px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.9;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#4b5cc4;--color-text:#312520;--color-text-light:#4f5969;--color-heading:#312520;--color-heading-black:#161823;--color-accent:#d1dce5;--header-height:60px;--img-border-color:#313b44;--img-border-radius:8px;--background-color:#fafafa;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#636363;--button-text-color:#fff;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#636363;--card-tag-text-color:#fff;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label--placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1);margin:0}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-normal);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}pre[class*=language-]{border-radius:0;white-space:pre-wrap}code[class*=language-]{font-family:Menlo,Monaco,Consolas,Courier New,monospace;font-size:14px;white-space:pre-wrap}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;font-size:1.6rem;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);padding:var(--spacing-0)}ol,ul{margin-bottom:0;margin-top:0}ol li,ul li{padding-left:var(--spacing-0)}ol,ul{margin-bottom:1.5em}li>p{margin-bottom:calc(var(--spacing-8)/2)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-1);font-style:italic;margin-bottom:var(--spacing-8);padding:var(--spacing-5)}.quote{background:#f9f9f9;border-left:2px solid #636363;color:#636363;font-style:italic;margin:0 0 var(--spacing-16) 0;margin-bottom:1.5em;padding:1.5em;transition:.3s}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote p{margin-bottom:var(--spacing-3)}blockquote li{margin:0}blockquote>ol,blockquote>ul{list-style-position:inside;padding-left:var(--spacing-4)}table{border:1px solid #e9e9e7;border-collapse:collapse;border-spacing:.25rem;font-size:14px;margin-bottom:var(--spacing-8);width:100%}table td,table th{border-bottom:1px solid #e9e9e7;padding:8px 10px}table thead tr th{background-color:#f7f6f3;text-align:left}p img{border:.5px solid var(--img-border-color);border-radius:var(--img-border-radius);max-width:100%}a{color:var(--color-primary)}a,a:focus,a:hover{text-decoration:none}.global-header{margin-bottom:var(--spacing-12)}.main{background-color:var(--background-color-2);margin:0 auto;max-width:var(--main-max-width);padding:30px var(--main-spacing) 30px;position:relative;width:90%;z-index:1}.main-heading{font-size:var(--fontSize-7);margin:0}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.article-section{margin:0 auto;max-width:var(--main-max-width);position:relative;z-index:1}.article-cover{border:1px solid #f0f0f0;border-radius:var(--img-border-radius);height:380px;margin-bottom:60px;-o-object-fit:cover;object-fit:cover;width:100%}@media screen and (max-width:999px){.article-section,.pagination{max-width:100%;padding:0 20px}}.blog-post{border-bottom:1px solid #1d2b36;line-height:1.9;margin-bottom:10px;padding-bottom:60px;position:relative}.blog-post:before{left:0}.blog-post:after,.blog-post:before{background:#1d2b36;bottom:-2px;content:"";height:3px;position:absolute;width:3px}.blog-post:after{right:0}.blog-post header{border-top:1px solid #1d2b36;margin-top:50px;position:relative}.blog-post header:before{left:0}.blog-post header:after,.blog-post header:before{background:#1d2b36;content:"";height:3px;position:absolute;top:-2px;width:3px}.blog-post header:after{right:0}.blog-post header h1{font-size:36px;font-weight:var(--fontWeight-semibold);line-height:1.4;margin:60px 0}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media(max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-3)}ol,ul{padding-left:14px}}.pagination{margin:0 auto;max-width:var(--main-max-width);padding:50px 0}.link-underline,.pagination .next:hover,.pagination .prev:hover{text-decoration:underline}.link-underline{box-shadow:inset 0 0 0 0 var(--color-primary);margin:0 .25rem;padding:0 .25rem;transition:color .3s ease-in-out,box-shadow .3s ease-in-out}.link-underline:hover{box-shadow:inset 0 -40px 0 0 var(--color-primary);color:#fff}.hover-underline{position:relative}.hover-underline:after{background-color:var(--color-text);bottom:4px;content:"";height:2px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:bottom right;transform-origin:bottom right;transition:-webkit-transform .25s ease-out;transition:transform .25s ease-out;transition:transform .25s ease-out,-webkit-transform .25s ease-out;width:100%}.hover-underline:hover:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:bottom left;transform-origin:bottom left}.page-title{color:var(--color-heading);font-size:var(--fontSize-6);margin-bottom:var(--spacing-5);padding-top:50px;text-align:center}:root{--bg-color:#d3dadf;--action-color:#000911}.archive-page{background-color:var(--bg-color);width:100%}.archive-page__container{margin:0 auto;padding-bottom:1px;padding-left:6.4rem;padding-right:6.4rem}.archive-page__post-title{display:flex;font-size:2.4rem;line-height:3.2rem;margin:0}.archive-page__post-excerpt{margin-bottom:3.2rem;position:relative}.archive-page__post-date{color:var(--text-color);font-size:1.4rem}.archive-section{margin-bottom:24vw;margin-top:10vw;position:relative}.archive-section__year{color:#c3cad0;color:var(--text-light-color,#c3cad0);font-size:36vw;font-weight:700;letter-spacing:-.07em;line-height:.2;margin-top:0;min-width:100%;pointer-events:none;position:absolute;text-align:center;-webkit-user-select:none;-ms-user-select:none;user-select:none}.archive-posts{grid-gap:3.2rem;display:grid;font-size:1.6rem;grid-template-columns:repeat(auto-fill,minmax(25.6rem,1fr));list-style-type:none;margin:0;padding:0;position:relative}.archive-posts a{color:var(--action-color);text-decoration:none}.archive-posts a:hover{text-decoration:underline}.archive-date{margin-right:20px}.category-page,.root{min-height:100vh}.category-page{background-color:#a4c9d8}.category-list{grid-gap:10rem;display:grid;font-size:1.8rem;grid-template-columns:repeat(4,1fr);justify-items:center}.category-img{background-color:rgba(0,0,0,.2);border-radius:100%;height:150px;margin-bottom:20px;padding:10px;transition:all .3s ease-in-out;width:150px}.category-img img{width:100%}.category-item{text-align:center;text-decoration:none}.category-item:hover{color:var(--color-text)}.category-item:hover .category-img{background-color:rgba(0,0,0,.35)}.category-page-header{display:grid;justify-items:center;padding:50px 0}.ham{-webkit-tap-highlight-color:transparent;color:#fff;cursor:pointer;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:54px}.hamRotate.active{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.hamRotate180.active{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.line{fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .4s,stroke-dashoffset .4s}.ham.active .line{stroke:#fff}.ham1 .top{stroke-dasharray:40 139}.ham1 .bottom{stroke-dasharray:40 180}.ham1.active .top{stroke-dashoffset:-98px}.ham1.active .bottom{stroke-dashoffset:-138px}.ham2 .bottom,.ham2 .top{stroke-dasharray:40 121}.ham2.active .bottom,.ham2.active .top{stroke-dashoffset:-102px}.ham3 .top{stroke-dasharray:40 130}.ham3 .middle{stroke-dasharray:40 140}.ham3 .bottom{stroke-dasharray:40 205}.ham3.active .top{stroke-dasharray:75 130;stroke-dashoffset:-63px}.ham3.active .middle{stroke-dashoffset:-102px}.ham3.active .bottom{stroke-dasharray:110 205;stroke-dashoffset:-86px}.ham4 .bottom,.ham4 .top{stroke-dasharray:40 121}.ham4.active .bottom,.ham4.active .top{stroke-dashoffset:-68px}.ham5 .bottom,.ham5 .top{stroke-dasharray:40 82}.ham5.active .bottom,.ham5.active .top{stroke-dasharray:14 82;stroke-dashoffset:-72px}.ham6 .top{stroke-dasharray:40 172}.ham6 .middle{stroke-dasharray:40 111}.ham6 .bottom{stroke-dasharray:40 172}.ham6.active .top{stroke-dashoffset:-132px}.ham6.active .middle{stroke-dashoffset:-71px}.ham6.active .bottom{stroke-dashoffset:-132px}.ham7 .top{stroke-dasharray:40 82}.ham7 .middle{stroke-dasharray:40 111}.ham7 .bottom{stroke-dasharray:40 161}.ham7.active .top{stroke-dasharray:17 82;stroke-dashoffset:-62px}.ham7.active .middle{stroke-dashoffset:23px}.ham7.active .bottom{stroke-dashoffset:-83px}.ham8 .top{stroke-dasharray:40 160}.ham8 .middle{stroke-dasharray:40 142;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s}.ham8 .bottom,.ham8 .middle{-webkit-transform-origin:50%;transform-origin:50%}.ham8 .bottom{stroke-dasharray:40 85;transition:stroke-dashoffset .4s,-webkit-transform .4s;transition:transform .4s,stroke-dashoffset .4s;transition:transform .4s,stroke-dashoffset .4s,-webkit-transform .4s}.ham8.active .top{stroke-dashoffset:-64px}.ham8.active .middle{stroke-dashoffset:-20px;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.ham8.active .bottom{stroke-dashoffset:-64px}.index-module--menu--aNCkU{position:fixed;right:0;top:0;z-index:100}.index-module--menu-button--Iv9-4{position:fixed;right:0;top:0;z-index:102}.index-module--menu-main--dqZT6{background-color:#000;bottom:0;padding:100px;position:fixed;right:0;top:0;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);transition:all .4s;width:520px;z-index:101}.index-module--menu-main--dqZT6.index-module--open--LEqU-{-webkit-transform:translateZ(0);transform:translateZ(0)}.index-module--menu-title--n-nNm{color:#fff;font-weight:var(--fontWeight-semibold);margin-top:30px}.index-module--title-link--T5U9M{color:#fff;font-size:var(--fontSize-7)}.index-module--nav--nqC-X{align-items:flex-start;display:flex;flex-direction:column;margin-top:40px}.index-module--nav-item--8jKuC{color:#fff;font-size:22px;font-weight:500;height:var(--header-height);letter-spacing:1px;line-height:var(--header-height);margin:0;text-decoration:none;transition:all .3s}.index-module--nav-item--8jKuC:hover{-webkit-filter:invert(.5);filter:invert(.5);text-decoration:line-through}.index-module--nav-item--8jKuC.index-module--theme-1--jQ2fg:hover,.index-module--nav-item--8jKuC.index-module--theme-2--7nodg:hover,.index-module--nav-item--8jKuC.index-module--theme-3--pka-p:hover,.index-module--nav-item--8jKuC.index-module--theme-4--L3lP0:hover,.index-module--nav-item--8jKuC.index-module--theme-5--zFBiY:hover,.index-module--nav-item--8jKuC.index-module--theme-6--t9Ipa:hover{text-decoration:underline}.index-module--sidemenu-nav-item--3tmSg:hover{-webkit-transform:translate3d(14px,0,0);transform:translate3d(14px,0,0)}@media (max-width:1024px){.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn{box-sizing:border-box;right:-100vw;transition:none!important;width:100%}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn:before{background:#edbb1c;border-radius:50%;content:"";height:0;position:fixed;right:0;top:0;transition:all .7s;width:0}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs:before{height:300vh;right:-150vh;top:-150vh;transition:all .7s;width:300vh}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn{background-color:transparent!important}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn>*{opacity:0;transition:.3s}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs>*{opacity:1;transition:.3s .5s}}.index-module--container--MsrZ9{align-items:center;display:grid;justify-content:center;padding:3.75rem;text-align:center}.index-module--inner--Qy-hx{align-items:center;display:grid;gap:.75rem;justify-content:center;padding-bottom:5rem;padding-top:11.25rem;position:relative;width:100%}.index-module--title--k4zZ7{font-size:9.5rem;font-weight:600;margin:0}.index-module--subTitle--Sf0CJ{font-size:2rem;font-weight:600;margin:3.75rem 0 0}.index-module--main--husmE{align-items:center;display:grid;height:100vh;justify-content:center;margin:0 auto}.index-module--profile--01Kcu{grid-gap:40px;display:grid;grid-template-rows:1fr 1fr}.index-module--headline--7zfcQ{grid-gap:32px;align-items:center;display:grid;grid-template-columns:120px 1fr}.index-module--title--YQ4NF{color:var(--color-heading-black);font-size:7rem;margin:0;padding:0;text-align:center}.index-module--subTitle--aYKXU{font-size:2rem}.index-module--avatar--y2x3q{border-radius:50%;height:120px;width:120px}.index-module--menu--x9lUY{display:grid;font-size:1.8rem;grid-auto-flow:column;justify-items:center}.index-module--menuItem--3eiAT div{margin-left:.6rem;opacity:0}.index-module--menuItem--3eiAT:hover div{opacity:1}.article-list{list-style-type:none;margin:0;padding:0}.article-list-item{border-bottom:1px solid #e2e2e2}.article-list-item p{font-size:var(--content-font-size);margin-bottom:var(--spacing-0);text-align:center}.article-item-title{color:var(--color-heading-black);display:block;font-size:1.8rem;font-weight:var(--fontWeight-semibold);padding:1.4rem 0}.article-item-category{align-items:center;display:flex;font-size:1.4rem;font-weight:var(--fontWeight-normal);margin-bottom:.5vh}.article-item-category:before{background-color:currentColor;border-radius:1rem;content:"";display:block;height:.5rem;margin-right:.25rem;-webkit-transform:translateY(-1px);transform:translateY(-1px);width:.5rem}.article-list-item section{margin:50px 0 20px}.article-list-item footer{padding:40px 0;text-align:center}.article-list-item .read-more{background-color:var(--button-color);background-color:transparent;border:2px solid #636363;cursor:pointer;display:inline-block;font-size:13px;font-weight:var(--fontWeight-bold);height:50px;line-height:44px;outline:none;position:relative;text-decoration:none;transition:.25s ease-in-out;-ms-user-select:none;user-select:none;-webkit-user-select:none;width:190px}.article-list-item .read-more,.article-list-item .read-more:link{color:var(--button-text-color)}.article-list{margin:0 auto;max-width:var(--main-max-width);width:100%}.article-list-item .read-more:after{background-color:var(--button-color);content:"";height:100%;left:7px;position:absolute;top:7px;transition:.2s;width:100%;z-index:-1}.article-list-item .read-more:hover:after{left:0;top:0}.article-aside{-ms-overflow-style:none;height:100%;left:0;line-height:1.2;margin:60px 0;overflow-y:auto;padding:0 10px 0 20px;position:fixed;scrollbar-width:none;top:0;width:320px}.article-item-header{display:flex;justify-content:space-between}.article-list-item:hover .article-item__text{text-decoration:underline}.article-list-item:hover .article-item-header__arrow{opacity:1;-webkit-transform:scale(.8);transform:scale(.8)}.article-item-header__arrow{background-color:var(--color-heading-black);border-radius:50%;color:#fff;display:block;font-size:0;opacity:0;padding:4px;-webkit-transform:scale(.6);transform:scale(.6);transition:all .15s ease-in-out}.article-item-header__arrow svg{-webkit-transform:rotate(-135deg);transform:rotate(-135deg)}@media screen and (max-width:999px){.article-aside{position:static}}.article-aside__item{margin-bottom:var(--spacing-10)}.aside-toc{box-orient:vertical;box-direction:normal;display:flex;flex-direction:column;gap:6px;list-style-type:none;margin:6px 0 0;padding:0}.aside-toc li{margin:0;padding:2px 0}.aside-toc a{-webkit-margin-after:8px;color:grey;color:var(--theme-text-header);display:block;font-family:var(--font-mono);font-size:14px;font-size:1.4rem;font-weight:700;line-height:1.2;margin-block-end:8px}.aside-toc a:hover{text-decoration:underline}.aside-toc a.visible{color:#000}.aside-toc a:hover{color:#1d2b36}.aside-item__title{-webkit-margin-after:var(--spacing-6);color:#312520;font-size:1.4rem;line-height:1.6;margin-block-end:var(--spacing-6)}.aside-item__content .category-item,.aside-item__content time{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .category-item{color:#000;display:block;text-align:left}.aside-item__content .tag-item{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .tag-item:before{content:"#"}.anchor.before{margin-top:-24px;top:50%}blockquote{color:#999;font-weight:400}.title{font-size:calc(var(--content-font-size)*2.5)}.desc{font-size:calc(var(--content-font-size)*1.2)}.content{font-size:1.4rem}.content h2{border-top:1px solid #f0f0f0;font-size:25px;margin:80px 0 0;padding:40px 0 50px;position:relative}.content h2:before{left:0}.content h2:after,.content h2:before{background:#93a1b0;content:"";height:3px;position:absolute;top:-2px;width:3px}.content h2:after{right:0}.article-main{padding-top:var(--header-height)}.article-list li{height:100%;margin:0}.article-card{border-radius:.8rem;height:100%;margin:0 2vmin;overflow:hidden;padding-right:calc(54.54546vh - 9.20455rem - 7.90909vmin);position:relative;width:0}.article-card:hover .article-card__cover{-webkit-transform:scale(1.1);transform:scale(1.1)}.article-card__cover{overflow:hidden;-webkit-transform:scale(1);transform:scale(1);transition:-webkit-transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1),-webkit-transform .4s cubic-bezier(.23,1,.32,1);will-change:transform}.article-card__cover,.article-card__cover:after{height:100%;left:0;position:absolute;top:0;width:100%}.article-card__cover:after{background-image:linear-gradient(180deg,transparent,rgba(0,0,0,.3) 67%);content:""}.article-card__cover img{height:100%;-o-object-fit:cover;object-fit:cover;width:100%}.article-card__body{color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;left:0;padding:2.5vmin;position:absolute;top:0;width:100%}.article-card__title{color:#fff;font-size:3.4vmin;line-height:1.4;margin:3vmin 0}.article-card__title.hover-underline:after{background-color:#fff}.article-card__categories{margin-bottom:1vmin}.article-card__category{color:#fff;font-size:14px}.article-card__tag{display:block;font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.article-card__tag:before{content:"#"}@media screen and (max-width:768px){.article-card{padding-right:calc(100vw - 4rem)}.article-card__cover img{max-height:none;max-width:100%}.article-card__title{font-size:8vmin;margin:4vmin 0}.article-card__body time,.article-card__category,.article-card__tag{font-size:4vmin}}.index-module--circle--E91Mj{border-color:var(--color-heading-black);border-radius:50%;border-style:solid;border-width:1px;display:inline-block;font-size:0;padding:4px;transition:all .15s ease-in-out}.index-module--dark--aAIf4{background-color:var(--color-heading-black);color:#fff}.index-module--light--x7OKG{background-color:#fff;color:var(--color-heading-black)}.index-module--light--x7OKG:hover{background-color:var(--color-heading-black);color:#fff}.index-module--pagination--iWu7S{align-items:center;display:flex;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;justify-content:space-between}.index-module--paginationItem--ZgXus{align-items:center;color:var(--color-heading-black);display:flex;justify-content:space-between}.index-module--paginationItem--ZgXus:hover{text-decoration:underline}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemPrev--WtmXw:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:right;transform-origin:right}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemNext--nbZSQ:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:left;transform-origin:left}.index-module--paginationItemNext--nbZSQ:after,.index-module--paginationItemPrev--WtmXw:after{background-color:currentColor;bottom:-2px;content:"";display:block;height:1px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:right;transform-origin:right;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;width:100%}.index-module--paginationItemPrev--WtmXw{font-size:1.4rem;line-height:1.031;margin-left:1rem;position:relative}.index-module--paginationItemNext--nbZSQ{font-size:1.4rem;line-height:1.031;margin-right:1rem;position:relative}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="alternate" type="application/rss+xml" title="张小伦的网络日志" href="/rss.xml"/><link rel="icon" href="/favicon-32x32.png?v=25643e3cbe7be23b6c1bdad497608e85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=25643e3cbe7be23b6c1bdad497608e85"/><title data-react-helmet="true">我的响应式web开发实践笔记-Media Queries 初探 | 张小伦的网络日志</title><link as="script" rel="preload" href="/webpack-runtime-adf1335a44885cfac931.js"/><link as="script" rel="preload" href="/framework-4b7b24ae718e4140a055.js"/><link as="script" rel="preload" href="/app-a99b6c2ab16d3879fc0c.js"/><link as="script" rel="preload" href="/commons-904b92826443395b7905.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"/><link as="fetch" rel="preload" href="/page-data/blogs/我的响应式web开发实践笔记-media queries 初探/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/2841359383.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><div class="index-module--menu--aNCkU"><div class="index-module--menu-button--Iv9-4" role="button" aria-hidden="true"><svg class="ham hamRotate ham4 " viewBox="0 0 100 100" width="80"><path class="line top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"></path><path class="line middle" d="m 70,50 h -40"></path><path class="line bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"></path></svg></div><div class="index-module--menu-main--dqZT6 "><div class="index-module--menu-title--n-nNm"><a class="index-module--title-link--T5U9M" href="/">张小伦的网络日志</a></div><nav class="index-module--nav--nqC-X"><a class="index-module--nav-item--8jKuC theme-1" href="/">首页</a><a class="index-module--nav-item--8jKuC theme-2" href="/blogs">博文</a><a class="index-module--nav-item--8jKuC theme-3" href="/categories">分类</a><a class="index-module--nav-item--8jKuC theme-4" href="/archives">归档</a><a class="index-module--nav-item--8jKuC theme-5" href="/labs">实验室</a><a class="index-module--nav-item--8jKuC theme-6" href="/about">关于我</a></nav></div></div><section><section class="article-section"><aside class="article-aside"><div class="article-aside__item"><div class="aside-item__title">Published</div><div class="aside-item__content"><time>2014-10-10</time></div></div><div class="article-aside__item"><div class="aside-item__title">Category</div><div class="aside-item__content"><a class="category-item" href="/categories/前端">前端</a></div></div><div class="article-aside__item"><div class="aside-item__title">Tags</div><div class="aside-item__content"><div class="tag-item">CSS</div></div></div><div class="article-aside__item"><div class="aside-item__title">Content</div><div class="aside-item__content"><div class="aside-toc"><a href="#先来说说媒体查询Media-Queries">先来说说媒体查询（Media Queries）</a><a href="#Media-Queries支持的属性">Media Queries支持的属性</a><a href="#best-breakpoints">best breakpoints</a><a href="#如何在-sass-中使用编写媒体查询模块">如何在 sass 中使用编写媒体查询模块</a><a href="#关于-min-widthmin-height-和-max-widthmax-height-的补充20141018">关于 min-width/min-height 和 max-width/max-height 的补充：2014/10/18</a></div></div></div></aside><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">我的响应式web开发实践笔记-Media Queries 初探</h1></header><section itemProp="articleBody" class="content"><blockquote class="quote">
+<p class="para">很久以前就接触到了响应式Web开发这回事，自己也玩弄过一阵。当时没有整理成笔记，现在在重构自己的在线简历以及hexo主题制作过程中涉及到，就顺手整理成一个系列吧。</p>
+</blockquote>
+<p class="para">响应式web设计并非新的技术，只不过将已有的开发技巧（弹性布局、弹性图片和媒体查询等）整合在了一起，</p>
+<h3 class="heading" id="先来说说媒体查询Media-Queries" style="position:relative;"><a href="#%E5%85%88%E6%9D%A5%E8%AF%B4%E8%AF%B4%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2Media-Queries" aria-label="先来说说媒体查询Media Queries permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>先来说说媒体查询（Media Queries）</h3>
+<p class="para">早在 HTML4 和 CSS2 的时代，就已经支持采用不同的样式表来适配不同的媒体设备类型。比如，一个文档在屏幕上和打印时可能使用不同的样式表。在 HTML4中，可以这么写：</p>
+<deckgo-highlight-code language="html" theme="one-dark" line-numbers="true"  >
+          <code slot="code">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;sans-serif.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot; href=&quot;serif.css&quot;&gt;</code>
+        </deckgo-highlight-code>
+<p class="para">在内联的 CSS 样式中，可以像这样指定一部分CSS样式块应用在指定的媒体设备上：</p>
+<deckgo-highlight-code language="css" theme="one-dark" line-numbers="true"  >
+          <code slot="code">@media screen {
+    * { font-family: sans-serif }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">媒体类型就不在此列举了。如果想让多个媒体设备采用同一套样式，只需在media属性中添加媒体类型的名称，用逗号分开就可以了：</p>
+<deckgo-highlight-code language="html" theme="one-dark" line-numbers="true"  >
+          <code slot="code">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen, print, resolution &gt; 90dpi&quot; href=&quot;serif.css&quot;&gt;
+&lt;style&gt;
+    @media screen {
+      * { font-family: sans-serif }
+    }
+&lt;/style&gt;</code>
+        </deckgo-highlight-code>
+<p class="para">而CSS3 中的媒体查询（Media Queries）就是建立在 HTML4 的媒体查询的语法机制之上，其语法符合 HTML4 中保留的媒体类型语法。HTML4 中的 <code>media</code> 属性同样存在于 XHTML 和 一般的 XML 中。但是，媒体查询的解析规则不兼容 HTML4 的解析规则，因此，适用于 CSS 中的媒体查询。</p>
+<p class="para">CSS3 中的媒体查询一个媒体类型和零个或者多个检查特定媒体功能的状况的表达式组成。
+这些表达式会被解析成真或假。如果媒体查询中的媒体类型与文档要展示的设备相符则查询结果为真，并且媒体查询中的所有表达式为真。媒体类型默认情况是 <code>all</code></p>
+<deckgo-highlight-code language="html" theme="one-dark" line-numbers="true"  >
+          <code slot="code">&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width: 800px)&quot; href=&quot;example.css&quot; /&gt;
+
+@import url(color.css) screen and (color);
+
+&lt;style&gt;
+    @media screen and (max-width: 600px) {
+      .facet_sidebar {
+        display: none;
+      }
+    }
+&lt;/style&gt;</code>
+        </deckgo-highlight-code>
+<p class="para">当媒体查询为真时，相关的样式表或样式规则就会按照正常的级联规则被应用。即使媒体查询返回假， &#x3C;\link> 标签上带有媒体查询的样式表 仍将被下载 （只不过不会被应用）。</p>
+<p class="para">可以这么理解：媒体查询无非就是检查当前用户代理是何种设备，设备的某些参数：媒体类型（media type） + CSS属性。</p>
+<h3 class="heading" id="Media-Queries支持的属性" style="position:relative;"><a href="#Media-Queries%E6%94%AF%E6%8C%81%E7%9A%84%E5%B1%9E%E6%80%A7" aria-label="Media Queries支持的属性 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Media Queries支持的属性</h3>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>MIN/MAX</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>color</td>
+<td>整数</td>
+<td>yes</td>
+<td>每种色彩的字节数</td>
+</tr>
+<tr>
+<td>color-index</td>
+<td>整数</td>
+<td>yes</td>
+<td>色彩表中的色彩数</td>
+</tr>
+<tr>
+<td>device-aspect-ratio</td>
+<td>整数/整数</td>
+<td>yes</td>
+<td>宽高比例</td>
+</tr>
+<tr>
+<td>device-height</td>
+<td>length</td>
+<td>yes</td>
+<td>设备屏幕的输出高度</td>
+</tr>
+<tr>
+<td>device-width</td>
+<td>length</td>
+<td>yes</td>
+<td>设备屏幕的输出宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>length</td>
+<td>yes</td>
+<td>渲染界面的高度</td>
+</tr>
+<tr>
+<td>width</td>
+<td>length</td>
+<td>yes</td>
+<td>渲染界面的宽度</td>
+</tr>
+<tr>
+<td>grid</td>
+<td>整数</td>
+<td>no</td>
+<td>是否是基于格栅的设备</td>
+</tr>
+<tr>
+<td>monochrome</td>
+<td>整数</td>
+<td>yes</td>
+<td>单色帧缓冲器中每像素字节</td>
+</tr>
+<tr>
+<td>resolution</td>
+<td>分辨率(“dpi/dpcm”)</td>
+<td>yes</td>
+<td>分辨率</td>
+</tr>
+<tr>
+<td>scan</td>
+<td>Progressive interlaced</td>
+<td>no</td>
+<td>tv媒体类型的扫描方式</td>
+</tr>
+<tr>
+<td>orientation</td>
+<td>Portrait/landscape</td>
+<td>no</td>
+<td>横屏或竖屏</td>
+</tr>
+</tbody>
+</table>
+<h3 class="heading" id="best-breakpoints" style="position:relative;"><a href="#best-breakpoints" aria-label="best breakpoints permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>best breakpoints</h3>
+<p class="para">我现在需要解决的问题是：针对不同屏幕大小的设备的的代码块的媒体查询判断条件该如何书写，在 stackoverflow 上看到的<a href="http://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile" class="link-underline">回答</a>，the best breakpoints:</p>
+<deckgo-highlight-code language="html" theme="one-dark" line-numbers="true"  >
+          <code slot="code">&lt;style&gt;
+    @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */ }
+    @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+    @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+    @media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+    @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+    @media (min-width:1281px) { /* hi-res laptops and desktops */ }
+&lt;/style&gt;</code>
+        </deckgo-highlight-code>
+<h3 class="heading" id="如何在-sass-中使用编写媒体查询模块" style="position:relative;"><a href="#%E5%A6%82%E4%BD%95%E5%9C%A8-sass-%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%BC%96%E5%86%99%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%9D%97" aria-label="如何在 sass 中使用编写媒体查询模块 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何在 sass 中使用编写媒体查询模块</h3>
+<p class="para">可以参考这篇文章：<a href="http://thesassway.com/intermediate/responsive-web-design-in-sass-using-media-queries-in-sass-32" class="link-underline">Responsive Web Design in Sass: Using media queries in Sass 3.2</a>
+首先，最简单的是使用 CSS 的语法：</p>
+<deckgo-highlight-code language="sass" theme="one-dark" line-numbers="true"  >
+          <code slot="code">// set a variable for the font size
+$h1-size: 36px
+
+h1 {
+  font-size: $h1-size;
+}
+
+// this will only affect wide screens
+@media screen and (min-width: 1024px) {
+  h1 {
+    font-size: $h1-size * 1.5;
+  }
+}</code>
+        </deckgo-highlight-code>
+<deckgo-highlight-code language="css" theme="one-dark" line-numbers="true"  >
+          <code slot="code">// 编译后：
+h1 {
+  font-size: 36px;
+}
+@media screen and (min-width: 1024px) {
+  h1 {
+    font-size: 54px;
+  }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">同时，sass 为 CSS 的书写提供了是一个相当杀手级功能：当你在其它选择器中嵌套 <code>@media</code> 时，如果在嵌套的 @media 中添加的属性，sass 会向上一层层查找选择器，将@media中添加的属属性应用在查找到的选择器上，并将其插入到 @media 的代码块中：</p>
+<deckgo-highlight-code language="sass" theme="one-dark" line-numbers="true"  >
+          <code slot="code">.profile-pic {
+    float: left;
+    width: 250px;
+    a {
+        color: black;
+        @media screen and (max-width: 320px) {
+            width: 100px;
+            color: red;
+        }
+        @media screen and (min-width: 1200px) {
+            float: none;
+            color: blue;
+        }
+    }
+}</code>
+        </deckgo-highlight-code>
+<deckgo-highlight-code language="css" theme="one-dark" line-numbers="true"  >
+          <code slot="code">// 编译后：
+.profile-pic {
+    float: left;
+    width: 250px
+}
+.profile-pic a {
+    color: black
+}
+@media screen and (max-width: 320px) {
+    .profile-pic a {
+        width: 100px;
+        color: red
+    }
+}
+@media screen and (min-width: 1200px) {
+    .profile-pic a {
+        float: none;
+        color: blue
+    }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">其实这个东西也是很好理解的，就不过多解释了，省得啰嗦。但是要记住：还有很多种变化的写法，比如在query中使用变量，在代码块中使用 <code>@extend</code>.etc。多用用就好了</p>
+<h3 class="heading" id="关于-min-widthmin-height-和-max-widthmax-height-的补充20141018" style="position:relative;"><a href="#%E5%85%B3%E4%BA%8E-min-widthmin-height-%E5%92%8C-max-widthmax-height-%E7%9A%84%E8%A1%A5%E5%85%8520141018" aria-label="关于 min widthmin height 和 max widthmax height 的补充20141018 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>关于 min-width/min-height 和 max-width/max-height 的补充：2014/10/18</h3>
+<p class="para">min-width(height): 最小宽度(高度)；在媒体查询中作为检查条件时，指的是渲染界面的最小宽度（高度）。也就是说当宽度（高度）大于给定的数值时才使用这一块代码块（没有使用的 Media Queries 代码块也会加载）；相反地，max-width(height) 意思就是：当宽度（高度）小于给定的数值时才使用这一块代码块。指定的数值是一个临界值。</p>
+<p class="para">有意思的东西来了！</p>
+<p class="para">看下面的代码：</p>
+<deckgo-highlight-code language="css" theme="one-dark" line-numbers="true"  >
+          <code slot="code">.container{
+    background:white;
+}
+@media screen and (min-width:320px) { 
+    .container{
+        background:red;
+    }
+}
+@media screen and (min-width:481px) { 
+    .container{
+        background:blue;
+    }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">根据CSS的解析规则，过程如下：</p>
+<ol>
+<li>container的背景色为white；</li>
+<li>当宽度大于320px时，container的背景色为red；</li>
+<li>当宽度大于481px时，container的背景色为blue；</li>
+</ol>
+<p class="para">这可能是你想要的顺序，但是如果 你这样：</p>
+<deckgo-highlight-code language="css" theme="one-dark" line-numbers="true"  >
+          <code slot="code">.container{
+    background:white;
+}
+@media screen and (max-width:320px) { 
+    .container{
+        background:red;
+    }
+}
+@media screen and (max-width:481px) { 
+    .container{
+        background:blue;
+    }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">根据CSS的解析规则，过程如下：</p>
+<ol>
+<li>container的背景色为white；</li>
+<li>当宽度小于320px时，container的背景色为red；</li>
+<li>当宽度小于481px时，container的背景色为blue；</li>
+</ol>
+<p class="para">好问题来了，小于320 不就是 小于 481 了嘛？后面样式直接覆盖了前面的啊！所以在小于481px的渲染宽度中，颜色都是blue。</p>
+<p class="para">同样的问题：</p>
+<deckgo-highlight-code language="css" theme="one-dark" line-numbers="true"  >
+          <code slot="code">.container{
+    background:white;
+}
+@media screen and (min-width:481px) { 
+    .container{
+        background:blue;
+    }
+}
+
+
+@media screen and (min-width:321px) { 
+    .container{
+        background:red;
+    }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">根据CSS的解析规则，过程如下：</p>
+<ol>
+<li>container的背景色为white；</li>
+<li>当宽度大于481px时，container的背景色为blue；</li>
+<li>当宽度大于321px时，container的背景色为red；</li>
+</ol>
+<p class="para">其结果显而易见，后面的样式（当宽度大于321px时）直接覆盖了前面的（当宽度大于481px时），所以在大于321px的渲染宽度中，颜色都是red。这也是我们不想看到的结果。</p>
+<p class="para">为了避免出现上面这混乱的结果，我个人认为可以酱紫：</p>
+<deckgo-highlight-code  theme="one-dark" line-numbers="true"  >
+          <code slot="code">max大的。min小的。  
+
+使用max时，值从大到小，依次是，`小于1024px`, `小于961px`, `小于641px`.etc。这是一种桌面端优先的方式，先考虑渲染宽度大的设备。
+
+使用min时，值从小到大，依次是，`大于320px`, `大于481px`, `小于641px`.etc。这是一种移动端优先的方式，先考虑渲染宽度小的设备。
+
+如果这样理解的话，我感觉自己不会混乱了~~</code>
+        </deckgo-highlight-code>
+<p class="para">参考：</p>
+<p class="para">css3-mediaqueries<a href="http://www.w3.org/TR/css3-mediaqueries/" class="link-underline">http://www.w3.org/TR/css3-mediaqueries/</a><br>
+前端观察<a href="http://www.qianduan.net/media-type-and-media-query.html" class="link-underline">http://www.qianduan.net/media-type-and-media-query.html</a><br>
+W3cPlus<a href="http://www.w3cplus.com/content/css3-media-queries" class="link-underline">http://www.w3cplus.com/content/css3-media-queries</a></p></section></article><div class="pagination"><div class="index-module--pagination--iWu7S"><a class="index-module--paginationItem--ZgXus" rel="prev" href="/blogs/规范之路-重新认识了Float/"><div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div> <span class="index-module--paginationItemPrev--WtmXw">规范之路-重新认识了Float</span></a><span></span><a class="index-module--paginationItem--ZgXus" rel="next" href="/blogs/使用python抓取知乎日报的api数据/"><span class="index-module--paginationItemNext--nbZSQ">使用python抓取知乎日报的API数据</span> <div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(-90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div></a></div></div></section></section></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-50406624-2', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blogs/我的响应式web开发实践笔记-media queries 初探/";window.___webpackCompilationHash="136b2da2e8b1b23964e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4f3032a41e5c476c8f46.js"],"app":["/app-a99b6c2ab16d3879fc0c.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-adf2066c282d2a1fad9e.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-7b09644532f5bd1dcc54.js"],"component---src-pages-archives-tsx":["/component---src-pages-archives-tsx-ddc2637e6d877197950e.js"],"component---src-pages-categories-tsx":["/component---src-pages-categories-tsx-b5a2e4d86066d30e963f.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-7e0f083acf9cb537d315.js"],"component---src-pages-labs-tsx":["/component---src-pages-labs-tsx-73eba9758ec10d8f2e57.js"],"component---src-templates-blog-list-tsx":["/component---src-templates-blog-list-tsx-7eb438f670f1bdf1603e.js"],"component---src-templates-blog-post-tsx":["/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"],"component---src-templates-categories-js":["/component---src-templates-categories-js-7fe7e84267b6c1ad1f7e.js"]};/*]]>*/</script><script src="/polyfill-4f3032a41e5c476c8f46.js" nomodule=""></script><script src="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js" async=""></script><script src="/commons-904b92826443395b7905.js" async=""></script><script src="/app-a99b6c2ab16d3879fc0c.js" async=""></script><script src="/framework-4b7b24ae718e4140a055.js" async=""></script><script src="/webpack-runtime-adf1335a44885cfac931.js" async=""></script></body></html>

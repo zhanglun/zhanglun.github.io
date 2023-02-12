@@ -1,0 +1,770 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;display=swap" rel="stylesheet"/><meta data-react-helmet="true" name="twitter:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" name="twitter:title" content="《架构师修炼之道》摘录07-架构模式"/><meta data-react-helmet="true" name="twitter:creator" content="zhanglun1410"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" property="og:title" content="《架构师修炼之道》摘录07-架构模式"/><meta data-react-helmet="true" name="description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta name="generator" content="Gatsby 4.13.1"/><style data-href="/styles.7aa89aa35ece76996c80.css" data-identity="gatsby-global-css">.theme-1{--background-color:#fef6e4;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#f582ae;--button-text-color:#001858;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#fef6e4;--card-tag-text-color:#001858;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label-placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}.theme-2{--background-color:#55423d;--background-color-1:#271c19;--background-color-2:#ffc0ad;--background-color-3:#9656a1;--button-color:#ffc0ad;--button-text-color:#271c19;--card-backgroud-color:#fffffe;--card-background-color:#55423d;--card-background-color-1:#ffc0ad;--card-heading-color:#fffffe;--card-headline-color:#271c19;--card-highlight-color:#9656a1;--card-paragraph-color:#fff3ec;--card-paragraph-color-1:#271c19;--card-tag-background-color:#fffffe;--card-tag-text-color:#271c19;--form-button-color:#9656a1;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#fffffe;--headline-color-1:#271c19;--highlight-color:#e78fb3;--label-placeholder-color:#271c19;--link-color:#9656a1;--links-color:#e78fb3;--main-color:#fff3ec;--paragraph-color:#fff3ec;--paragraph-color-1:#271c19;--secondary-color:#ffc0ad;--stroke-color:#140d0b;--sub-headline-color:#fff3ec;--tertiary-color:#9656a1}.theme-3{--background-color:#faeee7;--background-color-1:#fffffe;--background-color-2:#fffffe;--background-color-3:#33272a;--button-color:#ff8ba7;--button-text-color:#33272a;--card-backgroud-color:#faeee7;--card-background-color:#faeee7;--card-background-color-1:#fffffe;--card-heading-color:#33272a;--card-headline-color:#33272a;--card-highlight-color:#33272a;--card-paragraph-color:#594a4e;--card-tag-background-color:#ffc6c7;--card-tag-text-color:#33272a;--form-button-color:#ff8ba7;--form-button-text-color:#33272a;--form-input-color:#faeee7;--headline-color:#33272a;--highlight-color:#ff8ba7;--label-placeholder-color:#33272a;--link-color:#ff8ba7;--links-color:#ff8ba7;--main-color:#fffffe;--paragraph-color:#594a4e;--secondary-color:#ffc6c7;--stroke-color:#33272a;--sub-headline-color:#594a4e;--tertiary-color:#c3f0ca}.theme-4{--background-color:#fffffe;--background-color-1:#e3f6f5;--background-color-2:#e3f6f5;--background-color-3:#bae8e8;--button-color:#ffd803;--button-text-color:#272343;--card-backgroud-color:#fffffe;--card-background-color:#fffffe;--card-background-color-1:#272343;--card-heading-color:#272343;--card-headline-color:#fffffe;--card-headline-color-1:#272343;--card-highlight-color:#bae8e8;--card-paragraph-color:#2d334a;--card-tag-background-color:#bae8e8;--card-tag-text-color:#272343;--form-button-color:#272343;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#272343;--highlight-color:#ffd803;--label--placeholder-color:#272343;--link-color:#272343;--links-color:#ffd803;--main-color:#fffffe;--paragraph-color:#2d334a;--secondary-color:#e3f6f5;--stroke-color:#272343;--sub-headline-color:#2d334a;--tertiary-color:#bae8e8}:root{--inline-code-font:monospace!important;--mono-font:"JetBrains Mono",monospace!important;--content-font-size:16px;--maxWidth-none:"none";--maxWidth-xs:999px;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-5xl:64rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--main-max-width:750px;--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--main-spacing:100px;--font-family-sans:"Noto San SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-body:var(--font-family-sans);--font-heading:var(--font-family-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:10px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.9;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#4b5cc4;--color-text:#312520;--color-text-light:#4f5969;--color-heading:#312520;--color-heading-black:#161823;--color-accent:#d1dce5;--header-height:60px;--img-border-color:#313b44;--img-border-radius:8px;--background-color:#fafafa;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#636363;--button-text-color:#fff;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#636363;--card-tag-text-color:#fff;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label--placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1);margin:0}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-normal);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}pre[class*=language-]{border-radius:0;white-space:pre-wrap}code[class*=language-]{font-family:Menlo,Monaco,Consolas,Courier New,monospace;font-size:14px;white-space:pre-wrap}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;font-size:1.6rem;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);padding:var(--spacing-0)}ol,ul{margin-bottom:0;margin-top:0}ol li,ul li{padding-left:var(--spacing-0)}ol,ul{margin-bottom:1.5em}li>p{margin-bottom:calc(var(--spacing-8)/2)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-1);font-style:italic;margin-bottom:var(--spacing-8);padding:var(--spacing-5)}.quote{background:#f9f9f9;border-left:2px solid #636363;color:#636363;font-style:italic;margin:0 0 var(--spacing-16) 0;margin-bottom:1.5em;padding:1.5em;transition:.3s}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote p{margin-bottom:var(--spacing-3)}blockquote li{margin:0}blockquote>ol,blockquote>ul{list-style-position:inside;padding-left:var(--spacing-4)}table{border:1px solid #e9e9e7;border-collapse:collapse;border-spacing:.25rem;font-size:14px;margin-bottom:var(--spacing-8);width:100%}table td,table th{border-bottom:1px solid #e9e9e7;padding:8px 10px}table thead tr th{background-color:#f7f6f3;text-align:left}p img{border:.5px solid var(--img-border-color);border-radius:var(--img-border-radius);max-width:100%}a{color:var(--color-primary)}a,a:focus,a:hover{text-decoration:none}.global-header{margin-bottom:var(--spacing-12)}.main{background-color:var(--background-color-2);margin:0 auto;max-width:var(--main-max-width);padding:30px var(--main-spacing) 30px;position:relative;width:90%;z-index:1}.main-heading{font-size:var(--fontSize-7);margin:0}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.article-section{margin:0 auto;max-width:var(--main-max-width);position:relative;z-index:1}.article-cover{border:1px solid #f0f0f0;border-radius:var(--img-border-radius);height:380px;margin-bottom:60px;-o-object-fit:cover;object-fit:cover;width:100%}@media screen and (max-width:999px){.article-section,.pagination{max-width:100%;padding:0 20px}}.blog-post{border-bottom:1px solid #1d2b36;line-height:1.9;margin-bottom:10px;padding-bottom:60px;position:relative}.blog-post:before{left:0}.blog-post:after,.blog-post:before{background:#1d2b36;bottom:-2px;content:"";height:3px;position:absolute;width:3px}.blog-post:after{right:0}.blog-post header{border-top:1px solid #1d2b36;margin-top:50px;position:relative}.blog-post header:before{left:0}.blog-post header:after,.blog-post header:before{background:#1d2b36;content:"";height:3px;position:absolute;top:-2px;width:3px}.blog-post header:after{right:0}.blog-post header h1{font-size:36px;font-weight:var(--fontWeight-semibold);line-height:1.4;margin:60px 0}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media(max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-3)}ol,ul{padding-left:14px}}.pagination{margin:0 auto;max-width:var(--main-max-width);padding:50px 0}.link-underline,.pagination .next:hover,.pagination .prev:hover{text-decoration:underline}.link-underline{box-shadow:inset 0 0 0 0 var(--color-primary);margin:0 .25rem;padding:0 .25rem;transition:color .3s ease-in-out,box-shadow .3s ease-in-out}.link-underline:hover{box-shadow:inset 0 -40px 0 0 var(--color-primary);color:#fff}.hover-underline{position:relative}.hover-underline:after{background-color:var(--color-text);bottom:4px;content:"";height:2px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:bottom right;transform-origin:bottom right;transition:-webkit-transform .25s ease-out;transition:transform .25s ease-out;transition:transform .25s ease-out,-webkit-transform .25s ease-out;width:100%}.hover-underline:hover:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:bottom left;transform-origin:bottom left}.page-title{color:var(--color-heading);font-size:var(--fontSize-6);margin-bottom:var(--spacing-5);padding-top:50px;text-align:center}:root{--bg-color:#d3dadf;--action-color:#000911}.archive-page{background-color:var(--bg-color);width:100%}.archive-page__container{margin:0 auto;padding-bottom:1px;padding-left:6.4rem;padding-right:6.4rem}.archive-page__post-title{display:flex;font-size:2.4rem;line-height:3.2rem;margin:0}.archive-page__post-excerpt{margin-bottom:3.2rem;position:relative}.archive-page__post-date{color:var(--text-color);font-size:1.4rem}.archive-section{margin-bottom:24vw;margin-top:10vw;position:relative}.archive-section__year{color:#c3cad0;color:var(--text-light-color,#c3cad0);font-size:36vw;font-weight:700;letter-spacing:-.07em;line-height:.2;margin-top:0;min-width:100%;pointer-events:none;position:absolute;text-align:center;-webkit-user-select:none;-ms-user-select:none;user-select:none}.archive-posts{grid-gap:3.2rem;display:grid;font-size:1.6rem;grid-template-columns:repeat(auto-fill,minmax(25.6rem,1fr));list-style-type:none;margin:0;padding:0;position:relative}.archive-posts a{color:var(--action-color);text-decoration:none}.archive-posts a:hover{text-decoration:underline}.archive-date{margin-right:20px}.category-page,.root{min-height:100vh}.category-page{background-color:#a4c9d8}.category-list{grid-gap:10rem;display:grid;font-size:1.8rem;grid-template-columns:repeat(4,1fr);justify-items:center}.category-img{background-color:rgba(0,0,0,.2);border-radius:100%;height:150px;margin-bottom:20px;padding:10px;transition:all .3s ease-in-out;width:150px}.category-img img{width:100%}.category-item{text-align:center;text-decoration:none}.category-item:hover{color:var(--color-text)}.category-item:hover .category-img{background-color:rgba(0,0,0,.35)}.category-page-header{display:grid;justify-items:center;padding:50px 0}.ham{-webkit-tap-highlight-color:transparent;color:#fff;cursor:pointer;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:54px}.hamRotate.active{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.hamRotate180.active{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.line{fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .4s,stroke-dashoffset .4s}.ham.active .line{stroke:#fff}.ham1 .top{stroke-dasharray:40 139}.ham1 .bottom{stroke-dasharray:40 180}.ham1.active .top{stroke-dashoffset:-98px}.ham1.active .bottom{stroke-dashoffset:-138px}.ham2 .bottom,.ham2 .top{stroke-dasharray:40 121}.ham2.active .bottom,.ham2.active .top{stroke-dashoffset:-102px}.ham3 .top{stroke-dasharray:40 130}.ham3 .middle{stroke-dasharray:40 140}.ham3 .bottom{stroke-dasharray:40 205}.ham3.active .top{stroke-dasharray:75 130;stroke-dashoffset:-63px}.ham3.active .middle{stroke-dashoffset:-102px}.ham3.active .bottom{stroke-dasharray:110 205;stroke-dashoffset:-86px}.ham4 .bottom,.ham4 .top{stroke-dasharray:40 121}.ham4.active .bottom,.ham4.active .top{stroke-dashoffset:-68px}.ham5 .bottom,.ham5 .top{stroke-dasharray:40 82}.ham5.active .bottom,.ham5.active .top{stroke-dasharray:14 82;stroke-dashoffset:-72px}.ham6 .top{stroke-dasharray:40 172}.ham6 .middle{stroke-dasharray:40 111}.ham6 .bottom{stroke-dasharray:40 172}.ham6.active .top{stroke-dashoffset:-132px}.ham6.active .middle{stroke-dashoffset:-71px}.ham6.active .bottom{stroke-dashoffset:-132px}.ham7 .top{stroke-dasharray:40 82}.ham7 .middle{stroke-dasharray:40 111}.ham7 .bottom{stroke-dasharray:40 161}.ham7.active .top{stroke-dasharray:17 82;stroke-dashoffset:-62px}.ham7.active .middle{stroke-dashoffset:23px}.ham7.active .bottom{stroke-dashoffset:-83px}.ham8 .top{stroke-dasharray:40 160}.ham8 .middle{stroke-dasharray:40 142;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s}.ham8 .bottom,.ham8 .middle{-webkit-transform-origin:50%;transform-origin:50%}.ham8 .bottom{stroke-dasharray:40 85;transition:stroke-dashoffset .4s,-webkit-transform .4s;transition:transform .4s,stroke-dashoffset .4s;transition:transform .4s,stroke-dashoffset .4s,-webkit-transform .4s}.ham8.active .top{stroke-dashoffset:-64px}.ham8.active .middle{stroke-dashoffset:-20px;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.ham8.active .bottom{stroke-dashoffset:-64px}.index-module--menu--aNCkU{position:fixed;right:0;top:0;z-index:100}.index-module--menu-button--Iv9-4{position:fixed;right:0;top:0;z-index:102}.index-module--menu-main--dqZT6{background-color:#000;bottom:0;padding:100px;position:fixed;right:0;top:0;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);transition:all .4s;width:520px;z-index:101}.index-module--menu-main--dqZT6.index-module--open--LEqU-{-webkit-transform:translateZ(0);transform:translateZ(0)}.index-module--menu-title--n-nNm{color:#fff;font-weight:var(--fontWeight-semibold);margin-top:30px}.index-module--title-link--T5U9M{color:#fff;font-size:var(--fontSize-7)}.index-module--nav--nqC-X{align-items:flex-start;display:flex;flex-direction:column;margin-top:40px}.index-module--nav-item--8jKuC{color:#fff;font-size:22px;font-weight:500;height:var(--header-height);letter-spacing:1px;line-height:var(--header-height);margin:0;text-decoration:none;transition:all .3s}.index-module--nav-item--8jKuC:hover{-webkit-filter:invert(.5);filter:invert(.5);text-decoration:line-through}.index-module--nav-item--8jKuC.index-module--theme-1--jQ2fg:hover,.index-module--nav-item--8jKuC.index-module--theme-2--7nodg:hover,.index-module--nav-item--8jKuC.index-module--theme-3--pka-p:hover,.index-module--nav-item--8jKuC.index-module--theme-4--L3lP0:hover,.index-module--nav-item--8jKuC.index-module--theme-5--zFBiY:hover,.index-module--nav-item--8jKuC.index-module--theme-6--t9Ipa:hover{text-decoration:underline}.index-module--sidemenu-nav-item--3tmSg:hover{-webkit-transform:translate3d(14px,0,0);transform:translate3d(14px,0,0)}@media (max-width:1024px){.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn{box-sizing:border-box;right:-100vw;transition:none!important;width:100%}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn:before{background:#edbb1c;border-radius:50%;content:"";height:0;position:fixed;right:0;top:0;transition:all .7s;width:0}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs:before{height:300vh;right:-150vh;top:-150vh;transition:all .7s;width:300vh}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn{background-color:transparent!important}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn>*{opacity:0;transition:.3s}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs>*{opacity:1;transition:.3s .5s}}.index-module--container--MsrZ9{align-items:center;display:grid;justify-content:center;padding:3.75rem;text-align:center}.index-module--inner--Qy-hx{align-items:center;display:grid;gap:.75rem;justify-content:center;padding-bottom:5rem;padding-top:11.25rem;position:relative;width:100%}.index-module--title--k4zZ7{font-size:9.5rem;font-weight:600;margin:0}.index-module--subTitle--Sf0CJ{font-size:2rem;font-weight:600;margin:3.75rem 0 0}.index-module--main--husmE{align-items:center;display:grid;height:100vh;justify-content:center;margin:0 auto}.index-module--profile--01Kcu{grid-gap:40px;display:grid;grid-template-rows:1fr 1fr}.index-module--headline--7zfcQ{grid-gap:32px;align-items:center;display:grid;grid-template-columns:120px 1fr}.index-module--title--YQ4NF{color:var(--color-heading-black);font-size:7rem;margin:0;padding:0;text-align:center}.index-module--subTitle--aYKXU{font-size:2rem}.index-module--avatar--y2x3q{border-radius:50%;height:120px;width:120px}.index-module--menu--x9lUY{display:grid;font-size:1.8rem;grid-auto-flow:column;justify-items:center}.index-module--menuItem--3eiAT div{margin-left:.6rem;opacity:0}.index-module--menuItem--3eiAT:hover div{opacity:1}.article-list{list-style-type:none;margin:0;padding:0}.article-list-item{border-bottom:1px solid #e2e2e2}.article-list-item p{font-size:var(--content-font-size);margin-bottom:var(--spacing-0);text-align:center}.article-item-title{color:var(--color-heading-black);display:block;font-size:1.8rem;font-weight:var(--fontWeight-semibold);padding:1.4rem 0}.article-item-category{align-items:center;display:flex;font-size:1.4rem;font-weight:var(--fontWeight-normal);margin-bottom:.5vh}.article-item-category:before{background-color:currentColor;border-radius:1rem;content:"";display:block;height:.5rem;margin-right:.25rem;-webkit-transform:translateY(-1px);transform:translateY(-1px);width:.5rem}.article-list-item section{margin:50px 0 20px}.article-list-item footer{padding:40px 0;text-align:center}.article-list-item .read-more{background-color:var(--button-color);background-color:transparent;border:2px solid #636363;cursor:pointer;display:inline-block;font-size:13px;font-weight:var(--fontWeight-bold);height:50px;line-height:44px;outline:none;position:relative;text-decoration:none;transition:.25s ease-in-out;-ms-user-select:none;user-select:none;-webkit-user-select:none;width:190px}.article-list-item .read-more,.article-list-item .read-more:link{color:var(--button-text-color)}.article-list{margin:0 auto;max-width:var(--main-max-width);width:100%}.article-list-item .read-more:after{background-color:var(--button-color);content:"";height:100%;left:7px;position:absolute;top:7px;transition:.2s;width:100%;z-index:-1}.article-list-item .read-more:hover:after{left:0;top:0}.article-aside{-ms-overflow-style:none;height:100%;left:0;line-height:1.2;margin:60px 0;overflow-y:auto;padding:0 10px 0 20px;position:fixed;scrollbar-width:none;top:0;width:320px}.article-item-header{display:flex;justify-content:space-between}.article-list-item:hover .article-item__text{text-decoration:underline}.article-list-item:hover .article-item-header__arrow{opacity:1;-webkit-transform:scale(.8);transform:scale(.8)}.article-item-header__arrow{background-color:var(--color-heading-black);border-radius:50%;color:#fff;display:block;font-size:0;opacity:0;padding:4px;-webkit-transform:scale(.6);transform:scale(.6);transition:all .15s ease-in-out}.article-item-header__arrow svg{-webkit-transform:rotate(-135deg);transform:rotate(-135deg)}@media screen and (max-width:999px){.article-aside{position:static}}.article-aside__item{margin-bottom:var(--spacing-10)}.aside-toc{box-orient:vertical;box-direction:normal;display:flex;flex-direction:column;gap:6px;list-style-type:none;margin:6px 0 0;padding:0}.aside-toc li{margin:0;padding:2px 0}.aside-toc a{-webkit-margin-after:8px;color:grey;color:var(--theme-text-header);display:block;font-family:var(--font-mono);font-size:14px;font-size:1.4rem;font-weight:700;line-height:1.2;margin-block-end:8px}.aside-toc a:hover{text-decoration:underline}.aside-toc a.visible{color:#000}.aside-toc a:hover{color:#1d2b36}.aside-item__title{-webkit-margin-after:var(--spacing-6);color:#312520;font-size:1.4rem;line-height:1.6;margin-block-end:var(--spacing-6)}.aside-item__content .category-item,.aside-item__content time{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .category-item{color:#000;display:block;text-align:left}.aside-item__content .tag-item{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .tag-item:before{content:"#"}.anchor.before{margin-top:-24px;top:50%}blockquote{color:#999;font-weight:400}.title{font-size:calc(var(--content-font-size)*2.5)}.desc{font-size:calc(var(--content-font-size)*1.2)}.content{font-size:1.4rem}.content h2{border-top:1px solid #f0f0f0;font-size:25px;margin:80px 0 0;padding:40px 0 50px;position:relative}.content h2:before{left:0}.content h2:after,.content h2:before{background:#93a1b0;content:"";height:3px;position:absolute;top:-2px;width:3px}.content h2:after{right:0}.article-main{padding-top:var(--header-height)}.article-list li{height:100%;margin:0}.article-card{border-radius:.8rem;height:100%;margin:0 2vmin;overflow:hidden;padding-right:calc(54.54546vh - 9.20455rem - 7.90909vmin);position:relative;width:0}.article-card:hover .article-card__cover{-webkit-transform:scale(1.1);transform:scale(1.1)}.article-card__cover{overflow:hidden;-webkit-transform:scale(1);transform:scale(1);transition:-webkit-transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1),-webkit-transform .4s cubic-bezier(.23,1,.32,1);will-change:transform}.article-card__cover,.article-card__cover:after{height:100%;left:0;position:absolute;top:0;width:100%}.article-card__cover:after{background-image:linear-gradient(180deg,transparent,rgba(0,0,0,.3) 67%);content:""}.article-card__cover img{height:100%;-o-object-fit:cover;object-fit:cover;width:100%}.article-card__body{color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;left:0;padding:2.5vmin;position:absolute;top:0;width:100%}.article-card__title{color:#fff;font-size:3.4vmin;line-height:1.4;margin:3vmin 0}.article-card__title.hover-underline:after{background-color:#fff}.article-card__categories{margin-bottom:1vmin}.article-card__category{color:#fff;font-size:14px}.article-card__tag{display:block;font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.article-card__tag:before{content:"#"}@media screen and (max-width:768px){.article-card{padding-right:calc(100vw - 4rem)}.article-card__cover img{max-height:none;max-width:100%}.article-card__title{font-size:8vmin;margin:4vmin 0}.article-card__body time,.article-card__category,.article-card__tag{font-size:4vmin}}.index-module--circle--E91Mj{border-color:var(--color-heading-black);border-radius:50%;border-style:solid;border-width:1px;display:inline-block;font-size:0;padding:4px;transition:all .15s ease-in-out}.index-module--dark--aAIf4{background-color:var(--color-heading-black);color:#fff}.index-module--light--x7OKG{background-color:#fff;color:var(--color-heading-black)}.index-module--light--x7OKG:hover{background-color:var(--color-heading-black);color:#fff}.index-module--pagination--iWu7S{align-items:center;display:flex;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;justify-content:space-between}.index-module--paginationItem--ZgXus{align-items:center;color:var(--color-heading-black);display:flex;justify-content:space-between}.index-module--paginationItem--ZgXus:hover{text-decoration:underline}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemPrev--WtmXw:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:right;transform-origin:right}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemNext--nbZSQ:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:left;transform-origin:left}.index-module--paginationItemNext--nbZSQ:after,.index-module--paginationItemPrev--WtmXw:after{background-color:currentColor;bottom:-2px;content:"";display:block;height:1px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:right;transform-origin:right;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;width:100%}.index-module--paginationItemPrev--WtmXw{font-size:1.4rem;line-height:1.031;margin-left:1rem;position:relative}.index-module--paginationItemNext--nbZSQ{font-size:1.4rem;line-height:1.031;margin-right:1rem;position:relative}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="alternate" type="application/rss+xml" title="张小伦的网络日志" href="/rss.xml"/><link rel="icon" href="/favicon-32x32.png?v=25643e3cbe7be23b6c1bdad497608e85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=25643e3cbe7be23b6c1bdad497608e85"/><title data-react-helmet="true">《架构师修炼之道》摘录07-架构模式 | 张小伦的网络日志</title><link as="script" rel="preload" href="/webpack-runtime-adf1335a44885cfac931.js"/><link as="script" rel="preload" href="/framework-4b7b24ae718e4140a055.js"/><link as="script" rel="preload" href="/app-a99b6c2ab16d3879fc0c.js"/><link as="script" rel="preload" href="/commons-904b92826443395b7905.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"/><link as="fetch" rel="preload" href="/page-data/blogs/《架构师修炼之道》摘录07-架构模式/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/2841359383.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><div class="index-module--menu--aNCkU"><div class="index-module--menu-button--Iv9-4" role="button" aria-hidden="true"><svg class="ham hamRotate ham4 " viewBox="0 0 100 100" width="80"><path class="line top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"></path><path class="line middle" d="m 70,50 h -40"></path><path class="line bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"></path></svg></div><div class="index-module--menu-main--dqZT6 "><div class="index-module--menu-title--n-nNm"><a class="index-module--title-link--T5U9M" href="/">张小伦的网络日志</a></div><nav class="index-module--nav--nqC-X"><a class="index-module--nav-item--8jKuC theme-1" href="/">首页</a><a class="index-module--nav-item--8jKuC theme-2" href="/blogs">博文</a><a class="index-module--nav-item--8jKuC theme-3" href="/categories">分类</a><a class="index-module--nav-item--8jKuC theme-4" href="/archives">归档</a><a class="index-module--nav-item--8jKuC theme-5" href="/labs">实验室</a><a class="index-module--nav-item--8jKuC theme-6" href="/about">关于我</a></nav></div></div><section><section class="article-section"><aside class="article-aside"><div class="article-aside__item"><div class="aside-item__title">Published</div><div class="aside-item__content"><time>2022-01-15</time></div></div><div class="article-aside__item"><div class="aside-item__title">Category</div><div class="aside-item__content"><a class="category-item" href="/categories/解决方案">解决方案</a></div></div><div class="article-aside__item"><div class="aside-item__title">Tags</div><div class="aside-item__content"><div class="tag-item">笔记</div><div class="tag-item">架构</div></div></div><div class="article-aside__item"><div class="aside-item__title">Content</div><div class="aside-item__content"><div class="aside-toc"><a href="#71-什么是架构模式">7.1 什么是架构模式</a><a href="#72-分层模式">7.2 分层模式</a><a href="#73-端口适配器模式">7.3 端口适配器模式</a><a href="#74-管道过滤器模式">7.4 管道过滤器模式</a><a href="#75-面向服务架构模式">7.5 面向服务架构模式</a><a href="#76-发布订阅模式">7.6 发布订阅模式</a><a href="#77-共享数据模式">7.7 共享数据模式</a><a href="#78-多层模式">7.8 多层模式</a><a href="#79-能力中心模式">7.9 能力中心模式</a><a href="#710-开源贡献模式">7.10 开源贡献模式</a><a href="#711-大泥球模式">7.11 大泥球模式</a><a href="#712-发现新架构模式">7.12 发现新架构模式</a><a href="#结束语">结束语</a></div></div></div></aside><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">《架构师修炼之道》摘录07-架构模式</h1></header><img class="article-cover" alt="https://www.notion.so/images/page-cover/rijksmuseum_mignons_1660.jpg" src="https://www.notion.so/images/page-cover/rijksmuseum_mignons_1660.jpg"/><section itemProp="articleBody" class="content"><blockquote class="quote">
+<p class="para">本系列内容来自《架构师修炼之道》。在自己的笔记中以半摘录的方式，用 blockquote 穿插自己的思考和感悟，以加深对内容的理解和消化。</p>
+</blockquote>
+<p class="para">全书整体分为三个部分</p>
+<ul>
+<li>
+<p class="para">第一部分介绍软件架构的基础知识和架构师必备的设计思维</p>
+</li>
+<li>
+<p class="para">第二部分讲解架构师需要掌握的核心技能和知识</p>
+</li>
+<li>
+<p class="para">第三部分讨论一系列使用的架构设计方法</p>
+</li>
+</ul>
+<p class="para">前两部分适合从头到尾通读，第三部分用于参考和检索。</p>
+<p class="para">第七章的标题是“架构模式”，本章介绍最常见的架构模式，讲解如何让这些通用模式适应具体需求。</p>
+<h2 class="heading subtitle heading" id="71-什么是架构模式" style="position:relative;"><a href="#71-%E4%BB%80%E4%B9%88%E6%98%AF%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F" aria-label="71 什么是架构模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.1 什么是架构模式</h2>
+<p class="para">架构模式是针对特定问题的可复用解决方案，它通过特定的结构组合提升某方面的质量属性。选择合适的架构模式解决问题就不用从零开始设计架构，从而避开诸多麻烦的陷阱。</p>
+<p class="para">模式还有一个好处。由于许多模式广为人知，人们的沟通也变得容易。人常说一图抵千言，其实一个模式可以抵千图。此外，各种技术框架和技术平台都采用了流行的模式，用起来非常方便。</p>
+<p class="para">接下来介绍常见的架构模式，至于不常见的模式，读者可以自行搜索。</p>
+<blockquote class="quote">
+<p class="para">设计模式与架构模式有什么区别吗？</p>
+</blockquote>
+<blockquote class="quote">
+<p class="para">设计模式是所有设计是必须掌握的。除了编程、软件架构设计、企业架构设计之外，用户体验、测试、数据库，甚至开发流程都有现成的设计模式。设计模式在现在软件开发中有着重要的地位。</p>
+<p class="para">软件的设计模式可以提高面向对象程序的可复用性和可维护性。架构模式与设计模式有所不同，架构模式定义了各种质量属性场景的解决方案，通常设计软件系统的多个组件。架构模式关注的质量属性与抽象力度都更宽泛。</p>
+</blockquote>
+<h2 class="heading subtitle heading" id="72-分层模式" style="position:relative;"><a href="#72-%E5%88%86%E5%B1%82%E6%A8%A1%E5%BC%8F" aria-label="72 分层模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.2 分层模式</h2>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>层：一组功能内聚的模块。</td>
+</tr>
+<tr>
+<td>关系</td>
+<td>允许使用：那些层可以使用其他层的模块。</td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>所有模块必须划分到某一层里。上层允许使用下层，这种关系是单向的。“允许使用”关系可以进行限制，让当前层只能使用直接处在其下方的层。禁止循环依赖。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升可运维性、可移植性、可复用性、可测试性、设计阶段的可修改性。概念上比较容易实施。分层可以直观地反映在代码上。</td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>从最上层到最下层，每一层都引入了额外的抽象，增加了复杂度，可能会影响性能。层数繁多和抽象泄露可能会导致开发过程非常痛苦。</td>
+</tr>
+</tbody>
+</table>
+<p class="para">下图是分层模式的示例，左侧显示了允许使用的关系，右侧表示元素之剑的关系</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a0b530f1457e3c5d8bc30d4b6773ba99/41870/d2742a2cbe01d4be.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.87234042553191%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAABd0lEQVQoz1VSiW6FMAzj/z9x0jRtvG0cpQctPQFPzgZ6Q7JCmmLsJJ2PBVtqCKki5YbzPP/hOI4bIQQYYwTOOcmJbdskttbQrbFh1h4+7ZhtlGKMUZBSEiIS853IOUvtmYQopUje2VCh7AYbCqzPqLWiEa3KhYvw+gEJn+P18J61Fl1tO9RikHJF2/e7uO8HjHVobcdx/Cqk1Wma0Pe9RKrk+aVUa41ucQn9t8JkAnysIp1ng/L4+FLQa5Ye55ykxt6N4wjvvaimqmEYpCaEk/Z4678xLk4sW36weAzK4uX1HdpFxLLfA1FKCSEV8uzZshBystp6hFiRS5MiY8wNi1ll8scJsUZFJJrn+c5JdA1lXVd0tKO0w5YKUmn3EIATmyg44f2KaRzvHpJwWRbJaZnKmJO0+5os3t4/odcI4/O9VxdIPiuFj88R459N89c3ktP+4/EQQva1cyHD+QQbMvxW7r0iroV2bhUXVEY1JCNIRFxT5x7+ANf/AstJWnSGAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="d2742a2cbe01d4be"
+        title="d2742a2cbe01d4be"
+        src="/static/a0b530f1457e3c5d8bc30d4b6773ba99/1d69c/d2742a2cbe01d4be.png"
+        srcset="/static/a0b530f1457e3c5d8bc30d4b6773ba99/4dcb9/d2742a2cbe01d4be.png 188w,
+/static/a0b530f1457e3c5d8bc30d4b6773ba99/5ff7e/d2742a2cbe01d4be.png 375w,
+/static/a0b530f1457e3c5d8bc30d4b6773ba99/1d69c/d2742a2cbe01d4be.png 750w,
+/static/a0b530f1457e3c5d8bc30d4b6773ba99/78797/d2742a2cbe01d4be.png 1125w,
+/static/a0b530f1457e3c5d8bc30d4b6773ba99/aa440/d2742a2cbe01d4be.png 1500w,
+/static/a0b530f1457e3c5d8bc30d4b6773ba99/41870/d2742a2cbe01d4be.png 1788w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">分层模式有许多变种，但是无论分成多少层，它的元素、关系、使用规则是不变的。</p>
+<h2 class="heading subtitle heading" id="73-端口适配器模式" style="position:relative;"><a href="#73-%E7%AB%AF%E5%8F%A3%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F" aria-label="73 端口适配器模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.3 端口适配器模式</h2>
+<p class="para">端口适配器模式隔离了核心业务逻辑，确保它可以在多种环境下使用，以及在隔离其他（负责提供数据和事件的）组件的状态下进行测试。在运行时，可以将输入源的可拔插适配器注入核心业务逻辑中，以提供对事件和数据的访问。构建和运行时，可以通过切换适配器生成各种系统配置。要求之初多个输入设备，或者输入设备有可能发生变化的系统适合使用这种模式。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>模块或组件连接器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>层：包含业务逻辑，但它不清楚使用的数据和事件的来源。</td>
+</tr>
+<tr>
+<td>端口：层与适配器之间的接口。借助端口，层可以与具体的适配器分离</td>
+<td></td>
+</tr>
+<tr>
+<td>适配器：与外部数据源、设备成其他组件进行交互的代码，使得层能够访问</td>
+<td></td>
+</tr>
+<tr>
+<td>数据和事件。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="para">关系|暴露：指明层可用的端口。
+实现：指明约束适配器的端口。
+注入：指明层可用的适配器。
+使用规则|层通常会暴露端口，但不是必须这么做。没有端口的层有时称为内层。不暴露端口的层有时称为内部层。
+适配器可以满足一个或多个端口的约束。
+如果要将适配器注入端口，则适配器必须实现该端口所需的接口。
+该模式适用于设计时和运行时的交互。无论是展示模块还是组件连接器，务必在模型中保持一致。
+优势|提升可测试性、可维护性、可修改性。团队可以分工完成不同的层和适配器
+劣势|必须建立机制选择运行时使用的适配器。适配器決定了运行时质量（安全性、
+可靠性等)。应谨慎选择第三方适配器</p>
+<p class="para">下图是端口适配器模式的示例。在这个例子中，雷达模拟器可以在不改变核心业务逻辑的情况下从适配器切换到真实的雷达系统。此外，日志和通信总线也可以在必要情况下进行切换。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d64a506967f3189640ec2e1a807de14d/51ed8/5a5dcd3e11d659aa.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.06382978723405%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAACIElEQVQozy2S2W7cRhBF+eWGHw05MQxJs3O4NLfu4dZskt1cJNkGgtiB808nGCoPB/V2UVX3eEJE9EPHy8u88fvfn7x9WzCmxk09ZVnQtDe+fV/48WNlXUemyeCc/p+WrlO0TU5dJnhxHGF6wzxPrOvMz19/4aYBpTK0rhAipFAZTVsShhfatqTIBXkW0TSSPAtJxJUsDaiUwEuSGKUUxhh+/fM3bhpZVoe1BlmkKJkikoBGV+z2TxQyoyxzlErQWqJkTCquFHlE1+R4h8OB0+lMLAT7/R7fv7C+rqxvC/1oUKXkVkkaXXOrb1RNSWcatC7faRVNLTkfdzw/fsG7hwVhRJLliDTlGobY2eHWiUo3iCwhSmIymVHrGqkK0jQmSSLO5yNR5BMGFw67J07HZ7w8z2lbTWsM69srZV1iZ8vyMjG4nt7eMbh5ROsadcu5+iekTPn69TNhcKSUAiUFqfDx/CCmbDqMdfTW0tuRYbIb9zBjDW3fonu9nR+EPv7lTJGnfPz4gS9//sHDwyd2z4/sd494IsvohoFxnnHrgltm5peF5XVhXh3TMmKnflNotN2mUFlJpMy2woo8RsQ+wfWIf9nj3f+mjWGwFjtP74Gvy7ad7hr6vqWqFbey2Jy8n3yfVSW3tm+3hDwLEPGZKDzixSLZlOmHAessg7OMs6OqK4rirkdBEPgcDjv2++etiCyL38NUgpQhSXIhjk5b4H83EFZygu7eaAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="5a5dcd3e11d659aa"
+        title="5a5dcd3e11d659aa"
+        src="/static/d64a506967f3189640ec2e1a807de14d/1d69c/5a5dcd3e11d659aa.png"
+        srcset="/static/d64a506967f3189640ec2e1a807de14d/4dcb9/5a5dcd3e11d659aa.png 188w,
+/static/d64a506967f3189640ec2e1a807de14d/5ff7e/5a5dcd3e11d659aa.png 375w,
+/static/d64a506967f3189640ec2e1a807de14d/1d69c/5a5dcd3e11d659aa.png 750w,
+/static/d64a506967f3189640ec2e1a807de14d/51ed8/5a5dcd3e11d659aa.png 1021w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<h2 class="heading subtitle heading" id="74-管道过滤器模式" style="position:relative;"><a href="#74-%E7%AE%A1%E9%81%93%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F" aria-label="74 管道过滤器模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.4 管道过滤器模式</h2>
+<p class="para">管道过滤器模式里的组件称为<strong>过滤器</strong>，负责单一的数据转换或数据操作。数据快速从一个过滤器流转到下一个过滤器。这种数据操作是并发进行的。松耦合的过滤器可以通过各种方式组合和复用，从而创建出新的管道。该模式多运用在数据分析和数据转换领域。Uinx的终端命令可以连接在一起，它运用的就是管道过滤器模式。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>模块或组件连接器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>过滤器：读取、转换、记录数据的组件。过滤器可在读取数据的第一时</td>
+</tr>
+<tr>
+<td>间开始处理。过滤器必须定义预期输入并输出结果。</td>
+<td></td>
+</tr>
+<tr>
+<td>管道：连接器，用于将数据从一个过滤器传输到下一个过滤器。管道具</td>
+<td></td>
+</tr>
+<tr>
+<td>有单一输入和输出，不会改变传输的数据</td>
+<td></td>
+</tr>
+<tr>
+<td>该模式的一些变种还包括元素源（source）和槽 (sink）。前者仅产生数</td>
+<td></td>
+</tr>
+<tr>
+<td>据，后者仅接收数据。</td>
+<td></td>
+</tr>
+<tr>
+<td>关系</td>
+<td>接驳：通过管道，连接一个过滤器的输出与另一个过滤器的输入。</td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>管道只能连接与其输入输出兼容的过滤器。过滤器完全相互独立。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升性能、可复用性、可修改性。</td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>管道过滤器系统不是交互式的，在不修改模式的情况下也不包含用户界面。模式不会明显提升可靠性，但可以通过引入过滤器来处理错误。简单的实现可能会影响性能，因为并发运行多个过滤器是有代价的。</td>
+</tr>
+</tbody>
+</table>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/571c92801647792ded1262883b504f1d/7eab7/95f9020ca4867359.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 31.382978723404253%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABTUlEQVQY0z2Q3W7UMBBG8/4PU0QlWLW9KGovQFwgIdR2twUkSDcbOz+2k3ES20kO2gj4pKNvdK5mJpMx4WSiVI4Xtefj9/fcPrzhJf/F8WT59uOR++dLPjxdUBhFawKla7g7XHJ/eMv+eKA4WVTj6Hwk82PC9BOmm1DWUPcK7UraTugkoIyl6ku0O2HFI0PC+gFtCypXoE1LcaporOe8XGaMoa5rUorEEElxZo4LMUZCmLZe0gorxLSQ5jMr/3KetFJMIbKuK1lZtRSq4TXPGccRkR5rLVprUkrM87w5GSacj+i2p3Me8/iA3T9R/vzNa1nRmJ7ztdnn/TWf8jvM7or8Zkde1QwiDMOwMU4T3gu9D7R9oKgcRrXo3TvamyuOX75SSUTVf384jIITS980iDGI94jIf7z3hBBIaWYMiRAXpriwwEYCYpw3H9PMH8OQxgm+oH1mAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="95f9020ca4867359"
+        title="95f9020ca4867359"
+        src="/static/571c92801647792ded1262883b504f1d/1d69c/95f9020ca4867359.png"
+        srcset="/static/571c92801647792ded1262883b504f1d/4dcb9/95f9020ca4867359.png 188w,
+/static/571c92801647792ded1262883b504f1d/5ff7e/95f9020ca4867359.png 375w,
+/static/571c92801647792ded1262883b504f1d/1d69c/95f9020ca4867359.png 750w,
+/static/571c92801647792ded1262883b504f1d/78797/95f9020ca4867359.png 1125w,
+/static/571c92801647792ded1262883b504f1d/aa440/95f9020ca4867359.png 1500w,
+/static/571c92801647792ded1262883b504f1d/7eab7/95f9020ca4867359.png 2360w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">批处理模式和管道过滤器模式很像，但有一点不同。批处理系统是各阶段逐个、依次操作，而不像管道过滤器系统那样并发操作。批处理系统通常将所有数据写入磁盘，以供下一阶段读取，而不是将数据从一个阶段传输到下一个阶段。</p>
+<h2 class="heading subtitle heading" id="75-面向服务架构模式" style="position:relative;"><a href="#75-%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F" aria-label="75 面向服务架构模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.5 面向服务架构模式</h2>
+<p class="para">面向服务架构（SOA）用独立的组件提供特定功能的服务。各种服务在运行时整合在一起，决定了系统的行为。这要求服务的使用者必须能够在不清楚服务实现细节的情况下寻找和调用服务。</p>
+<p class="para">SOA有很多种实现方式。传统的SOA非常倚重消息总线和SOAP通信。现代SOA则鼓励使用细粒度的微服务，用轻量级的消息协议（如 HTTP)进行连接。</p>
+<p class="para">复杂的组织通常使用SOA来设计大型软件系统，由不同的部门管理不同的系统部分。SOA允许各个部门在其专业领域内独立工作（隐藏重要业务信息），同时这些子系统又能供外部访问。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>组件连接器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>服务：可独立部署的单元，通过定义好的接口提供服务功能。</td>
+</tr>
+<tr>
+<td>服务注册表：列出所有可用的服务，以便服务可查找其他可用服务。</td>
+<td></td>
+</tr>
+<tr>
+<td>消息系统：取决于具体的系统设计，如 SOAP、REST、gRPC、异步消息。</td>
+<td></td>
+</tr>
+<tr>
+<td>关系</td>
+<td>根据 SOA 系统的约束而变化。如果使用 Netfl ix 的“智能端点和哑管道”方法，则关系是“调用”。如果使用异步消息，则关系是“发布”和“订阅”</td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>服务不必知道所使用的其他服务的实现细节。服务必须通过外部组件发现其他服务，要么是服务注册表，要么是异步消息传递的消息总线。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升互用性、可复用性、可伸縮性。模式成熟，有许多子模式。</td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>SOA 系统是分布式系统，带有分布式计算的所有复杂性。SOA 系统组成部分多，集成复杂。其他模式可以在设计时轻松处理的属性，在 SOA 系统</td>
+</tr>
+<tr>
+<td>运行时很可能出问题。例如，如果不知道快照(snapshot）中正在运行的服务，就没法知道 SOA 系统的版本。该模式也抑制了可用性、可靠性、性能。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="para">下图是SOA模式的示例，它显示了SOA的单一视图。SOA很复杂，涉及许多架构组件。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e50bcf7a615e391f98a5d9fcbe84739f/e1250/a2be935851861b06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.72340425531915%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAABqklEQVQoz3VTXW+cMBDk//+mSH3Lc9q3KIly7d2Bwd8GYzDGE+2S5qO6WlrZht1hZ2Zp9n3HrSilfLsvy4KUEtZ1xTzPyDmj1opad6B+5jW3AQv2cgQVEEgIgYGMMfDewzmHuu+Ia0ZIGXk7cm8DVqBU8F4B7maaJsQYYa3l3TsHoQxeB4vWR/RhZlbNJ7VjL9uKHBVKHLBNgs9EjUC01hzjOGLLK2zKeLoIPF8ELiYg5YIGABcQIHWzJYcs7qFf7uBPPxCv99BKMsVxDNBa8VkpBesDLnaEiBlqWg4NiQIJXraNdUiTQxQP8NcHhO4nonxEmiN3ZY1F1wlY61iCUjakNWNM64eJTdu26PsetA/DwNSUcbDvHZEZVEzJ1+6Ep9dfMFYTMX5GRtSvLpNjUkp2jr5CS84FaloRvGdXiQW9U+E33PICN0p2629X5YuhjXMeQvRQUjIYJRqvoe3w4SyPSK2wXsEEgTmNfP93Vhlw0icE3eHP+coAtJTp0A1naG14mEm/A4CmgAor/vdDNLo/Q7RnFps0JPcIiILoSqm4y2MS9m8jdgvwDT+uU5OXo9pQAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="a2be935851861b06"
+        title="a2be935851861b06"
+        src="/static/e50bcf7a615e391f98a5d9fcbe84739f/1d69c/a2be935851861b06.png"
+        srcset="/static/e50bcf7a615e391f98a5d9fcbe84739f/4dcb9/a2be935851861b06.png 188w,
+/static/e50bcf7a615e391f98a5d9fcbe84739f/5ff7e/a2be935851861b06.png 375w,
+/static/e50bcf7a615e391f98a5d9fcbe84739f/1d69c/a2be935851861b06.png 750w,
+/static/e50bcf7a615e391f98a5d9fcbe84739f/78797/a2be935851861b06.png 1125w,
+/static/e50bcf7a615e391f98a5d9fcbe84739f/aa440/a2be935851861b06.png 1500w,
+/static/e50bcf7a615e391f98a5d9fcbe84739f/e1250/a2be935851861b06.png 1786w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<h2 class="heading subtitle heading" id="76-发布订阅模式" style="position:relative;"><a href="#76-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F" aria-label="76 发布订阅模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.6 发布订阅模式</h2>
+<p class="para">在发布订阅模式中，生产者（producer）和消费者（consumer）在彼此不知情的情况下独立存在。大量的消费者订阅各种生产者发布的时间。生产者和消费者通过事件总线间接通信，事件总线负责将发布的时间与感兴趣的订阅者（subscriber）连接起来。事件总线技术的选择极大地影响系统属性。如果有多个独立组件要访问相同信息，就可以选用发布订阅模式。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>组件连接器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>发布者：发布时间的组件。发布的具体时间应在设计文档中描述。</td>
+</tr>
+<tr>
+<td>订阅者：订阅事件的组件</td>
+<td></td>
+</tr>
+<tr>
+<td>事件总线：负责登记组件订阅和传递发布的事件。事件总线提升的属性由具体技术及其配置决定。</td>
+<td></td>
+</tr>
+<tr>
+<td>关系</td>
+<td>发布：组件将事件发不到事件总线。</td>
+</tr>
+<tr>
+<td>订阅：组件登记订阅事件。</td>
+<td></td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>所有通信都通过事件总线进行。因此，所有组件必须连接到总线。某个组件可能既是发布者又是订阅者。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升可拓展性、可复用性、可测试性。根据事件总线的选择及其配置方式，还可以提升可用性、可靠性、可伸缩性。</td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>考虑到组件通信的独立性和异步性，发布订阅系统的性能很难判断。事件总线的选择决定了发布订阅系统的成败。选择事件总线前应做好功课。</td>
+</tr>
+</tbody>
+</table>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/232c4fb24778569702261d4442a80d80/95e27/ba098cd22f4f299f.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.23404255319148%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVQozz2QyY7cNhRF9f9LLwJkYTiTh8CVLnXXpJmiKGouzaUau/0pJ5DSzuKCxLsPh5fXeL0NzHp7nHi7jzyuPfdrz+M2cLt0XKaa27nl7T7wuHZMQ8XUF1zGir5JKXSAEhYq2PHHxw8Yt3PHrBlynRr6tqDMY26Xnr4rSbQgzxSnsWaaWromZ+zLZfc8VNSFIpEu0tvw+dMvGI9Lx/3SLcl+3EeGNqdIJXWlqUtNmUXkSbjMskSgpEsceejIRUsHzzKJxYFMuXz5/dd34Lnhdm748ThxLBSu9Uzo74mE9b9C3yLw9gssjX1S5SO8PZ71jJY2ReKz+vpp/nKzpJt7mnWdWtpjxthVXM8dr/eJ86mlzNRSxfXc83o/LbvzLJYeVRaRSAfz+58Y16le0kx9yZx26iuaKmHsSrqmZBwa2nruVXEsE/q2ZBrrxS/SaEmaxQHOzuT7198w5oIj4dA1Gc0xoW9yTsMRJT0C3ybREVmqGLqKstAUebxAf4KbY0quBYGzwVx9xjhWKWWRUh9zpPA4VjmnsSFNImTokWhJUxeLHwYuMvSXnTn10Ne0zeyl5InA3j1hFLkmViFKCkTgo5QkTWN0HBH4Lp5nk2cJOpaIwMO2DsuZpXPadNmdH51/ZO/WGLGOiWJFGEmElMtdvStONLOv4hidJCRZRlYUpHmGTjSRioiiEBkGSz27zRPGDHGEwBUC2w9wAkEgIyzXw9xs2DsO65fNoqfnF563OyzPxw8lvhBIKQiF9w5cY9i+z8vB4Wlrsd7amDuHl4PLemuxMrestwdW5oa//zH569uKbyuTvfsf0PF9HNfFcWwce89uu+ZfBGkZaw5/gxwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="ba098cd22f4f299f"
+        title="ba098cd22f4f299f"
+        src="/static/232c4fb24778569702261d4442a80d80/1d69c/ba098cd22f4f299f.png"
+        srcset="/static/232c4fb24778569702261d4442a80d80/4dcb9/ba098cd22f4f299f.png 188w,
+/static/232c4fb24778569702261d4442a80d80/5ff7e/ba098cd22f4f299f.png 375w,
+/static/232c4fb24778569702261d4442a80d80/1d69c/ba098cd22f4f299f.png 750w,
+/static/232c4fb24778569702261d4442a80d80/78797/ba098cd22f4f299f.png 1125w,
+/static/232c4fb24778569702261d4442a80d80/95e27/ba098cd22f4f299f.png 1199w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<h2 class="heading subtitle heading" id="77-共享数据模式" style="position:relative;"><a href="#77-%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%BC%8F" aria-label="77 共享数据模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.7 共享数据模式</h2>
+<p class="para">在共享数据模式中，多个组件通过共用的数据库访问数据。没有哪个组件单独对数据或数据存储负责。该模式特别适合有大量数据、多组件的系统。在共享数据系统里，数据和数据源是交互的主要媒介。该模式与基于时间的系统有所不同，后者的组件通过过程调用或消息调用进行通信。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>组件连接器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>数据库：保存访问器(accessor）共享的数据。数据存储的选择及其约束决定了能实现的质量属性。</td>
+</tr>
+<tr>
+<td>数据访问器组件：以某种方式使用数据的组件。</td>
+<td></td>
+</tr>
+<tr>
+<td>关系</td>
+<td>读取：数据访问器组件可以从共享数据库中读取数据。某些读取关系可能需要特定协议或对可读取的数据量、类型进行限制。</td>
+</tr>
+<tr>
+<td>写入：数据访问器组件将数据与入共享数据库。写入关系可以采用事务形式进行限流和保护，或者用其他方式进行约束。</td>
+<td></td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>只有数据访问器可以与共享的数据库进行交互。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>通过数据一致性、安全和隐私提升可靠性。如果数据库充分优化、数据访</td>
+</tr>
+<tr>
+<td>问器划分良好，也可以提升可伸缩性和可用性。</td>
+<td></td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>共享数据库可能导致单点故障，从而影响可用性和性能。如果数据库发生变更，可维护性也会受影响，因为所有数据访问器也需要做相应变更。这种模式易于实施，也容易被滥用。共享数据可以解决许多问题，但在具体情况下，其他架构模式可能更适合。</td>
+</tr>
+</tbody>
+</table>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/7a84d0965e9d84d445887af068cdb9ba/f4fb1/36d83d3a22d73ecf.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.659574468085104%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAABlUlEQVQoz1WTbXObMBCE9f9/Xt18yUzNJAaDAAEybwbbbOe5hJQys9bpdFrtnmT3er30H55Pw/Mb27ZpGAbVda0QguF2u9nauq6a51nLslhMzvED0T5um7TpG8TbZgQxRl0uFyPuuk7TNFmOeZZlqqpKbdvKsWFXt66Lphg0xqChqzXEYHk2o/KoEEV93xu895YjdhSyyMeJ9/Apfz6pTH6rL86a58nWcFAUhcZxNNWMZVmaQshQjXVHEsksNAFlQTGUurWVetD3dlCe52YLUqyR360zp4a5oxDStu2+Nje1uuAVm0pd89UvirEFqMU2eYhQzhyn1Dmk3+93szWOg5Y2U/PxpvJ8Uu8Tu0U+esmBzLHMCGnTNEYEKTwOq4/Hw/xDHutcwV9VFZkan1n+3wvYfkDf9x5er1eLIXc8hTRNrT8xdsp9rSw5qUzflfvKGg4gOb5N1JDHKq1ArfUQubDv1vphVPL+S8F/ypeVbaBwJzz+CSDlUhips1tGJrJRSFzkuf6cE13S7OdmKT6+1x27/WP8F5IVTOIPp565AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="36d83d3a22d73ecf"
+        title="36d83d3a22d73ecf"
+        src="/static/7a84d0965e9d84d445887af068cdb9ba/1d69c/36d83d3a22d73ecf.png"
+        srcset="/static/7a84d0965e9d84d445887af068cdb9ba/4dcb9/36d83d3a22d73ecf.png 188w,
+/static/7a84d0965e9d84d445887af068cdb9ba/5ff7e/36d83d3a22d73ecf.png 375w,
+/static/7a84d0965e9d84d445887af068cdb9ba/1d69c/36d83d3a22d73ecf.png 750w,
+/static/7a84d0965e9d84d445887af068cdb9ba/78797/36d83d3a22d73ecf.png 1125w,
+/static/7a84d0965e9d84d445887af068cdb9ba/aa440/36d83d3a22d73ecf.png 1500w,
+/static/7a84d0965e9d84d445887af068cdb9ba/f4fb1/36d83d3a22d73ecf.png 1766w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">共享数据模式可以与其他模式完美融合。许多大型信息系统的架构都用到了该模式。</p>
+<h2 class="heading subtitle heading" id="78-多层模式" style="position:relative;"><a href="#78-%E5%A4%9A%E5%B1%82%E6%A8%A1%E5%BC%8F" aria-label="78 多层模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.8 多层模式</h2>
+<p class="para">在多层模式中，系统运行时的结构被组织成逻辑组。这些逻辑组可以被分配到特定的物理组件，如服务器、云平台。多层模式（multi-tier pattern）在概念上与分层模式（layers pattern）相似。layer 是模块结构，处理设计时元素（design time element）；而 tier 是组件连接器结构或分配结构，处理运行时元素（runtime element）。</p>
+<p class="para">如果系统的组件将在不同的平台或硬件上运行，那么就可以考虑使用不同的层（tier）。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>组件连接器或分配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>层(tier)：运行时组件的逻辑组。有许多方式进行分层，如功能职责、计算平台、团队职责、沟通机制、安全需求、数据访问。</td>
+</tr>
+<tr>
+<td>关系</td>
+<td>属于：将组件归到某一层。</td>
+</tr>
+<tr>
+<td>通信：层或其内部组件与其他层的交互。</td>
+<td></td>
+</tr>
+<tr>
+<td>该关系可以通过设计定义协议和通信约束。</td>
+<td></td>
+</tr>
+<tr>
+<td>允许通信．表明哪些层可以与其他层中的组件通信。</td>
+<td></td>
+</tr>
+<tr>
+<td>分配到：将层映射到物理计算平台。</td>
+<td></td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>一个组件可能只属于某一层。层内的组件仅允许与同层的其他组件通信。增加层通信的约束条件，可以让情况更清楚，并提升可维护性。常见的方法是仅允许相邻层之间的通信。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升安全性、性能、可用性、可维护性、可修改性。</td>
+</tr>
+<tr>
+<td>有利于分析成本和部署。</td>
+<td></td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>作为运行时构造，在大型系统中实施可能会有难度。</td>
+</tr>
+<tr>
+<td>太多的层可能会抑制系统性能和可维护性。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="para">下图是多层模式的示例。在这个例子中，应用层的组件分配到客户的服务器。中间层的组件分配到通用平台，但具有不同的功能职责。数据层的组件托管在不同的云平台上，可能只包含数据库。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ea2ad43f4a2401ff2b1123c86fd66f18/e8950/a20a5ca1f2872c98.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.57446808510638%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAABpElEQVQoz3VSi46bMBDk/78wSktaaBIoxvj9wIbMafcalZwullZjJ8t4ZrzNvu/4rrZtQ1wDfLKwQSNkj1wSaq0opWBdV8av3zXvCEstMElBmAlt/wOznWCThrUWWmsMw4BlWUCLLn+KeEv42VCx7RUhBsa6VTweDy5ahNR3/O0N4QOlrjBRYXES/fgbkxlZ8TiMOJ1OaNsWXdfhfD6j73vexxjRkMyj5P+kG1KJCNlhkiN8dpxhSgnee4QQuCgCOlMxIf6to3Tar2VlMu0Vbn+vjGH1L3aP+yc2FPA8z/xqdANhThlKLXDZQugJv64XRjofp+C7uJpJTJjlDCEEjDFsSSnF5GVbkUvEoiXWmrmYbN9eiI/kjVoUjDIY7gPnkHOGlBLWWcTicRd3tN1PjHKAy4Yvm6aJR4acEdKZZpItCynwR3S4DzfMYuagqZGU1q3AJ4dR3HnA6VG+KqMisqfKhuzc5BXKKM6ObFOui5IwUTPhpbvAJVIc4KxjVdTnnONoXjJk5rrzY5AqQvoj5chzqMPCdomcXpliITJCGhlydCT8AJ0Foq5duumxAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="a20a5ca1f2872c98"
+        title="a20a5ca1f2872c98"
+        src="/static/ea2ad43f4a2401ff2b1123c86fd66f18/1d69c/a20a5ca1f2872c98.png"
+        srcset="/static/ea2ad43f4a2401ff2b1123c86fd66f18/4dcb9/a20a5ca1f2872c98.png 188w,
+/static/ea2ad43f4a2401ff2b1123c86fd66f18/5ff7e/a20a5ca1f2872c98.png 375w,
+/static/ea2ad43f4a2401ff2b1123c86fd66f18/1d69c/a20a5ca1f2872c98.png 750w,
+/static/ea2ad43f4a2401ff2b1123c86fd66f18/78797/a20a5ca1f2872c98.png 1125w,
+/static/ea2ad43f4a2401ff2b1123c86fd66f18/aa440/a20a5ca1f2872c98.png 1500w,
+/static/ea2ad43f4a2401ff2b1123c86fd66f18/e8950/a20a5ca1f2872c98.png 2000w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<h2 class="heading subtitle heading" id="79-能力中心模式" style="position:relative;"><a href="#79-%E8%83%BD%E5%8A%9B%E4%B8%AD%E5%BF%83%E6%A8%A1%E5%BC%8F" aria-label="79 能力中心模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.9 能力中心模式</h2>
+<p class="para">在能力中心模式中，有一个专家团队负责定义模式、建立最佳范例、开发支持工具，并为子架构提供培训。能力中心（COC)本身不会构建和交付系统模块，而是帮助其他团队在日常开发工作中取得进步。CoC 团队可以围绕技术、用例、模式、高风险领域进行组织。</p>
+<p class="para">组建 CoC 将使开发团队更容易在架构中实施我们想要的模式和技术。CoC 是一个支持组，其首要目标是加快开发速度并提高系统的整体质量。下面的表格展示了能力中心模式的主要特点。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>分配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>CoC团队：开发人员和架构师小组。</td>
+</tr>
+<tr>
+<td>责任区域：架构的子集，可以使模式、技术、用例。</td>
+<td></td>
+</tr>
+<tr>
+<td>关系</td>
+<td>负责：联系CoC团队及其责任区域。</td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>通过一位CoC成员只负责一种技术或用例。</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升专家的可复用性和可伸缩性，从而提升多方面的质量属性，如安全性、可伸缩性、性能、可靠性、可维护性等。</td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>CoC让一些专家形成了知识上的”孤岛“，且容易因人员流动而出现知识流失。能力不足的CoC成员会引发问题，影响开发速度。</td>
+</tr>
+</tbody>
+</table>
+<p class="para">下表则是能力中心模式的示例，它展示了有数百位开发人员的公司如何组织CoC团队。</p>
+<table>
+<thead>
+<tr>
+<th>CoC团队</th>
+<th>责任区域</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任务调度比例</td>
+<td>开发任务调度用例的框架，创建工具以便团队能够在集群里实例化该框架。</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>就负载与性能测试与团队进行磋商，提供测试和搜集数据的工具，搜集和组织数据集及其他测试资产</td>
+</tr>
+<tr>
+<td>数据库技术</td>
+<td>与团队磋商选择适于用例的数据库，维护数据库配置工具，创建并分发培训材料。</td>
+</tr>
+<tr>
+<td>核心平台</td>
+<td>维护通用容器管理系统，提供Docker镜像，为日常任务（如日志收集和状况检查）创建工具。</td>
+</tr>
+</tbody>
+</table>
+<h2 class="heading subtitle heading" id="710-开源贡献模式" style="position:relative;"><a href="#710-%E5%BC%80%E6%BA%90%E8%B4%A1%E7%8C%AE%E6%A8%A1%E5%BC%8F" aria-label="710 开源贡献模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.10 开源贡献模式</h2>
+<p class="para">在开源贡献模式中，开发团队虽然负责开发架构组件，但同时也允许其他人为开发做贡献。团队负责从质量和概念完整性的角度审核其他人提交的组件和更新。该模式只允许在架构上有少量的集中控制。当有来自多个开发团队的专家参与项目，或对某些组件存在共同依赖时，可以使用该模式。</p>
+<p class="para">要想成功运用这种模式，团队必须清楚要对哪些组件负责，并且明白这些组件要达到什么样的要求和标准。只给负责团队（所有者）提供写权限，可以进一步强化因队对组件的责任。其他贡献者则可以随时提交变更以供审核。事先编写风格指南，注重可测试性，限制技术和开发平台的选择，可以让开发人员更容易做出贡献。下表展示了开源贡献模式的主要特点。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>分配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素</td>
+<td>团队：提交或审核组件变更的小组。</td>
+</tr>
+<tr>
+<td>库：包含软件组件的版本控制存储库。</td>
+<td></td>
+</tr>
+<tr>
+<td>关系</td>
+<td>拥有：团队负责审查变更并维护库的完整性。</td>
+</tr>
+<tr>
+<td>所有者有时称为库的仁慈独裁者。</td>
+<td></td>
+</tr>
+<tr>
+<td>可能贡献：表示可能向库提交变更的团队。</td>
+<td></td>
+</tr>
+<tr>
+<td>使用规则</td>
+<td>库同城只有一个所有者，但这不是严格的规则。</td>
+</tr>
+<tr>
+<td>团队可以对多个库做贡献。</td>
+<td></td>
+</tr>
+<tr>
+<td>优势</td>
+<td>提升可复用性、可维护性、开发速度。</td>
+</tr>
+<tr>
+<td>劣势</td>
+<td>此模式与组件划分策略密切相关。在多数情况下，共享的学习曲线极其陡峭，这种模式就不太现实。也许需要与其他开放式管理方式配合才能取得成功。</td>
+</tr>
+</tbody>
+</table>
+<p class="para">开源共享模式可以与提升可复用性的其他模式配合使用。开源的做法可以创造出许多意想不到的复用机会。</p>
+<h2 class="heading subtitle heading" id="711-大泥球模式" style="position:relative;"><a href="#711-%E5%A4%A7%E6%B3%A5%E7%90%83%E6%A8%A1%E5%BC%8F" aria-label="711 大泥球模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.11 大泥球模式</h2>
+<p class="para">与其说大泥球是一种模式，不如说它是一种开发现象。大泥球模式没有明确的元素或关系，它也不能提升任何质量属性（其主要特点是杂乱无章）。大泥球模式会降低系统的可维护性和可拓展性。模块结构和组件连接器结构都可能变成”大泥球“。甚至有些微服务系统也能变成分布式的”大泥球“。</p>
+<p class="para">大泥球模式唯一的优势是在短期内提高开发速度（以牺牲设计的完整性为代价）。毫无章法的开发和缺乏架构知识是导致“大泥球”出现的主要原因。</p>
+<p class="para">有时为了尽快交付系统，我们不得不采用大泥球模式。这样做会留下技术债务，如果不能尽快淘汰系统或及时偿还技术债务，这种方法就有风险。</p>
+<h2 class="heading subtitle heading" id="712-发现新架构模式" style="position:relative;"><a href="#712-%E5%8F%91%E7%8E%B0%E6%96%B0%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F" aria-label="712 发现新架构模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7.12 发现新架构模式</h2>
+<p class="para">模式源于经验。有些模式广泛适用于各种系统和团队，有些却只适用于个别场合。虽然发明全新的架构模式并不容易，但新模式一直在涌现。</p>
+<p class="para">架构师发现新模式的途径与昆虫学家发现新物种的途径大致相同。多花时间，留心观祭。如果你发现了新模式，可以试着把它记下来，根据现有模式对它归类。如果你发现的模式已经存在，你可以发博客或论文，对现有知识进行补充，为集体智慧做贡献。如果你发现子新模式，请把它添加到团队的模式目录里。</p>
+<p class="para">发现模式主要有两种方法：以问题为中心，或以解决方案为中心。以问题为中心的方法是从常见的问题入手。如果你反复看到同样的问题出现，你可以试着开发一个通用的解决方案。研究现有的解决方案，找出其中的相同之处与不同之处。根据你的分析，尝试描述新解决方案的模式。</p>
+<p class="para">以解决方案为中心的方法则是从反复使用的解决方案入手。也许其他开发人员还没有意识到这一点。描述你观察到的解决方案模式，分析它能解决哪些常见的问题，试着把它定义清楚。</p>
+<p class="para">模式定义完成后，把它分享出去。你可以去找那些熟悉类似问题或类似解决方案的人，请他们提意见。模式的最终检验还要看实际实施情况，然后根据实践中的反馈意见进行改进。</p>
+<h2 class="heading subtitle heading" id="结束语" style="position:relative;"><a href="#%E7%BB%93%E6%9D%9F%E8%AF%AD" aria-label="结束语 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>结束语</h2>
+<p class="para">本章主要介绍了将近十种常见的架构模式，内容比较多，需要好好消化。</p></section></article><div class="pagination"><div class="index-module--pagination--iWu7S"><a class="index-module--paginationItem--ZgXus" rel="prev" href="/blogs/《架构师修炼之道》摘录08-建立模型，化繁为简/"><div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div> <span class="index-module--paginationItemPrev--WtmXw">《架构师修炼之道》摘录08-建立模型，化繁为简</span></a><span></span><a class="index-module--paginationItem--ZgXus" rel="next" href="/blogs/使用CSS追踪用户信息-CSS Fingerpoint/"><span class="index-module--paginationItemNext--nbZSQ">使用CSS追踪用户信息-CSS Fingerpoint</span> <div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(-90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div></a></div></div></section></section></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-50406624-2', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blogs/《架构师修炼之道》摘录07-架构模式/";window.___webpackCompilationHash="136b2da2e8b1b23964e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4f3032a41e5c476c8f46.js"],"app":["/app-a99b6c2ab16d3879fc0c.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-adf2066c282d2a1fad9e.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-7b09644532f5bd1dcc54.js"],"component---src-pages-archives-tsx":["/component---src-pages-archives-tsx-ddc2637e6d877197950e.js"],"component---src-pages-categories-tsx":["/component---src-pages-categories-tsx-b5a2e4d86066d30e963f.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-7e0f083acf9cb537d315.js"],"component---src-pages-labs-tsx":["/component---src-pages-labs-tsx-73eba9758ec10d8f2e57.js"],"component---src-templates-blog-list-tsx":["/component---src-templates-blog-list-tsx-7eb438f670f1bdf1603e.js"],"component---src-templates-blog-post-tsx":["/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"],"component---src-templates-categories-js":["/component---src-templates-categories-js-7fe7e84267b6c1ad1f7e.js"]};/*]]>*/</script><script src="/polyfill-4f3032a41e5c476c8f46.js" nomodule=""></script><script src="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js" async=""></script><script src="/commons-904b92826443395b7905.js" async=""></script><script src="/app-a99b6c2ab16d3879fc0c.js" async=""></script><script src="/framework-4b7b24ae718e4140a055.js" async=""></script><script src="/webpack-runtime-adf1335a44885cfac931.js" async=""></script></body></html>

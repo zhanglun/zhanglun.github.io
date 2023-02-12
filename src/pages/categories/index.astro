@@ -1,0 +1,24 @@
+---
+import { SITE } from "src/config";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Category from "@components/Category.astro";
+import getUniqueCategories from "@utils/getUniqueCategories";
+import type { Frontmatter } from "src/types";
+
+const posts = await Astro.glob<Frontmatter>("../../../contents/{blogs,notion}/**/*.md");
+
+let categories = getUniqueCategories(posts);
+---
+
+<Layout title={`Categories | ${SITE.title}`}>
+  <Header activeNav="categories" />
+  <Main pageTitle="Categories" pageDesc="All the categories used in blogs.">
+    <ul class="grid gap-24 text-[1.8rem] grid-cols-4 justify-center">
+      {categories.map(category => <Category name={category} size="lg" />)}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

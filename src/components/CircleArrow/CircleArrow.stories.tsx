@@ -1,21 +1,22 @@
-import React from 'react';
+import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { CircleArrow, CircleArrowThemeEnum } from './index';
+import { CircleArrow, CircleArrowThemeEnum } from "./index";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Component/CircleArrow',
+  title: "Component/CircleArrow",
   component: CircleArrow,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-  },
+  argTypes: {},
 } as ComponentMeta<typeof CircleArrow>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 // eslint-disable-next-line react/jsx-props-no-spreading
-const Template: ComponentStory<typeof CircleArrow> = (args) => <CircleArrow {...args} />;
+const Template: ComponentStory<typeof CircleArrow> = (args) => (
+  <CircleArrow {...args} />
+);
 
 export const Default = Template.bind({});
 
@@ -25,15 +26,13 @@ Default.args = {
   theme: CircleArrowThemeEnum.dark,
 };
 
-export const Theme = Template.bind({
-});
+export const Theme = Template.bind({});
 
 Theme.args = {
   theme: CircleArrowThemeEnum.light,
 };
 
-export const Rotate = Template.bind({
-});
+export const Rotate = Template.bind({});
 
 Rotate.args = {
   rotate: 0,

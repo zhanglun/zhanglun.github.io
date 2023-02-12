@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;display=swap" rel="stylesheet"/><meta data-react-helmet="true" name="twitter:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" name="twitter:title" content="《架构修炼师之道》摘录03-制定设计策略"/><meta data-react-helmet="true" name="twitter:creator" content="zhanglun1410"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" property="og:title" content="《架构修炼师之道》摘录03-制定设计策略"/><meta data-react-helmet="true" name="description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta name="generator" content="Gatsby 4.13.1"/><style data-href="/styles.7aa89aa35ece76996c80.css" data-identity="gatsby-global-css">.theme-1{--background-color:#fef6e4;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#f582ae;--button-text-color:#001858;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#fef6e4;--card-tag-text-color:#001858;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label-placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}.theme-2{--background-color:#55423d;--background-color-1:#271c19;--background-color-2:#ffc0ad;--background-color-3:#9656a1;--button-color:#ffc0ad;--button-text-color:#271c19;--card-backgroud-color:#fffffe;--card-background-color:#55423d;--card-background-color-1:#ffc0ad;--card-heading-color:#fffffe;--card-headline-color:#271c19;--card-highlight-color:#9656a1;--card-paragraph-color:#fff3ec;--card-paragraph-color-1:#271c19;--card-tag-background-color:#fffffe;--card-tag-text-color:#271c19;--form-button-color:#9656a1;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#fffffe;--headline-color-1:#271c19;--highlight-color:#e78fb3;--label-placeholder-color:#271c19;--link-color:#9656a1;--links-color:#e78fb3;--main-color:#fff3ec;--paragraph-color:#fff3ec;--paragraph-color-1:#271c19;--secondary-color:#ffc0ad;--stroke-color:#140d0b;--sub-headline-color:#fff3ec;--tertiary-color:#9656a1}.theme-3{--background-color:#faeee7;--background-color-1:#fffffe;--background-color-2:#fffffe;--background-color-3:#33272a;--button-color:#ff8ba7;--button-text-color:#33272a;--card-backgroud-color:#faeee7;--card-background-color:#faeee7;--card-background-color-1:#fffffe;--card-heading-color:#33272a;--card-headline-color:#33272a;--card-highlight-color:#33272a;--card-paragraph-color:#594a4e;--card-tag-background-color:#ffc6c7;--card-tag-text-color:#33272a;--form-button-color:#ff8ba7;--form-button-text-color:#33272a;--form-input-color:#faeee7;--headline-color:#33272a;--highlight-color:#ff8ba7;--label-placeholder-color:#33272a;--link-color:#ff8ba7;--links-color:#ff8ba7;--main-color:#fffffe;--paragraph-color:#594a4e;--secondary-color:#ffc6c7;--stroke-color:#33272a;--sub-headline-color:#594a4e;--tertiary-color:#c3f0ca}.theme-4{--background-color:#fffffe;--background-color-1:#e3f6f5;--background-color-2:#e3f6f5;--background-color-3:#bae8e8;--button-color:#ffd803;--button-text-color:#272343;--card-backgroud-color:#fffffe;--card-background-color:#fffffe;--card-background-color-1:#272343;--card-heading-color:#272343;--card-headline-color:#fffffe;--card-headline-color-1:#272343;--card-highlight-color:#bae8e8;--card-paragraph-color:#2d334a;--card-tag-background-color:#bae8e8;--card-tag-text-color:#272343;--form-button-color:#272343;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#272343;--highlight-color:#ffd803;--label--placeholder-color:#272343;--link-color:#272343;--links-color:#ffd803;--main-color:#fffffe;--paragraph-color:#2d334a;--secondary-color:#e3f6f5;--stroke-color:#272343;--sub-headline-color:#2d334a;--tertiary-color:#bae8e8}:root{--inline-code-font:monospace!important;--mono-font:"JetBrains Mono",monospace!important;--content-font-size:16px;--maxWidth-none:"none";--maxWidth-xs:999px;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-5xl:64rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--main-max-width:750px;--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--main-spacing:100px;--font-family-sans:"Noto San SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-body:var(--font-family-sans);--font-heading:var(--font-family-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:10px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.9;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#4b5cc4;--color-text:#312520;--color-text-light:#4f5969;--color-heading:#312520;--color-heading-black:#161823;--color-accent:#d1dce5;--header-height:60px;--img-border-color:#313b44;--img-border-radius:8px;--background-color:#fafafa;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#636363;--button-text-color:#fff;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#636363;--card-tag-text-color:#fff;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label--placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1);margin:0}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-normal);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}pre[class*=language-]{border-radius:0;white-space:pre-wrap}code[class*=language-]{font-family:Menlo,Monaco,Consolas,Courier New,monospace;font-size:14px;white-space:pre-wrap}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;font-size:1.6rem;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);padding:var(--spacing-0)}ol,ul{margin-bottom:0;margin-top:0}ol li,ul li{padding-left:var(--spacing-0)}ol,ul{margin-bottom:1.5em}li>p{margin-bottom:calc(var(--spacing-8)/2)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-1);font-style:italic;margin-bottom:var(--spacing-8);padding:var(--spacing-5)}.quote{background:#f9f9f9;border-left:2px solid #636363;color:#636363;font-style:italic;margin:0 0 var(--spacing-16) 0;margin-bottom:1.5em;padding:1.5em;transition:.3s}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote p{margin-bottom:var(--spacing-3)}blockquote li{margin:0}blockquote>ol,blockquote>ul{list-style-position:inside;padding-left:var(--spacing-4)}table{border:1px solid #e9e9e7;border-collapse:collapse;border-spacing:.25rem;font-size:14px;margin-bottom:var(--spacing-8);width:100%}table td,table th{border-bottom:1px solid #e9e9e7;padding:8px 10px}table thead tr th{background-color:#f7f6f3;text-align:left}p img{border:.5px solid var(--img-border-color);border-radius:var(--img-border-radius);max-width:100%}a{color:var(--color-primary)}a,a:focus,a:hover{text-decoration:none}.global-header{margin-bottom:var(--spacing-12)}.main{background-color:var(--background-color-2);margin:0 auto;max-width:var(--main-max-width);padding:30px var(--main-spacing) 30px;position:relative;width:90%;z-index:1}.main-heading{font-size:var(--fontSize-7);margin:0}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.article-section{margin:0 auto;max-width:var(--main-max-width);position:relative;z-index:1}.article-cover{border:1px solid #f0f0f0;border-radius:var(--img-border-radius);height:380px;margin-bottom:60px;-o-object-fit:cover;object-fit:cover;width:100%}@media screen and (max-width:999px){.article-section,.pagination{max-width:100%;padding:0 20px}}.blog-post{border-bottom:1px solid #1d2b36;line-height:1.9;margin-bottom:10px;padding-bottom:60px;position:relative}.blog-post:before{left:0}.blog-post:after,.blog-post:before{background:#1d2b36;bottom:-2px;content:"";height:3px;position:absolute;width:3px}.blog-post:after{right:0}.blog-post header{border-top:1px solid #1d2b36;margin-top:50px;position:relative}.blog-post header:before{left:0}.blog-post header:after,.blog-post header:before{background:#1d2b36;content:"";height:3px;position:absolute;top:-2px;width:3px}.blog-post header:after{right:0}.blog-post header h1{font-size:36px;font-weight:var(--fontWeight-semibold);line-height:1.4;margin:60px 0}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media(max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-3)}ol,ul{padding-left:14px}}.pagination{margin:0 auto;max-width:var(--main-max-width);padding:50px 0}.link-underline,.pagination .next:hover,.pagination .prev:hover{text-decoration:underline}.link-underline{box-shadow:inset 0 0 0 0 var(--color-primary);margin:0 .25rem;padding:0 .25rem;transition:color .3s ease-in-out,box-shadow .3s ease-in-out}.link-underline:hover{box-shadow:inset 0 -40px 0 0 var(--color-primary);color:#fff}.hover-underline{position:relative}.hover-underline:after{background-color:var(--color-text);bottom:4px;content:"";height:2px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:bottom right;transform-origin:bottom right;transition:-webkit-transform .25s ease-out;transition:transform .25s ease-out;transition:transform .25s ease-out,-webkit-transform .25s ease-out;width:100%}.hover-underline:hover:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:bottom left;transform-origin:bottom left}.page-title{color:var(--color-heading);font-size:var(--fontSize-6);margin-bottom:var(--spacing-5);padding-top:50px;text-align:center}:root{--bg-color:#d3dadf;--action-color:#000911}.archive-page{background-color:var(--bg-color);width:100%}.archive-page__container{margin:0 auto;padding-bottom:1px;padding-left:6.4rem;padding-right:6.4rem}.archive-page__post-title{display:flex;font-size:2.4rem;line-height:3.2rem;margin:0}.archive-page__post-excerpt{margin-bottom:3.2rem;position:relative}.archive-page__post-date{color:var(--text-color);font-size:1.4rem}.archive-section{margin-bottom:24vw;margin-top:10vw;position:relative}.archive-section__year{color:#c3cad0;color:var(--text-light-color,#c3cad0);font-size:36vw;font-weight:700;letter-spacing:-.07em;line-height:.2;margin-top:0;min-width:100%;pointer-events:none;position:absolute;text-align:center;-webkit-user-select:none;-ms-user-select:none;user-select:none}.archive-posts{grid-gap:3.2rem;display:grid;font-size:1.6rem;grid-template-columns:repeat(auto-fill,minmax(25.6rem,1fr));list-style-type:none;margin:0;padding:0;position:relative}.archive-posts a{color:var(--action-color);text-decoration:none}.archive-posts a:hover{text-decoration:underline}.archive-date{margin-right:20px}.category-page,.root{min-height:100vh}.category-page{background-color:#a4c9d8}.category-list{grid-gap:10rem;display:grid;font-size:1.8rem;grid-template-columns:repeat(4,1fr);justify-items:center}.category-img{background-color:rgba(0,0,0,.2);border-radius:100%;height:150px;margin-bottom:20px;padding:10px;transition:all .3s ease-in-out;width:150px}.category-img img{width:100%}.category-item{text-align:center;text-decoration:none}.category-item:hover{color:var(--color-text)}.category-item:hover .category-img{background-color:rgba(0,0,0,.35)}.category-page-header{display:grid;justify-items:center;padding:50px 0}.ham{-webkit-tap-highlight-color:transparent;color:#fff;cursor:pointer;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:54px}.hamRotate.active{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.hamRotate180.active{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.line{fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .4s,stroke-dashoffset .4s}.ham.active .line{stroke:#fff}.ham1 .top{stroke-dasharray:40 139}.ham1 .bottom{stroke-dasharray:40 180}.ham1.active .top{stroke-dashoffset:-98px}.ham1.active .bottom{stroke-dashoffset:-138px}.ham2 .bottom,.ham2 .top{stroke-dasharray:40 121}.ham2.active .bottom,.ham2.active .top{stroke-dashoffset:-102px}.ham3 .top{stroke-dasharray:40 130}.ham3 .middle{stroke-dasharray:40 140}.ham3 .bottom{stroke-dasharray:40 205}.ham3.active .top{stroke-dasharray:75 130;stroke-dashoffset:-63px}.ham3.active .middle{stroke-dashoffset:-102px}.ham3.active .bottom{stroke-dasharray:110 205;stroke-dashoffset:-86px}.ham4 .bottom,.ham4 .top{stroke-dasharray:40 121}.ham4.active .bottom,.ham4.active .top{stroke-dashoffset:-68px}.ham5 .bottom,.ham5 .top{stroke-dasharray:40 82}.ham5.active .bottom,.ham5.active .top{stroke-dasharray:14 82;stroke-dashoffset:-72px}.ham6 .top{stroke-dasharray:40 172}.ham6 .middle{stroke-dasharray:40 111}.ham6 .bottom{stroke-dasharray:40 172}.ham6.active .top{stroke-dashoffset:-132px}.ham6.active .middle{stroke-dashoffset:-71px}.ham6.active .bottom{stroke-dashoffset:-132px}.ham7 .top{stroke-dasharray:40 82}.ham7 .middle{stroke-dasharray:40 111}.ham7 .bottom{stroke-dasharray:40 161}.ham7.active .top{stroke-dasharray:17 82;stroke-dashoffset:-62px}.ham7.active .middle{stroke-dashoffset:23px}.ham7.active .bottom{stroke-dashoffset:-83px}.ham8 .top{stroke-dasharray:40 160}.ham8 .middle{stroke-dasharray:40 142;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s}.ham8 .bottom,.ham8 .middle{-webkit-transform-origin:50%;transform-origin:50%}.ham8 .bottom{stroke-dasharray:40 85;transition:stroke-dashoffset .4s,-webkit-transform .4s;transition:transform .4s,stroke-dashoffset .4s;transition:transform .4s,stroke-dashoffset .4s,-webkit-transform .4s}.ham8.active .top{stroke-dashoffset:-64px}.ham8.active .middle{stroke-dashoffset:-20px;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.ham8.active .bottom{stroke-dashoffset:-64px}.index-module--menu--aNCkU{position:fixed;right:0;top:0;z-index:100}.index-module--menu-button--Iv9-4{position:fixed;right:0;top:0;z-index:102}.index-module--menu-main--dqZT6{background-color:#000;bottom:0;padding:100px;position:fixed;right:0;top:0;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);transition:all .4s;width:520px;z-index:101}.index-module--menu-main--dqZT6.index-module--open--LEqU-{-webkit-transform:translateZ(0);transform:translateZ(0)}.index-module--menu-title--n-nNm{color:#fff;font-weight:var(--fontWeight-semibold);margin-top:30px}.index-module--title-link--T5U9M{color:#fff;font-size:var(--fontSize-7)}.index-module--nav--nqC-X{align-items:flex-start;display:flex;flex-direction:column;margin-top:40px}.index-module--nav-item--8jKuC{color:#fff;font-size:22px;font-weight:500;height:var(--header-height);letter-spacing:1px;line-height:var(--header-height);margin:0;text-decoration:none;transition:all .3s}.index-module--nav-item--8jKuC:hover{-webkit-filter:invert(.5);filter:invert(.5);text-decoration:line-through}.index-module--nav-item--8jKuC.index-module--theme-1--jQ2fg:hover,.index-module--nav-item--8jKuC.index-module--theme-2--7nodg:hover,.index-module--nav-item--8jKuC.index-module--theme-3--pka-p:hover,.index-module--nav-item--8jKuC.index-module--theme-4--L3lP0:hover,.index-module--nav-item--8jKuC.index-module--theme-5--zFBiY:hover,.index-module--nav-item--8jKuC.index-module--theme-6--t9Ipa:hover{text-decoration:underline}.index-module--sidemenu-nav-item--3tmSg:hover{-webkit-transform:translate3d(14px,0,0);transform:translate3d(14px,0,0)}@media (max-width:1024px){.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn{box-sizing:border-box;right:-100vw;transition:none!important;width:100%}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn:before{background:#edbb1c;border-radius:50%;content:"";height:0;position:fixed;right:0;top:0;transition:all .7s;width:0}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs:before{height:300vh;right:-150vh;top:-150vh;transition:all .7s;width:300vh}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn{background-color:transparent!important}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn>*{opacity:0;transition:.3s}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs>*{opacity:1;transition:.3s .5s}}.index-module--container--MsrZ9{align-items:center;display:grid;justify-content:center;padding:3.75rem;text-align:center}.index-module--inner--Qy-hx{align-items:center;display:grid;gap:.75rem;justify-content:center;padding-bottom:5rem;padding-top:11.25rem;position:relative;width:100%}.index-module--title--k4zZ7{font-size:9.5rem;font-weight:600;margin:0}.index-module--subTitle--Sf0CJ{font-size:2rem;font-weight:600;margin:3.75rem 0 0}.index-module--main--husmE{align-items:center;display:grid;height:100vh;justify-content:center;margin:0 auto}.index-module--profile--01Kcu{grid-gap:40px;display:grid;grid-template-rows:1fr 1fr}.index-module--headline--7zfcQ{grid-gap:32px;align-items:center;display:grid;grid-template-columns:120px 1fr}.index-module--title--YQ4NF{color:var(--color-heading-black);font-size:7rem;margin:0;padding:0;text-align:center}.index-module--subTitle--aYKXU{font-size:2rem}.index-module--avatar--y2x3q{border-radius:50%;height:120px;width:120px}.index-module--menu--x9lUY{display:grid;font-size:1.8rem;grid-auto-flow:column;justify-items:center}.index-module--menuItem--3eiAT div{margin-left:.6rem;opacity:0}.index-module--menuItem--3eiAT:hover div{opacity:1}.article-list{list-style-type:none;margin:0;padding:0}.article-list-item{border-bottom:1px solid #e2e2e2}.article-list-item p{font-size:var(--content-font-size);margin-bottom:var(--spacing-0);text-align:center}.article-item-title{color:var(--color-heading-black);display:block;font-size:1.8rem;font-weight:var(--fontWeight-semibold);padding:1.4rem 0}.article-item-category{align-items:center;display:flex;font-size:1.4rem;font-weight:var(--fontWeight-normal);margin-bottom:.5vh}.article-item-category:before{background-color:currentColor;border-radius:1rem;content:"";display:block;height:.5rem;margin-right:.25rem;-webkit-transform:translateY(-1px);transform:translateY(-1px);width:.5rem}.article-list-item section{margin:50px 0 20px}.article-list-item footer{padding:40px 0;text-align:center}.article-list-item .read-more{background-color:var(--button-color);background-color:transparent;border:2px solid #636363;cursor:pointer;display:inline-block;font-size:13px;font-weight:var(--fontWeight-bold);height:50px;line-height:44px;outline:none;position:relative;text-decoration:none;transition:.25s ease-in-out;-ms-user-select:none;user-select:none;-webkit-user-select:none;width:190px}.article-list-item .read-more,.article-list-item .read-more:link{color:var(--button-text-color)}.article-list{margin:0 auto;max-width:var(--main-max-width);width:100%}.article-list-item .read-more:after{background-color:var(--button-color);content:"";height:100%;left:7px;position:absolute;top:7px;transition:.2s;width:100%;z-index:-1}.article-list-item .read-more:hover:after{left:0;top:0}.article-aside{-ms-overflow-style:none;height:100%;left:0;line-height:1.2;margin:60px 0;overflow-y:auto;padding:0 10px 0 20px;position:fixed;scrollbar-width:none;top:0;width:320px}.article-item-header{display:flex;justify-content:space-between}.article-list-item:hover .article-item__text{text-decoration:underline}.article-list-item:hover .article-item-header__arrow{opacity:1;-webkit-transform:scale(.8);transform:scale(.8)}.article-item-header__arrow{background-color:var(--color-heading-black);border-radius:50%;color:#fff;display:block;font-size:0;opacity:0;padding:4px;-webkit-transform:scale(.6);transform:scale(.6);transition:all .15s ease-in-out}.article-item-header__arrow svg{-webkit-transform:rotate(-135deg);transform:rotate(-135deg)}@media screen and (max-width:999px){.article-aside{position:static}}.article-aside__item{margin-bottom:var(--spacing-10)}.aside-toc{box-orient:vertical;box-direction:normal;display:flex;flex-direction:column;gap:6px;list-style-type:none;margin:6px 0 0;padding:0}.aside-toc li{margin:0;padding:2px 0}.aside-toc a{-webkit-margin-after:8px;color:grey;color:var(--theme-text-header);display:block;font-family:var(--font-mono);font-size:14px;font-size:1.4rem;font-weight:700;line-height:1.2;margin-block-end:8px}.aside-toc a:hover{text-decoration:underline}.aside-toc a.visible{color:#000}.aside-toc a:hover{color:#1d2b36}.aside-item__title{-webkit-margin-after:var(--spacing-6);color:#312520;font-size:1.4rem;line-height:1.6;margin-block-end:var(--spacing-6)}.aside-item__content .category-item,.aside-item__content time{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .category-item{color:#000;display:block;text-align:left}.aside-item__content .tag-item{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .tag-item:before{content:"#"}.anchor.before{margin-top:-24px;top:50%}blockquote{color:#999;font-weight:400}.title{font-size:calc(var(--content-font-size)*2.5)}.desc{font-size:calc(var(--content-font-size)*1.2)}.content{font-size:1.4rem}.content h2{border-top:1px solid #f0f0f0;font-size:25px;margin:80px 0 0;padding:40px 0 50px;position:relative}.content h2:before{left:0}.content h2:after,.content h2:before{background:#93a1b0;content:"";height:3px;position:absolute;top:-2px;width:3px}.content h2:after{right:0}.article-main{padding-top:var(--header-height)}.article-list li{height:100%;margin:0}.article-card{border-radius:.8rem;height:100%;margin:0 2vmin;overflow:hidden;padding-right:calc(54.54546vh - 9.20455rem - 7.90909vmin);position:relative;width:0}.article-card:hover .article-card__cover{-webkit-transform:scale(1.1);transform:scale(1.1)}.article-card__cover{overflow:hidden;-webkit-transform:scale(1);transform:scale(1);transition:-webkit-transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1),-webkit-transform .4s cubic-bezier(.23,1,.32,1);will-change:transform}.article-card__cover,.article-card__cover:after{height:100%;left:0;position:absolute;top:0;width:100%}.article-card__cover:after{background-image:linear-gradient(180deg,transparent,rgba(0,0,0,.3) 67%);content:""}.article-card__cover img{height:100%;-o-object-fit:cover;object-fit:cover;width:100%}.article-card__body{color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;left:0;padding:2.5vmin;position:absolute;top:0;width:100%}.article-card__title{color:#fff;font-size:3.4vmin;line-height:1.4;margin:3vmin 0}.article-card__title.hover-underline:after{background-color:#fff}.article-card__categories{margin-bottom:1vmin}.article-card__category{color:#fff;font-size:14px}.article-card__tag{display:block;font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.article-card__tag:before{content:"#"}@media screen and (max-width:768px){.article-card{padding-right:calc(100vw - 4rem)}.article-card__cover img{max-height:none;max-width:100%}.article-card__title{font-size:8vmin;margin:4vmin 0}.article-card__body time,.article-card__category,.article-card__tag{font-size:4vmin}}.index-module--circle--E91Mj{border-color:var(--color-heading-black);border-radius:50%;border-style:solid;border-width:1px;display:inline-block;font-size:0;padding:4px;transition:all .15s ease-in-out}.index-module--dark--aAIf4{background-color:var(--color-heading-black);color:#fff}.index-module--light--x7OKG{background-color:#fff;color:var(--color-heading-black)}.index-module--light--x7OKG:hover{background-color:var(--color-heading-black);color:#fff}.index-module--pagination--iWu7S{align-items:center;display:flex;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;justify-content:space-between}.index-module--paginationItem--ZgXus{align-items:center;color:var(--color-heading-black);display:flex;justify-content:space-between}.index-module--paginationItem--ZgXus:hover{text-decoration:underline}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemPrev--WtmXw:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:right;transform-origin:right}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemNext--nbZSQ:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:left;transform-origin:left}.index-module--paginationItemNext--nbZSQ:after,.index-module--paginationItemPrev--WtmXw:after{background-color:currentColor;bottom:-2px;content:"";display:block;height:1px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:right;transform-origin:right;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;width:100%}.index-module--paginationItemPrev--WtmXw{font-size:1.4rem;line-height:1.031;margin-left:1rem;position:relative}.index-module--paginationItemNext--nbZSQ{font-size:1.4rem;line-height:1.031;margin-right:1rem;position:relative}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="alternate" type="application/rss+xml" title="张小伦的网络日志" href="/rss.xml"/><link rel="icon" href="/favicon-32x32.png?v=25643e3cbe7be23b6c1bdad497608e85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=25643e3cbe7be23b6c1bdad497608e85"/><title data-react-helmet="true">《架构修炼师之道》摘录03-制定设计策略 | 张小伦的网络日志</title><link as="script" rel="preload" href="/webpack-runtime-adf1335a44885cfac931.js"/><link as="script" rel="preload" href="/framework-4b7b24ae718e4140a055.js"/><link as="script" rel="preload" href="/app-a99b6c2ab16d3879fc0c.js"/><link as="script" rel="preload" href="/commons-904b92826443395b7905.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"/><link as="fetch" rel="preload" href="/page-data/blogs/《架构修炼师之道》摘录03-制定设计策略/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/2841359383.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><div class="index-module--menu--aNCkU"><div class="index-module--menu-button--Iv9-4" role="button" aria-hidden="true"><svg class="ham hamRotate ham4 " viewBox="0 0 100 100" width="80"><path class="line top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"></path><path class="line middle" d="m 70,50 h -40"></path><path class="line bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"></path></svg></div><div class="index-module--menu-main--dqZT6 "><div class="index-module--menu-title--n-nNm"><a class="index-module--title-link--T5U9M" href="/">张小伦的网络日志</a></div><nav class="index-module--nav--nqC-X"><a class="index-module--nav-item--8jKuC theme-1" href="/">首页</a><a class="index-module--nav-item--8jKuC theme-2" href="/blogs">博文</a><a class="index-module--nav-item--8jKuC theme-3" href="/categories">分类</a><a class="index-module--nav-item--8jKuC theme-4" href="/archives">归档</a><a class="index-module--nav-item--8jKuC theme-5" href="/labs">实验室</a><a class="index-module--nav-item--8jKuC theme-6" href="/about">关于我</a></nav></div></div><section><section class="article-section"><aside class="article-aside"><div class="article-aside__item"><div class="aside-item__title">Published</div><div class="aside-item__content"><time>2021-10-14</time></div></div><div class="article-aside__item"><div class="aside-item__title">Category</div><div class="aside-item__content"><a class="category-item" href="/categories/解决方案">解决方案</a></div></div><div class="article-aside__item"><div class="aside-item__title">Tags</div><div class="aside-item__content"><div class="tag-item">笔记</div><div class="tag-item">架构</div></div></div><div class="article-aside__item"><div class="aside-item__title">Content</div><div class="aside-item__content"><div class="aside-toc"><a href="#31-找到够用的设计">3.1 找到够用的设计</a><a href="#32-决定前期做多少架构设计">3.2 决定前期做多少架构设计</a><a href="#322-示例架构对总工期的影响">3.2.2 示例：架构对总工期的影响</a><a href="#33-用风险做向导">3.3 用风险做向导</a><a href="#331-确定条件和后果">3.3.1 确定条件和后果</a><a href="#332-借助风险选择思维模式">3.3.2 借助风险选择思维模式</a><a href="#333-风险降低之后转为被动设计">3.3.3 风险降低之后转为被动设计</a><a href="#34-制订设计计划">3.4 制订设计计划</a><a href="#结语语">结语语</a></div></div></div></aside><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">《架构修炼师之道》摘录03-制定设计策略</h1></header><img class="article-cover" alt="https://www.notion.so/images/page-cover/woodcuts_10.jpg" src="https://www.notion.so/images/page-cover/woodcuts_10.jpg"/><section itemProp="articleBody" class="content"><blockquote class="quote">
+<p class="para">本系列内容来自《架构师修炼之道》。在自己的笔记中以半摘录的方式，用 blockquote 穿插自己的思考和感悟，以加深对内容的理解和消化。</p>
+</blockquote>
+<p class="para">全书整体分为三个部分</p>
+<ul>
+<li>
+<p class="para">第一部分介绍软件架构的基础知识和架构师必备的设计思维</p>
+</li>
+<li>
+<p class="para">第二部分讲解架构师需要掌握的核心技能和知识</p>
+</li>
+<li>
+<p class="para">第三部分讨论一系列使用的架构设计方法</p>
+</li>
+</ul>
+<p class="para">前两部分适合从头到尾通读，第三部分用于参考和检索。</p>
+<p class="para">第三章的标题是“制定设计策略”，本章将学习如何根据系统风险选择思维模式，并将其作为设计策略的一部分。</p>
+<p class="para">架构设计很容易陷入混乱无序的状态。即使是系统充满了不确定性，也必须制订计划。凡事预则立，只有凭借稳固的设计策略，才能应付各种不确定性。有的人认为检验架构需要先将其实现，但是本书中的建议是：设计过程中逐步验证架构的各个部分，同时运用思维模式和TDC循环确定下一步做什么。</p>
+<h2 class="heading subtitle heading" id="31-找到够用的设计" style="position:relative;"><a href="#31-%E6%89%BE%E5%88%B0%E5%A4%9F%E7%94%A8%E7%9A%84%E8%AE%BE%E8%AE%A1" aria-label="31 找到够用的设计 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 找到够用的设计</h2>
+<p class="para">在理性的世界中，我们可以先完成得定义问题，然后在设计完美的架构解决问题。很可惜，我们生活的不是一个理性的世界。“有限理性”这个词被创造出来，用于描述由时间、资金、技术、知识等限制造成的障碍，这些障碍增加了解决问题的难度。</p>
+<p class="para">架构设计的目标不是理性地寻求最佳设计，而是找到一个够用的设计。只要能满足需求、令人满意，就是够用的设计。</p>
+<p class="para">可以通过强化以下方法来寻找够用的设计。</p>
+<ul>
+<li>
+<p class="para"><strong>将解决方案看成实验</strong>。架构师不是无所不知的先知。应该将每个可能的解决方案当成待验证的实验。验证的速度和效率越高，找到合适的组合结构的时间就越短，相关利益方受益越快。</p>
+</li>
+<li>
+<p class="para"><strong>设法降低风险</strong>。架构是软件系统的基础。如果架构出错，那一切都完了。架构师必须时刻考虑哪些地方可能会出错，并据此展开设计。根据风险决定接下来设计什么。</p>
+</li>
+<li>
+<p class="para"><strong>努力简化问题</strong>。简单的问题通常也有简单的解法。简化问题的方法很多，比如减少利益相关方的数量可以减少冲突的观点。增加或减少约束条件，关注问题的子集，也可以降低问题的复杂度。识别常规问题，使用现成的解决方案，运用集体经验解决。</p>
+</li>
+<li>
+<p class="para"><strong>快速迭代学习</strong>。学习得越快就探索得越多，对解决方案也就越有信心。如果有可能失败，越早知道越好。设计周期太长往往是因为目标过于宏远抽象，相比之下，我们更喜欢能产生具体成果得频繁迭代设计。</p>
+</li>
+<li>
+<p class="para"><strong>同时考虑问题和解决方案</strong>。问题的边界是由可能的解法勾勒得。为了理解问题，我们必须探索各种解决方案，而为了更好地探索解决方案，我们又必须加深对问题的理解。设计软件架构需要我们同时考虑问题及其解决方案。在架构设计初期试着编写一些代码，就是这种策略的具体运用。</p>
+</li>
+</ul>
+<p class="para">避免“完全理性”的设计不是放弃理性和计划，我们仍然要实现做一些架构设计工作，确定哪一部分架构马上设计，哪些以后考虑。尽早制定出这样的设计策略，既可以让团队明白架构将如何生长，也能培养各方对项目的信心。</p>
+<h3 class="heading" id="32-决定前期做多少架构设计" style="position:relative;"><a href="#32-%E5%86%B3%E5%AE%9A%E5%89%8D%E6%9C%9F%E5%81%9A%E5%A4%9A%E5%B0%91%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1" aria-label="32 决定前期做多少架构设计 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2 决定前期做多少架构设计</h3>
+<p class="para">所有软甲系统都有架构，都离不开架构。如果前期不设计交媾，那么开发出来的系统可能不符合要求。适当的时间设计架构能降低未来返工的风险。但是前期在架构设计上花的时间太长也会耽误开发，延迟交付。</p>
+<p class="para">软件系统的规模和需求各不相同，但每个系统都有一个设计的最佳平衡点——在开发之前用最适合的时间设计架构。</p>
+<p class="para">在《Architecting: How Much and When》一书中，作者 Boehm 证明了开发、架构设计、返工是构成项目工期的三个主要部分。返工包括弥补设计缺陷、重写代码、改正错误等。要找到最佳平衡点，必须整体考虑设计成本，以及为了完成系统不可避免的返工。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 666px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e2e3c8be16af9a72e2d801b11cd13d0b/ace37/fa795eed65810ec2.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 43.61702127659575%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVQoz5VRbWuCUBT2R/eTgrHITJOcfohePkzYCksKshIb2bXa7txMLMOecW+zBVtjO3A47w/POUcAgOPxiEth8U96WbsmQpZl3AmCALphwPf9q82/AX0DfKUUj+Y9AkLYJJI4xn6/B6unaYrdbncGZbmc6aXPVMiRM3eCVLrFu3iD+K6G6OUZrufBdV3OPkkS/EWEYrGIQqGAN0rh2DbCpQ/yCUSWSw40nU55vFqtOOvRaARCCKIogm3bWK/XXwx7vR40rQ5nMoFar+NpscBDt4tms4nZbIYwDNFoNNBqtWBZFjabDURRhGma8DwP5XIZ/X4fh8PhxLDdbkOSJCiyDE3TUFMUqKoKXdd5vlQqneqKgmq1ymNZllGpVDgY81ktP4kQxzE/+Hg85k2GYaDT6fCm+XzOV2SrMd1ut2D9zOY+yzObP/f8FEopX2k4HMJxHAwGAz70H2E3/AC6GZvoLZVp2gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="fa795eed65810ec2"
+        title="fa795eed65810ec2"
+        src="/static/e2e3c8be16af9a72e2d801b11cd13d0b/ace37/fa795eed65810ec2.png"
+        srcset="/static/e2e3c8be16af9a72e2d801b11cd13d0b/4dcb9/fa795eed65810ec2.png 188w,
+/static/e2e3c8be16af9a72e2d801b11cd13d0b/5ff7e/fa795eed65810ec2.png 375w,
+/static/e2e3c8be16af9a72e2d801b11cd13d0b/ace37/fa795eed65810ec2.png 666w"
+        sizes="(max-width: 666px) 100vw, 666px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">最佳平衡点主要由软件规模、需求变更、系统复杂度决定给。作者证明随着架构规划时间的增加，返工量会逐步减少。</p>
+<p class="para">在这个例子中，当用于架构设计的时间少于20%时，最终的项目工期随着架构设计时间的增加逐步减少，但边际效益在递减。随着架构设计时间的进一步增加，虽然返工量仍然会减少吗，但整个项目的工期反而变成了。</p>
+<p class="para">除此之外，作者还研究了随着系统规模变化，最佳平衡点的变动情况，这些数据可以用来评估你的架构设计时间是否在合理范围内。</p>
+<p class="para">这张图中包含了一些重要信息，分析一下其中要点：</p>
+<ul>
+<li>
+<p class="para"><strong>软件系统越大，前期做架构设计的获益就越大</strong>。大型软件系统（1000w行代码左右）将37%的时间花在架构设计上是一个明智的选择。</p>
+</li>
+<li>
+<p class="para"><strong>软件系统越小，前期做架构设计的收益就越小</strong>。1w行代码左右的系统华仔前期架构设计上的时间不应该超过5%。有时候直接重启收益更高。</p>
+</li>
+<li>
+<p class="para"><strong>前期架构设计做的不够，要对后期返工做好心理准备</strong>。</p>
+</li>
+<li>
+<p class="para"><strong>前期架构设计的投入越多，后期返工就越少</strong>。</p>
+</li>
+</ul>
+<p class="para">用系统规模来估计前期架构设计的工作量很方便，因为规模很容易衡量和预估。也可以使用系统复杂度来决定前期架构设计的工作量。不过这要是情况而定，对于有现成解决方案的系统，即使规模很大也可以不用做太多前期架构规划。</p>
+<h3 class="heading" id="322-示例架构对总工期的影响" style="position:relative;"><a href="#322-%E7%A4%BA%E4%BE%8B%E6%9E%B6%E6%9E%84%E5%AF%B9%E6%80%BB%E5%B7%A5%E6%9C%9F%E7%9A%84%E5%BD%B1%E5%93%8D" aria-label="322 示例架构对总工期的影响 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2.2 示例：架构对总工期的影响</h3>
+<p class="para">假设我们正在开发一个规模约为十万行代码的系统，预计开发周期100天。按照前面提到的数据，如果我们只用 5%的时间做架构设计，那么项目总工期将延长43%。如果我们在架构设计上投入更多时间，如开发周期的 17%，那么项目总工期只会延长 38%。当然，继续延长架构设计时问并不意味着总工期会一直缩短。假设我们用三分之一的开发周期设计架构，尽管可以减少返工，但是整个项目的工期却延长了约40%，总工期反而变长了。</p>
+<table>
+<thead>
+<tr>
+<th>架构设计时间</th>
+<th>返工时间</th>
+<th>总工期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5天</td>
+<td>38天</td>
+<td>143天</td>
+</tr>
+<tr>
+<td>17天</td>
+<td>21天</td>
+<td>138天</td>
+</tr>
+<tr>
+<td>33天</td>
+<td>7天</td>
+<td>140天</td>
+</tr>
+</tbody>
+</table>
+<p class="para">Boehm 的研究让我们大致了解了应该花多少时间来设计架构，但是我们还不知道何时开展设计，以及何时运用第二章提到的思维模式。Boehm也做过这方面的研究，他的建议是用风险决定何时关注架构。用正确的方式看待风险，借助它确定设计内容，并且让利益相关方参与设计过程。</p>
+<h2 class="heading subtitle heading" id="33-用风险做向导" style="position:relative;"><a href="#33-%E7%94%A8%E9%A3%8E%E9%99%A9%E5%81%9A%E5%90%91%E5%AF%BC" aria-label="33 用风险做向导 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3 用风险做向导</h2>
+<p class="para">值得开发的软件总是有风险的。在新项目开始时，你感到不安是很自然的。毕竟，如果我们一开始就什么都知道，对要开发的东西没有任何疑问，那还要架构师做什么？</p>
+<p class="para">应该充分利用这种不安。风险是很好的指示器，它提醒我们什么东西会构成障碍。凭直觉写下你对系统的担优和顾虑，对它们排序，列出优先级，把风险最高、最麻烦的排在前面。然后，选择合适的思维模式降低风险。</p>
+<p class="para">直觉告诉我们从哪里开始，但它不会告诉我们如何前进。直觉告诉我们哪儿不对劲，但是要完成工作，我们不能仅仅依靠直觉。</p>
+<h3 class="heading" id="331-确定条件和后果" style="position:relative;"><a href="#331-%E7%A1%AE%E5%AE%9A%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%90%8E%E6%9E%9C" aria-label="331 确定条件和后果 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3.1 确定条件和后果</h3>
+<p class="para">描述风险需要两部分：条件和后果。条件是当前的实际情况，后果是由条件引发的、将来可能出现的不良状糠。建议使用一种简单的模板记录风险：条件；后果。只有清楚条件和后果，才能决定如何处理风险。</p>
+<h3 class="heading" id="332-借助风险选择思维模式" style="position:relative;"><a href="#332-%E5%80%9F%E5%8A%A9%E9%A3%8E%E9%99%A9%E9%80%89%E6%8B%A9%E6%80%9D%E7%BB%B4%E6%A8%A1%E5%BC%8F" aria-label="332 借助风险选择思维模式 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3.2 借助风险选择思维模式</h3>
+<p class="para">软件架构设计是一项降低风险的活动。只要你为系统担心，就表明项目有风险。如果你能用清楚的 “条件；后果，描述风险，就能用它指导自己的设计活动。</p>
+<p class="para">下面我列举几个以往项目中的风险，以及团队降低风险的对策。</p>
+<ul>
+<li>
+<p class="para"><strong>模型训练服务最初是为其他目的开发的；新请求可能会导致其过载。</strong></p>
+<ul>
+<li>
+<p class="para">思维模式：理解、评估</p>
+</li>
+<li>
+<p class="para">对策：与开发模型训练服务的团队进行沟通，了解其可伸缩性；做实验测算吞吐量。</p>
+</li>
+</ul>
+</li>
+<li>
+<p class="para"><strong>数据处理将消耗大量的时间和资源；可能无法顺利完成处理任务</strong></p>
+<ul>
+<li>
+<p class="para">思维模式：探索</p>
+</li>
+<li>
+<p class="para">对筑：头脑风鬆，探讨提高可華性的方法，研乳任务调度模式，寻找可缩短处理时间的替代设计方案。</p>
+</li>
+</ul>
+</li>
+<li>
+<p class="para"><strong>需要大量数据训练给计模型：数据的存储成本高，樓型可能无法盈利。</strong></p>
+<ul>
+<li>
+<p class="para">思维模式：展示</p>
+</li>
+<li>
+<p class="para">对策：建立成本估算模型，向利益相关方展示各种设计方案的利弊；通过调整待办列表(backlog）的优先级减小风险的时间窗口。</p>
+</li>
+</ul>
+</li>
+<li>
+<p class="para"><strong>存储的数据可能包含敏感的客户信息；对数据进行隔离的要求超出我们的能力范围。</strong></p>
+<ul>
+<li>
+<p class="para">思维模式：评估</p>
+</li>
+<li>
+<p class="para">对策：根据需求对可用的计算平台进行打分。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p class="para">风险帮助我们决定设计内容；思维模式帮助我们指定降低风险的策略。在面对必须降低的风险时，首先确定可以解决的部分：风险的条件、影响、概率、时间窗口。然后选择一种思维模式。</p>
+<table>
+<thead>
+<tr>
+<th>如果</th>
+<th>可以尝试</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>要解决的问题还不确定，对于利益相关方和其他系统参与者，还需要更加深入地了解。</td>
+<td>理解</td>
+</tr>
+<tr>
+<td>解决方案还不确定，需要充分了解可选的方案</td>
+<td>探索</td>
+</tr>
+<tr>
+<td>利益相关方不完全了解准备实施的方案</td>
+<td>展示</td>
+</tr>
+<tr>
+<td>在设计决策上举棋不定</td>
+<td>评估</td>
+</tr>
+</tbody>
+</table>
+<h3 class="heading" id="333-风险降低之后转为被动设计" style="position:relative;"><a href="#333-%E9%A3%8E%E9%99%A9%E9%99%8D%E4%BD%8E%E4%B9%8B%E5%90%8E%E8%BD%AC%E4%B8%BA%E8%A2%AB%E5%8A%A8%E8%AE%BE%E8%AE%A1" aria-label="333 风险降低之后转为被动设计 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3.3 风险降低之后转为被动设计</h3>
+<p class="para">架构师应该努力将技术风险降低到架构不再是系统中最大风险源的地步。一旦将架构风险降低到“恰如其分“的地步，就可以考虑将时间花在其他地方了。</p>
+<p class="para">此时可以从<strong>主动设计</strong>转为<strong>被动设计</strong>。主动设计是指主动设法降低架构风险。被动设计是指监控系统运行表现，只在必要时采取纠正措施。</p>
+<p class="para">被动设计有很多工作可以作，比如进一步修改和完善文档；根据出现的新情况对架构进行微调。还可以通过结对编程和代码评审培训团队成员。</p>
+<p class="para">除此之外架构还有可能重新成为最大的风险源。此时需要切回主动设计模式，根据实际情况调整架构。</p>
+<blockquote class="quote">
+<p class="para">在架构设计之初，通过前文提到的TOC循环，尽可能地考虑周全，将架构设计完备，减少风险的出现，不让架构成为瓶颈。之后再通过一些手段，比如监控、灰度发布等手段验证运行，在遇到新问题时及时纠正，完善架构的设计。</p>
+</blockquote>
+<h2 class="heading subtitle heading" id="34-制订设计计划" style="position:relative;"><a href="#34-%E5%88%B6%E8%AE%A2%E8%AE%BE%E8%AE%A1%E8%AE%A1%E5%88%92" aria-label="34 制订设计计划 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.4 制订设计计划</h2>
+<p class="para">设计计划指出团队在架构上分配时间的总体策略。要花多少时间做前期分析？预计需求是否会发生变化？何时开始编写代码？良好的设计计划应该提出目标并解释这些细节。</p>
+<p class="para">设计计划不一定是正式的时间表，但是要体现出架构师的思路。可以将计划记录在简单的文档中，格式不定，但是内容最好包括一下几个方面：</p>
+<p class="para"><strong>结束设计的条件</strong> 是限定前期设计的时间？还是通过设计将风险降低到预期？是在开发之前尽量少的前期设计？还是尽可能完整地做好架构规划？各部分的实施独立展开还是某许部分需要一起开始？这些都没有定数，很大程度取决于团队、利益相关方、项目背景的实际情况。</p>
+<p class="para"><strong>必要的设计成果</strong> 在开始之前，告诉大家你准备如何记录架构设计。是画在白板上拍照，还是传统的文档记录？是否有现成模板？设计成果（用例、类图、架构图、设计文档等）保存在哪里？</p>
+<p class="para"><strong>时间节点</strong> 给出关键设计工作的时间节点。无论项目大小，至少要给出对架构设计有重大影响的事件的时间节点。比如：需求评审、设计评审、技术评审。此外，还需要给出利益相关方会面的时间节点。在开发工作即将开始时，或者确定初期工作包含的范围时，需要召开相关的同步会议。</p>
+<p class="para"><strong>重大风险</strong> 使用的是风险驱动的设计方法，因此应该将重大风险也放在设计计划里。在软件系统的整个生命周期中，应该不断回顾风险列表。</p>
+<p class="para"><strong>概念架构设计</strong> 可以先从可行的解决方案里面选择一个。概念架构不用很复杂，你可以画一张草图，只要能表达初步的设计想法就行。</p>
+<blockquote class="quote">
+<p class="para">明确方案设计的排期。根据实际情况，采用不同的标准。但无论如何，在制定设计计划时，都需要给到一个明确的设计完成时间。同时整个设计过程中的关键时间节点也需要明确。</p>
+<p class="para">方案设计最终一定会产出一些内容。无论是何种形式，无论以什么载体保存数据，都需要将最后产出的内容存储记录。</p>
+<p class="para">在方案设计过程中，要时刻关注风险。</p>
+</blockquote>
+<h2 class="heading subtitle heading" id="结语语" style="position:relative;"><a href="#%E7%BB%93%E8%AF%AD%E8%AF%AD" aria-label="结语语 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>结语语</h2>
+<p class="para">本章学习了如何借助风险规划设计活动。风险可以帮助我们决定做多少前期架构设计，以及采用哪种思维模式解决问题。</p>
+<p class="para">许多团队开发新系统的第一个风险是理解软件的受益对象。第4章将学习运用理解思维模式，设身处地地理解软件的服务人群。</p>
+<p class="para">只有站在利益相关方的角度看待问题，你才能更深入地理解他们的实际需求。理解了利益相关方的实际需求，就能增加解决问题的机会。</p></section></article><div class="pagination"><div class="index-module--pagination--iWu7S"><a class="index-module--paginationItem--ZgXus" rel="prev" href="/blogs/【译】防御性CSS/"><div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div> <span class="index-module--paginationItemPrev--WtmXw">【译】防御性CSS</span></a><span></span><a class="index-module--paginationItem--ZgXus" rel="next" href="/blogs/《架构修炼师之道》摘录02-设计思维基础/"><span class="index-module--paginationItemNext--nbZSQ">《架构修炼师之道》摘录02-设计思维基础</span> <div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(-90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div></a></div></div></section></section></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-50406624-2', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blogs/《架构修炼师之道》摘录03-制定设计策略/";window.___webpackCompilationHash="136b2da2e8b1b23964e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4f3032a41e5c476c8f46.js"],"app":["/app-a99b6c2ab16d3879fc0c.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-adf2066c282d2a1fad9e.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-7b09644532f5bd1dcc54.js"],"component---src-pages-archives-tsx":["/component---src-pages-archives-tsx-ddc2637e6d877197950e.js"],"component---src-pages-categories-tsx":["/component---src-pages-categories-tsx-b5a2e4d86066d30e963f.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-7e0f083acf9cb537d315.js"],"component---src-pages-labs-tsx":["/component---src-pages-labs-tsx-73eba9758ec10d8f2e57.js"],"component---src-templates-blog-list-tsx":["/component---src-templates-blog-list-tsx-7eb438f670f1bdf1603e.js"],"component---src-templates-blog-post-tsx":["/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"],"component---src-templates-categories-js":["/component---src-templates-categories-js-7fe7e84267b6c1ad1f7e.js"]};/*]]>*/</script><script src="/polyfill-4f3032a41e5c476c8f46.js" nomodule=""></script><script src="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js" async=""></script><script src="/commons-904b92826443395b7905.js" async=""></script><script src="/app-a99b6c2ab16d3879fc0c.js" async=""></script><script src="/framework-4b7b24ae718e4140a055.js" async=""></script><script src="/webpack-runtime-adf1335a44885cfac931.js" async=""></script></body></html>

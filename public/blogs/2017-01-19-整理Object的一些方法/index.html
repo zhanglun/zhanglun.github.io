@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;display=swap" rel="stylesheet"/><meta data-react-helmet="true" name="twitter:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" name="twitter:title" content="整理Object的一些方法"/><meta data-react-helmet="true" name="twitter:creator" content="zhanglun1410"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" property="og:title" content="整理Object的一些方法"/><meta data-react-helmet="true" name="description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta name="generator" content="Gatsby 4.13.1"/><style data-href="/styles.7aa89aa35ece76996c80.css" data-identity="gatsby-global-css">.theme-1{--background-color:#fef6e4;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#f582ae;--button-text-color:#001858;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#fef6e4;--card-tag-text-color:#001858;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label-placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}.theme-2{--background-color:#55423d;--background-color-1:#271c19;--background-color-2:#ffc0ad;--background-color-3:#9656a1;--button-color:#ffc0ad;--button-text-color:#271c19;--card-backgroud-color:#fffffe;--card-background-color:#55423d;--card-background-color-1:#ffc0ad;--card-heading-color:#fffffe;--card-headline-color:#271c19;--card-highlight-color:#9656a1;--card-paragraph-color:#fff3ec;--card-paragraph-color-1:#271c19;--card-tag-background-color:#fffffe;--card-tag-text-color:#271c19;--form-button-color:#9656a1;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#fffffe;--headline-color-1:#271c19;--highlight-color:#e78fb3;--label-placeholder-color:#271c19;--link-color:#9656a1;--links-color:#e78fb3;--main-color:#fff3ec;--paragraph-color:#fff3ec;--paragraph-color-1:#271c19;--secondary-color:#ffc0ad;--stroke-color:#140d0b;--sub-headline-color:#fff3ec;--tertiary-color:#9656a1}.theme-3{--background-color:#faeee7;--background-color-1:#fffffe;--background-color-2:#fffffe;--background-color-3:#33272a;--button-color:#ff8ba7;--button-text-color:#33272a;--card-backgroud-color:#faeee7;--card-background-color:#faeee7;--card-background-color-1:#fffffe;--card-heading-color:#33272a;--card-headline-color:#33272a;--card-highlight-color:#33272a;--card-paragraph-color:#594a4e;--card-tag-background-color:#ffc6c7;--card-tag-text-color:#33272a;--form-button-color:#ff8ba7;--form-button-text-color:#33272a;--form-input-color:#faeee7;--headline-color:#33272a;--highlight-color:#ff8ba7;--label-placeholder-color:#33272a;--link-color:#ff8ba7;--links-color:#ff8ba7;--main-color:#fffffe;--paragraph-color:#594a4e;--secondary-color:#ffc6c7;--stroke-color:#33272a;--sub-headline-color:#594a4e;--tertiary-color:#c3f0ca}.theme-4{--background-color:#fffffe;--background-color-1:#e3f6f5;--background-color-2:#e3f6f5;--background-color-3:#bae8e8;--button-color:#ffd803;--button-text-color:#272343;--card-backgroud-color:#fffffe;--card-background-color:#fffffe;--card-background-color-1:#272343;--card-heading-color:#272343;--card-headline-color:#fffffe;--card-headline-color-1:#272343;--card-highlight-color:#bae8e8;--card-paragraph-color:#2d334a;--card-tag-background-color:#bae8e8;--card-tag-text-color:#272343;--form-button-color:#272343;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#272343;--highlight-color:#ffd803;--label--placeholder-color:#272343;--link-color:#272343;--links-color:#ffd803;--main-color:#fffffe;--paragraph-color:#2d334a;--secondary-color:#e3f6f5;--stroke-color:#272343;--sub-headline-color:#2d334a;--tertiary-color:#bae8e8}:root{--inline-code-font:monospace!important;--mono-font:"JetBrains Mono",monospace!important;--content-font-size:16px;--maxWidth-none:"none";--maxWidth-xs:999px;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-5xl:64rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--main-max-width:750px;--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--main-spacing:100px;--font-family-sans:"Noto San SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-body:var(--font-family-sans);--font-heading:var(--font-family-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:10px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.9;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#4b5cc4;--color-text:#312520;--color-text-light:#4f5969;--color-heading:#312520;--color-heading-black:#161823;--color-accent:#d1dce5;--header-height:60px;--img-border-color:#313b44;--img-border-radius:8px;--background-color:#fafafa;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#636363;--button-text-color:#fff;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#636363;--card-tag-text-color:#fff;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label--placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1);margin:0}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-normal);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}pre[class*=language-]{border-radius:0;white-space:pre-wrap}code[class*=language-]{font-family:Menlo,Monaco,Consolas,Courier New,monospace;font-size:14px;white-space:pre-wrap}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;font-size:1.6rem;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);padding:var(--spacing-0)}ol,ul{margin-bottom:0;margin-top:0}ol li,ul li{padding-left:var(--spacing-0)}ol,ul{margin-bottom:1.5em}li>p{margin-bottom:calc(var(--spacing-8)/2)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-1);font-style:italic;margin-bottom:var(--spacing-8);padding:var(--spacing-5)}.quote{background:#f9f9f9;border-left:2px solid #636363;color:#636363;font-style:italic;margin:0 0 var(--spacing-16) 0;margin-bottom:1.5em;padding:1.5em;transition:.3s}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote p{margin-bottom:var(--spacing-3)}blockquote li{margin:0}blockquote>ol,blockquote>ul{list-style-position:inside;padding-left:var(--spacing-4)}table{border:1px solid #e9e9e7;border-collapse:collapse;border-spacing:.25rem;font-size:14px;margin-bottom:var(--spacing-8);width:100%}table td,table th{border-bottom:1px solid #e9e9e7;padding:8px 10px}table thead tr th{background-color:#f7f6f3;text-align:left}p img{border:.5px solid var(--img-border-color);border-radius:var(--img-border-radius);max-width:100%}a{color:var(--color-primary)}a,a:focus,a:hover{text-decoration:none}.global-header{margin-bottom:var(--spacing-12)}.main{background-color:var(--background-color-2);margin:0 auto;max-width:var(--main-max-width);padding:30px var(--main-spacing) 30px;position:relative;width:90%;z-index:1}.main-heading{font-size:var(--fontSize-7);margin:0}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.article-section{margin:0 auto;max-width:var(--main-max-width);position:relative;z-index:1}.article-cover{border:1px solid #f0f0f0;border-radius:var(--img-border-radius);height:380px;margin-bottom:60px;-o-object-fit:cover;object-fit:cover;width:100%}@media screen and (max-width:999px){.article-section,.pagination{max-width:100%;padding:0 20px}}.blog-post{border-bottom:1px solid #1d2b36;line-height:1.9;margin-bottom:10px;padding-bottom:60px;position:relative}.blog-post:before{left:0}.blog-post:after,.blog-post:before{background:#1d2b36;bottom:-2px;content:"";height:3px;position:absolute;width:3px}.blog-post:after{right:0}.blog-post header{border-top:1px solid #1d2b36;margin-top:50px;position:relative}.blog-post header:before{left:0}.blog-post header:after,.blog-post header:before{background:#1d2b36;content:"";height:3px;position:absolute;top:-2px;width:3px}.blog-post header:after{right:0}.blog-post header h1{font-size:36px;font-weight:var(--fontWeight-semibold);line-height:1.4;margin:60px 0}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media(max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-3)}ol,ul{padding-left:14px}}.pagination{margin:0 auto;max-width:var(--main-max-width);padding:50px 0}.link-underline,.pagination .next:hover,.pagination .prev:hover{text-decoration:underline}.link-underline{box-shadow:inset 0 0 0 0 var(--color-primary);margin:0 .25rem;padding:0 .25rem;transition:color .3s ease-in-out,box-shadow .3s ease-in-out}.link-underline:hover{box-shadow:inset 0 -40px 0 0 var(--color-primary);color:#fff}.hover-underline{position:relative}.hover-underline:after{background-color:var(--color-text);bottom:4px;content:"";height:2px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:bottom right;transform-origin:bottom right;transition:-webkit-transform .25s ease-out;transition:transform .25s ease-out;transition:transform .25s ease-out,-webkit-transform .25s ease-out;width:100%}.hover-underline:hover:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:bottom left;transform-origin:bottom left}.page-title{color:var(--color-heading);font-size:var(--fontSize-6);margin-bottom:var(--spacing-5);padding-top:50px;text-align:center}:root{--bg-color:#d3dadf;--action-color:#000911}.archive-page{background-color:var(--bg-color);width:100%}.archive-page__container{margin:0 auto;padding-bottom:1px;padding-left:6.4rem;padding-right:6.4rem}.archive-page__post-title{display:flex;font-size:2.4rem;line-height:3.2rem;margin:0}.archive-page__post-excerpt{margin-bottom:3.2rem;position:relative}.archive-page__post-date{color:var(--text-color);font-size:1.4rem}.archive-section{margin-bottom:24vw;margin-top:10vw;position:relative}.archive-section__year{color:#c3cad0;color:var(--text-light-color,#c3cad0);font-size:36vw;font-weight:700;letter-spacing:-.07em;line-height:.2;margin-top:0;min-width:100%;pointer-events:none;position:absolute;text-align:center;-webkit-user-select:none;-ms-user-select:none;user-select:none}.archive-posts{grid-gap:3.2rem;display:grid;font-size:1.6rem;grid-template-columns:repeat(auto-fill,minmax(25.6rem,1fr));list-style-type:none;margin:0;padding:0;position:relative}.archive-posts a{color:var(--action-color);text-decoration:none}.archive-posts a:hover{text-decoration:underline}.archive-date{margin-right:20px}.category-page,.root{min-height:100vh}.category-page{background-color:#a4c9d8}.category-list{grid-gap:10rem;display:grid;font-size:1.8rem;grid-template-columns:repeat(4,1fr);justify-items:center}.category-img{background-color:rgba(0,0,0,.2);border-radius:100%;height:150px;margin-bottom:20px;padding:10px;transition:all .3s ease-in-out;width:150px}.category-img img{width:100%}.category-item{text-align:center;text-decoration:none}.category-item:hover{color:var(--color-text)}.category-item:hover .category-img{background-color:rgba(0,0,0,.35)}.category-page-header{display:grid;justify-items:center;padding:50px 0}.ham{-webkit-tap-highlight-color:transparent;color:#fff;cursor:pointer;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:54px}.hamRotate.active{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.hamRotate180.active{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.line{fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .4s,stroke-dashoffset .4s}.ham.active .line{stroke:#fff}.ham1 .top{stroke-dasharray:40 139}.ham1 .bottom{stroke-dasharray:40 180}.ham1.active .top{stroke-dashoffset:-98px}.ham1.active .bottom{stroke-dashoffset:-138px}.ham2 .bottom,.ham2 .top{stroke-dasharray:40 121}.ham2.active .bottom,.ham2.active .top{stroke-dashoffset:-102px}.ham3 .top{stroke-dasharray:40 130}.ham3 .middle{stroke-dasharray:40 140}.ham3 .bottom{stroke-dasharray:40 205}.ham3.active .top{stroke-dasharray:75 130;stroke-dashoffset:-63px}.ham3.active .middle{stroke-dashoffset:-102px}.ham3.active .bottom{stroke-dasharray:110 205;stroke-dashoffset:-86px}.ham4 .bottom,.ham4 .top{stroke-dasharray:40 121}.ham4.active .bottom,.ham4.active .top{stroke-dashoffset:-68px}.ham5 .bottom,.ham5 .top{stroke-dasharray:40 82}.ham5.active .bottom,.ham5.active .top{stroke-dasharray:14 82;stroke-dashoffset:-72px}.ham6 .top{stroke-dasharray:40 172}.ham6 .middle{stroke-dasharray:40 111}.ham6 .bottom{stroke-dasharray:40 172}.ham6.active .top{stroke-dashoffset:-132px}.ham6.active .middle{stroke-dashoffset:-71px}.ham6.active .bottom{stroke-dashoffset:-132px}.ham7 .top{stroke-dasharray:40 82}.ham7 .middle{stroke-dasharray:40 111}.ham7 .bottom{stroke-dasharray:40 161}.ham7.active .top{stroke-dasharray:17 82;stroke-dashoffset:-62px}.ham7.active .middle{stroke-dashoffset:23px}.ham7.active .bottom{stroke-dashoffset:-83px}.ham8 .top{stroke-dasharray:40 160}.ham8 .middle{stroke-dasharray:40 142;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s}.ham8 .bottom,.ham8 .middle{-webkit-transform-origin:50%;transform-origin:50%}.ham8 .bottom{stroke-dasharray:40 85;transition:stroke-dashoffset .4s,-webkit-transform .4s;transition:transform .4s,stroke-dashoffset .4s;transition:transform .4s,stroke-dashoffset .4s,-webkit-transform .4s}.ham8.active .top{stroke-dashoffset:-64px}.ham8.active .middle{stroke-dashoffset:-20px;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.ham8.active .bottom{stroke-dashoffset:-64px}.index-module--menu--aNCkU{position:fixed;right:0;top:0;z-index:100}.index-module--menu-button--Iv9-4{position:fixed;right:0;top:0;z-index:102}.index-module--menu-main--dqZT6{background-color:#000;bottom:0;padding:100px;position:fixed;right:0;top:0;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);transition:all .4s;width:520px;z-index:101}.index-module--menu-main--dqZT6.index-module--open--LEqU-{-webkit-transform:translateZ(0);transform:translateZ(0)}.index-module--menu-title--n-nNm{color:#fff;font-weight:var(--fontWeight-semibold);margin-top:30px}.index-module--title-link--T5U9M{color:#fff;font-size:var(--fontSize-7)}.index-module--nav--nqC-X{align-items:flex-start;display:flex;flex-direction:column;margin-top:40px}.index-module--nav-item--8jKuC{color:#fff;font-size:22px;font-weight:500;height:var(--header-height);letter-spacing:1px;line-height:var(--header-height);margin:0;text-decoration:none;transition:all .3s}.index-module--nav-item--8jKuC:hover{-webkit-filter:invert(.5);filter:invert(.5);text-decoration:line-through}.index-module--nav-item--8jKuC.index-module--theme-1--jQ2fg:hover,.index-module--nav-item--8jKuC.index-module--theme-2--7nodg:hover,.index-module--nav-item--8jKuC.index-module--theme-3--pka-p:hover,.index-module--nav-item--8jKuC.index-module--theme-4--L3lP0:hover,.index-module--nav-item--8jKuC.index-module--theme-5--zFBiY:hover,.index-module--nav-item--8jKuC.index-module--theme-6--t9Ipa:hover{text-decoration:underline}.index-module--sidemenu-nav-item--3tmSg:hover{-webkit-transform:translate3d(14px,0,0);transform:translate3d(14px,0,0)}@media (max-width:1024px){.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn{box-sizing:border-box;right:-100vw;transition:none!important;width:100%}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn:before{background:#edbb1c;border-radius:50%;content:"";height:0;position:fixed;right:0;top:0;transition:all .7s;width:0}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs:before{height:300vh;right:-150vh;top:-150vh;transition:all .7s;width:300vh}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn{background-color:transparent!important}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn>*{opacity:0;transition:.3s}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs>*{opacity:1;transition:.3s .5s}}.index-module--container--MsrZ9{align-items:center;display:grid;justify-content:center;padding:3.75rem;text-align:center}.index-module--inner--Qy-hx{align-items:center;display:grid;gap:.75rem;justify-content:center;padding-bottom:5rem;padding-top:11.25rem;position:relative;width:100%}.index-module--title--k4zZ7{font-size:9.5rem;font-weight:600;margin:0}.index-module--subTitle--Sf0CJ{font-size:2rem;font-weight:600;margin:3.75rem 0 0}.index-module--main--husmE{align-items:center;display:grid;height:100vh;justify-content:center;margin:0 auto}.index-module--profile--01Kcu{grid-gap:40px;display:grid;grid-template-rows:1fr 1fr}.index-module--headline--7zfcQ{grid-gap:32px;align-items:center;display:grid;grid-template-columns:120px 1fr}.index-module--title--YQ4NF{color:var(--color-heading-black);font-size:7rem;margin:0;padding:0;text-align:center}.index-module--subTitle--aYKXU{font-size:2rem}.index-module--avatar--y2x3q{border-radius:50%;height:120px;width:120px}.index-module--menu--x9lUY{display:grid;font-size:1.8rem;grid-auto-flow:column;justify-items:center}.index-module--menuItem--3eiAT div{margin-left:.6rem;opacity:0}.index-module--menuItem--3eiAT:hover div{opacity:1}.article-list{list-style-type:none;margin:0;padding:0}.article-list-item{border-bottom:1px solid #e2e2e2}.article-list-item p{font-size:var(--content-font-size);margin-bottom:var(--spacing-0);text-align:center}.article-item-title{color:var(--color-heading-black);display:block;font-size:1.8rem;font-weight:var(--fontWeight-semibold);padding:1.4rem 0}.article-item-category{align-items:center;display:flex;font-size:1.4rem;font-weight:var(--fontWeight-normal);margin-bottom:.5vh}.article-item-category:before{background-color:currentColor;border-radius:1rem;content:"";display:block;height:.5rem;margin-right:.25rem;-webkit-transform:translateY(-1px);transform:translateY(-1px);width:.5rem}.article-list-item section{margin:50px 0 20px}.article-list-item footer{padding:40px 0;text-align:center}.article-list-item .read-more{background-color:var(--button-color);background-color:transparent;border:2px solid #636363;cursor:pointer;display:inline-block;font-size:13px;font-weight:var(--fontWeight-bold);height:50px;line-height:44px;outline:none;position:relative;text-decoration:none;transition:.25s ease-in-out;-ms-user-select:none;user-select:none;-webkit-user-select:none;width:190px}.article-list-item .read-more,.article-list-item .read-more:link{color:var(--button-text-color)}.article-list{margin:0 auto;max-width:var(--main-max-width);width:100%}.article-list-item .read-more:after{background-color:var(--button-color);content:"";height:100%;left:7px;position:absolute;top:7px;transition:.2s;width:100%;z-index:-1}.article-list-item .read-more:hover:after{left:0;top:0}.article-aside{-ms-overflow-style:none;height:100%;left:0;line-height:1.2;margin:60px 0;overflow-y:auto;padding:0 10px 0 20px;position:fixed;scrollbar-width:none;top:0;width:320px}.article-item-header{display:flex;justify-content:space-between}.article-list-item:hover .article-item__text{text-decoration:underline}.article-list-item:hover .article-item-header__arrow{opacity:1;-webkit-transform:scale(.8);transform:scale(.8)}.article-item-header__arrow{background-color:var(--color-heading-black);border-radius:50%;color:#fff;display:block;font-size:0;opacity:0;padding:4px;-webkit-transform:scale(.6);transform:scale(.6);transition:all .15s ease-in-out}.article-item-header__arrow svg{-webkit-transform:rotate(-135deg);transform:rotate(-135deg)}@media screen and (max-width:999px){.article-aside{position:static}}.article-aside__item{margin-bottom:var(--spacing-10)}.aside-toc{box-orient:vertical;box-direction:normal;display:flex;flex-direction:column;gap:6px;list-style-type:none;margin:6px 0 0;padding:0}.aside-toc li{margin:0;padding:2px 0}.aside-toc a{-webkit-margin-after:8px;color:grey;color:var(--theme-text-header);display:block;font-family:var(--font-mono);font-size:14px;font-size:1.4rem;font-weight:700;line-height:1.2;margin-block-end:8px}.aside-toc a:hover{text-decoration:underline}.aside-toc a.visible{color:#000}.aside-toc a:hover{color:#1d2b36}.aside-item__title{-webkit-margin-after:var(--spacing-6);color:#312520;font-size:1.4rem;line-height:1.6;margin-block-end:var(--spacing-6)}.aside-item__content .category-item,.aside-item__content time{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .category-item{color:#000;display:block;text-align:left}.aside-item__content .tag-item{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .tag-item:before{content:"#"}.anchor.before{margin-top:-24px;top:50%}blockquote{color:#999;font-weight:400}.title{font-size:calc(var(--content-font-size)*2.5)}.desc{font-size:calc(var(--content-font-size)*1.2)}.content{font-size:1.4rem}.content h2{border-top:1px solid #f0f0f0;font-size:25px;margin:80px 0 0;padding:40px 0 50px;position:relative}.content h2:before{left:0}.content h2:after,.content h2:before{background:#93a1b0;content:"";height:3px;position:absolute;top:-2px;width:3px}.content h2:after{right:0}.article-main{padding-top:var(--header-height)}.article-list li{height:100%;margin:0}.article-card{border-radius:.8rem;height:100%;margin:0 2vmin;overflow:hidden;padding-right:calc(54.54546vh - 9.20455rem - 7.90909vmin);position:relative;width:0}.article-card:hover .article-card__cover{-webkit-transform:scale(1.1);transform:scale(1.1)}.article-card__cover{overflow:hidden;-webkit-transform:scale(1);transform:scale(1);transition:-webkit-transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1),-webkit-transform .4s cubic-bezier(.23,1,.32,1);will-change:transform}.article-card__cover,.article-card__cover:after{height:100%;left:0;position:absolute;top:0;width:100%}.article-card__cover:after{background-image:linear-gradient(180deg,transparent,rgba(0,0,0,.3) 67%);content:""}.article-card__cover img{height:100%;-o-object-fit:cover;object-fit:cover;width:100%}.article-card__body{color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;left:0;padding:2.5vmin;position:absolute;top:0;width:100%}.article-card__title{color:#fff;font-size:3.4vmin;line-height:1.4;margin:3vmin 0}.article-card__title.hover-underline:after{background-color:#fff}.article-card__categories{margin-bottom:1vmin}.article-card__category{color:#fff;font-size:14px}.article-card__tag{display:block;font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.article-card__tag:before{content:"#"}@media screen and (max-width:768px){.article-card{padding-right:calc(100vw - 4rem)}.article-card__cover img{max-height:none;max-width:100%}.article-card__title{font-size:8vmin;margin:4vmin 0}.article-card__body time,.article-card__category,.article-card__tag{font-size:4vmin}}.index-module--circle--E91Mj{border-color:var(--color-heading-black);border-radius:50%;border-style:solid;border-width:1px;display:inline-block;font-size:0;padding:4px;transition:all .15s ease-in-out}.index-module--dark--aAIf4{background-color:var(--color-heading-black);color:#fff}.index-module--light--x7OKG{background-color:#fff;color:var(--color-heading-black)}.index-module--light--x7OKG:hover{background-color:var(--color-heading-black);color:#fff}.index-module--pagination--iWu7S{align-items:center;display:flex;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;justify-content:space-between}.index-module--paginationItem--ZgXus{align-items:center;color:var(--color-heading-black);display:flex;justify-content:space-between}.index-module--paginationItem--ZgXus:hover{text-decoration:underline}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemPrev--WtmXw:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:right;transform-origin:right}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemNext--nbZSQ:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:left;transform-origin:left}.index-module--paginationItemNext--nbZSQ:after,.index-module--paginationItemPrev--WtmXw:after{background-color:currentColor;bottom:-2px;content:"";display:block;height:1px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:right;transform-origin:right;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;width:100%}.index-module--paginationItemPrev--WtmXw{font-size:1.4rem;line-height:1.031;margin-left:1rem;position:relative}.index-module--paginationItemNext--nbZSQ{font-size:1.4rem;line-height:1.031;margin-right:1rem;position:relative}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="alternate" type="application/rss+xml" title="张小伦的网络日志" href="/rss.xml"/><link rel="icon" href="/favicon-32x32.png?v=25643e3cbe7be23b6c1bdad497608e85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=25643e3cbe7be23b6c1bdad497608e85"/><title data-react-helmet="true">整理Object的一些方法 | 张小伦的网络日志</title><link as="script" rel="preload" href="/webpack-runtime-adf1335a44885cfac931.js"/><link as="script" rel="preload" href="/framework-4b7b24ae718e4140a055.js"/><link as="script" rel="preload" href="/app-a99b6c2ab16d3879fc0c.js"/><link as="script" rel="preload" href="/commons-904b92826443395b7905.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"/><link as="fetch" rel="preload" href="/page-data/blogs/2017-01-19-整理Object的一些方法/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/2841359383.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><div class="index-module--menu--aNCkU"><div class="index-module--menu-button--Iv9-4" role="button" aria-hidden="true"><svg class="ham hamRotate ham4 " viewBox="0 0 100 100" width="80"><path class="line top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"></path><path class="line middle" d="m 70,50 h -40"></path><path class="line bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"></path></svg></div><div class="index-module--menu-main--dqZT6 "><div class="index-module--menu-title--n-nNm"><a class="index-module--title-link--T5U9M" href="/">张小伦的网络日志</a></div><nav class="index-module--nav--nqC-X"><a class="index-module--nav-item--8jKuC theme-1" href="/">首页</a><a class="index-module--nav-item--8jKuC theme-2" href="/blogs">博文</a><a class="index-module--nav-item--8jKuC theme-3" href="/categories">分类</a><a class="index-module--nav-item--8jKuC theme-4" href="/archives">归档</a><a class="index-module--nav-item--8jKuC theme-5" href="/labs">实验室</a><a class="index-module--nav-item--8jKuC theme-6" href="/about">关于我</a></nav></div></div><section><section class="article-section"><aside class="article-aside"><div class="article-aside__item"><div class="aside-item__title">Published</div><div class="aside-item__content"><time>2017-01-19</time></div></div><div class="article-aside__item"><div class="aside-item__title">Category</div><div class="aside-item__content"><a class="category-item" href="/categories/前端">前端</a></div></div><div class="article-aside__item"><div class="aside-item__title">Tags</div><div class="aside-item__content"><div class="tag-item">JavaScript</div></div></div><div class="article-aside__item"><div class="aside-item__title">Content</div><div class="aside-item__content"><div class="aside-toc"><a href="#Objectassign">Object.assign()</a><a href="#Objectcreate">Object.create()</a><a href="#使用-Objectcreate-实现继承">使用 Object.create() 实现继承</a><a href="#Objectcreate-VS-new">Object.create VS new</a><a href="#Objectfreeze">Object.freeze()</a><a href="#Objectfreeze-VS-const">Object.freeze VS const</a><a href="#深度冻结对象">深度冻结对象</a><a href="#Objectfreeze-的注意事项">Object.freeze 的注意事项</a><a href="#ObjectdefineProperty">Object.defineProperty()</a><a href="#ObjectdefineProperties">Object.defineProperties()</a></div></div></div></aside><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">整理Object的一些方法</h1></header><section itemProp="articleBody" class="content"><p class="para">ES5 和 ES6 中 Object 添加了很多新的方法，现在很多开源代码中有用到了这些，今天来整理一番。</p>
+<!--more-->
+<h3 class="heading" id="Objectassign" style="position:relative;"><a href="#Objectassign" aria-label="Objectassign permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.assign()</h3>
+<p class="para">这是ES6新添加的方法，<code>Object.assign()</code>用来复制源对象的所有可枚举属性复制到目标对象中，方法返回目标对象。语法如下：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">Object.assign(target, ...source);</code>
+        </deckgo-highlight-code>
+<p class="para">source对象可以有很多个，比如：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">let target = {name: &#39;target&#39;};
+let source1 = {age: 23};
+let source2 = {email: &#39;zhanglun1410@gmail.com&#39;};
+// ...
+// let sourceN ={.....};
+traget = Object.assign(target, source1, source2);</code>
+        </deckgo-highlight-code>
+<p class="para">如果源对象和目标对象的属性的key相同，目标对象的属性将会被源对象中的属性覆盖。对于多个源对象来说，如果有相同的key，右边的属性将覆盖左边的属性。这个方法只能将源对象的可枚举对象和自己的属性复制给目标对象。</p>
+<blockquote class="quote">
+<p class="para">什么是可枚举对象（）？
+可枚举属性是指那些内部 “可枚举” 标志设置为true的属性，对于通过直接的赋值和属性初始化的属性，该标识值默认为即为true，对于通过Object.defineProperty等定义的属性，该标识值默认为false。可枚举的属性可以通过 for…in 循环进行遍历（除非该属性名是一个 Symbol）。</p>
+</blockquote>
+<p class="para">对于源对象，Object.assign使用[[Get]]，而在目标对象上使用[[Set]]，也就是说，使用这个方法会源对象的getter和目标对象的setters。所以其本质就是定义或者复制一个新的属性。如果等待合并的源对象包含了getters，那就不太适合用来将源对象合并到原型中。假如复制的属性到原型里，包括它们的可枚举属性，那么应该使用 Object.getOwnPropertyDescriptor() 和 Object.defineProperty() 。String 和 Symbol 属性都是会被复制的。</p>
+<p class="para">如果遇到了一个错误，比如目标对象的某个属性是不可修改的，会抛出一个TypeError的错误吗，目标对象保持不变</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">var foo = {}
+Object.defineProperty(foo, &#39;name&#39;, {
+  writable: false,
+  value: &#39;zhanglun&#39;
+});
+Object.assign(foo, {name: &#39;zhangxiaolun&#39;}); // TypeError: Cannot assign to read only property &#39;1&#39; of object &#39;#&lt;Object&gt;&#39;</code>
+        </deckgo-highlight-code>
+<p class="para">如果源对象是null或者undefined，Object.assign()不会抛出错误：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">var foo = {name: &#39;zhanglun&#39;};
+Object.assign(foo, null, undefined);
+console.log(foo); // foo: {name: &#39;zhanglun&#39;}</code>
+        </deckgo-highlight-code>
+<h3 class="heading" id="Objectcreate" style="position:relative;"><a href="#Objectcreate" aria-label="Objectcreate permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.create()</h3>
+<p class="para">通过指定的原型对象和属性，创建一个新的对象。语法如下：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">Object.create(proto, [,. propertiesObject]);</code>
+        </deckgo-highlight-code>
+<p class="para">第一个参数是一个对象，可以是一个普通的对象，比如：<code>{name: 'zhanglun'}</code>，也可以是一个新创建的对象的原型（prototype），比如：new Array().prototype。无论是那种，都是 JavaScript 中的 Object，其属性都被添加到返回的对象原型中；第二个参数是可选的，但是不能是<code>undefined</code>，该对象自身拥有的可枚举属性会被添加到新创建的对象上，其原型链上的属性是无效的。如果第一个参数不是null或者一个对象值，将会抛出TypeError异常。</p>
+<p class="para">Object.create()最直接的作用是基于一个对象创建新的对象，更多时候用在了原型链继承上，先来看看 JavaScript
+中创建对象的几种方法：</p>
+<ul>
+<li>对象字面量</li>
+</ul>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">var o = {a: 1};
+
+// o这个对象继承了Object.prototype上面的所有属性
+// 所以可以这样使用 o.hasOwnProperty(&#39;a&#39;).
+// hasOwnProperty 是Object.prototype的自身属性。
+// Object.prototype的原型为null。
+// 原型链如下:
+// o ---&gt; Object.prototype ---&gt; null
+
+var a = [&quot;yo&quot;, &quot;whadup&quot;, &quot;?&quot;];
+
+// 数组都继承于Array.prototype 
+// (indexOf, forEach等方法都是从它继承而来).
+// 原型链如下:
+// a ---&gt; Array.prototype ---&gt; Object.prototype ---&gt; null
+
+function f(){
+  return 2;
+}
+
+// 函数都继承于Function.prototype
+// (call, bind等方法都是从它继承而来):
+// f ---&gt; Function.prototype ---&gt; Object.prototype ---&gt; null</code>
+        </deckgo-highlight-code>
+<ul>
+<li>构造函数</li>
+</ul>
+<p class="para">在 JavaScript 中，构造器其实就是一个普通的函数。当使用 new 操作符 来作用这个函数时，它就可以被称为构造方法（构造函数）。如果没有 new 关键字而是直接调用的话，相当于是在当前作用域上调用，此时函数中如果有 this 的话，this 指向的是当前作用域。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">function Graph() {
+  this.vertexes = [];
+  this.edges = [];
+}
+
+Graph.prototype = {
+  addVertex: function(v){
+    this.vertexes.push(v);
+  }
+};
+
+var g = new Graph();
+// g是生成的对象,他的自身属性有&#39;vertices&#39;和&#39;edges&#39;.
+// 在g被实例化时,g.[[Prototype]]指向了Graph.prototype.
+Graph();
+console.log(window.vertexes); // 在全局作用域中调用，意外地增加了全局变量</code>
+        </deckgo-highlight-code>
+<ul>
+<li>使用 Object.create()</li>
+</ul>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">var a = {a: 1}; 
+// a ---&gt; Object.prototype ---&gt; null
+
+var b = Object.create(a);
+// b ---&gt; a ---&gt; Object.prototype ---&gt; null
+console.log(b.a); // 1 (继承而来)
+
+var c = Object.create(b);
+// c ---&gt; b ---&gt; a ---&gt; Object.prototype ---&gt; null
+
+var d = Object.create(null);
+// d ---&gt; null
+console.log(d.hasOwnProperty); // undefined, 因为d没有继承Object.prototype</code>
+        </deckgo-highlight-code>
+<ul>
+<li>ES6 中的 Class 关键字</li>
+</ul>
+<p class="para">ES6 引入了一套新的关键字用来实现 class。这是一个语法糖，其本质还是基于原型的。这些新的关键字包括 class, constructor, static, extends, 和 super。关于 Class的使用，回头再开一篇文章深入学习。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">&quot;use strict&quot;;
+
+class Polygon {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+}
+
+class Square extends Polygon {
+  constructor(sideLength) {
+    super(sideLength, sideLength);
+  }
+  get area() {
+    return this.height * this.width;
+  }
+  set sideLength(newLength) {
+    this.height = newLength;
+    this.width = newLength;
+  }
+}
+
+var square = new Square(2);</code>
+        </deckgo-highlight-code>
+<h4 class="heading" id="使用-Objectcreate-实现继承" style="position:relative;"><a href="#%E4%BD%BF%E7%94%A8-Objectcreate-%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF" aria-label="使用 Objectcreate 实现继承 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 Object.create() 实现继承</h4>
+<p class="para">下面是一个使用 Object.create()实现类的继承的例子。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">function Shape() {
+  this.x = 0;
+  this.y = 0;
+}
+
+// 父类的原型方法
+Shape.prototype.move = function(x, y) {
+  this.x += x;
+  this.y += y;
+  console.info(&#39;Shape moved.&#39;);
+};
+
+// 子类
+function Rectangle() {
+  Shape.call(this); // 调用构造函数
+}
+
+// 子类继承父类
+Rectangle.prototype = Object.create(Shape.prototype);
+Rectangle.prototype.constructor = Rectangle;
+
+var rect = new Rectangle();
+
+console.log(&#39;Is rect an instance of Rectangle?&#39;, rect instanceof Rectangle);// true
+console.log(&#39;Is rect an instance of Shape?&#39;, rect instanceof Shape);// true
+rect.move(1, 1); // Outputs, &#39;Shape moved.&#39;</code>
+        </deckgo-highlight-code>
+<h4 class="heading" id="Objectcreate-VS-new" style="position:relative;"><a href="#Objectcreate-VS-new" aria-label="Objectcreate VS new permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.create VS new</h4>
+<p class="para">前面说到的，Object.create实际上是将第一个参数（无论是原型对象还是普通对象）的属性添加到新创建对象的原型中，这也就意味着，通过<code>new Function()</code>中定义的属性和方法是无法通过 create()方法添加到新创建对象中的。</p>
+<p class="para">Object.create创建一个新的对象，这个对象“继承”了第一个参数。构造函数新创建的对象“继承”构造函数的prototype。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">let o = new SomeConstructor();  // o 直接继承自`SomeConstructor.prototype`。</code>
+        </deckgo-highlight-code>
+<p class="para">两者的最明显的不同之处在于：如果 Object.create()的第一个参数是<code>null</code>，新创建的对象不会“继承”自任何地方，没有原型，也没有往上追溯的原型；在使用构造函数时，如果将其原型设置为 null，<code>SomeConstructor.prototype = null;</code>，新创建的对象将会“继承”自 Object 的 prototype。</p>
+<h3 class="heading" id="Objectfreeze" style="position:relative;"><a href="#Objectfreeze" aria-label="Objectfreeze permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.freeze()</h3>
+<p class="para">字面意思就是将一个 object“冻住”：不能添加新的属性；不能删除现有的属性；不能修改现有属性，包括属性的enumerability, configurability和 writability。这个方法返回一个不可修改的对象，使用语法：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">Object.freeze(obj)</code>
+        </deckgo-highlight-code>
+<p class="para">任何尝试修改该对象的操作都会失败，可能是静默失败，也可能会抛出异常。在严格模式中会抛出异常（本地测试下来严格模式也不会报错）。数据属性的值不可更改，访问器属性（有getter和setter）也同样，但由于是函数调用，给人一种修改了这个属性的错觉。如果一个属性的值是个对象，则这个对象中的属性是可以修改的，除非它也是个冻结对象。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">let foo = {
+  name: &#39;zhanglun&#39;,
+  age: 23,
+}
+
+console.log(foo.name); // &#39;zhanglun&#39;
+console.log(foo.age); // 23
+
+foo.name = &#39;zhanglun1410&#39;;
+foo.age = 24;
+
+console.log(foo.name); // &#39;zhanglun1410&#39;
+console.log(foo.age); // 24
+
+Object.freeze(foo);
+
+foo.name = &#39;zzzz&#39;; // 静默失败
+console.log(foo.name); // &#39;zhanglun1410&#39;
+
+&#39;use strict&#39;;
+foo.name = &#39;zzzz&#39;; // TypeError 或者 静默失败
+console.log(foo.name); // &#39;zhanglun1410&#39;</code>
+        </deckgo-highlight-code>
+<h4 class="heading" id="Objectfreeze-VS-const" style="position:relative;"><a href="#Objectfreeze-VS-const" aria-label="Objectfreeze VS const permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.freeze VS const</h4>
+<p class="para">被冻结的对象是不可改变的。但是它不一定是常量。对常量而言，它的所有引用，无论是直接的还是间接的都是引用的不可改变的对象。string，number，和 boolean 总是不可变的（当你把一个变量从字符串 A 修改到字符串 B时，A 和 B 都是不可变的，A 还是 A，B 也还是 B，只不过变量的之前指向的是 A,修改之后指向了 B）。通常来说，一般不会创建一个对象常量，也不存在freezeAll()这样的方法。</p>
+<p class="para">const 用于声明常量，将变量绑定到一个不可修改的对象，常量最终指向的是一个不可修改的对象，比如一个被冻结的对象，而 Object.freeze 作用在对象的值上，将一个对象变成不可修改的对象。</p>
+<h4 class="heading" id="深度冻结对象" style="position:relative;"><a href="#%E6%B7%B1%E5%BA%A6%E5%86%BB%E7%BB%93%E5%AF%B9%E8%B1%A1" aria-label="深度冻结对象 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>深度冻结对象</h4>
+<p class="para">前面提到的，Object.freeze作用在对象的属性上，使对象的属性不可修改。而如果属性值也是一个对象的话，依然能够修改，除非这个对象也被冻结了。因此，可以把 Object.freeze 理解成是“浅冻结”。可以编写额外的代码来实现“深冻结”：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">obj1 = {
+  internal: {}
+};
+
+Object.freeze(obj1);
+obj1.internal.a = &#39;aValue&#39;;
+
+obj1.internal.a // &#39;aValue&#39;
+
+// 深度冻结
+function deepFreeze(obj) {
+
+  // 获取到对象的属性的名字
+  var propNames = Object.getOwnPropertyNames(obj);
+
+  // 先冻结内部的对象
+  propNames.forEach(function(name) {
+    var prop = obj[name];
+
+    // Freeze prop if it is an object
+    if (typeof prop == &#39;object&#39; &amp;&amp; prop !== null)
+      deepFreeze(prop);
+  });
+
+  // 冻结 obj
+  return Object.freeze(obj);
+}
+
+obj2 = {
+  internal: {}
+};
+
+deepFreeze(obj2);
+obj2.internal.a = &#39;anotherValue&#39;;
+obj2.internal.a; // undefined</code>
+        </deckgo-highlight-code>
+<h4 class="heading" id="Objectfreeze-的注意事项" style="position:relative;"><a href="#Objectfreeze-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9" aria-label="Objectfreeze 的注意事项 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.freeze 的注意事项</h4>
+<p class="para">在 ES5 中，如果参数不是一个对象，是一个原始数据类型，会抛出 TypeError。在 ES6 中，不是对象的参数的会被当做是一个已经被冻结的普通对象，只是返回这个参数。</p>
+<h3 class="heading" id="ObjectdefineProperty" style="position:relative;"><a href="#ObjectdefineProperty" aria-label="ObjectdefineProperty permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.defineProperty()</h3>
+<p class="para">Object.defineProperty是ES5新增的一个方法，可以给对象的属性增加更多的控制。语法如下：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">Object.defineProperty(obj, prop, descriptor)</code>
+        </deckgo-highlight-code>
+<p class="para">前面两个参数很简单，修改的对象和修改或者新增的属性，着重介绍一下第三个参数：属性描述符。</p>
+<p class="para">ES5 中定义了一个名叫“属性描述符”的对象，用于描述了的各种特征，它本身是一个 Object。属性描述符对象有4个属性：</p>
+<ul>
+<li>configurable：可配置性，控制着其描述的属性的修改，表示能否修改属性的特性，能否把属性修改为访问器属性，或者能否通过delete删除属性从而重新定义属性。默认值为true。</li>
+<li>enumerable：可枚举性，表示能否通过for-in遍历得到属性。默认值为true。</li>
+<li>writable：可写性，表示能否修改属性的值。默认值为true。</li>
+<li>value：数据属性，表示属性的值。默认值为undefined。</li>
+</ul>
+<p class="para">和两个存取器属性，分别是get和set，可以代替value和writable。</p>
+<ul>
+<li>get：在读取属性时调用的函数。只指定get则表示属性为只读属性。默认值为undefined。</li>
+<li>set：在写入属性时调用的函数。只指定set则表示属性为只写属性。默认值为undefined。</li>
+</ul>
+<p class="para">属性描述符只能在<code>Object.defineProperty</code>或<code>Object.defineProperties</code>中使用。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">var o = {}; // Creates a new object
+
+// Example of an object property added with defineProperty with a data property descriptor
+// 添加属性 a,值为37，并设置属性描述符
+Object.defineProperty(o, &#39;a&#39;, {
+  value: 37,
+  writable: true,
+  enumerable: true,
+  configurable: true
+});
+
+
+var bValue = 38;
+Object.defineProperty(o, &#39;b&#39;, {
+  get: function() { return bValue; },
+  set: function(newValue) { bValue = newValue; },
+  enumerable: true,
+  configurable: true
+});
+o.b; // 38
+// o 对象中存在属性 b，他的值为38；
+// 只要 o.b没有重新定义，它的值永远都是38
+
+// 访问器不能和 value或者 writable混在一起用
+Object.defineProperty(o, &#39;conflict&#39;, {
+  value: 0x9f91102,
+  get: function() { return 0xdeadbeef; }
+});
+// 抛出一个错误 Uncaught TypeError: Invalid property descriptor. Cannot both specify accessors and a value or writable attribute, #&lt;Object&gt;</code>
+        </deckgo-highlight-code>
+<h3 class="heading" id="ObjectdefineProperties" style="position:relative;"><a href="#ObjectdefineProperties" aria-label="ObjectdefineProperties permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object.defineProperties()</h3>
+<p class="para">相比 Object.defineProperty， Object.defineProperties可以说是前者的升级版，可以一次同时定义多个属性，语法略有不同：</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">let obj = {};
+Object.defineProperties(obj, {
+  &quot;property1&quot;: {
+    value: true,
+    writable: true
+  },
+  &quot;property2&quot;: {
+    value: &quot;Hello&quot;,
+    writable: false
+  },
+  &quot;property3&quot;: {
+    get: function() {
+      return &#39;Hello, Object.defineProperties&#39;;
+    },
+    set:function() {
+      this.property2 = &#39;xxxxxx&#39;;
+    }
+  }
+  // etc. etc.
+});</code>
+        </deckgo-highlight-code>
+<p class="para">参考资料：</p>
+<ol>
+<li><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" class="link-underline">https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" class="link-underline">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties" class="link-underline">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create" class="link-underline">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze" class="link-underline">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze</a></li>
+<li><a href="http://stackoverflow.com/a/17952160" class="link-underline">http://stackoverflow.com/a/17952160</a></li>
+</ol></section></article><div class="pagination"><div class="index-module--pagination--iWu7S"><a class="index-module--paginationItem--ZgXus" rel="prev" href="/blogs/2017-02-16-最近几次面试的小小总结/"><div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div> <span class="index-module--paginationItemPrev--WtmXw">最近几次面试的小总结</span></a><span></span><a class="index-module--paginationItem--ZgXus" rel="next" href="/blogs/2017-01-11-JavaScrip-模块系统详解/"><span class="index-module--paginationItemNext--nbZSQ">JavaScrip模块系统详解</span> <div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(-90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div></a></div></div></section></section></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-50406624-2', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blogs/2017-01-19-整理Object的一些方法/";window.___webpackCompilationHash="136b2da2e8b1b23964e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4f3032a41e5c476c8f46.js"],"app":["/app-a99b6c2ab16d3879fc0c.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-adf2066c282d2a1fad9e.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-7b09644532f5bd1dcc54.js"],"component---src-pages-archives-tsx":["/component---src-pages-archives-tsx-ddc2637e6d877197950e.js"],"component---src-pages-categories-tsx":["/component---src-pages-categories-tsx-b5a2e4d86066d30e963f.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-7e0f083acf9cb537d315.js"],"component---src-pages-labs-tsx":["/component---src-pages-labs-tsx-73eba9758ec10d8f2e57.js"],"component---src-templates-blog-list-tsx":["/component---src-templates-blog-list-tsx-7eb438f670f1bdf1603e.js"],"component---src-templates-blog-post-tsx":["/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"],"component---src-templates-categories-js":["/component---src-templates-categories-js-7fe7e84267b6c1ad1f7e.js"]};/*]]>*/</script><script src="/polyfill-4f3032a41e5c476c8f46.js" nomodule=""></script><script src="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js" async=""></script><script src="/commons-904b92826443395b7905.js" async=""></script><script src="/app-a99b6c2ab16d3879fc0c.js" async=""></script><script src="/framework-4b7b24ae718e4140a055.js" async=""></script><script src="/webpack-runtime-adf1335a44885cfac931.js" async=""></script></body></html>

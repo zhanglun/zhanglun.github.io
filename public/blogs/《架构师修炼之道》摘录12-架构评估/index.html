@@ -1,0 +1,403 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;display=swap" rel="stylesheet"/><meta data-react-helmet="true" name="twitter:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" name="twitter:title" content="《架构师修炼之道》摘录12-架构评估"/><meta data-react-helmet="true" name="twitter:creator" content="zhanglun1410"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" property="og:title" content="《架构师修炼之道》摘录12-架构评估"/><meta data-react-helmet="true" name="description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta name="generator" content="Gatsby 4.13.1"/><style data-href="/styles.7aa89aa35ece76996c80.css" data-identity="gatsby-global-css">.theme-1{--background-color:#fef6e4;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#f582ae;--button-text-color:#001858;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#fef6e4;--card-tag-text-color:#001858;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label-placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}.theme-2{--background-color:#55423d;--background-color-1:#271c19;--background-color-2:#ffc0ad;--background-color-3:#9656a1;--button-color:#ffc0ad;--button-text-color:#271c19;--card-backgroud-color:#fffffe;--card-background-color:#55423d;--card-background-color-1:#ffc0ad;--card-heading-color:#fffffe;--card-headline-color:#271c19;--card-highlight-color:#9656a1;--card-paragraph-color:#fff3ec;--card-paragraph-color-1:#271c19;--card-tag-background-color:#fffffe;--card-tag-text-color:#271c19;--form-button-color:#9656a1;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#fffffe;--headline-color-1:#271c19;--highlight-color:#e78fb3;--label-placeholder-color:#271c19;--link-color:#9656a1;--links-color:#e78fb3;--main-color:#fff3ec;--paragraph-color:#fff3ec;--paragraph-color-1:#271c19;--secondary-color:#ffc0ad;--stroke-color:#140d0b;--sub-headline-color:#fff3ec;--tertiary-color:#9656a1}.theme-3{--background-color:#faeee7;--background-color-1:#fffffe;--background-color-2:#fffffe;--background-color-3:#33272a;--button-color:#ff8ba7;--button-text-color:#33272a;--card-backgroud-color:#faeee7;--card-background-color:#faeee7;--card-background-color-1:#fffffe;--card-heading-color:#33272a;--card-headline-color:#33272a;--card-highlight-color:#33272a;--card-paragraph-color:#594a4e;--card-tag-background-color:#ffc6c7;--card-tag-text-color:#33272a;--form-button-color:#ff8ba7;--form-button-text-color:#33272a;--form-input-color:#faeee7;--headline-color:#33272a;--highlight-color:#ff8ba7;--label-placeholder-color:#33272a;--link-color:#ff8ba7;--links-color:#ff8ba7;--main-color:#fffffe;--paragraph-color:#594a4e;--secondary-color:#ffc6c7;--stroke-color:#33272a;--sub-headline-color:#594a4e;--tertiary-color:#c3f0ca}.theme-4{--background-color:#fffffe;--background-color-1:#e3f6f5;--background-color-2:#e3f6f5;--background-color-3:#bae8e8;--button-color:#ffd803;--button-text-color:#272343;--card-backgroud-color:#fffffe;--card-background-color:#fffffe;--card-background-color-1:#272343;--card-heading-color:#272343;--card-headline-color:#fffffe;--card-headline-color-1:#272343;--card-highlight-color:#bae8e8;--card-paragraph-color:#2d334a;--card-tag-background-color:#bae8e8;--card-tag-text-color:#272343;--form-button-color:#272343;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#272343;--highlight-color:#ffd803;--label--placeholder-color:#272343;--link-color:#272343;--links-color:#ffd803;--main-color:#fffffe;--paragraph-color:#2d334a;--secondary-color:#e3f6f5;--stroke-color:#272343;--sub-headline-color:#2d334a;--tertiary-color:#bae8e8}:root{--inline-code-font:monospace!important;--mono-font:"JetBrains Mono",monospace!important;--content-font-size:16px;--maxWidth-none:"none";--maxWidth-xs:999px;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-5xl:64rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--main-max-width:750px;--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--main-spacing:100px;--font-family-sans:"Noto San SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-body:var(--font-family-sans);--font-heading:var(--font-family-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:10px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.9;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#4b5cc4;--color-text:#312520;--color-text-light:#4f5969;--color-heading:#312520;--color-heading-black:#161823;--color-accent:#d1dce5;--header-height:60px;--img-border-color:#313b44;--img-border-radius:8px;--background-color:#fafafa;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#636363;--button-text-color:#fff;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#636363;--card-tag-text-color:#fff;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label--placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1);margin:0}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-normal);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}pre[class*=language-]{border-radius:0;white-space:pre-wrap}code[class*=language-]{font-family:Menlo,Monaco,Consolas,Courier New,monospace;font-size:14px;white-space:pre-wrap}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;font-size:1.6rem;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);padding:var(--spacing-0)}ol,ul{margin-bottom:0;margin-top:0}ol li,ul li{padding-left:var(--spacing-0)}ol,ul{margin-bottom:1.5em}li>p{margin-bottom:calc(var(--spacing-8)/2)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-1);font-style:italic;margin-bottom:var(--spacing-8);padding:var(--spacing-5)}.quote{background:#f9f9f9;border-left:2px solid #636363;color:#636363;font-style:italic;margin:0 0 var(--spacing-16) 0;margin-bottom:1.5em;padding:1.5em;transition:.3s}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote p{margin-bottom:var(--spacing-3)}blockquote li{margin:0}blockquote>ol,blockquote>ul{list-style-position:inside;padding-left:var(--spacing-4)}table{border:1px solid #e9e9e7;border-collapse:collapse;border-spacing:.25rem;font-size:14px;margin-bottom:var(--spacing-8);width:100%}table td,table th{border-bottom:1px solid #e9e9e7;padding:8px 10px}table thead tr th{background-color:#f7f6f3;text-align:left}p img{border:.5px solid var(--img-border-color);border-radius:var(--img-border-radius);max-width:100%}a{color:var(--color-primary)}a,a:focus,a:hover{text-decoration:none}.global-header{margin-bottom:var(--spacing-12)}.main{background-color:var(--background-color-2);margin:0 auto;max-width:var(--main-max-width);padding:30px var(--main-spacing) 30px;position:relative;width:90%;z-index:1}.main-heading{font-size:var(--fontSize-7);margin:0}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.article-section{margin:0 auto;max-width:var(--main-max-width);position:relative;z-index:1}.article-cover{border:1px solid #f0f0f0;border-radius:var(--img-border-radius);height:380px;margin-bottom:60px;-o-object-fit:cover;object-fit:cover;width:100%}@media screen and (max-width:999px){.article-section,.pagination{max-width:100%;padding:0 20px}}.blog-post{border-bottom:1px solid #1d2b36;line-height:1.9;margin-bottom:10px;padding-bottom:60px;position:relative}.blog-post:before{left:0}.blog-post:after,.blog-post:before{background:#1d2b36;bottom:-2px;content:"";height:3px;position:absolute;width:3px}.blog-post:after{right:0}.blog-post header{border-top:1px solid #1d2b36;margin-top:50px;position:relative}.blog-post header:before{left:0}.blog-post header:after,.blog-post header:before{background:#1d2b36;content:"";height:3px;position:absolute;top:-2px;width:3px}.blog-post header:after{right:0}.blog-post header h1{font-size:36px;font-weight:var(--fontWeight-semibold);line-height:1.4;margin:60px 0}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media(max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-3)}ol,ul{padding-left:14px}}.pagination{margin:0 auto;max-width:var(--main-max-width);padding:50px 0}.link-underline,.pagination .next:hover,.pagination .prev:hover{text-decoration:underline}.link-underline{box-shadow:inset 0 0 0 0 var(--color-primary);margin:0 .25rem;padding:0 .25rem;transition:color .3s ease-in-out,box-shadow .3s ease-in-out}.link-underline:hover{box-shadow:inset 0 -40px 0 0 var(--color-primary);color:#fff}.hover-underline{position:relative}.hover-underline:after{background-color:var(--color-text);bottom:4px;content:"";height:2px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:bottom right;transform-origin:bottom right;transition:-webkit-transform .25s ease-out;transition:transform .25s ease-out;transition:transform .25s ease-out,-webkit-transform .25s ease-out;width:100%}.hover-underline:hover:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:bottom left;transform-origin:bottom left}.page-title{color:var(--color-heading);font-size:var(--fontSize-6);margin-bottom:var(--spacing-5);padding-top:50px;text-align:center}:root{--bg-color:#d3dadf;--action-color:#000911}.archive-page{background-color:var(--bg-color);width:100%}.archive-page__container{margin:0 auto;padding-bottom:1px;padding-left:6.4rem;padding-right:6.4rem}.archive-page__post-title{display:flex;font-size:2.4rem;line-height:3.2rem;margin:0}.archive-page__post-excerpt{margin-bottom:3.2rem;position:relative}.archive-page__post-date{color:var(--text-color);font-size:1.4rem}.archive-section{margin-bottom:24vw;margin-top:10vw;position:relative}.archive-section__year{color:#c3cad0;color:var(--text-light-color,#c3cad0);font-size:36vw;font-weight:700;letter-spacing:-.07em;line-height:.2;margin-top:0;min-width:100%;pointer-events:none;position:absolute;text-align:center;-webkit-user-select:none;-ms-user-select:none;user-select:none}.archive-posts{grid-gap:3.2rem;display:grid;font-size:1.6rem;grid-template-columns:repeat(auto-fill,minmax(25.6rem,1fr));list-style-type:none;margin:0;padding:0;position:relative}.archive-posts a{color:var(--action-color);text-decoration:none}.archive-posts a:hover{text-decoration:underline}.archive-date{margin-right:20px}.category-page,.root{min-height:100vh}.category-page{background-color:#a4c9d8}.category-list{grid-gap:10rem;display:grid;font-size:1.8rem;grid-template-columns:repeat(4,1fr);justify-items:center}.category-img{background-color:rgba(0,0,0,.2);border-radius:100%;height:150px;margin-bottom:20px;padding:10px;transition:all .3s ease-in-out;width:150px}.category-img img{width:100%}.category-item{text-align:center;text-decoration:none}.category-item:hover{color:var(--color-text)}.category-item:hover .category-img{background-color:rgba(0,0,0,.35)}.category-page-header{display:grid;justify-items:center;padding:50px 0}.ham{-webkit-tap-highlight-color:transparent;color:#fff;cursor:pointer;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:54px}.hamRotate.active{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.hamRotate180.active{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.line{fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .4s,stroke-dashoffset .4s}.ham.active .line{stroke:#fff}.ham1 .top{stroke-dasharray:40 139}.ham1 .bottom{stroke-dasharray:40 180}.ham1.active .top{stroke-dashoffset:-98px}.ham1.active .bottom{stroke-dashoffset:-138px}.ham2 .bottom,.ham2 .top{stroke-dasharray:40 121}.ham2.active .bottom,.ham2.active .top{stroke-dashoffset:-102px}.ham3 .top{stroke-dasharray:40 130}.ham3 .middle{stroke-dasharray:40 140}.ham3 .bottom{stroke-dasharray:40 205}.ham3.active .top{stroke-dasharray:75 130;stroke-dashoffset:-63px}.ham3.active .middle{stroke-dashoffset:-102px}.ham3.active .bottom{stroke-dasharray:110 205;stroke-dashoffset:-86px}.ham4 .bottom,.ham4 .top{stroke-dasharray:40 121}.ham4.active .bottom,.ham4.active .top{stroke-dashoffset:-68px}.ham5 .bottom,.ham5 .top{stroke-dasharray:40 82}.ham5.active .bottom,.ham5.active .top{stroke-dasharray:14 82;stroke-dashoffset:-72px}.ham6 .top{stroke-dasharray:40 172}.ham6 .middle{stroke-dasharray:40 111}.ham6 .bottom{stroke-dasharray:40 172}.ham6.active .top{stroke-dashoffset:-132px}.ham6.active .middle{stroke-dashoffset:-71px}.ham6.active .bottom{stroke-dashoffset:-132px}.ham7 .top{stroke-dasharray:40 82}.ham7 .middle{stroke-dasharray:40 111}.ham7 .bottom{stroke-dasharray:40 161}.ham7.active .top{stroke-dasharray:17 82;stroke-dashoffset:-62px}.ham7.active .middle{stroke-dashoffset:23px}.ham7.active .bottom{stroke-dashoffset:-83px}.ham8 .top{stroke-dasharray:40 160}.ham8 .middle{stroke-dasharray:40 142;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s}.ham8 .bottom,.ham8 .middle{-webkit-transform-origin:50%;transform-origin:50%}.ham8 .bottom{stroke-dasharray:40 85;transition:stroke-dashoffset .4s,-webkit-transform .4s;transition:transform .4s,stroke-dashoffset .4s;transition:transform .4s,stroke-dashoffset .4s,-webkit-transform .4s}.ham8.active .top{stroke-dashoffset:-64px}.ham8.active .middle{stroke-dashoffset:-20px;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.ham8.active .bottom{stroke-dashoffset:-64px}.index-module--menu--aNCkU{position:fixed;right:0;top:0;z-index:100}.index-module--menu-button--Iv9-4{position:fixed;right:0;top:0;z-index:102}.index-module--menu-main--dqZT6{background-color:#000;bottom:0;padding:100px;position:fixed;right:0;top:0;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);transition:all .4s;width:520px;z-index:101}.index-module--menu-main--dqZT6.index-module--open--LEqU-{-webkit-transform:translateZ(0);transform:translateZ(0)}.index-module--menu-title--n-nNm{color:#fff;font-weight:var(--fontWeight-semibold);margin-top:30px}.index-module--title-link--T5U9M{color:#fff;font-size:var(--fontSize-7)}.index-module--nav--nqC-X{align-items:flex-start;display:flex;flex-direction:column;margin-top:40px}.index-module--nav-item--8jKuC{color:#fff;font-size:22px;font-weight:500;height:var(--header-height);letter-spacing:1px;line-height:var(--header-height);margin:0;text-decoration:none;transition:all .3s}.index-module--nav-item--8jKuC:hover{-webkit-filter:invert(.5);filter:invert(.5);text-decoration:line-through}.index-module--nav-item--8jKuC.index-module--theme-1--jQ2fg:hover,.index-module--nav-item--8jKuC.index-module--theme-2--7nodg:hover,.index-module--nav-item--8jKuC.index-module--theme-3--pka-p:hover,.index-module--nav-item--8jKuC.index-module--theme-4--L3lP0:hover,.index-module--nav-item--8jKuC.index-module--theme-5--zFBiY:hover,.index-module--nav-item--8jKuC.index-module--theme-6--t9Ipa:hover{text-decoration:underline}.index-module--sidemenu-nav-item--3tmSg:hover{-webkit-transform:translate3d(14px,0,0);transform:translate3d(14px,0,0)}@media (max-width:1024px){.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn{box-sizing:border-box;right:-100vw;transition:none!important;width:100%}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn:before{background:#edbb1c;border-radius:50%;content:"";height:0;position:fixed;right:0;top:0;transition:all .7s;width:0}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs:before{height:300vh;right:-150vh;top:-150vh;transition:all .7s;width:300vh}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn{background-color:transparent!important}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn>*{opacity:0;transition:.3s}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs>*{opacity:1;transition:.3s .5s}}.index-module--container--MsrZ9{align-items:center;display:grid;justify-content:center;padding:3.75rem;text-align:center}.index-module--inner--Qy-hx{align-items:center;display:grid;gap:.75rem;justify-content:center;padding-bottom:5rem;padding-top:11.25rem;position:relative;width:100%}.index-module--title--k4zZ7{font-size:9.5rem;font-weight:600;margin:0}.index-module--subTitle--Sf0CJ{font-size:2rem;font-weight:600;margin:3.75rem 0 0}.index-module--main--husmE{align-items:center;display:grid;height:100vh;justify-content:center;margin:0 auto}.index-module--profile--01Kcu{grid-gap:40px;display:grid;grid-template-rows:1fr 1fr}.index-module--headline--7zfcQ{grid-gap:32px;align-items:center;display:grid;grid-template-columns:120px 1fr}.index-module--title--YQ4NF{color:var(--color-heading-black);font-size:7rem;margin:0;padding:0;text-align:center}.index-module--subTitle--aYKXU{font-size:2rem}.index-module--avatar--y2x3q{border-radius:50%;height:120px;width:120px}.index-module--menu--x9lUY{display:grid;font-size:1.8rem;grid-auto-flow:column;justify-items:center}.index-module--menuItem--3eiAT div{margin-left:.6rem;opacity:0}.index-module--menuItem--3eiAT:hover div{opacity:1}.article-list{list-style-type:none;margin:0;padding:0}.article-list-item{border-bottom:1px solid #e2e2e2}.article-list-item p{font-size:var(--content-font-size);margin-bottom:var(--spacing-0);text-align:center}.article-item-title{color:var(--color-heading-black);display:block;font-size:1.8rem;font-weight:var(--fontWeight-semibold);padding:1.4rem 0}.article-item-category{align-items:center;display:flex;font-size:1.4rem;font-weight:var(--fontWeight-normal);margin-bottom:.5vh}.article-item-category:before{background-color:currentColor;border-radius:1rem;content:"";display:block;height:.5rem;margin-right:.25rem;-webkit-transform:translateY(-1px);transform:translateY(-1px);width:.5rem}.article-list-item section{margin:50px 0 20px}.article-list-item footer{padding:40px 0;text-align:center}.article-list-item .read-more{background-color:var(--button-color);background-color:transparent;border:2px solid #636363;cursor:pointer;display:inline-block;font-size:13px;font-weight:var(--fontWeight-bold);height:50px;line-height:44px;outline:none;position:relative;text-decoration:none;transition:.25s ease-in-out;-ms-user-select:none;user-select:none;-webkit-user-select:none;width:190px}.article-list-item .read-more,.article-list-item .read-more:link{color:var(--button-text-color)}.article-list{margin:0 auto;max-width:var(--main-max-width);width:100%}.article-list-item .read-more:after{background-color:var(--button-color);content:"";height:100%;left:7px;position:absolute;top:7px;transition:.2s;width:100%;z-index:-1}.article-list-item .read-more:hover:after{left:0;top:0}.article-aside{-ms-overflow-style:none;height:100%;left:0;line-height:1.2;margin:60px 0;overflow-y:auto;padding:0 10px 0 20px;position:fixed;scrollbar-width:none;top:0;width:320px}.article-item-header{display:flex;justify-content:space-between}.article-list-item:hover .article-item__text{text-decoration:underline}.article-list-item:hover .article-item-header__arrow{opacity:1;-webkit-transform:scale(.8);transform:scale(.8)}.article-item-header__arrow{background-color:var(--color-heading-black);border-radius:50%;color:#fff;display:block;font-size:0;opacity:0;padding:4px;-webkit-transform:scale(.6);transform:scale(.6);transition:all .15s ease-in-out}.article-item-header__arrow svg{-webkit-transform:rotate(-135deg);transform:rotate(-135deg)}@media screen and (max-width:999px){.article-aside{position:static}}.article-aside__item{margin-bottom:var(--spacing-10)}.aside-toc{box-orient:vertical;box-direction:normal;display:flex;flex-direction:column;gap:6px;list-style-type:none;margin:6px 0 0;padding:0}.aside-toc li{margin:0;padding:2px 0}.aside-toc a{-webkit-margin-after:8px;color:grey;color:var(--theme-text-header);display:block;font-family:var(--font-mono);font-size:14px;font-size:1.4rem;font-weight:700;line-height:1.2;margin-block-end:8px}.aside-toc a:hover{text-decoration:underline}.aside-toc a.visible{color:#000}.aside-toc a:hover{color:#1d2b36}.aside-item__title{-webkit-margin-after:var(--spacing-6);color:#312520;font-size:1.4rem;line-height:1.6;margin-block-end:var(--spacing-6)}.aside-item__content .category-item,.aside-item__content time{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .category-item{color:#000;display:block;text-align:left}.aside-item__content .tag-item{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .tag-item:before{content:"#"}.anchor.before{margin-top:-24px;top:50%}blockquote{color:#999;font-weight:400}.title{font-size:calc(var(--content-font-size)*2.5)}.desc{font-size:calc(var(--content-font-size)*1.2)}.content{font-size:1.4rem}.content h2{border-top:1px solid #f0f0f0;font-size:25px;margin:80px 0 0;padding:40px 0 50px;position:relative}.content h2:before{left:0}.content h2:after,.content h2:before{background:#93a1b0;content:"";height:3px;position:absolute;top:-2px;width:3px}.content h2:after{right:0}.article-main{padding-top:var(--header-height)}.article-list li{height:100%;margin:0}.article-card{border-radius:.8rem;height:100%;margin:0 2vmin;overflow:hidden;padding-right:calc(54.54546vh - 9.20455rem - 7.90909vmin);position:relative;width:0}.article-card:hover .article-card__cover{-webkit-transform:scale(1.1);transform:scale(1.1)}.article-card__cover{overflow:hidden;-webkit-transform:scale(1);transform:scale(1);transition:-webkit-transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1),-webkit-transform .4s cubic-bezier(.23,1,.32,1);will-change:transform}.article-card__cover,.article-card__cover:after{height:100%;left:0;position:absolute;top:0;width:100%}.article-card__cover:after{background-image:linear-gradient(180deg,transparent,rgba(0,0,0,.3) 67%);content:""}.article-card__cover img{height:100%;-o-object-fit:cover;object-fit:cover;width:100%}.article-card__body{color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;left:0;padding:2.5vmin;position:absolute;top:0;width:100%}.article-card__title{color:#fff;font-size:3.4vmin;line-height:1.4;margin:3vmin 0}.article-card__title.hover-underline:after{background-color:#fff}.article-card__categories{margin-bottom:1vmin}.article-card__category{color:#fff;font-size:14px}.article-card__tag{display:block;font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.article-card__tag:before{content:"#"}@media screen and (max-width:768px){.article-card{padding-right:calc(100vw - 4rem)}.article-card__cover img{max-height:none;max-width:100%}.article-card__title{font-size:8vmin;margin:4vmin 0}.article-card__body time,.article-card__category,.article-card__tag{font-size:4vmin}}.index-module--circle--E91Mj{border-color:var(--color-heading-black);border-radius:50%;border-style:solid;border-width:1px;display:inline-block;font-size:0;padding:4px;transition:all .15s ease-in-out}.index-module--dark--aAIf4{background-color:var(--color-heading-black);color:#fff}.index-module--light--x7OKG{background-color:#fff;color:var(--color-heading-black)}.index-module--light--x7OKG:hover{background-color:var(--color-heading-black);color:#fff}.index-module--pagination--iWu7S{align-items:center;display:flex;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;justify-content:space-between}.index-module--paginationItem--ZgXus{align-items:center;color:var(--color-heading-black);display:flex;justify-content:space-between}.index-module--paginationItem--ZgXus:hover{text-decoration:underline}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemPrev--WtmXw:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:right;transform-origin:right}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemNext--nbZSQ:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:left;transform-origin:left}.index-module--paginationItemNext--nbZSQ:after,.index-module--paginationItemPrev--WtmXw:after{background-color:currentColor;bottom:-2px;content:"";display:block;height:1px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:right;transform-origin:right;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;width:100%}.index-module--paginationItemPrev--WtmXw{font-size:1.4rem;line-height:1.031;margin-left:1rem;position:relative}.index-module--paginationItemNext--nbZSQ{font-size:1.4rem;line-height:1.031;margin-right:1rem;position:relative}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="alternate" type="application/rss+xml" title="张小伦的网络日志" href="/rss.xml"/><link rel="icon" href="/favicon-32x32.png?v=25643e3cbe7be23b6c1bdad497608e85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=25643e3cbe7be23b6c1bdad497608e85"/><title data-react-helmet="true">《架构师修炼之道》摘录12-架构评估 | 张小伦的网络日志</title><link as="script" rel="preload" href="/webpack-runtime-adf1335a44885cfac931.js"/><link as="script" rel="preload" href="/framework-4b7b24ae718e4140a055.js"/><link as="script" rel="preload" href="/app-a99b6c2ab16d3879fc0c.js"/><link as="script" rel="preload" href="/commons-904b92826443395b7905.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"/><link as="fetch" rel="preload" href="/page-data/blogs/《架构师修炼之道》摘录12-架构评估/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/2841359383.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><div class="index-module--menu--aNCkU"><div class="index-module--menu-button--Iv9-4" role="button" aria-hidden="true"><svg class="ham hamRotate ham4 " viewBox="0 0 100 100" width="80"><path class="line top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"></path><path class="line middle" d="m 70,50 h -40"></path><path class="line bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"></path></svg></div><div class="index-module--menu-main--dqZT6 "><div class="index-module--menu-title--n-nNm"><a class="index-module--title-link--T5U9M" href="/">张小伦的网络日志</a></div><nav class="index-module--nav--nqC-X"><a class="index-module--nav-item--8jKuC theme-1" href="/">首页</a><a class="index-module--nav-item--8jKuC theme-2" href="/blogs">博文</a><a class="index-module--nav-item--8jKuC theme-3" href="/categories">分类</a><a class="index-module--nav-item--8jKuC theme-4" href="/archives">归档</a><a class="index-module--nav-item--8jKuC theme-5" href="/labs">实验室</a><a class="index-module--nav-item--8jKuC theme-6" href="/about">关于我</a></nav></div></div><section><section class="article-section"><aside class="article-aside"><div class="article-aside__item"><div class="aside-item__title">Published</div><div class="aside-item__content"><time>2022-02-18</time></div></div><div class="article-aside__item"><div class="aside-item__title">Category</div><div class="aside-item__content"><a class="category-item" href="/categories/解决方案">解决方案</a></div></div><div class="article-aside__item"><div class="aside-item__title">Tags</div><div class="aside-item__content"><div class="tag-item">笔记</div><div class="tag-item">架构</div></div></div><div class="article-aside__item"><div class="aside-item__title">Content</div><div class="aside-item__content"><div class="aside-toc"><a href="#121-评估得真知">12.1 评估得真知</a><a href="#122-检验设计">12.2 检验设计</a><a href="#1221-准备评估对象">12.2.1 准备评估对象</a><a href="#1222-定义评估准则">12.2.2 定义评估准则</a><a href="#1223-形成判断">12.2.3 形成判断</a><a href="#123-举办评估研讨会">12.3 举办评估研讨会</a><a href="#1231-准备工作">12.3.1 准备工作</a><a href="#1232-帮评估者做好准备">12.3.2 帮评估者做好准备</a><a href="#1233-评估">12.3.3 评估</a><a href="#1234-分析与结论">12.3.4 分析与结论</a><a href="#1235-后续行动">12.3.5 后续行动</a><a href="#124--尽早评估反复评估持续评估">12.4  尽早评估，反复评估，持续评估</a><a href="#1241-用评估金字塔平衡成本与价值">12.4.1 用评估金字塔平衡成本与价值</a><a href="#1242-发现各种类型的问题">12.4.2 发现各种类型的问题</a><a href="#1243-从仪式感弱的评估方法开始">12.4.3 从仪式感弱的评估方法开始</a><a href="#结束语">结束语</a></div></div></div></aside><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">《架构师修炼之道》摘录12-架构评估</h1></header><img class="article-cover" alt="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"/><section itemProp="articleBody" class="content"><blockquote class="quote">
+<p class="para">本系列内容来自《架构师修炼之道》。在自己的笔记中以半摘录的方式，用 blockquote 穿插自己的思考和感悟，以加深对内容的理解和消化。</p>
+</blockquote>
+<p class="para">全书整体分为三个部分</p>
+<ul>
+<li>
+<p class="para">第一部分介绍软件架构的基础知识和架构师必备的设计思维</p>
+</li>
+<li>
+<p class="para">第二部分讲解架构师需要掌握的核心技能和知识</p>
+</li>
+<li>
+<p class="para">第三部分讨论一系列使用的架构设计方法</p>
+</li>
+</ul>
+<p class="para">前两部分适合从头到尾通读，第三部分用于参考和检索。</p>
+<p class="para">对学生、家长、老师来说，成绩单是重要的反馈渠道。学生不必等到年底才知道自己的课程是“过来”还是“挂了”——通过每个季度的成绩单，就能判断自己是否获得了理想的成绩，以及哪些地方需要改进。架构评估的作用就像是成绩单一样，它让我们尽早发现问题，从而按计划交付系统。</p>
+<p class="para">架构评估可以提高开发效率，而不是单纯地占用编程时间。顺利的话，架构评估一小时就可以完成，它很容易融入现有开发流程中，而且不需要团队成员掌握什么新知识。</p>
+<p class="para">本章将学习对架构进行评估。评估结果可以用于指导团队、为设计决策提供支持、降低交付风险、提高架构设计水平。</p>
+<h2 class="heading subtitle heading" id="121-评估得真知" style="position:relative;"><a href="#121-%E8%AF%84%E4%BC%B0%E5%BE%97%E7%9C%9F%E7%9F%A5" aria-label="121 评估得真知 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.1 评估得真知</h2>
+<p class="para">架构评估让我们了解架构能在多大程度上实现目标。人们通常误以为在架构设计的最后阶段做一次槛车即可。这种想法是绝对错误的。如果架构设计有问题，那么所有工作都是徒劳，甚至连项目都无法实施。</p>
+<p class="para">你不必等到一切都完美了，才开始评估。没有哪个架构是完美的，也没有哪个架构是毫无可取之处。就像我们不能从单一视图看整体架构一样，我们也不可能一次完成整个架构的评估。</p>
+<p class="para">贯彻架构评估的一种方式是进行正式的签字验收。在组件必须满足严格标准的情况下，这样的签字显得尤为重要。例如，对于需要大量集成或对硬件有较高要求的系统，签字验收可以避免代价高昂的返工。</p>
+<p class="para">签字验收非常重要，但架构评估的作用远不止于此。如果只是把架构评估看成是开发流程中的阶段性检查，那真是大材小用了。架构评估是论证架构能否满足利益相关方需求的唯一方法。</p>
+<p class="para">架构评估要回答两个问题：架构有多好？好在哪里？为了回答这两个问题，我们需要用到关键架构需求（ASR）。架构越能满足ASR，就越符合目标要求。</p>
+<h2 class="heading subtitle heading" id="122-检验设计" style="position:relative;"><a href="#122-%E6%A3%80%E9%AA%8C%E8%AE%BE%E8%AE%A1" aria-label="122 检验设计 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.2 检验设计</h2>
+<p class="para">尽早检验，频繁检验。这条原则既适用于代码，也适用于架构。即使在架构设计初期，也有值得检验的地方。</p>
+<p class="para">架构评估需要做三方面的准备： 第一，要有评估对象，即架构的有形呈现；第二，要有评估准则，它反映利益相关方对优劣的看法；第三，制定计划，帮助评估者形成判断，指出架构的可取之处。</p>
+<h3 class="heading" id="1221-准备评估对象" style="position:relative;"><a href="#1221-%E5%87%86%E5%A4%87%E8%AF%84%E4%BC%B0%E5%AF%B9%E8%B1%A1" aria-label="1221 准备评估对象 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.2.1 准备评估对象</h3>
+<p class="para">有了评估对象才能开展评估。人们习惯评估有形的东西，而不是别人脑袋里的想法。首先要将架构展示出来，比如在白板上画草图，或者提供完整的架构描述。呈现架构的方式很多，例如：写代码：在纸上或白板上画模型草图：用绘图软件画模型：用 PPT 展示架构视图：展示实验结果；使用传统的架构描述、架构主旨、架构决策记录。</p>
+<p class="para">用直观的方式呈现架构，可以更好地展示设计思想和设计意图，让大家明白我们准备如何落实关键架构需求 (ASR），或者我们己经采用了哪些做法来落实。</p>
+<p class="para">想得到什么反馈，就应该准备相应的展示对象。例如：如果你希望评估某个质量属性，就应该展示包含该质量属性的架构视图。如果架构还不成熟，又希望做整体评估，那么可以画粗略的草图，表示设计还没有定型。而评估高风险、高成本的设计方案，最好采用正式的、精确的展示形式，以强调问题的严重性。</p>
+<h3 class="heading" id="1222-定义评估准则" style="position:relative;"><a href="#1222-%E5%AE%9A%E4%B9%89%E8%AF%84%E4%BC%B0%E5%87%86%E5%88%99" aria-label="1222 定义评估准则 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.2.2 定义评估准则</h3>
+<p class="para">架构的优劣有时不是那么明显。一个人眼里的杰作，在另一个人看来也许是糟粕。因此要建立评估准则，用各种指标判断架构的适用性。</p>
+<p class="para">架构准则包含两部分：指标是指待评估的架构属性；评分是对指标的打分。</p>
+<p class="para">在书中的Lionheart项目案例中，作者使用质量属性场景作为指标。评估者根据表格下方的评分标准打分。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c06492bf8889be7453b59cf548956987/28fe3/cc7df332bbb2741b.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 69.68085106382979%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACa0lEQVQ4yz2T65KiQAyFef/H2NqaGccZRUQE+k5DNyji/XnOVoLuj1S0Sb6cE5rk/nzg9nzgervifr/hdDpimkZcrxPu9ysulwmXywnTNJ93nYe1GsYoNI1FCC3nvu9wPA5IHs87Nz4eNzyfdwxD5BjHAxddr+cZep0wnY8IsUXjLbrgGdZ1M1DKmvsSaqBmrSWcs6ziHW8wqXLO4HCM6IcOwxDQ94GVSiXgrEFZ7ll1QtZiDJBSoG0beO8YTtk3FloJKFVD1CWaxjCQBsTYQinBkLZr0LYO1mkkbyW+cZzfO7JW8QDKztK+NJzTMFZCyorhBHCN4d9aC2hdz0CST2oY7C2sURwheDRuLmaQKF+NgiHGSDR+BkpR8fNkPB0QY8cAymSBLJIK12jOdV0gz1MOpSq0nUOIHtoIOKdgneIhUpZIjmPPBUpW6LrmNa1kaF3vGVYUW9RVgW22xu/Pgs8JVFUF1xJIv0Qk0/nAOxOiQgwefd9iHHscDxGXy4jz5YjTdMB4GvicYuAX4zja1s4qrYQxYlaoZI18myFLV1ivlijLHbLNCsUug6gLlPsc+XaNfJtit01R0fNszep3+YYzwdgyLT5dr/C9+ML34oOtbdIVNukvlotPHpCulvj4+wc/yy8svz+x+PzL5zRQyfK/bRqe0H2K0cN7wxYOh4A+0lfgEALdS81XxhrBtmhXb8X7IuOXJMW8axKTdMEh9h5G19CqYjjthUCt1xgGusQOMTj+37Ya3isYM9cziNZS5ij3WySkjACkZlZQsXTeV54idJZBjROvkLC2hlJks4AQBaoqR1luURQZ/gHqGozW8xnZfwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="cc7df332bbb2741b"
+        title="cc7df332bbb2741b"
+        src="/static/c06492bf8889be7453b59cf548956987/1d69c/cc7df332bbb2741b.png"
+        srcset="/static/c06492bf8889be7453b59cf548956987/4dcb9/cc7df332bbb2741b.png 188w,
+/static/c06492bf8889be7453b59cf548956987/5ff7e/cc7df332bbb2741b.png 375w,
+/static/c06492bf8889be7453b59cf548956987/1d69c/cc7df332bbb2741b.png 750w,
+/static/c06492bf8889be7453b59cf548956987/78797/cc7df332bbb2741b.png 1125w,
+/static/c06492bf8889be7453b59cf548956987/aa440/cc7df332bbb2741b.png 1500w,
+/static/c06492bf8889be7453b59cf548956987/28fe3/cc7df332bbb2741b.png 3446w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para"><strong>根据关键架构需求选择指标</strong></p>
+<p class="para">关键架构需求从利益相关方的角度定义了系统目标。第五章曾学习了列举关键架构需求，用于分析和评估。只要能准确、清晰地给出可度量的关键架构需求，就不难选择评估指标。合格的指标应该满足一下条件：</p>
+<ul>
+<li>
+<p class="para"><strong>举足轻重、不可或缺</strong>。评估指标与关键架构需求有关，它体现了我们认为的好架构应该是什么样子。指标不应该包合锦上添花的东西，也不应该包含一些无关紧要的、对满足系统目标没有帮助的细节。</p>
+</li>
+<li>
+<p class="para"><strong>互不重叠</strong>。指标应该相互独立，每项指标都体现架构设计在某一方面的适用。理想情况下，每项指标都应该可以独立进行评估和打分。</p>
+</li>
+<li>
+<p class="para"><strong>易观察、可衡量</strong>。评估者必须能够对指标进行评估与打分。为了便于观察，应该采用恰当的形式将架构展示出来。评估过程应该收集数据，用于衡量指标。</p>
+</li>
+<li>
+<p class="para"><strong>准确不模糊</strong>。所有评估者都能够正确理解指标。</p>
+</li>
+</ul>
+<p class="para">质量属性场景完全满足这些条件，可以作为评估指标。</p>
+<p class="para"><strong>选择评分标准</strong></p>
+<p class="para">评估过程中，评估者用统一的评分标准为指标打分。评分标准包含评分等级。评分等级的多少由评估目标决定。下表列举了一些评分标准及使用场景。</p>
+<table>
+<thead>
+<tr>
+<th>评分等级</th>
+<th>示例</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>两级</td>
+<td>是/否</td>
+<td>针对单一条件、标准、对象，要么接受，要么否定；适用于单个或少数评估者。</td>
+</tr>
+<tr>
+<td>三级</td>
+<td>未通过/通过/极佳</td>
+<td></td>
+</tr>
+<tr>
+<td>从不/有时/总是</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>较低/可接受/较高</td>
+<td>评估条件存在最低门槛，同时也有最高的理想状态；适用于多位评估者。</td>
+<td></td>
+</tr>
+<tr>
+<td>四级</td>
+<td>从不/有时/经常/总是</td>
+<td></td>
+</tr>
+<tr>
+<td>未通过/勉强通过/通过/优秀</td>
+<td>希望获得更详细的反馈，体现细微差别。</td>
+<td></td>
+</tr>
+<tr>
+<td>五级及以上</td>
+<td>用相应数字表示（如1~5)</td>
+<td>尽量避免使用这种方式。等级过多效果反而不佳。</td>
+</tr>
+</tbody>
+</table>
+<p class="para">上面的例子展示了评分标准的作用，但没有解释评估者是怎么打出分数的。用合适的方法引导评估者打分也很重要。</p>
+<p class="para">现在我们将架构展示出来了，也有了评分标准。最后一步是帮助评估者形成判断，进行评分。</p>
+<h3 class="heading" id="1223-形成判断" style="position:relative;"><a href="#1223-%E5%BD%A2%E6%88%90%E5%88%A4%E6%96%AD" aria-label="1223 形成判断 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.2.3 形成判断</h3>
+<p class="para">评估准则包含要回答的问题，如下图。如果我们能帮评估者形成判断，我们就能找到问题的答案。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/601fe3037e110d59b19b381513d9a4c8/2d912/8fa3497753a07b05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 35.638297872340424%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABHElEQVQoz3WQC4vcMAyE8///Y4+W7l42iZ2XY8vvr9jLLtwdFQwSntEw8pCiJfqTHA3RH6Rw8apaElF2cjg6gmzUkt98itebbz0Fy+CviexPxtsvnFnxl2JZJu73kWX6g5iF8fbB4/5BsBq93JlnhVIzh/5LdFvnohw0ryE4TbAL53pDzIy3GhGHdYK7NoJb2dSNQ38S3YqzOyIecRa5FMHtmH3qXNMOpRRyipSSyClQcqLW+jy59VrY9xVxF7UWKl8rBI8x53M/56dhKfUbSkcTtFJKsa4bNft+QUvSepSNlCKPx/TeGV7D/9BSei+c5sLsI9Fpps/fOKOxx4haZkSk634YtkTfDV9vKRe8O/BW4S7d/66nDb5rXrp/lUwgNDDdHGYAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="8fa3497753a07b05"
+        title="8fa3497753a07b05"
+        src="/static/601fe3037e110d59b19b381513d9a4c8/1d69c/8fa3497753a07b05.png"
+        srcset="/static/601fe3037e110d59b19b381513d9a4c8/4dcb9/8fa3497753a07b05.png 188w,
+/static/601fe3037e110d59b19b381513d9a4c8/5ff7e/8fa3497753a07b05.png 375w,
+/static/601fe3037e110d59b19b381513d9a4c8/1d69c/8fa3497753a07b05.png 750w,
+/static/601fe3037e110d59b19b381513d9a4c8/78797/8fa3497753a07b05.png 1125w,
+/static/601fe3037e110d59b19b381513d9a4c8/aa440/8fa3497753a07b05.png 1500w,
+/static/601fe3037e110d59b19b381513d9a4c8/2d912/8fa3497753a07b05.png 1772w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">形成判断的方法很多，如问卷调查、定向探索、风险手机、代码分析等。选择哪种方法要由回答问题所需的信息决定。下面的表格提供了一些参考示例。</p>
+<p class="para">架构评估的大部分时间都花在形成判断上。这种判断通常是在架构评估研讨会上通过协作产生的，因此我们有必要了解如何举办架构评估研讨会。</p>
+<h2 class="heading subtitle heading" id="123-举办评估研讨会" style="position:relative;"><a href="#123-%E4%B8%BE%E5%8A%9E%E8%AF%84%E4%BC%B0%E7%A0%94%E8%AE%A8%E4%BC%9A" aria-label="123 举办评估研讨会 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.3 举办评估研讨会</h2>
+<p class="para">架构评估研讨会的目标是收集与分析评估架构所需的数据。研讨会结束时我们应该能够确定架构能在多大程度上满足既定 质量属性和其他关键架构需求。</p>
+<p class="para">虽然评估研讨会的形式多样，但它们都遵循相同的流程：</p>
+<ul>
+<li>
+<p class="para">准备工作：设法将架构设计呈现出来；制定评估准则：选择收集数据的方法：邀请评估者。</p>
+</li>
+<li>
+<p class="para">帮评估者做好淮各：向评估者展示架构设计，说明评估准则：阐述评估目标，回答评估者的问题。在开始评估之前，评估者应当充分理解架构设计、评估准则和评估的目标。</p>
+</li>
+<li>
+<p class="para">评估：引导评估者通过一系列活动研究架构设计，形成判断，给指标打分。活动既可以合作开展，也可以是独立进行。</p>
+</li>
+<li>
+<p class="para">分析与结论：收集评估者反馈的数据（评分）；汇总结果，给出结论。</p>
+</li>
+<li>
+<p class="para">后续行动：根据研讨会的发现，决定下一步的行动。</p>
+</li>
+</ul>
+<p class="para">下面逐一讲解以上步骤。</p>
+<h3 class="heading" id="1231-准备工作" style="position:relative;"><a href="#1231-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C" aria-label="1231 准备工作 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.3.1 准备工作</h3>
+<p class="para">首先要定义评估目标，然后围绕这一目标设法将架构设计展示出来。下表中列举了常见的评估目标和展示内容。</p>
+<p class="para">除此之外，还要制定评估准则，搜集评分所需的数据。另外，别忘了制定研讨会议程和准备相关资料。</p>
+<p class="para">选择评估者要兼顾利益相关方与非利益相关方。评估者应当关心系统，同时擅长发现细节问题。理想的人选应该精通行业知识和领域知识，或者对采用的技术、模式有专业见解。架构评估至少需要两位评估者。如有必要，最多可以邀请几十位评估者。</p>
+<table>
+<thead>
+<tr>
+<th>评估目标</th>
+<th>展示内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特定质量属性的实现方式</td>
+<td>有关的质量属性视图、测试结果、用例、质量属性场景。</td>
+</tr>
+<tr>
+<td>技术或模式的选择</td>
+<td>相应的技术和模式、实验方法、试验结果、质量属性场景。</td>
+</tr>
+<tr>
+<td>满足成本要求或进度目标的可能性</td>
+<td>组件及评估的开发成本和时间、技术依赖、团队能力。</td>
+</tr>
+<tr>
+<td>设计的演变路径</td>
+<td>当前架构和目标架构、演变步骤。</td>
+</tr>
+<tr>
+<td>架构描述的完整性或正确性</td>
+<td>架构描述、文档质量检查清单。</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>滥用案例、误用案例、威胁模型、数据存储、识别铭感点和攻击响亮所需要的视图。</td>
+</tr>
+<tr>
+<td>发布就绪程度</td>
+<td>质量属性场景、相关视图、发布清单、测试结果。</td>
+</tr>
+</tbody>
+</table>
+<p class="para">邀请完评估者后，我们要帮他们做好评估准备。</p>
+<h3 class="heading" id="1232-帮评估者做好准备" style="position:relative;"><a href="#1232-%E5%B8%AE%E8%AF%84%E4%BC%B0%E8%80%85%E5%81%9A%E5%A5%BD%E5%87%86%E5%A4%87" aria-label="1232 帮评估者做好准备 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.3.2 帮评估者做好准备</h3>
+<p class="para">评估者应该掌握必要的信息，以便做出高质量的评估。这些信息包括：项目背景、关键架构需求、待评估的架构设计等。你要回答评估者就项目背景、评估准则、评估目标提出的问题。</p>
+<p class="para">准备好白板。如果时间允许，不妨在研讨会开始时当着大家的面把架构设计思路画出来，同时介绍项目背景。</p>
+<p class="para">帮评估者做好这些准备后，就可以开始正式评估了。</p>
+<h3 class="heading" id="1233-评估" style="position:relative;"><a href="#1233-%E8%AF%84%E4%BC%B0" aria-label="1233 评估 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.3.3 评估</h3>
+<p class="para">在这个阶段，应该通过一系列活动引导评估者，帮助他们发现设计缺陷和潜在风险，从而形成判断。有许多方法可以帮助大家形成判断。这里我们先举几个例子，更详细的介绍请参考第 17章。</p>
+<ul>
+<li>
+<p class="para">场景排查（见第17.8节）是最常用的方法，也是最基本、最可靠的架构评估方法。</p>
+</li>
+<li>
+<p class="para">“问题-评论-关注事项”（见第 17.5 节〉是一种可视化的头脑风暴方法，可以帮助评估者迅速了解架构信息，发现疑点。</p>
+</li>
+<li>
+<p class="para">风险风暴（见第17.6节）也是一种可视化的头脑风暴方法，常用于发现系统特定视图中存在的风险。</p>
+</li>
+<li>
+<p class="para">绘制草图做比较(见第 17.9节）可以用来比较不同方案的优劣 （如比较提升同一质量属性的多种方案）。</p>
+</li>
+<li>
+<p class="para">代码评审（见第17.2节，不太容易发现架构的问题，但它可以识别代码与架构不一致的地方。代码评审也常常用来检查代码中的静态结构。</p>
+</li>
+<li>
+<p class="para">如果已经有了架构决策记录（见第 16.1节），那么可以借助它回顾设计决策并确定这些决策是否仍然有效。架构决策记录也可以用来评估适用性。</p>
+</li>
+</ul>
+<p class="para">根据评估目标、评估时间，以及利益相关方对架构评估的熟练程度来选择评估方法。经验丰富的小团队（约三四个人）能够在 60 分钟内借助“问题-评论-关注-事项“方法做出有效的判浙。而缺少经验的团队可能要先花时间回顾质量属性场景和设计决策，才能取得较好的效果。</p>
+<p class="para">我们希望通过评估研讨会判断架构是否满足指标，但这不是研讨会的唯一目标。除了得出架构是否合格的结论，我们还希望了解如何改进架构设计。</p>
+<h3 class="heading" id="1234-分析与结论" style="position:relative;"><a href="#1234-%E5%88%86%E6%9E%90%E4%B8%8E%E7%BB%93%E8%AE%BA" aria-label="1234 分析与结论 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.3.4 分析与结论</h3>
+<p class="para">无论评估使用什么指标，都需要得出清晰、明确的结论。架构评估的结论不应该是简单的”通过“和”没通过“。结论应该清晰表述架构满足指标的程度，同时提出改进架构的建议。除了判断架构是否满足要求，还应该分析架构为什么不满足要求，以及如何改进。</p>
+<p class="para">通过评估发现风险，找出架构设计可能引发的问题。把研讨会收集的数据共享给大家，请大家寻找规律。让大家就存在疑问的地方自由提问。通过开发性的提问环节找出大家对架构理解的差异。</p>
+<p class="para">得出结论后，还要决定接下来做什么。</p>
+<h3 class="heading" id="1235-后续行动" style="position:relative;"><a href="#1235-%E5%90%8E%E7%BB%AD%E8%A1%8C%E5%8A%A8" aria-label="1235 后续行动 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.3.5 后续行动</h3>
+<p class="para">想解决评估过程中提出的所有风险和问题是不现实的，我们也没有足够的时问这么做。给问题排定优先级，把亟待解決的问题和值得研究但不紧急的问题区分开。可以指定一个人决定针对高优先级高的问题接下来应该做什么。</p>
+<p class="para">评估研讨会结束后，应该总结并记录发现的问题及后续行动计划，然后共享给所有人。小型研讨会可以群发邮件，写明后续行动要点：大型研讨会可以撰写一份简要的报告，并附上原始会议记录的链接。</p>
+<p class="para">总结报告向利益相关方展示了会议成果，可以作为架构设计进展的标志。总结报告对未来接手系统的架构师和其他人来说都有很高的借鉴价值。</p>
+<p class="para"><strong>黄金法则：架构劝和分析方法（ATAM）</strong></p>
+<p class="para">架构权衡分析方法是迄今为止最系统、最全面的评估方法之一。在《ATAM： Method for Architecture Evaluation》和《软件架构实践》两本书对此有详细论述。本章介绍的评估研讨会就是在 ATAM 的基础上简化而来的。</p>
+<p class="para">ATAM 要求参与者具有较高的素质和丰富的经验，而且持续时间长达数日甚至数周。它适合用来设计导弹制导和自动驾驶这样复杂的系统。普通的软件系统采用本章介绍的方法就足够了。</p>
+<h2 class="heading subtitle heading" id="124--尽早评估反复评估持续评估" style="position:relative;"><a href="#124--%E5%B0%BD%E6%97%A9%E8%AF%84%E4%BC%B0%E5%8F%8D%E5%A4%8D%E8%AF%84%E4%BC%B0%E6%8C%81%E7%BB%AD%E8%AF%84%E4%BC%B0" aria-label="124  尽早评估反复评估持续评估 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.4  尽早评估，反复评估，持续评估</h2>
+<p class="para">开发团队最容易犯的错误足不开展架构评估，或者开展得台湾。越早评估，越容易发现问题并加以改进。把架构评估作为日常开发的常规环节效果会更好。</p>
+<p class="para">我们每天都有机会确认（或修正），设计决策。比如，给别人讲解架构如何提升质量属性时就是排查架构的绝佳机会；结对编程以及提交代码给同事审核时也是评估架构的好时机。</p>
+<h3 class="heading" id="1241-用评估金字塔平衡成本与价值" style="position:relative;"><a href="#1241-%E7%94%A8%E8%AF%84%E4%BC%B0%E9%87%91%E5%AD%97%E5%A1%94%E5%B9%B3%E8%A1%A1%E6%88%90%E6%9C%AC%E4%B8%8E%E4%BB%B7%E5%80%BC" aria-label="1241 用评估金字塔平衡成本与价值 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.4.1 用评估金字塔平衡成本与价值</h3>
+<p class="para">Mike Cohn 曾提出测试金字塔（test pyramid）的概念。他发现不同类型的测试适合发现不同的bug。有些测试容易创建和维护（主要是单元测试），但这类测试无法捕捉所有 bug，所以还需要补充一些复杂的、运行较慢的集成测试。</p>
+<p class="para">评估金字塔 (evaluation pyramid）有着相似的原理。大部分架构评估都能快速完成。对于快速评估无法发现的问题，可以补充少量深度评估。除了快速评估和深度评估，还可以采用定向评估（见下图）。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 600px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/99bb754a619d85558673b6a24946c4f4/0a47e/2937bb4af6ba75ab.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 67.5531914893617%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC7ElEQVQ4y02RWVPiWhSF87ut7gcVZNBSRCBKEhvIHBKmAJnIAAgCYWjvj8lj1q1zrO7qh6/2Odl7r7XqhDmdD0jTHdLTHof0E8fTHpfLEafTHudziq+vEz2fTgfaIzP7/ZZyPO6RHnd0/3g8ID3uwex2W7pwuaR0gCz+/jri678zPjYrzOY2Lr9TnM7fvUO6w+HwSQnDAFEUIEki+L6L3X4LZu7MEcYh1psVVh9rrD/W2H5usNluwAvveHx6hj2zsfncIFklSJYJoiSmO3PXwWRqw3EdOK6LOInBjO0JHM9FEC4oZHi5XkOUZRTuSiiWyqjVX+D6PsI4gr8I4AUEH4swpIJzx0GwWMAPAjBEbBGF365RRFNOplOwb220eR5tXgAnvENSVKzXa0qcJIjiCFEUwfM8ShiGiOMYDIlLXIl7vEzg+h5e220q2GJfKUT0tc2h3+9juVpSISJAcF0X5NmCIKAw5B18Ej8KaWyOF1BvNNFkWTzVnikvjSbYtzewLIvhcEiT/BFwHAe2bVNhAjOajGkqIvir28Fj7Rn1lwblpdlEo9VCo9FAs9mktFot2FObinmej9lsRk183/8WVHUdnu9BUVXcFgoolcsoVyqo/EO1WsX9/T0eHh5QLpdRr9fhug5m0ykGgwFM04Q9sTGfz8GYpgXDMFAsFnFzc4NCoUDPpP748RNXV1coFooolUp/IT2Oa8OyLCiKguFwBLEn0qSMNbCo8/X1NW5vb/9Clgh/7v+a3d3d0W+dzi/Y9gSj0RiTyQTj8RhMTxLzrijmkiznkiTlsiznqqrmqqrksizliiLnmqbkmqbmmqbRnq5ruWFoua6ruWX1c8syKaPRIGfIj+j0uuiIPXR7PUiSBI7jwPMcut0OBIGnvAsCRFGEYejo9w0MBibFNA30+zqtlmmA4QQ+43gu4/nv2ul0slqtRmFZNnt6fMyqlWpWKVcyttXKJKmXiWI3UxQp0zSFomtqpmtK1je07H+/a0djrpBz8AAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2937bb4af6ba75ab"
+        title="2937bb4af6ba75ab"
+        src="/static/99bb754a619d85558673b6a24946c4f4/0a47e/2937bb4af6ba75ab.png"
+        srcset="/static/99bb754a619d85558673b6a24946c4f4/4dcb9/2937bb4af6ba75ab.png 188w,
+/static/99bb754a619d85558673b6a24946c4f4/5ff7e/2937bb4af6ba75ab.png 375w,
+/static/99bb754a619d85558673b6a24946c4f4/0a47e/2937bb4af6ba75ab.png 600w"
+        sizes="(max-width: 600px) 100vw, 600px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">一般的系统大约需要开展一两次深度评估、几十次定向评估、几百次快速评估。深度评估可以视为系统生命周期的重大里程碑。定向评估可以定期开展，平均两到四周举行一次。快速评估则应该作为开发流程的一部分，每天开展一次（或多次）。</p>
+<p class="para">仅仅做到持续评估还不够，我们还需要熟悉常见的架构问题类型，确保评估覆盖所有范围。</p>
+<h3 class="heading" id="1242-发现各种类型的问题" style="position:relative;"><a href="#1242-%E5%8F%91%E7%8E%B0%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98" aria-label="1242 发现各种类型的问题 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.4.2 发现各种类型的问题</h3>
+<p class="para">分为七类问题，来看看每一类问题具体是什么。</p>
+<p class="para"><strong>风险</strong> 风险是未来可能发生的糟糕的事情。描述风险需要两个部分：条件和后果。条件是当前的实际情况，后果是由条件引发的、将来可能出现的不良状况。我们要么选择降低风险，要么接受它。</p>
+<p class="para"><strong>信息空白</strong> 有时，我们缺少足够的信息判断架构是否满足关键架构需求。询问系统如何运转以及如何满足特定的架构需求，有助于发现信息空白，进而采取措施。从未发现的信息空白称为盲点。盲点的存在对架构来说是巨大的威胁。信息空白需要做进一步的调查和研究。</p>
+<p class="para"><strong>麻烦</strong> 和风险不同，麻烦是已经出现的问题。你制定了设计决策，但事情并没有按你期待的那样发展，就有麻烦了。有时，因为情况发生了变化，上一刻的明智之举在下一刻变得不合适了，这也是麻烦产生的原因。如果麻烦已经存在于代码里，我们称之为技术债务。我们要么选择解决麻烦，要么接受它。</p>
+<p class="para"><strong>认知偏差</strong> 你说往左，团队却以为要往右，这就是认知偏差。如果有人对架构的理解与当前的设计决策不相符，就出现了认知偏差。认知偏差尤其容易出现在架构频繁演变的系统中。认知偏差可以通过沟通、指导解决。
+<strong>架构变异</strong> 实现系统几乎不会按照我们预想的方式出现。理想中的架构与最终实现的架构之间的差异，称为架构变异，也叫架构偏移 (architectural drif）或架构腐烂（ architectural rot）。如果不保持警惕，架构每天都可能偏离既定设计，等到完成那天，你会发现它和原来的计划大相径庭。定期检查代码和文档，可以解决架构变异的问题。</p>
+<p class="para"><strong>情境偏移</strong> 世界无时无刻不在发生变化。开发过程中，新情况、新条件不断涌现。原来的快策有可能变得不合适了。也许我们刚做完设计决策，业务情境就发生了变化——这就是情境偏移 (contextual drif）。不定期地回顾业务目标、关键架构需求、利益相关方提供的材料可以避免情境偏移。</p>
+<p class="para">经验不足的架构师往往只对某一类问题敏感。如果你想改善架构评估的效果，有一个简单的方法，那就是多问一些之前没有问过的问题。试着提出不同类型问题，你才能知道自己有多么“无知”。</p>
+<h3 class="heading" id="1243-从仪式感弱的评估方法开始" style="position:relative;"><a href="#1243-%E4%BB%8E%E4%BB%AA%E5%BC%8F%E6%84%9F%E5%BC%B1%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E5%BC%80%E5%A7%8B" aria-label="1243 从仪式感弱的评估方法开始 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12.4.3 从仪式感弱的评估方法开始</h3>
+<p class="para">方法的仪式感指的是运用它所包含的正式手续的数量。仪式感强的方法有很多约束，成本高，但其可复用性好，可以保证较好的效果。而仪式感弱的方法不拘小节，规矩少，易于上手，使用成本低，缺点是使用范围窄，难以保证效果。</p>
+<p class="para">如果团队刚开始做架构评估，采用 ATAM 这种仪式感强的方法可能导致大家产生畏难情绪。因此，刚开始时可以从仪式感弱的方法开始，你甚至没必要告诉团队我们正在做架构评估。</p>
+<p class="para">我举一个例子。做完白板涂鸦(见第 15.9节）后，把大家把留下一起做评估。你先起个头：“看起来我们的进展很不错。大家看看还有什么办法可以提升这个质量属性？”，把大家的发言记到白板上。跟大家一起总结新的发现，然后确定下一步的行动。这样不到十分钟时间，就能完成一次临时的架构评估。</p>
+<p class="para">仪式感弱的评估方法可以引发大家对架构的思考，同时树立质疑设计决策的团队文化。等团队适应后，可以逐步引入定向评估，最终进入深度评估。</p>
+<blockquote class="quote">
+<p class="para">我们必须承认强仪式感的确能让人感受到架构会议的专业性，但是一定程度上会增加参会人员的压力。最终的效果可能反而会不尽人意。对于没有类似经验的团队，可以尝试将会议流程简化，调动参会人员的积极性，把交流讨论的氛围活跃起来。类似头脑风暴会议，但又不完全是。前者用于讨论确定初步的架构方案的那个环节，然后在进入本章讨论的架构方案评估环节。</p>
+</blockquote>
+<h2 class="heading subtitle heading" id="结束语" style="position:relative;"><a href="#%E7%BB%93%E6%9D%9F%E8%AF%AD" aria-label="结束语 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>结束语</h2>
+<p class="para">确定架构评估需要准备的资料，包括评估对象，评估准则。在组织评估会议前，需要提前准备，定义好评估目标，搜集评分所需要的数据，指定研讨会议程和其他相关资料。尽早评估，反复评估，持续评估。将架构评估加入到开发流程的一环中，有助于帮助完善架构。从仪式感弱的评估方式开始，减轻团队压力，引发团队对架构的思考，待团队适应之后，逐步引入仪式感强的评估方式，最终进入深度评估。</p>
+<p class="para">架构是团队文化的有机组成部分。糟糕的架构会让人痛苦不堪。架构评估能帮助我们理解如何改善架构设计。</p></section></article><div class="pagination"><div class="index-module--pagination--iWu7S"><a class="index-module--paginationItem--ZgXus" rel="prev" href="/blogs/《架构师修炼之道》摘录13-鼓励团队参与架构设计/"><div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div> <span class="index-module--paginationItemPrev--WtmXw">《架构师修炼之道》摘录13-鼓励团队参与架构设计</span></a><span></span><a class="index-module--paginationItem--ZgXus" rel="next" href="/blogs/《架构师修炼之道》摘录11-描述架构/"><span class="index-module--paginationItemNext--nbZSQ">《架构师修炼之道》摘录11-描述架构</span> <div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(-90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div></a></div></div></section></section></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-50406624-2', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blogs/《架构师修炼之道》摘录12-架构评估/";window.___webpackCompilationHash="136b2da2e8b1b23964e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4f3032a41e5c476c8f46.js"],"app":["/app-a99b6c2ab16d3879fc0c.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-adf2066c282d2a1fad9e.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-7b09644532f5bd1dcc54.js"],"component---src-pages-archives-tsx":["/component---src-pages-archives-tsx-ddc2637e6d877197950e.js"],"component---src-pages-categories-tsx":["/component---src-pages-categories-tsx-b5a2e4d86066d30e963f.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-7e0f083acf9cb537d315.js"],"component---src-pages-labs-tsx":["/component---src-pages-labs-tsx-73eba9758ec10d8f2e57.js"],"component---src-templates-blog-list-tsx":["/component---src-templates-blog-list-tsx-7eb438f670f1bdf1603e.js"],"component---src-templates-blog-post-tsx":["/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"],"component---src-templates-categories-js":["/component---src-templates-categories-js-7fe7e84267b6c1ad1f7e.js"]};/*]]>*/</script><script src="/polyfill-4f3032a41e5c476c8f46.js" nomodule=""></script><script src="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js" async=""></script><script src="/commons-904b92826443395b7905.js" async=""></script><script src="/app-a99b6c2ab16d3879fc0c.js" async=""></script><script src="/framework-4b7b24ae718e4140a055.js" async=""></script><script src="/webpack-runtime-adf1335a44885cfac931.js" async=""></script></body></html>
