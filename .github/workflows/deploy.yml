@@ -27,7 +27,7 @@ jobs:
 
       - name: Build storybook and copy some files
         run: |
-          pnpm run build-storybook
+          # pnpm run build-storybook
           # cp ./CNAME ./dist/CNAME
           cp ./ads.txt ./dist/ads.txt
   deploy:
