@@ -4,7 +4,7 @@ const { URL } = require('url');
 const client = require('https');
 const crypto = require('crypto');
 
-const DIST = path.resolve(process.cwd(), './content/notion');
+const DIST = path.resolve(process.cwd(), './contents/notion');
 const CACHE_DIST = path.resolve(DIST, '.cache');
 // const ImageReg = /(!\[.*\]\(|cover:\s*)([^)\s]*)/g; // 包含封面
 const ImageReg = /(!\[.*\]\()([^)\s]*)/g;
