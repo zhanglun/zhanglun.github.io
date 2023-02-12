@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-categories-js",
-    "path": "/categories/杂七杂八",
-    "result": {"data":{"site":{"siteMetadata":{"title":"张小伦的网络日志","description":"欢迎来到张小伦的网络日志 \n\t\t一个记录生活，分享心得的博客","menu":[{"id":"home","name":"首页","url":"/"},{"id":"blog","name":"博文","url":"/blogs"},{"id":"category","name":"分类","url":"/categories"},{"id":"archive","name":"归档","url":"/archives"},{"id":"lab","name":"实验室","url":"/labs"},{"id":"about","name":"关于我","url":"/about"}]}},"allMarkdownRemark":{"nodes":[{"excerpt":"不知不觉，从14年到现在，自己的博客已经维护了8年了。虽然文章写的不多，质量也参差不齐，但是热情还是在的。 之前因为Hexo构建速度慢的问题，我将构建工具迁移到了Hugo生态。到目前为止，运行了小一年。但是本质上来说，除了更换了主题之外，其他并无太多差别。之所以说没有太多差别，…","fields":{"slug":"/blogs/博客又搬家了/"},"frontmatter":{"date":"2021-08-19","title":"博客又搬家了","description":null,"status":"publish","cover":"https://images.unsplash.com/photo-1506792006437-256b665541e2?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb","categories":["杂七杂八"],"tags":["Gatsby","Notion"]}}]}},"pageContext":{"category":"杂七杂八","count":1}},
-    "staticQueryHashes": ["2841359383"]}

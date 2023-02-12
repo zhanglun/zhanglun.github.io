@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-pages-categories-tsx",
-    "path": "/categories/",
-    "result": {"data":{"site":{"siteMetadata":{"title":"张小伦的网络日志","description":"欢迎来到张小伦的网络日志 \n\t\t一个记录生活，分享心得的博客","menu":[{"id":"home","name":"首页","url":"/"},{"id":"blog","name":"博文","url":"/blogs"},{"id":"category","name":"分类","url":"/categories"},{"id":"archive","name":"归档","url":"/archives"},{"id":"lab","name":"实验室","url":"/labs"},{"id":"about","name":"关于我","url":"/about"}]}},"allMarkdownRemark":{"group":[{"fieldValue":"Node.js","totalCount":9},{"fieldValue":"Python","totalCount":3},{"fieldValue":"前端","totalCount":19},{"fieldValue":"博客译文","totalCount":8},{"fieldValue":"工具使用","totalCount":2},{"fieldValue":"技术学习","totalCount":4},{"fieldValue":"技术应用","totalCount":5},{"fieldValue":"技术研究","totalCount":19},{"fieldValue":"杂七杂八","totalCount":1},{"fieldValue":"解决方案","totalCount":25},{"fieldValue":"重构","totalCount":5},{"fieldValue":"随笔","totalCount":3}]}},"pageContext":{}},
-    "staticQueryHashes": ["2841359383"]}

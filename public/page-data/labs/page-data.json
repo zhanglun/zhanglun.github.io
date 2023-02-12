@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-pages-labs-tsx",
-    "path": "/labs/",
-    "result": {"data":{"site":{"siteMetadata":{"title":"张小伦的网络日志","description":"欢迎来到张小伦的网络日志 \n\t\t一个记录生活，分享心得的博客","menu":[{"id":"home","name":"首页","url":"/"},{"id":"blog","name":"博文","url":"/blogs"},{"id":"category","name":"分类","url":"/categories"},{"id":"archive","name":"归档","url":"/archives"},{"id":"lab","name":"实验室","url":"/labs"},{"id":"about","name":"关于我","url":"/about"}]}}},"pageContext":{}},
-    "staticQueryHashes": ["2841359383"]}
