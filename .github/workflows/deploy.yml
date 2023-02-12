@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   # schedule:
@@ -6,11 +6,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - source
       - master
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: BeforeScript
@@ -23,28 +22,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: Install, build, and upload your site
+        uses: withastro/action@v0
 
-      # 安装
-      - name: Install Dependenices
+      - name: Build storybook and copy some files
         run: |
-          yarn install
-          yarn run download
-          npx gatsby clean
-          npm cache clean --force
-
-      - name: Build
-        run: |
-          echo "Starting building..."
-          yarn run build
-          yarn run build-storybook
+          pnpm run build-storybook
           # cp ./CNAME ./public/CNAME
           cp ./ads.txt ./public/ads.txt
-
-      # 部署到 GitHub Pages
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          ACCESS_TOKEN: ${{ secrets.gatsbyDeploy }}
-          BRANCH: gh-pages
-          FOLDER: public
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
 
