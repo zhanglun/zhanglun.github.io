@@ -34,6 +34,7 @@ jobs:
         run: |
           # pnpm run build-storybook
           # cp ./CNAME ./dist/CNAME
+          npm run download
           cp ./ads.txt ./dist/ads.txt
   deploy:
     needs: build
