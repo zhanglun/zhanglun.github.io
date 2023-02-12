@@ -23,13 +23,25 @@ jobs:
           git config --global user.email "zhanglun1410@gmail.com"
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set Node Enviroment
+
+      - name: Sync Pnpm version
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+      - name: Sync node version and setup cache
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install app dependencies and build web
+        # Remove `&& yarn build` if you build your frontend in `beforeBuildCommand`
+        run: pnpm install
+
       - name: Sync content from Notion
         run: |
-          npm run download
+          pnpm run download
+
       - name: Install, build, and upload your site
         uses: withastro/action@v0
       - name: Build storybook and copy some files
