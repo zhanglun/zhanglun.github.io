@@ -1,0 +1,11 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { SITE, MENU } from "@config";
+import { Home } from "@components/Home";
+---
+
+<Layout>
+  <main id="main-content">
+    <Home siteInfo={SITE} menu={MENU} />
+  </main>
+</Layout>
