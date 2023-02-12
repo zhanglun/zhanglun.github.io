@@ -1,0 +1,66 @@
+---
+import { SITE } from "src/config";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Card from "@components/Card";
+import getPostsByCategory from "@utils/getPostsByCategory";
+import type { MarkdownInstance } from "astro";
+import type { Frontmatter } from "src/types";
+import slugify from "@utils/slugify";
+import getUniqueCategories from "@utils/getUniqueCategories";
+
+export interface Props {
+  post: MarkdownInstance<Frontmatter>;
+  category: string;
+}
+
+export async function getStaticPaths() {
+  const posts: MarkdownInstance<Frontmatter>[] = await Astro.glob(
+    "../../../contents/{blogs,notion}/**/*.md"
+  );
+
+  const categories = getUniqueCategories(posts);
+
+  return categories.map(category => {
+    return {
+      params: {
+        category,
+      },
+      props: {
+        category,
+      },
+    };
+  });
+}
+
+const { category } = Astro.props;
+
+const posts: MarkdownInstance<Frontmatter>[] = await Astro.glob(
+  "../../../contents/{blogs,notion}/**/*.md"
+);
+
+const categoryPosts = getPostsByCategory(posts, category);
+---
+
+<Layout title={`Category: ${category} | ${SITE.title}`}>
+  <Header activeNav="categories" />
+  <Main
+    pageTitle={category}
+    pageDesc={`All the articles with the category "${category}".`}
+  >
+    <ul class="grid w-full lg:gap-y-14 lg:grid-cols-[repeat(12,1fr)] lg:gap-6">
+      {
+        categoryPosts.map(({ frontmatter, rawContent }) => (
+          <Card
+            href={`/blogs/${slugify(frontmatter)}`}
+            frontmatter={frontmatter}
+            rawContent={rawContent()}
+          />
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

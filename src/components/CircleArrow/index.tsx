@@ -1,37 +1,51 @@
 /* eslint-disable react/require-default-props */
-import React from 'react';
-import * as styles from './index.module.css';
+import React from "react";
+import * as styles from "./index.module.css";
 
 export enum CircleArrowThemeEnum {
-  'dark'='dark',
-  'light'='light'
+  dark = "dark",
+  light = "light",
 }
 export interface CircleArrowProps {
-  size?: number,
-  rotate?: number,
-  theme?: CircleArrowThemeEnum,
+  size?: number;
+  rotate?: number;
+  theme?: CircleArrowThemeEnum;
+  className?: any;
 }
 
 export function CircleArrow(props: CircleArrowProps) {
-  const { size = 24, rotate = 0, theme = 'dark' } = props;
+  const { size = 24, rotate = 0, theme = "dark", className } = props;
 
-  const style = {
+  const svgStyle = {
     transform: `rotate(${rotate}deg)`,
-    width: `${size}px`,
-    height: `${size}px`,
+    width: `${size * 16}px`,
+    height: `${size * 16}px`,
+    fill: 'none !important',
   };
 
+  const boxClass = `
+    inline-block text-0 p-1 border-[var(--color-text-base)] border leading-[0] rounded-full transition-all duration-150 ease-in-out 
+     ${theme === 'dark' ? 'bg-[var(--color-text-base)] text-[white]' : 'bg-[white] text-[var(--color-text-base)]'} 
+     ${theme === 'dark' ? '' : 'hover:bg-[var(--color-text-base)] hover:text-[white]'} 
+     ${theme === 'dark' ? '' : 'group-hover:bg-[var(--color-text-base)] group-hover:text-[white]'} 
+     ${className}
+  `;
+
   return (
-    <div className={`${styles.circle} ${styles[theme]}`}>
+    <div className={boxClass}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         width="24"
         height="24"
         fill="none"
-        style={style}
+        style={svgStyle}
       >
-        <path stroke="currentColor" strokeWidth="1.4" d="M12 3v17M19 13l-7 7-7-7" />
+        <path
+          stroke="currentColor"
+          strokeWidth="1.4"
+          d="M12 3v17M19 13l-7 7-7-7"
+        />
       </svg>
     </div>
   );

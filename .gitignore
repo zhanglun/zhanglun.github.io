@@ -3,7 +3,6 @@ Thumbs.db
 db.json
 *.log
 node_modules/
-public/
 .deploy*/
 
 # Logs
@@ -62,10 +61,6 @@ typings/
 # dotenv environment variable files
 .env*
 
-# gatsby files
-.cache/
-public
-
 # Mac files
 .DS_Store
 
@@ -77,3 +72,7 @@ yarn-error.log
 .yarn-integrity
 .idea
 content/notion
+
+.vs
+.vscode
+dist

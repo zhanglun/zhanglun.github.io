@@ -1,5 +1,4 @@
-import React from 'react';
-import * as styles from './index.module.css';
+import React from "react";
 
 export interface PageHeroProps {
   title: string;
@@ -9,10 +8,14 @@ export const PageHero = (props: PageHeroProps) => {
   const { title, subTitle } = props;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.inner}>
-        <h1 className={styles.title}>{title}</h1>
-        <p className={styles.subTitle}>{subTitle}</p>
+    <div className="mx-auto w-full grid pt-32 pb-40">
+      <div className="grid gap-y-14 gap-6 relative w-full grid-cols-[repeat(12,1fr)]">
+        <h1 className="m-0 text-[9.5rem] font-semibold col-[span_12] text-center tracking-tighter">
+          {title}
+        </h1>
+        <p className="m-0 text-[2rem] font-semibold col-[4/span_6] text-center tracking-tighter">
+          {subTitle}
+        </p>
       </div>
     </div>
   );

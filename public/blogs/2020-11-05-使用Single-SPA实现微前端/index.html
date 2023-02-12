@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;display=swap" rel="stylesheet"/><meta data-react-helmet="true" name="twitter:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" name="twitter:title" content="使用 single-spa 实现微前端"/><meta data-react-helmet="true" name="twitter:creator" content="zhanglun1410"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta data-react-helmet="true" property="og:title" content="使用 single-spa 实现微前端"/><meta data-react-helmet="true" name="description" content="欢迎来到张小伦的网络日志 
+		一个记录生活，分享心得的博客"/><meta name="generator" content="Gatsby 4.13.1"/><style data-href="/styles.7aa89aa35ece76996c80.css" data-identity="gatsby-global-css">.theme-1{--background-color:#fef6e4;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#f582ae;--button-text-color:#001858;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#fef6e4;--card-tag-text-color:#001858;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label-placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}.theme-2{--background-color:#55423d;--background-color-1:#271c19;--background-color-2:#ffc0ad;--background-color-3:#9656a1;--button-color:#ffc0ad;--button-text-color:#271c19;--card-backgroud-color:#fffffe;--card-background-color:#55423d;--card-background-color-1:#ffc0ad;--card-heading-color:#fffffe;--card-headline-color:#271c19;--card-highlight-color:#9656a1;--card-paragraph-color:#fff3ec;--card-paragraph-color-1:#271c19;--card-tag-background-color:#fffffe;--card-tag-text-color:#271c19;--form-button-color:#9656a1;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#fffffe;--headline-color-1:#271c19;--highlight-color:#e78fb3;--label-placeholder-color:#271c19;--link-color:#9656a1;--links-color:#e78fb3;--main-color:#fff3ec;--paragraph-color:#fff3ec;--paragraph-color-1:#271c19;--secondary-color:#ffc0ad;--stroke-color:#140d0b;--sub-headline-color:#fff3ec;--tertiary-color:#9656a1}.theme-3{--background-color:#faeee7;--background-color-1:#fffffe;--background-color-2:#fffffe;--background-color-3:#33272a;--button-color:#ff8ba7;--button-text-color:#33272a;--card-backgroud-color:#faeee7;--card-background-color:#faeee7;--card-background-color-1:#fffffe;--card-heading-color:#33272a;--card-headline-color:#33272a;--card-highlight-color:#33272a;--card-paragraph-color:#594a4e;--card-tag-background-color:#ffc6c7;--card-tag-text-color:#33272a;--form-button-color:#ff8ba7;--form-button-text-color:#33272a;--form-input-color:#faeee7;--headline-color:#33272a;--highlight-color:#ff8ba7;--label-placeholder-color:#33272a;--link-color:#ff8ba7;--links-color:#ff8ba7;--main-color:#fffffe;--paragraph-color:#594a4e;--secondary-color:#ffc6c7;--stroke-color:#33272a;--sub-headline-color:#594a4e;--tertiary-color:#c3f0ca}.theme-4{--background-color:#fffffe;--background-color-1:#e3f6f5;--background-color-2:#e3f6f5;--background-color-3:#bae8e8;--button-color:#ffd803;--button-text-color:#272343;--card-backgroud-color:#fffffe;--card-background-color:#fffffe;--card-background-color-1:#272343;--card-heading-color:#272343;--card-headline-color:#fffffe;--card-headline-color-1:#272343;--card-highlight-color:#bae8e8;--card-paragraph-color:#2d334a;--card-tag-background-color:#bae8e8;--card-tag-text-color:#272343;--form-button-color:#272343;--form-button-text-color:#fffffe;--form-input-color:#fffffe;--headline-color:#272343;--highlight-color:#ffd803;--label--placeholder-color:#272343;--link-color:#272343;--links-color:#ffd803;--main-color:#fffffe;--paragraph-color:#2d334a;--secondary-color:#e3f6f5;--stroke-color:#272343;--sub-headline-color:#2d334a;--tertiary-color:#bae8e8}:root{--inline-code-font:monospace!important;--mono-font:"JetBrains Mono",monospace!important;--content-font-size:16px;--maxWidth-none:"none";--maxWidth-xs:999px;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-5xl:64rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--main-max-width:750px;--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--main-spacing:100px;--font-family-sans:"Noto San SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-body:var(--font-family-sans);--font-heading:var(--font-family-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:10px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.9;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#4b5cc4;--color-text:#312520;--color-text-light:#4f5969;--color-heading:#312520;--color-heading-black:#161823;--color-accent:#d1dce5;--header-height:60px;--img-border-color:#313b44;--img-border-radius:8px;--background-color:#fafafa;--background-color-1:#f3d2c1;--background-color-2:#fffffe;--background-color-3:#f582ae;--button-color:#636363;--button-text-color:#fff;--card-backgroud-color:#f3d2c1;--card-background-color:#fef6e4;--card-background-color-1:#001858;--card-heading-color:#001858;--card-headline-color:#fffffe;--card-headline-color-1:#001858;--card-highlight-color:#f582ae;--card-paragraph-color:#172c66;--card-tag-background-color:#636363;--card-tag-text-color:#fff;--form-button-color:#f582ae;--form-button-text-color:#001858;--form-input-color:#f3d2c1;--headline-color:#001858;--highlight-color:#fef6e4;--label--placeholder-color:#001858;--link-color:#f582ae;--links-color:#fef6e4;--main-color:#f3d2c1;--paragraph-color:#172c66;--secondary-color:#8bd3dd;--stroke-color:#001858;--sub-headline-color:#172c66;--tertiary-color:#f582ae}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1);margin:0}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-normal);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}pre[class*=language-]{border-radius:0;white-space:pre-wrap}code[class*=language-]{font-family:Menlo,Monaco,Consolas,Courier New,monospace;font-size:14px;white-space:pre-wrap}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;font-size:1.6rem;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);padding:var(--spacing-0)}ol,ul{margin-bottom:0;margin-top:0}ol li,ul li{padding-left:var(--spacing-0)}ol,ul{margin-bottom:1.5em}li>p{margin-bottom:calc(var(--spacing-8)/2)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-1);font-style:italic;margin-bottom:var(--spacing-8);padding:var(--spacing-5)}.quote{background:#f9f9f9;border-left:2px solid #636363;color:#636363;font-style:italic;margin:0 0 var(--spacing-16) 0;margin-bottom:1.5em;padding:1.5em;transition:.3s}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote p{margin-bottom:var(--spacing-3)}blockquote li{margin:0}blockquote>ol,blockquote>ul{list-style-position:inside;padding-left:var(--spacing-4)}table{border:1px solid #e9e9e7;border-collapse:collapse;border-spacing:.25rem;font-size:14px;margin-bottom:var(--spacing-8);width:100%}table td,table th{border-bottom:1px solid #e9e9e7;padding:8px 10px}table thead tr th{background-color:#f7f6f3;text-align:left}p img{border:.5px solid var(--img-border-color);border-radius:var(--img-border-radius);max-width:100%}a{color:var(--color-primary)}a,a:focus,a:hover{text-decoration:none}.global-header{margin-bottom:var(--spacing-12)}.main{background-color:var(--background-color-2);margin:0 auto;max-width:var(--main-max-width);padding:30px var(--main-spacing) 30px;position:relative;width:90%;z-index:1}.main-heading{font-size:var(--fontSize-7);margin:0}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.article-section{margin:0 auto;max-width:var(--main-max-width);position:relative;z-index:1}.article-cover{border:1px solid #f0f0f0;border-radius:var(--img-border-radius);height:380px;margin-bottom:60px;-o-object-fit:cover;object-fit:cover;width:100%}@media screen and (max-width:999px){.article-section,.pagination{max-width:100%;padding:0 20px}}.blog-post{border-bottom:1px solid #1d2b36;line-height:1.9;margin-bottom:10px;padding-bottom:60px;position:relative}.blog-post:before{left:0}.blog-post:after,.blog-post:before{background:#1d2b36;bottom:-2px;content:"";height:3px;position:absolute;width:3px}.blog-post:after{right:0}.blog-post header{border-top:1px solid #1d2b36;margin-top:50px;position:relative}.blog-post header:before{left:0}.blog-post header:after,.blog-post header:before{background:#1d2b36;content:"";height:3px;position:absolute;top:-2px;width:3px}.blog-post header:after{right:0}.blog-post header h1{font-size:36px;font-weight:var(--fontWeight-semibold);line-height:1.4;margin:60px 0}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media(max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-3)}ol,ul{padding-left:14px}}.pagination{margin:0 auto;max-width:var(--main-max-width);padding:50px 0}.link-underline,.pagination .next:hover,.pagination .prev:hover{text-decoration:underline}.link-underline{box-shadow:inset 0 0 0 0 var(--color-primary);margin:0 .25rem;padding:0 .25rem;transition:color .3s ease-in-out,box-shadow .3s ease-in-out}.link-underline:hover{box-shadow:inset 0 -40px 0 0 var(--color-primary);color:#fff}.hover-underline{position:relative}.hover-underline:after{background-color:var(--color-text);bottom:4px;content:"";height:2px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:bottom right;transform-origin:bottom right;transition:-webkit-transform .25s ease-out;transition:transform .25s ease-out;transition:transform .25s ease-out,-webkit-transform .25s ease-out;width:100%}.hover-underline:hover:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:bottom left;transform-origin:bottom left}.page-title{color:var(--color-heading);font-size:var(--fontSize-6);margin-bottom:var(--spacing-5);padding-top:50px;text-align:center}:root{--bg-color:#d3dadf;--action-color:#000911}.archive-page{background-color:var(--bg-color);width:100%}.archive-page__container{margin:0 auto;padding-bottom:1px;padding-left:6.4rem;padding-right:6.4rem}.archive-page__post-title{display:flex;font-size:2.4rem;line-height:3.2rem;margin:0}.archive-page__post-excerpt{margin-bottom:3.2rem;position:relative}.archive-page__post-date{color:var(--text-color);font-size:1.4rem}.archive-section{margin-bottom:24vw;margin-top:10vw;position:relative}.archive-section__year{color:#c3cad0;color:var(--text-light-color,#c3cad0);font-size:36vw;font-weight:700;letter-spacing:-.07em;line-height:.2;margin-top:0;min-width:100%;pointer-events:none;position:absolute;text-align:center;-webkit-user-select:none;-ms-user-select:none;user-select:none}.archive-posts{grid-gap:3.2rem;display:grid;font-size:1.6rem;grid-template-columns:repeat(auto-fill,minmax(25.6rem,1fr));list-style-type:none;margin:0;padding:0;position:relative}.archive-posts a{color:var(--action-color);text-decoration:none}.archive-posts a:hover{text-decoration:underline}.archive-date{margin-right:20px}.category-page,.root{min-height:100vh}.category-page{background-color:#a4c9d8}.category-list{grid-gap:10rem;display:grid;font-size:1.8rem;grid-template-columns:repeat(4,1fr);justify-items:center}.category-img{background-color:rgba(0,0,0,.2);border-radius:100%;height:150px;margin-bottom:20px;padding:10px;transition:all .3s ease-in-out;width:150px}.category-img img{width:100%}.category-item{text-align:center;text-decoration:none}.category-item:hover{color:var(--color-text)}.category-item:hover .category-img{background-color:rgba(0,0,0,.35)}.category-page-header{display:grid;justify-items:center;padding:50px 0}.ham{-webkit-tap-highlight-color:transparent;color:#fff;cursor:pointer;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:54px}.hamRotate.active{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.hamRotate180.active{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.line{fill:none;stroke:#333;stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .4s,stroke-dashoffset .4s}.ham.active .line{stroke:#fff}.ham1 .top{stroke-dasharray:40 139}.ham1 .bottom{stroke-dasharray:40 180}.ham1.active .top{stroke-dashoffset:-98px}.ham1.active .bottom{stroke-dashoffset:-138px}.ham2 .bottom,.ham2 .top{stroke-dasharray:40 121}.ham2.active .bottom,.ham2.active .top{stroke-dashoffset:-102px}.ham3 .top{stroke-dasharray:40 130}.ham3 .middle{stroke-dasharray:40 140}.ham3 .bottom{stroke-dasharray:40 205}.ham3.active .top{stroke-dasharray:75 130;stroke-dashoffset:-63px}.ham3.active .middle{stroke-dashoffset:-102px}.ham3.active .bottom{stroke-dasharray:110 205;stroke-dashoffset:-86px}.ham4 .bottom,.ham4 .top{stroke-dasharray:40 121}.ham4.active .bottom,.ham4.active .top{stroke-dashoffset:-68px}.ham5 .bottom,.ham5 .top{stroke-dasharray:40 82}.ham5.active .bottom,.ham5.active .top{stroke-dasharray:14 82;stroke-dashoffset:-72px}.ham6 .top{stroke-dasharray:40 172}.ham6 .middle{stroke-dasharray:40 111}.ham6 .bottom{stroke-dasharray:40 172}.ham6.active .top{stroke-dashoffset:-132px}.ham6.active .middle{stroke-dashoffset:-71px}.ham6.active .bottom{stroke-dashoffset:-132px}.ham7 .top{stroke-dasharray:40 82}.ham7 .middle{stroke-dasharray:40 111}.ham7 .bottom{stroke-dasharray:40 161}.ham7.active .top{stroke-dasharray:17 82;stroke-dashoffset:-62px}.ham7.active .middle{stroke-dashoffset:23px}.ham7.active .bottom{stroke-dashoffset:-83px}.ham8 .top{stroke-dasharray:40 160}.ham8 .middle{stroke-dasharray:40 142;transition:-webkit-transform .4s;transition:transform .4s;transition:transform .4s,-webkit-transform .4s}.ham8 .bottom,.ham8 .middle{-webkit-transform-origin:50%;transform-origin:50%}.ham8 .bottom{stroke-dasharray:40 85;transition:stroke-dashoffset .4s,-webkit-transform .4s;transition:transform .4s,stroke-dashoffset .4s;transition:transform .4s,stroke-dashoffset .4s,-webkit-transform .4s}.ham8.active .top{stroke-dashoffset:-64px}.ham8.active .middle{stroke-dashoffset:-20px;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.ham8.active .bottom{stroke-dashoffset:-64px}.index-module--menu--aNCkU{position:fixed;right:0;top:0;z-index:100}.index-module--menu-button--Iv9-4{position:fixed;right:0;top:0;z-index:102}.index-module--menu-main--dqZT6{background-color:#000;bottom:0;padding:100px;position:fixed;right:0;top:0;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0);transition:all .4s;width:520px;z-index:101}.index-module--menu-main--dqZT6.index-module--open--LEqU-{-webkit-transform:translateZ(0);transform:translateZ(0)}.index-module--menu-title--n-nNm{color:#fff;font-weight:var(--fontWeight-semibold);margin-top:30px}.index-module--title-link--T5U9M{color:#fff;font-size:var(--fontSize-7)}.index-module--nav--nqC-X{align-items:flex-start;display:flex;flex-direction:column;margin-top:40px}.index-module--nav-item--8jKuC{color:#fff;font-size:22px;font-weight:500;height:var(--header-height);letter-spacing:1px;line-height:var(--header-height);margin:0;text-decoration:none;transition:all .3s}.index-module--nav-item--8jKuC:hover{-webkit-filter:invert(.5);filter:invert(.5);text-decoration:line-through}.index-module--nav-item--8jKuC.index-module--theme-1--jQ2fg:hover,.index-module--nav-item--8jKuC.index-module--theme-2--7nodg:hover,.index-module--nav-item--8jKuC.index-module--theme-3--pka-p:hover,.index-module--nav-item--8jKuC.index-module--theme-4--L3lP0:hover,.index-module--nav-item--8jKuC.index-module--theme-5--zFBiY:hover,.index-module--nav-item--8jKuC.index-module--theme-6--t9Ipa:hover{text-decoration:underline}.index-module--sidemenu-nav-item--3tmSg:hover{-webkit-transform:translate3d(14px,0,0);transform:translate3d(14px,0,0)}@media (max-width:1024px){.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn{box-sizing:border-box;right:-100vw;transition:none!important;width:100%}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn:before{background:#edbb1c;border-radius:50%;content:"";height:0;position:fixed;right:0;top:0;transition:all .7s;width:0}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs:before{height:300vh;right:-150vh;top:-150vh;transition:all .7s;width:300vh}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn{background-color:transparent!important}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn>*{opacity:0;transition:.3s}.index-module--fullscreen-bubble-in-menu--fe12F .index-module--ba-hamburger-menu--ykJDi .index-module--main-menu--owoSn.index-module--visible-menu--i0GXs>*{opacity:1;transition:.3s .5s}}.index-module--container--MsrZ9{align-items:center;display:grid;justify-content:center;padding:3.75rem;text-align:center}.index-module--inner--Qy-hx{align-items:center;display:grid;gap:.75rem;justify-content:center;padding-bottom:5rem;padding-top:11.25rem;position:relative;width:100%}.index-module--title--k4zZ7{font-size:9.5rem;font-weight:600;margin:0}.index-module--subTitle--Sf0CJ{font-size:2rem;font-weight:600;margin:3.75rem 0 0}.index-module--main--husmE{align-items:center;display:grid;height:100vh;justify-content:center;margin:0 auto}.index-module--profile--01Kcu{grid-gap:40px;display:grid;grid-template-rows:1fr 1fr}.index-module--headline--7zfcQ{grid-gap:32px;align-items:center;display:grid;grid-template-columns:120px 1fr}.index-module--title--YQ4NF{color:var(--color-heading-black);font-size:7rem;margin:0;padding:0;text-align:center}.index-module--subTitle--aYKXU{font-size:2rem}.index-module--avatar--y2x3q{border-radius:50%;height:120px;width:120px}.index-module--menu--x9lUY{display:grid;font-size:1.8rem;grid-auto-flow:column;justify-items:center}.index-module--menuItem--3eiAT div{margin-left:.6rem;opacity:0}.index-module--menuItem--3eiAT:hover div{opacity:1}.article-list{list-style-type:none;margin:0;padding:0}.article-list-item{border-bottom:1px solid #e2e2e2}.article-list-item p{font-size:var(--content-font-size);margin-bottom:var(--spacing-0);text-align:center}.article-item-title{color:var(--color-heading-black);display:block;font-size:1.8rem;font-weight:var(--fontWeight-semibold);padding:1.4rem 0}.article-item-category{align-items:center;display:flex;font-size:1.4rem;font-weight:var(--fontWeight-normal);margin-bottom:.5vh}.article-item-category:before{background-color:currentColor;border-radius:1rem;content:"";display:block;height:.5rem;margin-right:.25rem;-webkit-transform:translateY(-1px);transform:translateY(-1px);width:.5rem}.article-list-item section{margin:50px 0 20px}.article-list-item footer{padding:40px 0;text-align:center}.article-list-item .read-more{background-color:var(--button-color);background-color:transparent;border:2px solid #636363;cursor:pointer;display:inline-block;font-size:13px;font-weight:var(--fontWeight-bold);height:50px;line-height:44px;outline:none;position:relative;text-decoration:none;transition:.25s ease-in-out;-ms-user-select:none;user-select:none;-webkit-user-select:none;width:190px}.article-list-item .read-more,.article-list-item .read-more:link{color:var(--button-text-color)}.article-list{margin:0 auto;max-width:var(--main-max-width);width:100%}.article-list-item .read-more:after{background-color:var(--button-color);content:"";height:100%;left:7px;position:absolute;top:7px;transition:.2s;width:100%;z-index:-1}.article-list-item .read-more:hover:after{left:0;top:0}.article-aside{-ms-overflow-style:none;height:100%;left:0;line-height:1.2;margin:60px 0;overflow-y:auto;padding:0 10px 0 20px;position:fixed;scrollbar-width:none;top:0;width:320px}.article-item-header{display:flex;justify-content:space-between}.article-list-item:hover .article-item__text{text-decoration:underline}.article-list-item:hover .article-item-header__arrow{opacity:1;-webkit-transform:scale(.8);transform:scale(.8)}.article-item-header__arrow{background-color:var(--color-heading-black);border-radius:50%;color:#fff;display:block;font-size:0;opacity:0;padding:4px;-webkit-transform:scale(.6);transform:scale(.6);transition:all .15s ease-in-out}.article-item-header__arrow svg{-webkit-transform:rotate(-135deg);transform:rotate(-135deg)}@media screen and (max-width:999px){.article-aside{position:static}}.article-aside__item{margin-bottom:var(--spacing-10)}.aside-toc{box-orient:vertical;box-direction:normal;display:flex;flex-direction:column;gap:6px;list-style-type:none;margin:6px 0 0;padding:0}.aside-toc li{margin:0;padding:2px 0}.aside-toc a{-webkit-margin-after:8px;color:grey;color:var(--theme-text-header);display:block;font-family:var(--font-mono);font-size:14px;font-size:1.4rem;font-weight:700;line-height:1.2;margin-block-end:8px}.aside-toc a:hover{text-decoration:underline}.aside-toc a.visible{color:#000}.aside-toc a:hover{color:#1d2b36}.aside-item__title{-webkit-margin-after:var(--spacing-6);color:#312520;font-size:1.4rem;line-height:1.6;margin-block-end:var(--spacing-6)}.aside-item__content .category-item,.aside-item__content time{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .category-item{color:#000;display:block;text-align:left}.aside-item__content .tag-item{font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.aside-item__content .tag-item:before{content:"#"}.anchor.before{margin-top:-24px;top:50%}blockquote{color:#999;font-weight:400}.title{font-size:calc(var(--content-font-size)*2.5)}.desc{font-size:calc(var(--content-font-size)*1.2)}.content{font-size:1.4rem}.content h2{border-top:1px solid #f0f0f0;font-size:25px;margin:80px 0 0;padding:40px 0 50px;position:relative}.content h2:before{left:0}.content h2:after,.content h2:before{background:#93a1b0;content:"";height:3px;position:absolute;top:-2px;width:3px}.content h2:after{right:0}.article-main{padding-top:var(--header-height)}.article-list li{height:100%;margin:0}.article-card{border-radius:.8rem;height:100%;margin:0 2vmin;overflow:hidden;padding-right:calc(54.54546vh - 9.20455rem - 7.90909vmin);position:relative;width:0}.article-card:hover .article-card__cover{-webkit-transform:scale(1.1);transform:scale(1.1)}.article-card__cover{overflow:hidden;-webkit-transform:scale(1);transform:scale(1);transition:-webkit-transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1);transition:transform .4s cubic-bezier(.23,1,.32,1),-webkit-transform .4s cubic-bezier(.23,1,.32,1);will-change:transform}.article-card__cover,.article-card__cover:after{height:100%;left:0;position:absolute;top:0;width:100%}.article-card__cover:after{background-image:linear-gradient(180deg,transparent,rgba(0,0,0,.3) 67%);content:""}.article-card__cover img{height:100%;-o-object-fit:cover;object-fit:cover;width:100%}.article-card__body{color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;left:0;padding:2.5vmin;position:absolute;top:0;width:100%}.article-card__title{color:#fff;font-size:3.4vmin;line-height:1.4;margin:3vmin 0}.article-card__title.hover-underline:after{background-color:#fff}.article-card__categories{margin-bottom:1vmin}.article-card__category{color:#fff;font-size:14px}.article-card__tag{display:block;font-size:14px;font-weight:var(--fontWeight-semibold);line-height:1.7}.article-card__tag:before{content:"#"}@media screen and (max-width:768px){.article-card{padding-right:calc(100vw - 4rem)}.article-card__cover img{max-height:none;max-width:100%}.article-card__title{font-size:8vmin;margin:4vmin 0}.article-card__body time,.article-card__category,.article-card__tag{font-size:4vmin}}.index-module--circle--E91Mj{border-color:var(--color-heading-black);border-radius:50%;border-style:solid;border-width:1px;display:inline-block;font-size:0;padding:4px;transition:all .15s ease-in-out}.index-module--dark--aAIf4{background-color:var(--color-heading-black);color:#fff}.index-module--light--x7OKG{background-color:#fff;color:var(--color-heading-black)}.index-module--light--x7OKG:hover{background-color:var(--color-heading-black);color:#fff}.index-module--pagination--iWu7S{align-items:center;display:flex;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;justify-content:space-between}.index-module--paginationItem--ZgXus{align-items:center;color:var(--color-heading-black);display:flex;justify-content:space-between}.index-module--paginationItem--ZgXus:hover{text-decoration:underline}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemPrev--WtmXw:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:right;transform-origin:right}.index-module--paginationItem--ZgXus:hover .index-module--paginationItemNext--nbZSQ:after{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-transform-origin:left;transform-origin:left}.index-module--paginationItemNext--nbZSQ:after,.index-module--paginationItemPrev--WtmXw:after{background-color:currentColor;bottom:-2px;content:"";display:block;height:1px;left:0;position:absolute;-webkit-transform:scaleX(0);transform:scaleX(0);-webkit-transform-origin:right;transform-origin:right;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;width:100%}.index-module--paginationItemPrev--WtmXw{font-size:1.4rem;line-height:1.031;margin-left:1rem;position:relative}.index-module--paginationItemNext--nbZSQ{font-size:1.4rem;line-height:1.031;margin-right:1rem;position:relative}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link rel="alternate" type="application/rss+xml" title="张小伦的网络日志" href="/rss.xml"/><link rel="icon" href="/favicon-32x32.png?v=25643e3cbe7be23b6c1bdad497608e85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=25643e3cbe7be23b6c1bdad497608e85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=25643e3cbe7be23b6c1bdad497608e85"/><title data-react-helmet="true">使用 single-spa 实现微前端 | 张小伦的网络日志</title><link as="script" rel="preload" href="/webpack-runtime-adf1335a44885cfac931.js"/><link as="script" rel="preload" href="/framework-4b7b24ae718e4140a055.js"/><link as="script" rel="preload" href="/app-a99b6c2ab16d3879fc0c.js"/><link as="script" rel="preload" href="/commons-904b92826443395b7905.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"/><link as="fetch" rel="preload" href="/page-data/blogs/2020-11-05-使用Single-SPA实现微前端/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/2841359383.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><div class="index-module--menu--aNCkU"><div class="index-module--menu-button--Iv9-4" role="button" aria-hidden="true"><svg class="ham hamRotate ham4 " viewBox="0 0 100 100" width="80"><path class="line top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"></path><path class="line middle" d="m 70,50 h -40"></path><path class="line bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"></path></svg></div><div class="index-module--menu-main--dqZT6 "><div class="index-module--menu-title--n-nNm"><a class="index-module--title-link--T5U9M" href="/">张小伦的网络日志</a></div><nav class="index-module--nav--nqC-X"><a class="index-module--nav-item--8jKuC theme-1" href="/">首页</a><a class="index-module--nav-item--8jKuC theme-2" href="/blogs">博文</a><a class="index-module--nav-item--8jKuC theme-3" href="/categories">分类</a><a class="index-module--nav-item--8jKuC theme-4" href="/archives">归档</a><a class="index-module--nav-item--8jKuC theme-5" href="/labs">实验室</a><a class="index-module--nav-item--8jKuC theme-6" href="/about">关于我</a></nav></div></div><section><section class="article-section"><aside class="article-aside"><div class="article-aside__item"><div class="aside-item__title">Published</div><div class="aside-item__content"><time>2020-11-05</time></div></div><div class="article-aside__item"><div class="aside-item__title">Category</div><div class="aside-item__content"><a class="category-item" href="/categories/技术研究">技术研究</a></div></div><div class="article-aside__item"><div class="aside-item__title">Content</div><div class="aside-item__content"><div class="aside-toc"><a href="#背景">背景</a><a href="#single-spa-的使用">single-spa 的使用</a><a href="#创建一个root-config">创建一个root config</a><a href="#创建子应用">创建子应用</a><a href="#三种类型">三种类型</a><a href="#single-spa-生态系统">single-spa 生态系统</a></div></div></div></aside><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">使用 single-spa 实现微前端</h1></header><section itemProp="articleBody" class="content"><h2 class="heading subtitle heading" id="背景" style="position:relative;"><a href="#%E8%83%8C%E6%99%AF" aria-label="背景 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>背景</h2>
+<p class="para">随着组织架构调整，目前来车服租车团队已经有一段时间了。虽然主要业务工作还是B端系统的开发，但是租车业务因其业务特点以及一些历史原因，我面对的是两个“巨无霸”型后台系统-Car系统和Car-mis系统。这两个系统历史悠久，经手多个团队，所有租车相关的业务模块诸如交易，商品，履约，车险，商户，车辆库存和权限等，都集成在这两个系统中。</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d395d96fc572b3d38849be77acb900dd/cda19/1.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 73.93617021276594%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAsTAAALEwEAmpwYAAACN0lEQVQoz11Ti27bMAzM/3/XtrZLtmVtmnRdmkZ2EjsW9Zb1ljXYadNtBCEceHcgQUKzMsUwDKWUpmlSSuU9mqYJIVzZtm2dc+WvmF1RSgmhylp7VXddF2O8srvdTkp5Zf8xl1IoIeldXUoRguecy/tshID3/v/OMQ3G594lwpW20bjUu2RcAiZV743PxicbMhW9cdGG7GP+MGsbsYygEqhEVAKZ8JSo5Z0IE45YRCxH6iwi03EaZTLnXEIqMY2vj0OYQEgFqLA+TcXiwuAvgkk5WodhNr7JeQNWY6dxctT12BvwBrQ4WnV2PYx1T5zurB5lOerLGsbOyTMtzoxRzqlida8IAVCS96I2PQMCnAGHFylI13WcdZai0rSDVjPGueuppDU+I9wiI2pJK4Jr3L4aUXNSMTiQbm9ExaCicKAYBdmUqiqCz4RUtgctOgyAARSvjSIYAAALeJUcTqdGCCYp0kpgDIx1nh/LelMwnhYWpBVVL2rFkNcHzZGilea1k6gXI1AUWbnXbG/VyUoULb5cfpZzHoZchlAGX0ooQ5xwKCUoSVM0YzH7N0Geckgfd/bJE02xop0AogmWY4IiJ9JgSYimVFGiGdGMGyGdtMG8mQEDlbA9Huf36+XzdtceF5vN7cPDcvv7V10vHjerl/1TjeaPj/P1eteemKHSinHqMsx6bYjqlvvvN+u7r8+L1WE1f/52u7lbvt4/oNXdZr7Y/ljul5/XN59WX36i5VP7sxGHy/f4A3qFVA42C0K9AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="业务架构图"
+        title="业务架构图"
+        src="/static/d395d96fc572b3d38849be77acb900dd/1d69c/1.png"
+        srcset="/static/d395d96fc572b3d38849be77acb900dd/4dcb9/1.png 188w,
+/static/d395d96fc572b3d38849be77acb900dd/5ff7e/1.png 375w,
+/static/d395d96fc572b3d38849be77acb900dd/1d69c/1.png 750w,
+/static/d395d96fc572b3d38849be77acb900dd/cda19/1.png 785w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">随着业务迭代，两个系统日渐臃肿，高达90+的模块数使得无论是本地开发还是上线，很多时间都浪费在编译打包阶段；随着应用框架和技术方案等升级和迁移，多框架多版本共存的问题无法避免；两个系统的基本业务逻辑一致，UI上存在一些差异，各自独立开发和维护，无法充分复用相同业务逻辑的代码。微前端可能是目前解决这类问题的最佳方案。</p>
+<p class="para">微前端将微服务的理念应用于浏览器端，将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。各个前端应用还可以独立运行、独立开发、独立部署。由此也能看出，微前端不是单纯的框架或者工具，是一套完整的体系。对于其价值，目前业界比较认可的观点有以下几个：</p>
+<ol>
+<li>无技术栈限制</li>
+<li>应用单独开发，解耦</li>
+<li>多应用整合，复用</li>
+</ol>
+<p class="para">而这三个特点，似乎能够解决当前租车B端系统的问题。结合现有工程的项目，我们对我们的需求进行分析，并确定了预期的收益</p>
+<ol>
+<li>拆分应用：按照业务拆分成不同的仓库进行维护，独立开发，独立维护</li>
+<li>加速体验：开发模块提速；上线部署提速</li>
+<li>侵入性低：改动尽可能小，允许渐进迁移</li>
+<li>学习成本低：保持现有开发模式，没有学习成本</li>
+<li>统一技术栈：约定统一使用React技术栈，渐进迁移到16.8以后的版本</li>
+</ol>
+<p class="para">针对微前端方案，社区已经有了总结和对比，我们决定采用“基座模式”来实现我们租车业务线的微前端方案。基座模式是由一个主应用和一系列业务子应用构成的系统，并由这个主应用来管理其他子应用，包括从子应用的生命周期管理到应用间的通信机制。作为系统的统一入口，负责将对应的请求指向对应的服务。子应用，则是负责各个子模块的业务实现。更多微前端相关的介绍可以去看看这些文章：</p>
+<ol>
+<li><a href="https://micro-frontends.org/" class="link-underline">What are Micro Frontends</a></li>
+<li><a href="https://microfrontends.cn/" class="link-underline">Thinking in Microfrontend (微前端的那些事儿)</a></li>
+</ol>
+<p class="para">按照预期，使用微前端方案之后，B端系统的架构也会发生响应的变化</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 681px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ed01d29655defbb0cde89cafaff7d78d/8ce52/2.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 69.14893617021278%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAAsTAAALEwEAmpwYAAACR0lEQVQoz0WS567rIBCE8/7PdnVKEttJ3G0wzR1jmoErn/zICqEV6NNodvYSQvDehxA4X1vQEsoYrtxeewmcbIKCQUOvu7NRrVdtUCCoNhisp99L+KNDCIKPBJUIZASmfGqdRN7QfQXbDPcVbVOzze3OO7GAZWzEiji7X97Kx+G9XTWvqyKOo98k+lG8O3bICHg+HxA2dflq26Yqc9DkANSvNMfgccLzPOdFYdVkRVsXSRx952mkOLQCgDaPonscXbNXVJZ5lqWky/el4ROYye2t7LwP3nIr2rZ+xvevIjthJztGqrp6dSCnuGSk7SmQHAWDgp/N9vrzHE7P3i6al0UWR7ev7BUrDsJBvMbBkmCZNzQYEgz2GoXzcVTz/Q3/lVPhWK2atoXofbBq1IIZOSjRG9nr/X0GI88vb/mh2Ac2xkzjgDHe+LLvfBx6COG8LHLnnHOM8ThOcudCCELpvKzWyMsn53VB3TnRZWi3pcOoq6uSEbCvcBxHCBpK4DoUyzxCCAmlpPn+wHqfKMp7Us2sMAJTnA8MzH1pJetJQbqiR5lcW7FAMcNDMTk9L2VZJkkSRQlFOaiT2+0X1InXhKH0dv2uy8RKtk31I7k+H/d1rIOh58K5yYriopTSWilllOhB9YjvVwxTJwnt0p/vf1Uem53KFVZF0laPfQVO00N2h6J2Kz5RHXomMC2LlHSZU2SkRZm/EMiNIE4hJ9F5K+Z0fyrb0fL0AzuzOgmMwE6hQw9OdWcvsVPM/6k5hZ0+4TPnYzLL4z+OZQ0UHAGfTAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="架构变化"
+        title="架构变化"
+        src="/static/ed01d29655defbb0cde89cafaff7d78d/8ce52/2.png"
+        srcset="/static/ed01d29655defbb0cde89cafaff7d78d/4dcb9/2.png 188w,
+/static/ed01d29655defbb0cde89cafaff7d78d/5ff7e/2.png 375w,
+/static/ed01d29655defbb0cde89cafaff7d78d/8ce52/2.png 681w"
+        sizes="(max-width: 681px) 100vw, 681px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p class="para">基座模式的代表<a href="https://github.com/single-spa/single-spa" class="link-underline">single-spa</a>, <a href="https://qiankun.umijs.org/zh/guide" class="link-underline">qiankun</a>亦是站在前者的肩膀之上诞生的国产的微前端实现库。处于“科研”的考虑，先从single-spa开始入手，了解其原理，学习其思想</p>
+<h2 class="heading subtitle heading" id="single-spa-的使用" style="position:relative;"><a href="#single-spa-%E7%9A%84%E4%BD%BF%E7%94%A8" aria-label="single spa 的使用 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>single-spa 的使用</h2>
+<p class="para">single-spa的灵感来自现代组建框架的生命周期，抽象了整个应用程序的生命周期。现在是一个能够启用前端微服务架构的稳定库，这个架构就是我们说的微前端，microfrontend。一个single-spa的应用包含以下部分：</p>
+<ol>
+<li>一个 root config。渲染HTML页面和执行应用注册的JavaScript。每个应用注册时需要：</li>
+</ol>
+<ul>
+<li>应用名</li>
+<li>一个加载应用代码的函数</li>
+<li>一个确定应用何时处于活跃\非活跃状态的函数</li>
+</ul>
+<ol start="2">
+<li>其他应用。 每个应用需要知道如何将自己从DOM中引导，挂载和卸载。和传统的单页应用的主要区别在于，这些程序能够共存吗，因为他们不包含彼此的HTML页面。就像你的React或者Vue应用一样。当活跃时，监听url的路由事件，将内容放进DOM。当不活跃时，不再监听变化，同时将内容从DOM中移除。</li>
+</ol>
+<p class="para">官方发布的脚手架<a href="https://single-spa.js.org/docs/create-single-spa/" class="link-underline">create-single-spa</a>能够帮助我们快速上手</p>
+<h3 class="heading" id="创建一个root-config" style="position:relative;"><a href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAroot-config" aria-label="创建一个root config permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>创建一个root config</h3>
+<p class="para">使用脚手架可以快速创建root config</p>
+<deckgo-highlight-code language="bash" theme="one-dark" line-numbers="true"  >
+          <code slot="code">npx create-single-spa --moduleType root-config</code>
+        </deckgo-highlight-code>
+<p class="para">创建之后，进入目录<code>start</code>启动，访问页面可以看到：</p>
+<p class="para"><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 750px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4a3a5a09c122f270b965a90d7d6743b4/196aa/Xnip2021-05-04_13-51-59.jpg"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 167.5531914893617%; position: relative; bottom: 0; left: 0; background-image: url('data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAiABQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAECAwQF/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfX0pB0MhWa60XRhAag//8QAHBAAAQQDAQAAAAAAAAAAAAAAAQACEBEhMTJC/9oACAEBAAEFAjkgQcmlSPUerh203X//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AV//xAAWEQADAAAAAAAAAAAAAAAAAAAQESD/2gAIAQIBAT8BCj//xAAaEAACAgMAAAAAAAAAAAAAAAAAIRExIDBR/9oACAEBAAY/AmoL0cLx/8QAHxAAAwABAwUAAAAAAAAAAAAAAAERITFRYSBBgaGx/9oACAEBAAE/IXl3G46YC5IYxU8P2XsQ2ySbCk0NG+hcr8dKf//aAAwDAQACAAMAAAAQyMMMiA//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/EF//xAAYEQEAAwEAAAAAAAAAAAAAAAABECAhMf/aAAgBAgEBPxDWh4R//8QAIRABAAICAQQDAQAAAAAAAAAAAQARITFBUWFx4YGxwfD/2gAIAQEAAT8QQSbCUgeKa3BZ9Pl+5ashexKixw21+yoLHoe0A4/3zDa0Fw2QooadL9y7IL2qK0EpraAmxynpAoy33m2dJu8z/9k='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Xnip2021-05-04_13-51-59.jpg"
+        title="Xnip2021-05-04_13-51-59.jpg"
+        src="/static/4a3a5a09c122f270b965a90d7d6743b4/acb04/Xnip2021-05-04_13-51-59.jpg"
+        srcset="/static/4a3a5a09c122f270b965a90d7d6743b4/bc01b/Xnip2021-05-04_13-51-59.jpg 188w,
+/static/4a3a5a09c122f270b965a90d7d6743b4/bf173/Xnip2021-05-04_13-51-59.jpg 375w,
+/static/4a3a5a09c122f270b965a90d7d6743b4/acb04/Xnip2021-05-04_13-51-59.jpg 750w,
+/static/4a3a5a09c122f270b965a90d7d6743b4/ec605/Xnip2021-05-04_13-51-59.jpg 1125w,
+/static/4a3a5a09c122f270b965a90d7d6743b4/196aa/Xnip2021-05-04_13-51-59.jpg 1130w"
+        sizes="(max-width: 750px) 100vw, 750px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<h3 class="heading" id="创建子应用" style="position:relative;"><a href="#%E5%88%9B%E5%BB%BA%E5%AD%90%E5%BA%94%E7%94%A8" aria-label="创建子应用 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>创建子应用</h3>
+<p class="para">接下来创建一个子应用，同样使用脚手架提供的命令</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">npx create-single-spa --moduleType app-parcel</code>
+        </deckgo-highlight-code>
+<p class="para">同样启动之后访问对应的页面，但是此时你会发现，无法通过url正常访问子应用。子应用默认是集成模式，<code>standalone-single-spa-webpack-plugin</code>是关闭的，在不修改配置之前，是无法以独立应用的方式来访问的。那如何开始开发调试呢？如果你不需要启动基座应用，可以通过官方提供的<a href="http://single-spa-playground.org/playground" class="link-underline">playground</a>访问。访问的格式是 <code>http://single-spa-playground.org/playground/instant-test?name=@[orgName]/[&#x26;url=[port]</code>。</p>
+<p class="para">另外一种方式是本地启动主应用，然后再将子应用注入。访问主应用页面的 console, 设置 localStorage，<code>localStorage.setItem('devtools', true)</code>。刷新之后右下角会出现一个小部件，展开之后找到子应用的模块名，填入子应用的地址，然后再刷新一次，如果没有找到对应的模块名，可以手动添加。</p>
+<p class="para">接下来将子应用注入到主应用，编辑<code>src/index.ejs</code>，在import Map中添加子应用的地址和其他需要共享的依赖。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">{
+  &quot;imports&quot;: {
+    &quot;@zhang/root-config&quot;: &quot;//localhost:9000/zhang-root-config.js&quot;,
+    &quot;@zhang/app1&quot;: &quot;//localhost:8500/zhang-app1.js&quot;,
+    &quot;react&quot;: &quot;https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js&quot;,
+    &quot;react-dom&quot;: &quot;https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js&quot;
+  }
+}</code>
+        </deckgo-highlight-code>
+<p class="para">编辑<code>root-config.js</code>，将子应用注册。</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">// root-config.js
+import { registerApplication, start } from &quot;single-spa&quot;;
+
+registerApplication({
+  name: &quot;@zhang/app1&quot;,
+  app: () =&gt; System.import(&quot;@zhang/app1&quot;),
+  activeWhen: [&quot;/&quot;]
+});
+
+start({
+  urlRerouteOnly: true,
+});</code>
+        </deckgo-highlight-code>
+<p class="para">接下来访问主应用时子应用也能够正常渲染。这种方式特别适合子应用依赖主应用上下文的情况。如果你的子应用非常独立，可以使用<code>npm run start:standalone</code>启用standalone模式。</p>
+<p class="para">按照官方的文档体验下来感受还是挺不错的，通过功能健全的脚手架，项目初始化的过程十分轻松。接下来再来聊聊 single-spa提出的一些其他概念，以帮助更好理解和使用这个框架。</p>
+<h2 class="heading subtitle heading" id="三种类型" style="position:relative;"><a href="#%E4%B8%89%E7%A7%8D%E7%B1%BB%E5%9E%8B" aria-label="三种类型 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>三种类型</h2>
+<p class="para">在 <code>single-spa</code> 的上下文中，有三种微前端（microfrontend):</p>
+<ol>
+<li>single-spa applications: 为具体的路由渲染组建</li>
+<li>single-spa parcels: 渲染不控制路由的组件</li>
+<li>utility modules: 共享的代码逻辑，不渲染组件</li>
+</ol>
+<p class="para">一个Web应用可能会包含一个或者多个不同类型的微前端，三者具体的对比如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Application</th>
+<th>Parcel</th>
+<th>Utility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>路由</td>
+<td>多路由</td>
+<td>无路由</td>
+<td>无路由</td>
+</tr>
+<tr>
+<td>API类型</td>
+<td>声明式 API</td>
+<td>命令式 API</td>
+<td>导出一个公共接口</td>
+</tr>
+<tr>
+<td>是否渲染UI</td>
+<td>是</td>
+<td>是</td>
+<td>maybe</td>
+</tr>
+<tr>
+<td>生命周期</td>
+<td>single-spa管理</td>
+<td>自己管理</td>
+<td>外部模块，不管理生命周期</td>
+</tr>
+<tr>
+<td>何时使用</td>
+<td>核心</td>
+<td>需要支持多框架时</td>
+<td>共享逻辑或者创建一个service</td>
+</tr>
+<tr>
+<td>## 应用的生命周期</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="para">要添加一个应用，首先需要注册该应用。一旦应用被注册后，必须在其入口文件(entry point)实现下面提到的各个生命周期函数。注册的应用会经过下载(loaded)、初始化(initialized)、被挂载(mounted)、卸载(unmounted)和unloaded（被移除）等过程。single-spa会通过“生命周期”为这些过程提供钩子函数。</p>
+<p class="para">生命周期函数是在各应用的主文件中注册， single-spa 查找对应的函数名并进行调用。</p>
+<blockquote class="quote">
+<ol>
+<li>bootstrap, mount, and unmount的实现是必须的，unload则是可选的</li>
+<li>生命周期函数必须有返回值，可以是Promise或者async函数</li>
+<li>如果导出的是函数数组而不是单个函数，这些函数会被依次调用，对于promise函数，会等到resolve之后再调用下一个函数</li>
+<li>如果 single-spa 未启动，各个应用会被下载，但不会被初始化、挂载或卸载。</li>
+</ol>
+</blockquote>
+<p class="para">生命周期函数使用 <code>props</code> 传参，这个对象包含<code>single-spa</code>相关信息和其他的自定义属性。以<code>bootstrap</code>为例</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">function bootstrap(props) {
+  const {
+    name,        // 注册到 single-spa 的应用名称
+    singleSpa,   // 对singleSpa 实例的引用
+    mountParcel, // 手动挂载的函数
+    customProps  // 自定义属性
+  } = props;     // Props 会传给每个生命周期函数
+  return Promise.resolve();
+}</code>
+        </deckgo-highlight-code>
+<p class="para"><code>customProps</code>允许在使用时将自定义属性传递给各个周期，</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">// root-config.js
+singleSpa.registerApplication({
+  name: &#39;app1&#39;,
+  activeWhen,
+  app,
+  customProps: { authToken: &quot;d83jD63UdZ6RS6f70D0&quot; }
+});
+singleSpa.registerApplication({
+  name: &#39;app1&#39;,
+  activeWhen,
+  app,
+  customProps: (name, location) =&gt; {
+    return { authToken: &quot;d83jD63UdZ6RS6f70D0&quot; };
+  }
+});</code>
+        </deckgo-highlight-code>
+<p class="para">在注册的回调方法中可以获取到传入的自定义属性</p>
+<deckgo-highlight-code language="js" theme="one-dark" line-numbers="true"  >
+          <code slot="code">export function mount(props) {
+  console.log(props.authToken); // 可以在 app1 中获取到authToken参数
+  return reactLifecycles.mount(props);
+}</code>
+        </deckgo-highlight-code>
+<h2 class="heading subtitle heading" id="single-spa-生态系统" style="position:relative;"><a href="#single-spa-%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F" aria-label="single spa 生态系统 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>single-spa 生态系统</h2>
+<p class="para">single-spa是一个与框架无关的微前端框架，整个体积压缩之后只有5kb左右，它所做的事情就是应用的注册和启动，以及提供生命周期。好在它的生态系统正在蓬勃发展，正在尽可能多地支持更多框架和构建工具，帮助开发者用自己喜欢的框架编写Web程序。这其实印证了前面所提到的： 微前端不是单纯的框架或者工具，是一套完整的体系。</p>
+<p class="para">下一篇文章将对single-spa和single-spa-react的源码进行一次分析，来看看其背后到底是怎么运作的</p>
+<p class="para">参考</p>
+<ol>
+<li><a href="https://github.com/phodal/microfrontends#%E8%B7%AF%E7%94%B1%E5%88%86%E5%8F%91%E5%BC%8F%E5%BE%AE%E5%89%8D%E7%AB%AF" class="link-underline">Thinking in Microfrontend (微前端的那些事儿)</a></li>
+<li><a href="https://single-spa.js.org/docs/getting-started-overview#documentation" class="link-underline">getting-started-overview</a></li>
+</ol></section></article><div class="pagination"><div class="index-module--pagination--iWu7S"><a class="index-module--paginationItem--ZgXus" rel="prev" href="/blogs/2020-11-21-single-spa源码解析-registerApplication和start/"><div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div> <span class="index-module--paginationItemPrev--WtmXw">single-spa源码解析-registerApplication和start</span></a><span></span><a class="index-module--paginationItem--ZgXus" rel="next" href="/blogs/2020-10-14-在滴滴的这几年：基于Git的平台文档解决方案/"><span class="index-module--paginationItemNext--nbZSQ">在滴滴的这几年：基于Git的平台文档解决方案</span> <div class="index-module--circle--E91Mj index-module--light--x7OKG"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="transform:rotate(-90deg);width:14px;height:14px"><path stroke="currentColor" stroke-width="1.4" d="M12 3v17M19 13l-7 7-7-7"></path></svg></div></a></div></div></section></section></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
+  
+  
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-50406624-2', 'auto', {});
+      
+      
+      
+      
+      
+      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blogs/2020-11-05-使用Single-SPA实现微前端/";window.___webpackCompilationHash="136b2da2e8b1b23964e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4f3032a41e5c476c8f46.js"],"app":["/app-a99b6c2ab16d3879fc0c.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-adf2066c282d2a1fad9e.js"],"component---src-pages-about-tsx":["/component---src-pages-about-tsx-7b09644532f5bd1dcc54.js"],"component---src-pages-archives-tsx":["/component---src-pages-archives-tsx-ddc2637e6d877197950e.js"],"component---src-pages-categories-tsx":["/component---src-pages-categories-tsx-b5a2e4d86066d30e963f.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-7e0f083acf9cb537d315.js"],"component---src-pages-labs-tsx":["/component---src-pages-labs-tsx-73eba9758ec10d8f2e57.js"],"component---src-templates-blog-list-tsx":["/component---src-templates-blog-list-tsx-7eb438f670f1bdf1603e.js"],"component---src-templates-blog-post-tsx":["/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js"],"component---src-templates-categories-js":["/component---src-templates-categories-js-7fe7e84267b6c1ad1f7e.js"]};/*]]>*/</script><script src="/polyfill-4f3032a41e5c476c8f46.js" nomodule=""></script><script src="/component---src-templates-blog-post-tsx-0fc1c644d51a3ff081f8.js" async=""></script><script src="/commons-904b92826443395b7905.js" async=""></script><script src="/app-a99b6c2ab16d3879fc0c.js" async=""></script><script src="/framework-4b7b24ae718e4140a055.js" async=""></script><script src="/webpack-runtime-adf1335a44885cfac931.js" async=""></script></body></html>
