@@ -37,7 +37,7 @@ function downloadImage(url, filepath) {
         } else {
           // Consume response data to free up memory
           res.resume();
-          reject(new Error(`Request Failed With a Status Code: ${res.statusCode}`));
+          reject(new Error(`Request Failed With a Status Code: ${res.statusCode}, URL: ${url}`));
         }
       });
     } catch {
