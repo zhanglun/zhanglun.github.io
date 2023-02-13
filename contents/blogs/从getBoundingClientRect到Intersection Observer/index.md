@@ -146,7 +146,7 @@ const offsetTop = window.scrollY + $0.getBoundingClientRect().top
 
 [source](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/visual_viewport.cc;l=435-461;drc=a3c165458e524bdc55db15d2a5714bb9a0c69c70?originalUrl=https:%2F%2Fcs.chromium.org%2F)
 
-```c++
+```cpp
 double VisualViewport::OffsetLeft() const {
   if (!MainFrame())
     return 0;
@@ -161,7 +161,7 @@ double VisualViewport::OffsetLeft() const {
 
 再比如`element.innerText`中调用的`UpdateStyleAndLayoutForNode`，最后也是通过调用`UpdateStyleAndLayout`触发Reflow。[source](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/dom/document.cc;l=2786-2794;drc=7f2a66319b71e1cd3be556aeaa50cd18d1be70c1)
 
-```c++
+```cpp
 String Element::innerText() {
   // We need to update layout, since |ElementInnerTextCollector()| uses line
   // boxes in the layout tree.
@@ -184,7 +184,7 @@ void Document::UpdateStyleAndLayoutForNode(const Node* node,
 
 搜索`getBoundingClientRect`可以在`rang.cc`中找到对应的代码 [source](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/dom/range.cc;l=1620-1622;drc=7f2a66319b71e1cd3be556aeaa50cd18d1be70c1;bpv=1;bpt=1?q=getBoundingClientRect&ss=chromium%2Fchromium%2Fsrc&originalUrl=https:%2F%2Fcs.chromium.org%2F)
 
-```c++
+```cpp
 DOMRect* Range::getBoundingClientRect() const {
   return DOMRect::FromFloatRect(BoundingRect());
 }
@@ -192,7 +192,7 @@ DOMRect* Range::getBoundingClientRect() const {
 
 `BoundingRect()`中调用了`UpdateStyleAndLayout()` [source](https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/dom/range.cc;l=1732-1747;drc=7f2a66319b71e1cd3be556aeaa50cd18d1be70c1;bpv=1;bpt=1?q=getBoundingClientRect&ss=chromium%2Fchromium%2Fsrc&originalUrl=https:%2F%2Fcs.chromium.org%2F)
 
-```c++
+```cpp
 FloatRect Range::BoundingRect() const {
   owner_document_->UpdateStyleAndLayout(DocumentUpdateReason::kJavaScript);
 

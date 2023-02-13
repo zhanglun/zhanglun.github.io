@@ -11,7 +11,7 @@ export interface Props {
 const { noMarginTop = false } = Astro.props;
 ---
 
-<footer class={`${noMarginTop ? "max-w-screen-2xl" : "max-w-screen-2xl mt-auto"}`}>
+<footer class={`${noMarginTop ? "max-w-screen-2xl" : "max-w-screen-2xl mt-auto"} context`}>
   <div class="footer-wrapper">
     <Socials centered />
     <div class="copyright-wrapper">
