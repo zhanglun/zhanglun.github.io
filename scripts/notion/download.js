@@ -69,8 +69,7 @@ const createPost = (title, content) => {
   }
 
   // remove ``` blocks
-  content = content.replace(/```[a-z]*\n[\s\S]*?\n```/ig, '');
-  const imageURLs = getImageURLs(content);
+  const imageURLs = getImageURLs(content.replace(/```[a-z]*\n[\s\S]*?\n```/ig, ''));
   const localFileList = [];
   let p = Promise.resolve();
 
