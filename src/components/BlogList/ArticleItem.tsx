@@ -12,7 +12,7 @@ export function ArticleItem({ href, frontmatter, rawContent }: Props) {
   const { title } = frontmatter;
 
   return (
-    <li className="mt-12">
+    <li className="mt-6">
       <article
         className="border-b border-stone-200 group"
         itemScope
@@ -21,7 +21,7 @@ export function ArticleItem({ href, frontmatter, rawContent }: Props) {
         <a
           href={href}
           itemProp="url"
-          className="text-[var(--color-text-base)] block text-[1.125rem] font-semibold py-4"
+          className="text-[var(--color-text-base)] block text-[1.125rem] font-semibold py-3"
         >
           <div className="flex justify-between">
             <span className="items-center flex text-[0.875rem] font-normal before:content-[' '] before:bg-[currentColor]
