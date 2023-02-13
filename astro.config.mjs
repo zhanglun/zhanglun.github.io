@@ -5,7 +5,6 @@ import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import path from "node:path";
-// import { parse, visit, prettyPrint } from 'recast';
 import { camelCase } from "change-case";
 
 const HTML_REGEX = /const\s+html\s+=\s+(".*");/;
@@ -27,21 +26,6 @@ function processHTMLContent(content, imgImports) {
     if (!cache[src]) {
       imgImports.push(`import ${variableName} from "${src}";`);
       cache[src] = 1;
-    }
-
-    if (
-      src
-        .toLowerCase()
-        .indexOf("209704501-e9c2236a-3f4d-4c67-bab3-025aebd63382.png") > -1
-    ) {
-      console.log(
-        "🚀 ~ file: astro.config.mjs:17 ~ newContent ~ path.basename(src)",
-        path.basename(src)
-      );
-      console.log(
-        "🚀 ~ file: astro.config.mjs:17 ~ newContent ~ variableName",
-        variableName
-      );
     }
 
     const updatedImg = imgTag.replace(fullSrc, 'src="${' + variableName + '}"');

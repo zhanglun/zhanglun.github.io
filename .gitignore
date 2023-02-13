@@ -76,3 +76,4 @@ contents/notion
 .vs
 .vscode
 dist
+.cache
