@@ -37,6 +37,7 @@ function downloadImage(url, filepath) {
         } else {
           // Consume response data to free up memory
           res.resume();
+          console.log("filepath", filepath);
           reject(new Error(`Request Failed With a Status Code: ${res.statusCode}, URL: ${url}`));
         }
       });
@@ -67,6 +68,8 @@ const createPost = (title, content) => {
     fs.mkdirSync(imageFolder);
   }
 
+  // remove ``` blocks
+  content = content.replace(/```[a-z]*\n[\s\S]*?\n```/ig, '');
   const imageURLs = getImageURLs(content);
   const localFileList = [];
   let p = Promise.resolve();
