@@ -50,17 +50,19 @@ const categoryPosts = getPostsByCategory(posts, category);
     pageTitle={category}
     pageDesc={`All the articles with the category "${category}".`}
   >
-    <ul class="grid w-full lg:gap-y-14 lg:grid-cols-[repeat(12,1fr)] lg:gap-6">
-      {
-        categoryPosts.map(({ frontmatter, rawContent }) => (
-          <Card
-            href={`/blogs/${slugify(frontmatter)}`}
-            frontmatter={frontmatter}
-            rawContent={rawContent()}
-          />
-        ))
-      }
-    </ul>
+    <div class="m-auto max-w-screen-2xl context">
+      <ul class="grid w-full lg:gap-y-20 lg:grid-cols-[repeat(12,1fr)] lg:gap-8">
+        {
+          categoryPosts.map(({ frontmatter, rawContent }) => (
+            <Card
+              href={`/blogs/${slugify(frontmatter)}`}
+              frontmatter={frontmatter}
+              rawContent={rawContent()}
+            />
+          ))
+        }
+      </ul>
+    </div>
   </Main>
   <Footer />
 </Layout>

@@ -1,0 +1,11 @@
+---
+import getUniqueYears from "@utils/getUniqueYears";
+import type { Frontmatter } from "src/types";
+import Archives from "@layouts/Archives.astro";
+
+const posts = await Astro.glob<Frontmatter>("../../../contents/{blogs,notion}/**/*.md");
+
+let yearGroup = getUniqueYears(posts);
+---
+
+<Archives yearGroup={yearGroup} />
