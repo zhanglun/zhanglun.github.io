@@ -29,6 +29,11 @@ export const MENU = [
     url: "/categories",
   },
   {
+    id: "archives",
+    name: "Archives",
+    url: "/archives",
+  },
+  {
     id: "labs",
     name: "Labs",
     url: "/labs",
