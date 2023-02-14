@@ -11,7 +11,7 @@ export interface Props {
 const styles = {
   cardContainer: "relative lg:col-[span_3] sm:col-[span_2]",
   titleLink:
-    "text-[var(--color-text-base)] block text-[1.125rem] font-semibold py-4",
+    "text-[var(--color-text-base)] block text-[1.125rem] font-semibold pt-3 pb-4",
   // titleLink:
   //   `block text-skin-accent
   //   font-medium text-2xl underline-offset-4
@@ -33,7 +33,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
       </span>
       <a href={href} className={styles.titleLink}>
         {secHeading ? (
-          <h2 className="tracking-tighter leading-none font-medium text-2xl decoration-dashed hover:underline">
+          <h2 className="tracking-normal leading-none font-medium text-2xl decoration-dashed hover:underline">
             {frontmatter.title}
           </h2>
         ) : (

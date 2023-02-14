@@ -36,11 +36,11 @@ export const Lab = () => {
   ];
   
   return <div>
-    <div className="grid grid-cols-[1fr_1fr_1fr] gap-[3.75rem_2rem]">
+    <div className="max-w-screen-2xl mx-auto context grid grid-cols-[1fr_1fr_1fr] gap-[3.75rem_2rem]">
       {projects.map((item, idx) => (
         <div className="w-full group cursor-pointer">
           <div className="" />
-          <h2 className="flex items-center text-xl leading-none">
+          <h2 className="flex items-center text-xl leading-none mb-2">
             <a className="group-hover:underline mr-3" target="_blank" href={item.url}>{item.name}</a>
             <div className="bg-[var(--color-text-base)] rounded-full text-[white] fill-[white] text-[0] opacity-0 p-1 scale-50 transition-all -rotate-[135deg]
             group-hover:opacity-100 group-hover:scale-90">
