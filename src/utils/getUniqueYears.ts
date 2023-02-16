@@ -31,9 +31,9 @@ const getUniqueYears = (posts: MarkdownInstance<Frontmatter>[]) => {
   });
 
   return new Map([...wMap.entries()].sort((l, r) => {
-    if (l > r) {
+    if (l[0] > r[0]) {
       return -1;
-    } else if (l < r) {
+    } else if (l[0] < r[0]) {
       return 1;
     } else {
       return 0;
