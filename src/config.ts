@@ -5,7 +5,7 @@ export const SITE = {
   title: "张小伦的网络日志",
   author: "zhanglun",
   description: "Halo! 我是 zhanglun 👋🏼 一位软件开发工程师。",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "site-image.png",
   lightAndDarkMode: true,
   postPerPage: 8,
   social: {
