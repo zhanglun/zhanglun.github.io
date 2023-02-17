@@ -119,7 +119,7 @@ const options: SatoriOptions = {
   width: 1200,
   height: 630,
   // debug: true,
-  embedFont: true,
+  embedFont: false,
   fonts: [
     {
       name: "IBM Plex Mono",

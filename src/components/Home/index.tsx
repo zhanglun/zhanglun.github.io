@@ -1,10 +1,13 @@
 import React from "react";
 import Icon from "../../assets/icon.png";
 import { CircleArrow, CircleArrowThemeEnum } from "../CircleArrow";
+import type { MarkdownInstance } from "astro";
+import type { Frontmatter } from "src/types";
 
 export interface HomeProps {
   siteInfo: any;
   menu: any;
+  recentlyPosts: MarkdownInstance<Frontmatter>[];
 }
 
 export const Home = ({ siteInfo, menu }: HomeProps) => {
