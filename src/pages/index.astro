@@ -1,11 +1,22 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { SITE, MENU } from "@config";
-import { Home } from "@components/Home";
+import getSortedPosts from "@utils/getSortedPosts";
+import type { Frontmatter } from "src/types";
+// import { Home } from "@components/Home";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { RichHome } from "@components/Home/Rich";
+
+const posts = await Astro.glob<Frontmatter>("../../contents/{blogs,notion}/**/*.md");
+const sortedPosts = getSortedPosts(posts);
+const recentlyPosts = sortedPosts.slice(0, 3);
 ---
 
 <Layout>
+  <Header />
   <main id="main-content">
-    <Home siteInfo={SITE} menu={MENU} />
+    <RichHome siteInfo={SITE} menu={MENU} recentlyPosts={recentlyPosts}/>
   </main>
+  <Footer />
 </Layout>
