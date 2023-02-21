@@ -17,19 +17,19 @@ export const RichHome = ({ siteInfo, menu, recentlyPosts }: HomeProps) => {
   return (
     <div className="max-w-screen-2xl context m-auto">
       <div className="grid items-center justify-center pt-24 pb-8">
-        <div className="grid gap-10 grid-rows-[1fr_1fr]">
-          <div className="grid gap-8 items-center grid-cols-[9rem_1fr]">
-            <img className="w-36 h-36 rounded-full" src={Icon} alt="" />
-            <h1 className="text-center text-7xl text-[var(--color-text-base) p-0 m-0">
+        <div className="grid gap-10 grid-rows-1">
+          <div className="grid gap-8 items-center grid-rows-[1fr_1fr] sm:grid-cols-[9rem_1fr] sm:grid-rows-1">
+            <img className="w-36 h-36 rounded-full m-auto" src={Icon} alt="" />
+            <h1 className=" p-0 m-0 text-center text-5xl sm:text-7xl text-[var(--color-text-base)">
               {siteInfo.title}
             </h1>
           </div>
-          <p className="text-[2rem]">{siteInfo.description}</p>
+          <p className="text-[1.5rem] sm:text-[2rem]">{siteInfo.description}</p>
         </div>
       </div>
       <div>
         <h2 className="text-2xl font-bold">Recently Posted</h2>
-        <div className="mt-8 grid grid-cols-12 gap-8 grid-rows-2">
+        <div className="mt-8 grid gap-8 grid-rows-3 sm:grid-cols-12 sm:grid-rows-2">
           <div className="grid gap-3 sm:col-span-12 xl:col-span-6 row-span-2">
             <img className="rounded-2xl" src={Scene} alt="" />
             <div>
