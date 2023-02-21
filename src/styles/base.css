@@ -14,7 +14,7 @@
     --color-border: 236, 233, 233;
   }
   html[data-theme="dark"] {
-    --color-fill: #1e2732;
+    --color-fill: #171313;
     --color-text-base: #fff;
     --color-text-base-revert: #1e2732;
     --color-accent: #fff;
@@ -96,7 +96,7 @@
   }
 
   .context {
-    @apply max-w-full mx-auto px-5 w-full sm:px-6 md:px-16;
+    @apply max-w-screen-2xl mx-auto px-5 w-full sm:px-6 md:px-16;
   }
 
   /* ===== scrollbar ===== */

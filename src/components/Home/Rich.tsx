@@ -6,7 +6,6 @@ import Icon from "../../assets/icon.png";
 import Scene from "../../assets/blob-scene-haikei.svg";
 import Steps from "../../assets/layered-steps-haikei.svg";
 import Waves from "../../assets/layered-waves-haikei.svg";
-import { CircleArrow, CircleArrowThemeEnum } from "../CircleArrow";
 
 export interface HomeProps {
   siteInfo: any;
@@ -15,24 +14,6 @@ export interface HomeProps {
 }
 
 export const RichHome = ({ siteInfo, menu, recentlyPosts }: HomeProps) => {
-  console.log(recentlyPosts[0].frontmatter);
-  const renderMenu = () =>
-    menu.map((item: any, idx: number) => (
-      <a
-        className="flex items-center leading-none group"
-        href={import.meta.env.BASE_URL.slice(0, -1) + item.url}
-        key={item.id}
-      >
-        <span className="mr-3">{item.name}</span>
-        <CircleArrow
-          className="opacity-0 group-hover:opacity-100"
-          rotate={-125}
-          size={1.2}
-          theme={CircleArrowThemeEnum.dark}
-        />
-      </a>
-    ));
-
   return (
     <div className="max-w-screen-2xl context m-auto">
       <div className="grid items-center justify-center pt-24 pb-8">
