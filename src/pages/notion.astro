@@ -1,0 +1,20 @@
+---
+import * as React from "react";
+import { NotionRenderer } from "react-notion-x";
+import { NotionAPI } from "notion-client";
+import { NotionList } from "@components/Notion/List";
+import Layout from "@layouts/Layout.astro";
+
+import "react-notion-x/src/styles.css";
+
+const notion = new NotionAPI();
+
+const recordMap = await notion.getPage("Rust-402578c0be5347098276331718c0b90c");
+
+---
+
+<Layout>
+  <div>
+    <NotionList recordMap={recordMap} />
+  </div>
+</Layout>
