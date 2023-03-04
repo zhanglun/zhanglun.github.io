@@ -9,12 +9,14 @@ import "react-notion-x/src/styles.css";
 
 const notion = new NotionAPI();
 
-const recordMap = await notion.getPage("a819f8f879cf44d2bf897c1dabe50f89");
+const recordMap = await notion.getPage("WebRTC-34cff195717442f7bdc32ce899830655");
+// https://invited-cairnsmore-12f.notion.site/WebRTC-34cff195717442f7bdc32ce899830655
 
 ---
 
 <Layout>
   <div>
-    <NotionList recordMap={recordMap} />
+    <NotionList client:load recordMap={recordMap} />
   </div>
 </Layout>
+  
