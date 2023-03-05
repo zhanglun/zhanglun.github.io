@@ -11,7 +11,7 @@ export const NotionList =  ({ recordMap, pages }: any) => {
   return (
   <ul>
     {pages.map((page: any) => {
-      return <li><a href={`/notion/${page.id}`}>{page.id} -- {page.title}</a></li>
+      return <li><a href={`/notion/${page.id}`}>{page.id} -- {page.frontmatter.title}</a></li>
     })}
     {/* <NotionRenderer recordMap={recordMap} fullPage={true} darkMode={false} /> */}
   </ul>
