@@ -1,10 +1,10 @@
-const { Client } = require('@notionhq/client');
-const { NotionToMarkdown } = require('notion-to-md');
-const YAML = require('yaml');
-const { getPages } = require('./src/notion-api/get-pages.mjs');
-const { getNotionPageProperties } = require('./src/transformers/get-page-properties.mjs');
-const { getNotionPageTitle } = require('./src/transformers/get-page-title.mjs');
-const { createPost } = require('./download.mjs');
+import { Client } from '@notionhq/client'
+import { NotionToMarkdown } from 'notion-to-md'
+import YAML from 'yaml'
+import { getPages } from './src/notion-api/get-pages.mjs'
+import { getNotionPageProperties } from './src/transformers/get-page-properties.mjs'
+import { getNotionPageTitle } from './src/transformers/get-page-title.mjs'
+import { createPost } from './download.mjs'
 
 const token = 'secret_6buUNCr4GKBMmLH6jhICx7tRJvb7iBWf6PtWgrnfmIy';
 const databaseId = '45ab44626c7b4b8d9ecd22c9b70980b5';

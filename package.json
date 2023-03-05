@@ -74,7 +74,7 @@
     "format": "prettier --write .",
     "cz": "cz",
     "prepare": "husky install",
-    "download": "node ./scripts/notion",
+    "download": "node ./scripts/notion/index.mjs",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o ./dist/storybook"
   }
