@@ -1,6 +1,6 @@
-const { blockToString } = require('../block-to-string');
+import { blockToString } from '../block-to-string.mjs';
 
-exports.getNotionPageProperties = (page) => Object.keys(page.properties).reduce((acc, key) => {
+export const getNotionPageProperties = (page) => Object.keys(page.properties).reduce((acc, key) => {
   if (page.properties[key].type === 'title') {
     return acc;
   }

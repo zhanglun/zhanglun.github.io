@@ -6,6 +6,14 @@ import { Collection } from 'react-notion-x/build/third-party/collection'
 // import { Modal } from 'react-notion-x/build/third-party/modal'
 // import { Pdf } from 'react-notion-x/build/third-party/pdf'
 
-export const NotionList =  ({ recordMap }: any) => (
-  <NotionRenderer recordMap={recordMap} fullPage={true} darkMode={false} />
+export const NotionList =  ({ recordMap, pages }: any) => {
+  console.log(pages);
+  return (
+  <ul>
+    {pages.map((page: any) => {
+      return <li><a href={`/notion/${page.id}`}>{page.id} -- {page.title}</a></li>
+    })}
+    {/* <NotionRenderer recordMap={recordMap} fullPage={true} darkMode={false} /> */}
+  </ul>
 )
+}

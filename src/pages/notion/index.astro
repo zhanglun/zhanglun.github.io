@@ -1,22 +1,17 @@
 ---
-import * as React from "react";
-import { NotionRenderer } from "react-notion-x";
 import { NotionAPI } from "notion-client";
 import { NotionList } from "@components/Notion/List";
 import Layout from "@layouts/Layout.astro";
-
+import { getPages } from "../../../scripts/notion/get-pages.mjs";
 import "react-notion-x/src/styles.css";
 
-const notion = new NotionAPI();
-
-const recordMap = await notion.getPage("WebRTC-34cff195717442f7bdc32ce899830655");
-// https://invited-cairnsmore-12f.notion.site/WebRTC-34cff195717442f7bdc32ce899830655
+const pages = await getPages();
 
 ---
 
 <Layout>
   <div>
-    <NotionList client:load recordMap={recordMap} />
+    <NotionList pages={pages} />
   </div>
 </Layout>
   

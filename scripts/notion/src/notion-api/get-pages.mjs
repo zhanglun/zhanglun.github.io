@@ -1,4 +1,4 @@
-exports.getPages = async (notionClient, databaseId) => {
+export const getPages = async (notionClient, databaseId) => {
   let hasMore = true;
   let startCursor = '';
   const pages = [];
