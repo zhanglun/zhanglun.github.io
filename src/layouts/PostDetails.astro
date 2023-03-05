@@ -12,6 +12,7 @@ export interface Props {
 }
 
 const { frontmatter, Content } = Astro.props.post;
+const { id } = Astro.props;
 
 const { title, author, description, ogImage, date, tags } = frontmatter;
 
@@ -39,7 +40,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
   </div>
   <main id="main-content">
     <article id="article" role="article" class="mx-auto max-w-3xl mt-8 prose">
-      <Content />
+      {id ? <div>asdfsdf</div>: <Content />}
     </article>
 
     {

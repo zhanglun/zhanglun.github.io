@@ -1,17 +1,21 @@
 ---
-import { NotionAPI } from "notion-client";
-import { NotionList } from "@components/Notion/List";
-import Layout from "@layouts/Layout.astro";
+import { SITE } from "src/config";
+import Blogs from "@layouts/Blogs.astro";
+import getSortedPosts from "@utils/getSortedPosts";
+import getPageNumbers from "@utils/getPageNumbers";
+import type { Frontmatter } from "src/types";
 import { getPages } from "../../../scripts/notion/get-pages.mjs";
-import "react-notion-x/src/styles.css";
 
-const pages = await getPages();
-
+const posts = await Astro.glob<Frontmatter>("../../../contents/blogs/**/*.md");
+const notionPages = await getPages();
+const sortedPosts = [...notionPages, ...getSortedPosts(posts)];
+const totalPages = getPageNumbers(sortedPosts.length);
+const paginatedPosts = sortedPosts.slice(0, SITE.postPerPage);
 ---
 
-<Layout>
-  <div>
-    <NotionList pages={pages} />
-  </div>
-</Layout>
-  
+<Blogs
+  posts={paginatedPosts}
+  pageNum={1}
+  totalPages={totalPages.length}
+  allPosts={sortedPosts}
+/>

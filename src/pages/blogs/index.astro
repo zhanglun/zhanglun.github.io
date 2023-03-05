@@ -4,9 +4,12 @@ import Blogs from "@layouts/Blogs.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import getPageNumbers from "@utils/getPageNumbers";
 import type { Frontmatter } from "src/types";
+// import { getPages } from "../../../scripts/notion/get-pages.mjs";
 
 const posts = await Astro.glob<Frontmatter>("../../../contents/{blogs,notion}/**/*.md");
 const sortedPosts = getSortedPosts(posts);
+// const notionPages = await getPages();
+// const sortedPosts = [...notionPages, ...getSortedPosts(posts)];
 const totalPages = getPageNumbers(sortedPosts.length);
 const paginatedPosts = sortedPosts.slice(0, SITE.postPerPage);
 ---
