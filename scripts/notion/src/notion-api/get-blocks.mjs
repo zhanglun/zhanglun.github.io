@@ -1,6 +1,6 @@
-const { errorMessage } = require('../error-message');
+import { errorMessage } from '../error-message.mjs';
 
-exports.getBlocks = async (notionClient, blockId, reporter) => {
+export const getBlocks = async (notionClient, blockId, reporter) => {
   let hasMore = true;
   let blockContent = [];
 

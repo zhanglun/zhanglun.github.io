@@ -1,4 +1,4 @@
-const { pipeExtend } = require('or-pipets');
+import { pipeExtend } from 'or-pipets';
 
 const pick = (key) => (obj) => obj[key];
 
@@ -44,7 +44,7 @@ const stylize = pipeExtend(annotateBold)
   .pipeExtend(annotateLink)
   .pipeExtend(annotateEquation);
 
-exports.blockToString = (textBlocks) => textBlocks.reduce((text, textBlock) => {
+export const blockToString = (textBlocks) => textBlocks.reduce((text, textBlock) => {
   const data = {
     ...textBlock.text,
     ...textBlock.annotations,

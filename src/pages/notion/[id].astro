@@ -13,6 +13,7 @@ import { NotionAPI } from "notion-client";
 import { getAllPagesInSpace } from "notion-utils";
 import Layout from "@layouts/Layout.astro";
 import { NotionRenderer } from "react-notion-x";
+import { getPages } from "../../../scripts/notion/get-pages.mjs";
 
 export interface Props {
   post: MarkdownInstance<Frontmatter>;
@@ -34,30 +35,14 @@ type PagePaths = {
 }[];
 
 export async function getStaticPaths() {
-  const notion = new NotionAPI();
+  const pages = await getPages();
 
-  async function getPage(pageId: string) {
-    const recordMap = await notion.getPage(pageId);
+  let postResult = pages.map(pageId => {
+    console.log("posts[postId]", pageId.id);
 
-    return recordMap;
-  }
-  // const posts = await Astro.glob<Frontmatter>("../../../contents/{blogs,notion}/**/*.md");
-  const posts = await getAllPagesInSpace(
-    "WebRTC-34cff195717442f7bdc32ce899830655",
-    undefined,
-    getPage,
-    {
-      traverseCollections: false,
-    }
-  );
-
-  let postResult = Object.keys(posts).map(postId => {
     return {
       params: {
-        id: `/notion/${postId}`,
-      },
-      props: {
-        recordMap: posts[postId],
+        id: pageId.id,
       },
     };
   });
@@ -67,9 +52,8 @@ export async function getStaticPaths() {
 }
 
 const { id } = Astro.params;
-
-console.log(id);
-const { recordMap } = Astro.props;
+const notion = new NotionAPI()
+const recordMap = await notion.getPage(id as string)
 ---
 
 <Layout>

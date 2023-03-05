@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const { URL } = require('url');
-const client = require('https');
-const crypto = require('crypto');
+import fs from 'fs';
+import path from 'path';
+import { URL } from 'url';
+import client from 'https';
+import crypto from 'crypto';
 
 const DIST = path.resolve(process.cwd(), './contents/notion');
 const CACHE_DIST = path.resolve(DIST, '.cache');
@@ -48,7 +48,7 @@ function downloadImage(url, filepath) {
   });
 }
 
-const createPost = (title, content) => {
+export const createPost = (title, content) => {
   const folder = path.join(DIST, title);
   const imageFolder = path.join(folder, 'images');
 
@@ -95,5 +95,3 @@ const createPost = (title, content) => {
     fs.writeFileSync(path.resolve(folder, 'index.md'), content);
   });
 };
-
-exports.createPost = createPost;
