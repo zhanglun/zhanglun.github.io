@@ -2,17 +2,12 @@
 import { SITE } from "src/config";
 import Blogs from "@layouts/Blogs.astro";
 import PostDetails from "@layouts/PostDetails.astro";
+import NotionDetails from "@layouts/NotionDetails.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import getPageNumbers from "@utils/getPageNumbers";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
 import slugify from "@utils/slugify";
-
-import { Client } from "@notionhq/client";
-import { NotionAPI } from "notion-client";
-import { getAllPagesInSpace } from "notion-utils";
-import Layout from "@layouts/Layout.astro";
-import { NotionRenderer } from "react-notion-x";
 import { getPages } from "../../../scripts/notion/get-pages.mjs";
 
 export interface Props {
@@ -34,28 +29,71 @@ type PagePaths = {
   };
 }[];
 
+export async function getFilteredPosts() {
+  const mdPosts = await Astro.glob<Frontmatter>("../../../contents/blogs/**/*.md");
+  const notionPages = await getPages() as { frontmatter: Frontmatter} | any;
+
+  const filteredPosts = notionPages.filter(({ frontmatter }) => frontmatter.status === 'publish').concat(mdPosts.filter(({ frontmatter }) => !frontmatter.draft));
+
+  return filteredPosts;
+}
+
 export async function getStaticPaths() {
-  const pages = await getPages();
+  const filteredPosts = await getFilteredPosts();
 
-  let postResult = pages.map(pageId => {
-    console.log("posts[postId]", pageId.id);
-
+  let postResult: PostResult = filteredPosts.map(post => {
     return {
       params: {
-        id: pageId.id,
+        slug: post.id ? post.id : slugify(post.frontmatter),
+      },
+      props: {
+        post,
+        type: post.id ? 'notion' : 'markdown',
       },
     };
   });
-  console.log("🚀 ~ file: [id].astro:64 ~ postResult ~ postResult:", postResult)
 
-  return [...postResult];
+  const pagePaths: PagePaths = getPageNumbers(filteredPosts.length).map(
+    pageNum => ({
+      params: { slug: String(pageNum) },
+    })
+  );
+
+  return [...postResult, ...pagePaths];
 }
 
-const { id } = Astro.params;
-const notion = new NotionAPI()
-const recordMap = await notion.getPage(id as string)
+const { slug } = Astro.params;
+const { post, type } = Astro.props;
+
+const posts = await Astro.glob<Frontmatter>("../../../contents/blogs/**/*.md");
+
+const sortedPosts = getSortedPosts(posts);
+
+const totalPages = getPageNumbers(sortedPosts.length);
+
+const currentPage =
+  slug && !isNaN(Number(slug)) && totalPages.includes(Number(slug))
+    ? Number(slug)
+    : 0;
+const lastPost = currentPage * SITE.postPerPage;
+const startPost = lastPost - SITE.postPerPage;
+
+const paginatedPosts = sortedPosts.slice(startPost, lastPost);
 ---
 
-<Layout>
-  <NotionRenderer recordMap={recordMap} fullPage={true} darkMode={false} />
-</Layout>
+{
+  type == 'notion' ? (
+    <NotionDetails post={post} id={slug} />
+  ) : (
+  post ? (
+    <PostDetails post={post} />
+  ) : (
+    <Blogs
+      posts={paginatedPosts}
+      pageNum={currentPage}
+      totalPages={totalPages.length}
+      allPosts={[]}
+    />
+  )
+  )
+}

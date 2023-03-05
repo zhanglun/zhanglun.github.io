@@ -31,17 +31,20 @@ export const BlogList = (props: Props) => {
     document.body.scrollTo(0, document.body.scrollHeight);
   }
 
+  const prefix = import.meta.env.BASE_URL.slice(0, -1);
+
   return (
     <div className="m-auto max-w-screen-2xl context">
       <ul className="w-full">
-        {renderPosts.map(({ frontmatter }) => {
+        {renderPosts.map(({ frontmatter, id }) => {
+
+          const href = id ?
+            `${prefix}/blogs/${id}` :
+            `${prefix}/blogs/${slugify(frontmatter)}`
           return (
             <ArticleItem
               key={frontmatter.title}
-              href={
-                import.meta.env.BASE_URL.slice(0, -1) +
-                `/blogs/${slugify(frontmatter)}`
-              }
+              href={href}
               frontmatter={frontmatter}
             />
           );
