@@ -83,7 +83,7 @@ const paginatedPosts = sortedPosts.slice(startPost, lastPost);
 
 {
   type == 'notion' ? (
-    <NotionDetails post={post} id={slug || ''} />
+    <NotionDetails post={post} id={slug || ''} client:idle />
   ) : (
   post ? (
     <PostDetails post={post} />
