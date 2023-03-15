@@ -10,7 +10,7 @@ import { RichHome } from "@components/Home/Rich";
 
 const posts = await Astro.glob<Frontmatter>("../../contents/{blogs,notion}/**/*.md");
 const sortedPosts = getSortedPosts(posts);
-const recentlyPosts = sortedPosts.slice(0, 3);
+const recentlyPosts = sortedPosts.slice(0, 4);
 ---
 
 <Layout>
