@@ -1,18 +1,23 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import satori, { SatoriOptions } from "satori";
 import { SITE } from "@config";
+import fontRegularPath from './NotoSansSC-Regular.otf';
+import fontMediumPath from './NotoSansSC-Medium.otf';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+console.log("%c Line:8 🌰 __dirname", "color:#ea7e5c", __dirname);
 
 const fetchFonts = async () => {
   // Regular Font
-  const fontFileRegular = await fetch(
-    "https://www.1001fonts.com/download/font/ibm-plex-mono.regular.ttf",
-  );
-  const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer();
+  const fontRegular = fs.readFileSync(path.join(__dirname, '../../', fontRegularPath));
+
+  // const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer();
 
   // Bold Font
-  const fontFileBold = await fetch(
-    "https://www.1001fonts.com/download/font/ibm-plex-mono.bold.ttf",
-  );
-  const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
+  const fontBold = fs.readFileSync(path.join(__dirname, '../../', fontMediumPath));
 
   return { fontRegular, fontBold };
 };
@@ -23,94 +28,19 @@ const ogImage = (text: string) => {
   return (
     <div
       style={{
-        background: "#fefbfb",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 64,
+        fontWeight: 600,
+        color: '#fff',
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: "-1px",
-          right: "-1px",
-          border: "4px solid #000",
-          background: "#ecebeb",
-          opacity: "0.9",
-          // filter: "blur(10px)",
-          borderRadius: "4px",
-          display: "flex",
-          justifyContent: "center",
-          margin: "2.5rem",
-          width: "88%",
-          height: "80%",
-        }}
-      />
-
-      <div
-        style={{
-          border: "4px solid #000",
-          background: "#fefbfb",
-          // boxShadow: "24px 26px 8px 0px #ccc ",
-          borderRadius: "4px",
-          display: "flex",
-          justifyContent: "center",
-          margin: "2rem",
-          width: "88%",
-          height: "80%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            margin: "20px",
-            width: "90%",
-            height: "90%",
-          }}
-        >
-          <p
-            style={{
-              fontSize: 72,
-              fontWeight: "bold",
-              maxHeight: "84%",
-              overflow: "hidden",
-            }}
-          >
-            {text}
-          </p>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              marginBottom: "8px",
-              fontSize: 28,
-            }}
-          >
-            <span>
-              by{" "}
-              <span
-                style={{
-                  color: "transparent",
-                }}
-              >
-                "
-              </span>
-              <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-                {SITE.author}
-              </span>
-            </span>
-
-            <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-              {SITE.title}
-            </span>
-          </div>
-        </div>
-      </div>
+      <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 1600 800'><rect fill='#ff9d00' width='1600' height='800' /><g stroke='#000' stroke-width='66.7' stroke-opacity='0.05' ><circle fill='#ff9d00' cx='0' cy='0' r='1800' /><circle fill='#fb8d17' cx='0' cy='0' r='1700' /><circle fill='#f47d24' cx='0' cy='0' r='1600' /><circle fill='#ed6e2d' cx='0' cy='0' r='1500' /><circle fill='#e35f34' cx='0' cy='0' r='1400' /><circle fill='#d85239' cx='0' cy='0' r='1300' /><circle fill='#cc453e' cx='0' cy='0' r='1200' /><circle fill='#be3941' cx='0' cy='0' r='1100' /><circle fill='#b02f43' cx='0' cy='0' r='1000' /><circle fill='#a02644' cx='0' cy='0' r='900' /><circle fill='#901e44' cx='0' cy='0' r='800' /><circle fill='#801843' cx='0' cy='0' r='700' /><circle fill='#6f1341' cx='0' cy='0' r='600' /><circle fill='#5e0f3d' cx='0' cy='0' r='500' /><circle fill='#4e0c38' cx='0' cy='0' r='400' /><circle fill='#3e0933' cx='0' cy='0' r='300' /><circle fill='#2e062c' cx='0' cy='0' r='200' /><circle fill='#210024' cx='0' cy='0' r='100' /></g></svg>
+      <div style={{ marginTop: 40, position: 'absolute', fontFamily: "NotoSansSC" }}>{text}</div>
     </div>
   );
 };
@@ -118,17 +48,17 @@ const ogImage = (text: string) => {
 const options: SatoriOptions = {
   width: 1200,
   height: 630,
-  // debug: true,
+  debug: true,
   embedFont: false,
   fonts: [
     {
-      name: "IBM Plex Mono",
+      name: "NotoSansSC",
       data: fontRegular,
       weight: 400,
       style: "normal",
     },
     {
-      name: "IBM Plex Mono",
+      name: "NotoSansSC",
       data: fontBold,
       weight: 600,
       style: "normal",
