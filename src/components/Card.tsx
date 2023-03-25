@@ -9,7 +9,7 @@ export interface Props {
 }
 
 const styles = {
-  cardContainer: "relative lg:col-[span_3] sm:col-[span_2]",
+  cardContainer: "relative lg:col-[span_4] sm:col-[span_2]",
   titleLink:
     "text-[var(--color-text-base)] block text-[1.125rem] font-semibold pt-3 pb-4",
   // titleLink:
