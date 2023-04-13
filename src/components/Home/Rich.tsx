@@ -15,7 +15,7 @@ export interface HomeProps {
 
 export const RichHome = ({ siteInfo, menu, recentlyPosts }: HomeProps) => {
   return (
-    <div className="max-w-screen-2xl context m-auto">
+    <div className="max-w-screen-2xl context m-auto h-[calc(100vh-152px)] grid items-center justify-center">
       <div className="grid items-center justify-center pt-24 pb-8">
         <div className="grid gap-10 grid-rows-1">
           <div className="grid gap-8 items-center grid-rows-[1fr_1fr] sm:grid-cols-[9rem_1fr] sm:grid-rows-1">
