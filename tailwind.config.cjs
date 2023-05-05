@@ -15,11 +15,6 @@ function withOpacity(variableName) {
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
-    colors: ({ colors }) => {
-      return {
-        ...colors,
-      };
-    },
     screens: {
       sm: "640px",
       md: "768px",
