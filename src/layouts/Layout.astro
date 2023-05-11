@@ -64,15 +64,15 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
-
+    
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5BTW3YHN6F"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50406624-2"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-5BTW3YHN6F');
+      gtag('config', 'UA-50406624-2');
     </script>
     {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
@@ -85,7 +85,6 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
         />
       )
     }
-
   </head>
   <body class="antialiased">
     <slot />
