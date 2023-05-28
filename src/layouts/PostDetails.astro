@@ -6,6 +6,7 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
+import { Colorful } from "@components/Home/Colorful";
 
 export interface Props {
   post: MarkdownInstance<Frontmatter>;
@@ -22,18 +23,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
   <Header />
-  <!-- <div class="max-w-3xl mx-auto w-full px-2 flex justify-start">
-    <button
-      class="mt-8 mb-2 hover:opacity-75 flex focus-outline"
-      onclick="history.back()"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" color="currentColor"
-        ><path
-          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-        ></path>
-      </svg><span>Go back</span>
-    </button>
-  </div> -->
+  <Colorful />
   <div class="mt-12 mb-12 mx-auto pt-20 py-8 max-w-6xl">
     <h1 class="leading-tight text-7xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
     <Datetime datetime={date} size="lg" className="mt-12 mx-auto" />
