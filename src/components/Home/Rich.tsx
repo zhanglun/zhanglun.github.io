@@ -17,15 +17,8 @@ export interface HomeProps {
 export const RichHome = ({ siteInfo, menu, recentlyPosts }: HomeProps) => {
   return (
     <div className="max-w-screen-2xl context m-auto grid items-center justify-center">
-      <div
-        className="m-0 min-w-0 absolute left-[calc((100%_-_1882px)_/_2)] top-[-200px] right-0 z-[-1] bg-white
-    overflow-hidden"
-      >
-        <div className="m-0 min-w-0 select-none pointer-events-none max-h-[calc(100vh_+_200px)]">
-          <Colorful />
-        </div>
-      </div>
-      <div className="grid items-center justify-center pt-24 pb-8">
+      <Colorful />
+      <div className="grid items-center justify-center pt-40 pb-28">
         <div className="grid gap-10 grid-rows-1">
           <div className="grid gap-8 items-center grid-rows-[1fr_1fr] sm:grid-cols-[9rem_1fr] sm:grid-rows-1">
             <img className="w-36 h-36 rounded-full m-auto" src={Icon} alt="" />
@@ -36,7 +29,7 @@ export const RichHome = ({ siteInfo, menu, recentlyPosts }: HomeProps) => {
           <p className="text-[1.5rem] sm:text-[2rem]">{siteInfo.description}</p>
         </div>
       </div>
-      <div>
+      <div className="my-24">
         <h2 className="text-2xl font-bold">Recently Posted</h2>
         <div className="mt-8 grid gap-8 grid-rows-3 sm:grid-cols-12 sm:grid-rows-2">
           <div className="grid gap-3 sm:col-span-12 xl:col-span-6 row-span-2">

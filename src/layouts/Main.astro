@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { Colorful } from "@components/Home/Colorful";
 import { PageHero } from "@components/PageHero";
 
 export interface Props {
@@ -11,7 +12,8 @@ const { pageTitle, pageDesc } = Astro.props;
 ---
 
 <main id="main-content">
-  <PageHero title={pageTitle} subTitle={pageDesc || ''} />
+  <PageHero title={pageTitle} subTitle={pageDesc || ""} />
+  <Colorful />
   <slot />
 </main>
 
