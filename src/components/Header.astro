@@ -6,15 +6,22 @@ import logoPNG from "/assets/logo.png";
 import logoSVG from "/assets/logo.svg";
 
 export interface Props {
-  activeNav?: "search" | "blogs" | "categories" | "archives" | "tags" | "about" | "labs";
+  activeNav?:
+    | "search"
+    | "blogs"
+    | "categories"
+    | "archives"
+    | "tags"
+    | "about"
+    | "labs";
 }
 
 const { activeNav } = Astro.props;
 ---
 
-<header class="sticky top-0 z-10 backdrop-blur t bg-opacity-95">
+<header class="bg-opacity-95 flex items-center justify-center h-[56px]" id="header">
   <a id="skip-to-content" href="#main-content">Skip to content</a>
-  <div class="context nav-container">
+  <div class="context nav-container" id="nav">
     <div class="top-nav-wrap">
       <a href="/" class="logo font-sans">
         {
@@ -58,16 +65,14 @@ const { activeNav } = Astro.props;
           }
           <li class="ml-4">
             <LinkButton
-              href={import.meta.env.BASE_URL.slice(0, -1) + '/search'}
+              href={import.meta.env.BASE_URL.slice(0, -1) + "/search"}
               className={`focus-outline p-3 sm:p-1 ${
                 activeNav === "search" ? "active" : ""
               }`}
               ariaLabel="search"
               title="Search"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon-tabler"
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler"
                 ><path
                   d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"
                 ></path>
@@ -84,10 +89,18 @@ const { activeNav } = Astro.props;
                   aria-label="auto"
                   aria-live="polite"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" id="moon-svg" class="icon-tabler">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    id="moon-svg"
+                    class="icon-tabler"
+                  >
                     <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" />
                   </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" id="sun-svg" class="icon-tabler">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    id="sun-svg"
+                    class="icon-tabler"
+                  >
                     <path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" />
                   </svg>
                 </button>
@@ -108,8 +121,22 @@ const { activeNav } = Astro.props;
     @apply max-w-screen-2xl mx-auto flex flex-col sm:flex-row justify-between items-center;
   }
   .top-nav-wrap {
-    @apply relative w-full flex justify-between items-start sm:py-5 sm:items-center;
+    @apply relative w-full flex justify-between items-start sm:py-2 sm:items-center text-base;
   }
+
+  #nav.fix {
+    position: fixed;
+    top: 0;
+    backdrop-filter: saturate(180%) blur(20px);
+    background: rgba(255, 255, 255, 0.48);
+    --playerDropShadow2: rgba(0, 0, 0, 0.07);
+    --playerInnerShadow: rgba(255, 255, 255, 0.45);
+    background-image: linear-gradient(274deg,transparent, rgba(0, 0, 0, 0.07) 50%, transparent);
+    background-position: 0 bottom;
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+  }
+
   .logo {
     @apply absolute sm:static font-semibold text-xl sm:text-2xl py-1 shrink-0;
   }
@@ -130,7 +157,7 @@ const { activeNav } = Astro.props;
     @apply col-span-2 flex justify-center items-center;
   }
   nav ul li a {
-    @apply px-4 py-3 w-full text-center sm:px-2 sm:py-1 sm:my-0 font-medium hover:text-skin-accent relative text-skin-base;
+    @apply px-3 py-2 w-full text-center sm:px-2 sm:py-1 sm:my-0 font-medium hover:text-skin-accent relative text-skin-base;
   }
   nav ul li a:after {
     content: "";
@@ -143,12 +170,13 @@ const { activeNav } = Astro.props;
     margin-top: 0.5rem;
     border-radius: 1rem;
     background-color: currentColor;
-    transform: translateX(-50%) scale(.2);
+    transform: translateX(-50%) scale(0.2);
     opacity: 0;
     @apply transition-all;
   }
 
-  nav ul li a:hover::after, nav ul li a.active:after {
+  nav ul li a:hover::after,
+  nav ul li a.active:after {
     transform: translateX(-50%);
     opacity: 1;
   }
@@ -206,56 +234,76 @@ const { activeNav } = Astro.props;
 <script>
   const primaryColorScheme = ""; // "light" | "dark"
 
-// Get theme data from local storage
-const currentTheme = localStorage.getItem("theme");
+  // Get theme data from local storage
+  const currentTheme = localStorage.getItem("theme");
 
-function getPreferTheme() {
-  // return theme value in local storage if it is set
-  if (currentTheme) return currentTheme;
+  function getPreferTheme() {
+    // return theme value in local storage if it is set
+    if (currentTheme) return currentTheme;
 
-  // return primary color scheme if it is set
-  if (primaryColorScheme) return primaryColorScheme;
+    // return primary color scheme if it is set
+    if (primaryColorScheme) return primaryColorScheme;
 
-  // return user device's prefer color scheme
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
+    // return user device's prefer color scheme
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
 
-let themeValue = getPreferTheme();
+  let themeValue = getPreferTheme();
 
-function setPreference() {
-  localStorage.setItem("theme", themeValue);
-  reflectPreference();
-}
+  function setPreference() {
+    localStorage.setItem("theme", themeValue);
+    reflectPreference();
+  }
 
-function reflectPreference() {
-  document.firstElementChild?.setAttribute("data-theme", themeValue);
+  function reflectPreference() {
+    document.firstElementChild?.setAttribute("data-theme", themeValue);
 
-  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
-}
+    document
+      .querySelector("#theme-btn")
+      ?.setAttribute("aria-label", themeValue);
+  }
 
-// set early so no page flashes / CSS is made aware
-reflectPreference();
-
-window.onload = () => {
-  // set on load so screen readers can get the latest value on the button
+  // set early so no page flashes / CSS is made aware
   reflectPreference();
 
-  // now this script can find and listen for clicks on the control
-  document.querySelector("#theme-btn")?.addEventListener("click", () => {
-    themeValue = themeValue === "light" ? "dark" : "light";
-    setPreference();
-  });
-};
+  window.onload = () => {
+    // set on load so screen readers can get the latest value on the button
+    reflectPreference();
 
-// sync with system changes
-window
-  .matchMedia("(prefers-color-scheme: dark)")
-  .addEventListener("change", ({ matches: isDark }) => {
-    themeValue = isDark ? "dark" : "light";
-    setPreference();
-  });
+    // now this script can find and listen for clicks on the control
+    document.querySelector("#theme-btn")?.addEventListener("click", () => {
+      themeValue = themeValue === "light" ? "dark" : "light";
+      setPreference();
+    });
+  };
+
+  const nav = document.querySelector("#nav");
+  const header = document.querySelector("#header");
+  const headerHeight = header?.getBoundingClientRect().height;
+  const options = {
+    rootMargin: `${0}px 0px 0px 0px`,
+    threshold: 1,
+  };
+  const observer = new IntersectionObserver(([entry]) => {
+    console.log("%c Line:289 🍩 entry", "color:#33a5ff", entry);
+    if (entry.intersectionRatio <= 1) {
+      nav?.classList.add("fix");
+    } else {
+      nav?.classList.remove("fix");
+    }
+  }, options);
+  
+  header && observer.observe(header);
+
+  // sync with system changes
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", ({ matches: isDark }) => {
+      themeValue = isDark ? "dark" : "light";
+      setPreference();
+    });
 
   // Toggle menu
   const menuBtn = document.querySelector(".hamburger-menu");
