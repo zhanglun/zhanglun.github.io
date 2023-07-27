@@ -9,6 +9,12 @@ export const Lab = () => {
       thumbnail: "",
     },
     {
+      name: "BookWise",
+      description: "book wise read wise",
+      url: "https://github.com/zhanglun/bookwise",
+      thumbnail: "",
+    },
+    {
       name: "Gatsby blog theme",
       description: "为Gatsby.js创建的个人博客主题",
       url: "https://github.com/zhanglun/gatsby-theme-facile",
