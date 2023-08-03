@@ -13,6 +13,7 @@
     "dayjs": "^1.11.7",
     "fuse.js": "^6.6.2",
     "github-slugger": "^2.0.0",
+    "lucide-react": "^0.263.1",
     "notion-client": "^6.16.0",
     "notion-to-md": "^2.3.2",
     "notion-utils": "^6.16.0",
