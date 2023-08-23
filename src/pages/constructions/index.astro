@@ -8,7 +8,7 @@ import Tag from "@components/Tag.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import type { Frontmatter } from "src/types";
 import Icon from "../../assets/icon.png";
-import { FileText, Presentation } from 'lucide-react';
+import { FileText, Presentation } from "lucide-react";
 
 const posts = await Astro.glob<Frontmatter>(
   "../../../contents/{blogs,notion}/**/*.md"
@@ -18,8 +18,8 @@ let tags = getUniqueTags(posts);
 ---
 
 <Layout title={`Construction | ${SITE.title}`}>
-  <div class="flex gap-3">
-    <div class="md:w-60">
+  <div class="flex gap-3 flex-row">
+    <aside class="bg-red-600 px-8 py-10">
       <div class="flex gap-4 flex-row">
         <img class="w-10 h-10 rounded-lg" src={Icon} alt="" />
         <div class="flex gap-1 justify-center flex-col whitespace-nowrap">
@@ -27,15 +27,39 @@ let tags = getUniqueTags(posts);
           <h2 class="text-xs text-stone-500">zhanglun.github.io</h2>
         </div>
       </div>
-      <ol>
-        <li>
-          <a href=""><FileText />Writing</a>
+      <ol class="list-none p-0 m-0 -ml-2 mt-2">
+        <li class="block text-sm group">
+          <a
+            href=""
+            class='flex relative px-3 rounded-lg items-center justify-between pointer text-sm group text-nav-text-lvl-1 after:block after:content-[&quot;&quot;] after:-z-10 after:absolute after:top-[0] after:left-[0] after:w-full after:h-full after:rounded-lg after:opacity-0 after:scale-90 after:transition-all after:duration-300 after:ease-in-out hover:after:opacity-100 hover:after:scale-100 md:transition-all md:duration-[500ms] md:ease-in-out md:mr-0 py-[8px] after:bg-nav-bg-lvl-2'
+          >
+            <div class="flex items-center gap-3">
+              <FileText size={16} />Writing
+            </div>
+            <div
+              class="hidden h-4 w-4 bg-nav-hotkey-bg rounded text-nav-hotkey-text text-[10px] md:flex items-center justify-center font-mono md:opacity-100"
+            >
+              1
+            </div>
+          </a>
         </li>
-        <li>
-          <a href=""><Presentation />Projects</a>
+        <li class="block text-sm group">
+          <a
+            href=""
+            class='flex relative px-3 rounded-lg items-center justify-between pointer text-sm group text-nav-text-lvl-1 after:block after:content-[&quot;&quot;] after:-z-10 after:absolute after:top-[0] after:left-[0] after:w-full after:h-full after:rounded-lg after:opacity-0 after:scale-90 after:transition-all after:duration-300 after:ease-in-out hover:after:opacity-100 hover:after:scale-100 md:transition-all md:duration-[500ms] md:ease-in-out md:mr-0 py-[8px] after:bg-green-900'
+          >
+            <div class="flex items-center gap-3">
+              <Presentation size={16} />Projects
+            </div>
+            <div
+              class="hidden h-4 w-4 bg-nav-hotkey-bg rounded text-nav-hotkey-text text-[10px] md:flex items-center justify-center font-mono md:opacity-100"
+            >
+              1
+            </div>
+          </a>
         </li>
-      </div>
-    </div>
+      </ol>
+    </aside>
     <div class="flex-1 bg-slate-500">123123sadf</div>
   </div>
 </Layout>
