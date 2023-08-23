@@ -1,0 +1,41 @@
+---
+import { SITE } from "src/config";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Tag from "@components/Tag.astro";
+import getUniqueTags from "@utils/getUniqueTags";
+import type { Frontmatter } from "src/types";
+import Icon from "../../assets/icon.png";
+import { FileText, Presentation } from 'lucide-react';
+
+const posts = await Astro.glob<Frontmatter>(
+  "../../../contents/{blogs,notion}/**/*.md"
+);
+
+let tags = getUniqueTags(posts);
+---
+
+<Layout title={`Construction | ${SITE.title}`}>
+  <div class="flex gap-3">
+    <div class="md:w-60">
+      <div class="flex gap-4 flex-row">
+        <img class="w-10 h-10 rounded-lg" src={Icon} alt="" />
+        <div class="flex gap-1 justify-center flex-col whitespace-nowrap">
+          <h1 class="text-sm text-stone-900">张小伦的网络日志</h1>
+          <h2 class="text-xs text-stone-500">zhanglun.github.io</h2>
+        </div>
+      </div>
+      <ol>
+        <li>
+          <a href=""><FileText />Writing</a>
+        </li>
+        <li>
+          <a href=""><Presentation />Projects</a>
+        </li>
+      </div>
+    </div>
+    <div class="flex-1 bg-slate-500">123123sadf</div>
+  </div>
+</Layout>
