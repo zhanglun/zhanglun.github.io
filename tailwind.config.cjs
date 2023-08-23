@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
+const colors = require('tailwindcss/colors')
+
 function withOpacity(variableName) {
   return ({ opacityValue }) => {
     // if (opacityValue !== undefined) {
@@ -22,6 +24,7 @@ module.exports = {
       xl: "1280px",
       "2xl": "1526px",
     },
+    colors: colors,
 
     extend: {
       textColor: {
