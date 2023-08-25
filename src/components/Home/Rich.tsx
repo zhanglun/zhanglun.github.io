@@ -3,9 +3,6 @@ import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
 import slugify from "@utils/slugify";
 import Icon from "../../assets/icon.png";
-import Scene from "../../assets/blob-scene-haikei.svg";
-import Steps from "../../assets/layered-steps-haikei.svg";
-import Waves from "../../assets/layered-waves-haikei.svg";
 import { Colorful } from "./Colorful";
 
 export interface HomeProps {

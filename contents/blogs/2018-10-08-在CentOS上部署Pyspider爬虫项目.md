@@ -125,7 +125,7 @@ pip install pyspider
 
 关于 pyspider的使用在此不在复述，网上有很多教程。个人在使用过程中，增加了一个配置文件，最终通过一下命令启动
 
-```
+```bash
 nohup pyspider -c config.json&
 ```
 

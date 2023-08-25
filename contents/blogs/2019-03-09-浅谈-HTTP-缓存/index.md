@@ -135,7 +135,7 @@ HTTP提供了一些特殊的条件首部，当一个GET请求在请求首部中�
 
 与响应首部中的`Last-Modified`配合使用。文档请求成功返回时，服务器将文档的的最后修改日期以`Last-Modified`加在响应报文中。当缓存进行验证时，将用这个值作为`If-Modified-Since`首部的字段值：
 
-```
+```bash
 If-Modified-Since: <cached last-modified date>
 ```
 
