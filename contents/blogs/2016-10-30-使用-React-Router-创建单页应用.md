@@ -62,7 +62,7 @@ https://zhanglun.github.io/index.html#body
 
 比如：
 
-```
+```bash
 http://www.example.com/
 http://www.examplt.com/#edit
 http://www.examplt.com/#settings

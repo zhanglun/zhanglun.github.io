@@ -359,7 +359,7 @@ b();
 
 所以现阶段可以这么认为：
 
-```
+```bash
 Async/Await = Generaotr + Promise
 ```
 
