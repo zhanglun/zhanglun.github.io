@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
@@ -22,8 +23,9 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
 ---
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
-  <Header />
-  <Colorful />
+  <Main>
+  <!-- <Header /> -->
+  <!-- <Colorful /> -->
   <div class="mt-12 mb-12 mx-auto pt-20 py-8 max-w-6xl">
     <h1 class="leading-tight text-7xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
     <Datetime datetime={date} size="lg" className="mt-12 mx-auto" />
@@ -42,6 +44,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
       {id ? <div>asdfsdf</div>: <Content />}
     </article>
   </main>
+  </Main>
   <Footer />
 </Layout>
 
