@@ -3,7 +3,7 @@ import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "@types";
 import { SITE } from "@config";
 import Card from "@components/Card";
-import { ArticleItem } from "./ArticleItem";
+import { ArticleItemLine } from "./ArticleItemLine";
 import slugify from "@utils/slugify";
 import { CircleArrow, CircleArrowThemeEnum } from "@components/CircleArrow";
 
@@ -34,7 +34,7 @@ export const BlogList = (props: Props) => {
   const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
   return (
-    <div className="m-auto max-w-screen-2xl context">
+    <div className="m-auto">
       <ul className="w-full">
         {renderPosts.map(({ frontmatter, id }) => {
 
@@ -42,7 +42,7 @@ export const BlogList = (props: Props) => {
             `${prefix}/blogs/${id}` :
             `${prefix}/blogs/${slugify(frontmatter)}`
           return (
-            <ArticleItem
+            <ArticleItemLine
               key={frontmatter.title}
               href={href}
               frontmatter={frontmatter}
