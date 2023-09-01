@@ -1,5 +1,9 @@
 ---
+import { SITE } from "src/config";
+import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
+import type { Frontmatter } from "src/types";
+import { Lab } from "../components/Lab";
 ---
 
 <Main>
@@ -14,6 +18,8 @@ import Main from "@layouts/Main.astro";
         各种奇思妙想的实验。展示我个人开发的项目和实验，将创意转化为现实。我将分享小巧工具、有趣游戏和前沿技术实验，激发您的灵感。在这个创意实验场，探索软件开发领域的可能性。了解开发过程、技术选择和背后动机，您的反馈和意见对我很重要。感谢支持！在这里探索各种奇思妙想的实验，共同成长。
       </p>
     </header>
-    <div>adfsafasdfasdfasdf</div>
+    <div class="mt-20">
+      <Lab />
+    </div>
   </div>
 </Main>

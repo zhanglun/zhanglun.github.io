@@ -1,13 +1,10 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
-import { Colorful } from "@components/Home/Colorful";
 
 export interface Props {
   post: MarkdownInstance<Frontmatter>;
@@ -24,10 +21,8 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
   <Main>
-  <!-- <Header /> -->
-  <!-- <Colorful /> -->
-  <div class="mt-12 mb-12 mx-auto pt-20 py-8 max-w-6xl">
-    <h1 class="leading-tight text-7xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
+  <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
+    <h1 class="leading-tight text-5xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
     <Datetime datetime={date} size="lg" className="mt-12 mx-auto" />
     {
       tags && (
@@ -45,7 +40,6 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
     </article>
   </main>
   </Main>
-  <Footer />
 </Layout>
 
 <style>
