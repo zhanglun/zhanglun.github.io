@@ -1,10 +1,9 @@
 ---
 import { LOGO_IMAGE, SITE, MENU } from "src/config";
 import LinkButton from "./LinkButton.astro";
-
 import logoPNG from "/assets/logo.png";
 import logoSVG from "/assets/logo.svg";
-import { Moon, Search, Sun, FileText, Presentation } from "lucide-react";
+import { Moon, Search, Sun, FileText, Presentation, Github } from "lucide-react";
 import AsideNavLink from "@components/AsideNavLink.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import type { Frontmatter } from "src/types";
@@ -25,14 +24,16 @@ const { activeNav } = Astro.props;
 ---
 
 <aside
-  class="fixed w-full h-screen overflow-auto overflow-x-hidden left-[0] top-[0] z-50 px-8 py-10 -left-[calc(100vw)] sm:w-2/4 md:left-[0] md:top-auto md:bg-transparent md:py-4 md:pb-1 transition-[width,height,padding] duration-[700ms] ease-in-out md:w-60 md:px-8 md:h-[calc(100vh-96px)]"
+  class="fixed w-full h-screen overflow-auto overflow-x-hidden left-[0] top-[0] z-50 px-8 py-10 -left-[calc(100vw)] sm:w-2/4 md:left-[0] md:top-auto md:bg-transparent md:py-4 md:pb-1 transition-[width,height,padding] duration-[700ms] ease-in-out md:w-60 md:px-8 md:h-[calc(100vh-96px)] flex flex-col justify-between"
 >
-  <div class="flex gap-4 flex-row">
-    <img class="w-10 h-10 rounded-lg" src={Icon} alt="" />
-    <div class="flex gap-1 justify-center flex-col whitespace-nowrap">
-      <h1 class="text-sm text-stone-900">张小伦的网络日志</h1>
-      <h2 class="text-xs text-stone-500">zhanglun.github.io</h2>
-    </div>
+  <div class="">
+    <a href="/" class="flex gap-4 flex-row">
+      <img class="w-10 h-10 rounded-lg" src={Icon} alt="" />
+      <div class="flex gap-1 justify-center flex-col whitespace-nowrap">
+        <h1 class="text-sm font-bold">张小伦的网络日志</h1>
+        <h2 class="text-xs">zhanglun.github.io</h2>
+      </div>
+    </a>
   </div>
   <ol class="list-none p-0 m-0 -ml-2 mt-2">
     <li class="block text-sm group">
@@ -41,13 +42,13 @@ const { activeNav } = Astro.props;
       </AsideNavLink>
     </li>
     <li class="block text-sm group">
-      <AsideNavLink href="/constructions/libs" count={1}>
+      <AsideNavLink href="/projects" count={1}>
         <Presentation size={16} />Projects
       </AsideNavLink>
     </li>
     {
       (MENU || []).map((item: any) => (
-      <li class="block text-sm group">
+        <li class="block text-sm group">
           <AsideNavLink
             className={activeNav === item.id ? "active" : ""}
             href={import.meta.env.BASE_URL.slice(0, -1) + item.url}
@@ -57,35 +58,42 @@ const { activeNav } = Astro.props;
         </li>
       ))
     }
-    <li class="ml-4">
-      <LinkButton
-        href={import.meta.env.BASE_URL.slice(0, -1) + "/search"}
-        className={`focus-outline p-3 sm:p-1 ${
-          activeNav === "search" ? "active" : ""
-        }`}
-        ariaLabel="search"
-        title="Search"
-      >
-        <Search size={18} strokeWidth={2} />
-      </LinkButton>
-    </li>
-    <li>
-      {
-        SITE.lightAndDarkMode && (
-          <button
-            id="theme-btn"
-            class="focus-outline"
-            title="Toggles light & dark"
-            aria-label="auto"
-            aria-live="polite"
-          >
-            <Moon id="moon-svg" size={18} strokeWidth={2} />
-            <Sun id="sun-svg" size={18} strokeWidth={2} />
-          </button>
-        )
-      }
-    </li>
   </ol>
+  <ol>
+    <li class="block text-sm group">
+      <AsideNavLink
+        href="github.com/zhanglun"
+      >
+        <Github size={16} />Github
+      </AsideNavLink>
+    </li> 
+  </ol>
+  <div class="flex items-center gap-4">
+    <LinkButton
+      href={import.meta.env.BASE_URL.slice(0, -1) + "/search"}
+      className={`focus-outline p-3 sm:p-1 ${
+        activeNav === "search" ? "active" : ""
+      }`}
+      ariaLabel="search"
+      title="Search"
+    >
+      <Search size={18} strokeWidth={2} />
+    </LinkButton>
+    {
+      SITE.lightAndDarkMode && (
+        <button
+          id="theme-btn"
+          class="focus-outline"
+          title="Toggles light & dark"
+          aria-label="auto"
+          aria-live="polite"
+        >
+          <Moon id="moon-svg" size={18} strokeWidth={2} />
+          <Sun id="sun-svg" size={18} strokeWidth={2} />
+        </button>
+      )
+    }
+  </div>
 </aside>
 
 <style>
