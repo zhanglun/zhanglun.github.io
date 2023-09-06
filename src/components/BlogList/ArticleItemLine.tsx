@@ -13,31 +13,30 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
   const { title } = frontmatter;
 
   return (
-    <li className="mt-2">
+    <li className="group-hover/list:opacity-50 hover:!opacity-100">
       <article
-        className=" group"
+        className="group "
         itemScope
         itemType="http://schema.org/Article"
       >
         <a
           href={href}
           itemProp="url"
-          className="text-[var(--color-text-base)] block text-[1.125rem] py-3"
+          className="text-[var(--color-text-base)] block text-base py-3"
         >
           <div className="flex justify-between items-center relative gap-4">
             <span
               className="items-center flex font-normal before:content-[' '] before:bg-[currentColor]
           before:rounded-2xl before:block before:w-2 before:h-2 shrink-0"
-            >
-            </span>
+            ></span>
             <span
               itemProp="headline"
-              className="text-[var(--color-text-base)] block text-[1.125rem] font-semibold group-hover:underline shrink-0"
+              className="max-w-[calc(100%-100px)] md:max-w-[calc(100%-118px)] text-[var(--color-text-base)] block text-base group-hover:underline shrink-0 text-ellipsis overflow-hidden whitespace-nowrap"
             >
               {title}
             </span>
             <div className="h-[1px] w-full bg-stone-100 shrink-1 transition-colors duration-[300ms] ease-in-out"></div>
-            <div className="shrink-0 font-mono text-sm text-text-lvl-4">
+            <div className="shrink-0 font-mono text-xs text-neutral-400 ">
               {dayjs(frontmatter.date).format("YYYY-MM-DD")}
             </div>
             <div
@@ -60,16 +59,12 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
               </svg>
             </div>
           </div>
-          <div className="ml-6 mt-1 text-sm text-neutral-500 flex items-center gap-2">
-              <span>{frontmatter.categories}</span>
-              <span>/</span>
-              <span>{frontmatter.tags.join(',')}</span>
+          <div className="ml-6 mt-1 text-xs text-neutral-400 flex items-center gap-2">
+            <span>{frontmatter.categories}</span>
+            <span>/</span>
+            <span>{frontmatter.tags?.join(",")}</span>
           </div>
-          {/* <p className=" text-base font-normal pt-4">
-            {frontmatter.description}
-          </p> */}
         </a>
-        {/* <small>{frontmatter.date}</small>  */}
       </article>
     </li>
   );
