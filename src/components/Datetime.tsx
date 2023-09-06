@@ -1,3 +1,4 @@
+import React from 'react';
 import dayjs, { Dayjs } from "dayjs";
 
 export interface Props {
@@ -20,8 +21,6 @@ export default function Datetime({ datetime, size = "sm", className }: Props) {
 }
 
 const FormattedDatetime = ({ datetime }: { datetime: string }) => {
-  const myDatetime = new Date(datetime);
-
   const date = dayjs(datetime).format("YYYY-MM-D HH:mm");
 
   return <>{date}</>;
