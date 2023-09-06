@@ -1,9 +1,15 @@
 ---
+import clsx from "clsx";
 import { LOGO_IMAGE, SITE, MENU } from "src/config";
 import LinkButton from "./LinkButton.astro";
-import logoPNG from "/assets/logo.png";
-import logoSVG from "/assets/logo.svg";
-import { Moon, Search, Sun, FileText, Presentation, Github } from "lucide-react";
+import {
+  Moon,
+  Search,
+  Sun,
+  FileText,
+  Presentation,
+  Github,
+} from "lucide-react";
 import AsideNavLink from "@components/AsideNavLink.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import type { Frontmatter } from "src/types";
@@ -20,7 +26,9 @@ export interface Props {
     | "labs";
 }
 
-const { activeNav } = Astro.props;
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the first "/"
+console.log("%c Line:26 🍉 currentPath", "color:#6ec1c2", currentPath);
 ---
 
 <aside
@@ -37,22 +45,31 @@ const { activeNav } = Astro.props;
   </div>
   <ol class="list-none p-0 m-0 -ml-2 mt-2">
     <li class="block text-sm group">
-      <AsideNavLink href="/blogs" count={1}>
+      <AsideNavLink
+        href="/blogs"
+        count={1}
+        className={clsx('bg-red', {
+          'bg-white font-bold': currentPath.indexOf("blogs") > -1,
+        })}
+      >
         <FileText size={16} />Writing
       </AsideNavLink>
     </li>
     <li class="block text-sm group">
-      <AsideNavLink href="/projects" count={1}>
+      <AsideNavLink
+        href="/projects"
+        count={1}
+        className={clsx({
+          active: currentPath === "projects",
+        })}
+      >
         <Presentation size={16} />Projects
       </AsideNavLink>
     </li>
     {
       (MENU || []).map((item: any) => (
         <li class="block text-sm group">
-          <AsideNavLink
-            className={activeNav === item.id ? "active" : ""}
-            href={import.meta.env.BASE_URL.slice(0, -1) + item.url}
-          >
+          <AsideNavLink href={import.meta.env.BASE_URL.slice(0, -1) + item.url}>
             <span class="">{item.name}</span>
           </AsideNavLink>
         </li>
@@ -61,19 +78,17 @@ const { activeNav } = Astro.props;
   </ol>
   <ol>
     <li class="block text-sm group">
-      <AsideNavLink
-        href="github.com/zhanglun"
-      >
+      <AsideNavLink href="github.com/zhanglun">
         <Github size={16} />Github
       </AsideNavLink>
-    </li> 
+    </li>
   </ol>
   <div class="flex items-center gap-4">
     <LinkButton
       href={import.meta.env.BASE_URL.slice(0, -1) + "/search"}
-      className={`focus-outline p-3 sm:p-1 ${
-        activeNav === "search" ? "active" : ""
-      }`}
+      className={clsx("focus-outline p-3 sm:p-1", {
+        active: currentPath === "search",
+      })}
       ariaLabel="search"
       title="Search"
     >
