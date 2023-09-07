@@ -23,12 +23,12 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
   <Main>
   <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
     <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
-    <Datetime datetime={date} size="sm" className="mt-6 mx-auto" />
+    <Datetime datetime={date} size="sm" className="mt-4 mb-2 mx-auto" />
     {
       tags && (
-        <ul class="py-4 flex items-center justify-center">
+        <ul class="gap-x-3 gap-y-1 flex items-center justify-center">
           {tags.map(tag => (
-            <Tag name={tag} />
+            <Tag name={tag} hideCount />
           ))}
         </ul>
       )

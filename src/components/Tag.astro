@@ -1,15 +1,14 @@
 ---
 export interface Props {
   name: string;
-  count: number;
+  count?: number;
+  hideCount?: boolean;
 }
 
-const { name, count = 0 } = Astro.props;
+const { name, count = 0, hideCount } = Astro.props;
 ---
 
-<div>
-  <div class="text-neutral-500 hover:text-neutral-700">
-    <span class="text-base">{name}</span>
-    <sup>{count}</sup>
-  </div>
+<div class="text-neutral-500 hover:text-neutral-700">
+  <span class="text-xs">{name}</span>
+  {!hideCount && <sup class="text-[10px]">{count}</sup>}
 </div>
