@@ -27,7 +27,7 @@ jobs:
       - name: Sync Pnpm version
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 6.32.9
+          version: latest
       - name: Sync node version and setup cache
         uses: actions/setup-node@v3
         with:
