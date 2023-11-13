@@ -2,7 +2,7 @@ import React from "react";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
 import slugify from "@utils/slugify";
-import Icon from "../../assets/icon.png";
+import Icon from "src/assets/icon.png";
 
 export interface HomeProps {
   siteInfo: any;

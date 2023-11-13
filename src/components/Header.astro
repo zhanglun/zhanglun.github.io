@@ -2,8 +2,7 @@
 import { LOGO_IMAGE, SITE, MENU } from "src/config";
 import LinkButton from "./LinkButton.astro";
 
-import logoPNG from "/assets/logo.png";
-import logoSVG from "/assets/logo.svg";
+import logoPNG from "src/assets/icon.png";
 import { Moon, Search, Sun } from "lucide-react";
 
 export interface Props {
@@ -28,7 +27,7 @@ const { activeNav } = Astro.props;
         {
           LOGO_IMAGE.enable ? (
             <img
-              src={LOGO_IMAGE.svg ? logoSVG : logoPNG}
+              src={logoPNG}
               alt="AstroPaper Logo"
               width={LOGO_IMAGE.width}
               height={LOGO_IMAGE.height}

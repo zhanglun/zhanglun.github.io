@@ -88,9 +88,11 @@ export const createPost = (title, content) => {
         const href = url.split('?')[0];
         const relativePath = path.relative(folder, path.join(imageFolder, localFileList[idx]));
 
-        content = content.replace(href, relativePath);
+        content = content.replace(url, `./${relativePath}`);
       }
     });
+
+    console.log("%c Line:92 🍏 content", "color:#7f2b82", content);
 
     fs.writeFileSync(path.resolve(folder, 'index.md'), content);
   });
