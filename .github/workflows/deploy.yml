@@ -36,7 +36,7 @@ jobs:
 
       - name: Install app dependencies and build web
         # Remove `&& yarn build` if you build your frontend in `beforeBuildCommand`
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Sync content from Notion
         run: |
