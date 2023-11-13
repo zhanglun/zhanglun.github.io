@@ -1,5 +1,5 @@
 import React from "react";
-import Icon from "../../assets/icon.png";
+import Icon from "src/assets/icon.png";
 import { CircleArrow, CircleArrowThemeEnum } from "../CircleArrow";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";

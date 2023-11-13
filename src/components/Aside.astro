@@ -13,7 +13,7 @@ import {
 import AsideNavLink from "@components/AsideNavLink.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import type { Frontmatter } from "src/types";
-import Icon from "/assets/icon.png";
+import Icon from "src/assets/icon.png";
 
 export interface Props {
   activeNav?:
@@ -36,7 +36,7 @@ console.log("%c Line:26 🍉 currentPath", "color:#6ec1c2", currentPath);
 >
   <div class="">
     <a href="/" class="flex gap-4 flex-row">
-      <img class="w-10 h-10 rounded-lg" src={Icon} alt="" />
+      <img class="w-10 h-10 rounded-lg" src={Icon.src} width={Icon.width} height={Icon.height} alt="" />
       <div class="flex gap-1 justify-center flex-col whitespace-nowrap">
         <h1 class="text-sm font-bold">张小伦的网络日志</h1>
         <h2 class="text-xs">zhanglun.github.io</h2>

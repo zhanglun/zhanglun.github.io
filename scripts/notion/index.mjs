@@ -16,6 +16,7 @@ const formatContentAndCreate = (page) => {
   const properties = getNotionPageProperties(page);
 
   let { markdown } = page;
+  console.log("%c Line:19 🍅 page", "color:#42b983", page);
   let cover = '';
 
   if (page.cover) {
@@ -42,7 +43,7 @@ const formatContentAndCreate = (page) => {
     status: frontmatter?.status?.name,
   };
 
-  markdown = '---\n'.concat(YAML.stringify(frontmatter)).concat('\n---\n\n').concat(markdown);
+  markdown = '---\n'.concat(YAML.stringify(frontmatter)).concat('\n---\n\n').concat(markdown.parent);
 
   createPost(title, markdown);
 };
