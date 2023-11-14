@@ -22,10 +22,10 @@ jobs:
           git config --global user.name "zhanglun"
           git config --global user.email "zhanglun1410@gmail.com"
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Sync Pnpm version
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v2
         with:
           version: latest
       - name: Sync node version and setup cache
@@ -36,7 +36,7 @@ jobs:
 
       - name: Install app dependencies and build web
         # Remove `&& yarn build` if you build your frontend in `beforeBuildCommand`
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
       - name: Sync content from Notion
         run: |
