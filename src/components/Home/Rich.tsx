@@ -16,8 +16,8 @@ export const RichHome = ({ siteInfo, menu, recentlyPosts }: HomeProps) => {
       <div className="grid items-center justify-center pt-40 pb-28">
         <div className="grid gap-10 grid-rows-1">
           <div className="grid gap-8 items-center grid-rows-[1fr_1fr] sm:grid-cols-[9rem_1fr] sm:grid-rows-1">
-            <img className="w-36 h-36 rounded-full m-auto" src={Icon} alt="" />
-            <h1 className=" p-0 m-0 text-center text-5xl sm:text-7xl text-[var(--color-text-base)">
+            <img className="w-36 h-36 rounded-full m-auto" src={Icon.src} alt="" />
+            <h1 className=" p-0 m-0 text-center text-5xl sm:text-5xl text-[var(--color-text-base)">
               {siteInfo.title}
             </h1>
           </div>

@@ -92,8 +92,6 @@ export const createPost = (title, content) => {
       }
     });
 
-    console.log("%c Line:92 🍏 content", "color:#7f2b82", content);
-
     fs.writeFileSync(path.resolve(folder, 'index.md'), content);
   });
 };
