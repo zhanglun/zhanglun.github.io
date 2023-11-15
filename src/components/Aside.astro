@@ -9,6 +9,7 @@ import {
   FileText,
   Presentation,
   Github,
+ArrowUpRight,
 } from "lucide-react";
 import AsideNavLink from "@components/AsideNavLink.astro";
 import getUniqueTags from "@utils/getUniqueTags";
@@ -32,7 +33,7 @@ console.log("%c Line:26 🍉 currentPath", "color:#6ec1c2", currentPath);
 ---
 
 <aside
-  class="fixed w-full h-screen overflow-auto overflow-x-hidden left-[0] top-[0] z-50 px-8 py-10 -left-[calc(100vw)] sm:w-2/4 md:left-[0] md:top-auto md:bg-transparent md:py-4 md:pb-1 transition-[width,height,padding] duration-[700ms] ease-in-out md:w-60 md:px-8 md:h-[calc(100vh-96px)] flex flex-col justify-between"
+  class="fixed w-full h-screen overflow-auto overflow-x-hidden top-[0] z-50 px-8 py-10 -left-[calc(100vw)] sm:w-2/4 md:left-[0] md:top-auto md:bg-transparent md:py-4 md:pb-1 transition-[width,height,padding] duration-[700ms] ease-in-out md:w-60 md:px-8 md:h-[calc(100vh-96px)] flex flex-col justify-between"
 >
   <div class="">
     <a href="/" class="flex gap-4 flex-row">
@@ -57,13 +58,13 @@ console.log("%c Line:26 🍉 currentPath", "color:#6ec1c2", currentPath);
     </li>
     <li class="block text-sm group">
       <AsideNavLink
-        href="/projects"
+        href="/labs"
         count={1}
         className={clsx({
-          active: currentPath === "projects",
+          active: currentPath === "laboratory",
         })}
       >
-        <Presentation size={16} />Projects
+        <Presentation size={16} />Laboratory
       </AsideNavLink>
     </li>
     {

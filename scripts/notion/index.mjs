@@ -16,7 +16,6 @@ const formatContentAndCreate = (page) => {
   const properties = getNotionPageProperties(page);
 
   let { markdown } = page;
-  console.log("%c Line:19 🍅 page", "color:#42b983", page);
   let cover = '';
 
   if (page.cover) {

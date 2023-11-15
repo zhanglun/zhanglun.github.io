@@ -14,31 +14,6 @@ export const SITE = {
 };
 export const MENU = [
   {
-    id: "home",
-    name: "Home",
-    url: "/",
-  },
-  {
-    id: "blogs",
-    name: "Blogs",
-    url: "/blogs",
-  },
-  {
-    id: "categories",
-    name: "Categories",
-    url: "/categories",
-  },
-  {
-    id: "archives",
-    name: "Archives",
-    url: "/archives",
-  },
-  {
-    id: "labs",
-    name: "Labs",
-    url: "/labs",
-  },
-  {
     id: "about",
     name: "About",
     url: "/about",
