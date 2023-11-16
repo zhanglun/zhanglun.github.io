@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets'
+
+const { class: className, imageClass, width, height, alt, src } = Astro.props;
+console.log("%c Line:5 🥥 src", "color:#ed9ec7", src);
+---
+
+<div class={`card--image ${className && className}`}>
+    <Image
+        src={src}
+        width={width}
+        height={height}
+        alt={alt}
+        loading="lazy"
+        aspectRatio={1 / 1}
+        format={"webp"}
+        class={`object-cover ${imageClass && imageClass}`}
+    />
+</div>

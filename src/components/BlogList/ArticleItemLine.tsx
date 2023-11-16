@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 
 export interface Props {
   href?: string;
+  key?: any;
   frontmatter: Frontmatter;
   secHeading?: boolean;
   rawContent?: string;
