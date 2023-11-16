@@ -4,9 +4,11 @@ import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import type { Frontmatter } from "src/types";
 import { Lab } from "../components/Lab";
+import SectionContainer from "@components/SectionContainer.astro";
 ---
 
-<Main>
+<Layout>
+  <SectionContainer>
   <div>
     <header class="flex items-start">
       <h1
@@ -22,4 +24,5 @@ import { Lab } from "../components/Lab";
       <Lab />
     </div>
   </div>
-</Main>
+  </SectionContainer>
+</Layout>

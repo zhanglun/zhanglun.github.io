@@ -5,7 +5,7 @@ import type { MarkdownInstance } from "astro";
 import slugify from "@utils/slugify";
 
 const postImportResult = import.meta.glob<MarkdownInstance<Frontmatter>>(
-  "../../../contents/{blogs,notion}/**/*.md",
+  "../content/{blogs,notion}/**/*.md",
   {
     eager: true,
   },
