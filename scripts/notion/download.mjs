@@ -4,7 +4,7 @@ import { URL } from 'url';
 import client from 'https';
 import crypto from 'crypto';
 
-const DIST = path.resolve(process.cwd(), './contents/notion');
+const DIST = path.resolve(process.cwd(), './src/content/notion');
 const CACHE_DIST = path.resolve(DIST, '.cache');
 // const ImageReg = /(!\[.*\]\(|cover:\s*)([^)\s]*)/g; // 包含封面
 const ImageReg = /(!\[.*\]\()([^)\s]*)/g;
