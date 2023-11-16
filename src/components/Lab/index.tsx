@@ -1,45 +1,7 @@
 import React from "react";
+import { projects } from "./projectData";
 
 export const Lab = () => {
-  const projects = [
-    {
-      name: "Lettura",
-      description: "基于 Tauri 的跨平台 RSS 桌面阅读器",
-      url: "https://github.com/zhanglun/lettura",
-      thumbnail: "",
-    },
-    {
-      name: "BookWise",
-      description: "book wise read wise",
-      url: "https://github.com/zhanglun/bookwise",
-      thumbnail: "",
-    },
-    {
-      name: "Gatsby blog theme",
-      description: "为Gatsby.js创建的个人博客主题",
-      url: "https://github.com/zhanglun/gatsby-theme-facile",
-    },
-    {
-      name: "Pavo",
-      description: "跨平台的桌面壁纸程序",
-      url: "https://github.com/zhanglun/pavo",
-    },
-    {
-      name: 'notify',
-      description: 'Notify Component',
-      url: 'https://github.com/zhanglun/notify',
-    },
-    {
-      name: 'hexo-theme-Tinny',
-      description: 'A theme for Hexo',
-      url: 'https://github.com/zhanglun/hexo-theme-Tinny',
-    },
-    {
-      name: 'bluerobin',
-      description: 'online todo list based on Vue ecosystem',
-      url: 'https://github.com/zhanglun/bluerobin',
-    },
-  ];
   
   return <div>
     <div className="max-w-screen-2xl mx-auto context grid grid-cols-[1fr_1fr_1fr] gap-[3.75rem_2rem]">
