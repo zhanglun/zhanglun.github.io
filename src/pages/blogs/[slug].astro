@@ -7,6 +7,7 @@ import getPageNumbers from "@utils/getPageNumbers";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
 import slugify from "@utils/slugify";
+import { getCollection } from "astro:content";
 
 export interface Props {
   post: MarkdownInstance<Frontmatter>;
@@ -54,9 +55,9 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const { post } = Astro.props;
 
-const posts = await Astro.glob<Frontmatter>("../../content/{blogs,notion}/**/*.md");
-
-const sortedPosts = getSortedPosts(posts);
+const posts = await getCollection('blogs');
+const posts2 = await getCollection('notion');
+const sortedPosts = getSortedPosts([...posts, ...posts2]);
 
 const totalPages = getPageNumbers(sortedPosts.length);
 

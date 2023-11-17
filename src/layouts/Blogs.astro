@@ -5,12 +5,14 @@ import type { Frontmatter } from "src/types";
 import { BlogList } from "@components/BlogList";
 import getUniqueTags from "@utils/getUniqueTags";
 import Tag from "@components/Tag.astro";
+import Layout from "./Layout.astro";
+import type { CollectionEntry } from "astro:content";
 
 export interface Props {
   pageNum: number;
   totalPages: number;
-  posts: MarkdownInstance<Frontmatter>[];
-  allPosts: MarkdownInstance<Frontmatter>[];
+  posts: CollectionEntry<"blogs" | "notion">[];
+  allPosts:CollectionEntry<"blogs" | "notion">[];
 }
 
 const { allPosts } = Astro.props;
@@ -18,8 +20,8 @@ const { allPosts } = Astro.props;
 let tags = getUniqueTags(allPosts);
 ---
 
-<Main pageTitle="Blogs" pageDesc="All the articles I've posted.">
-  <div>
+<Layout>
+  <div class="mt-40">
     <header class="flex items-start">
       <h1
         class="w-full text-4xl font-bold leading-10 pr-8 text-text-lvl-1 lg:w-1/3"
@@ -30,9 +32,7 @@ let tags = getUniqueTags(allPosts);
         各种奇思妙想的实验。展示我个人开发的项目和实验，将创意转化为现实。我将分享小巧工具、有趣游戏和前沿技术实验，激发您的灵感。在这个创意实验场，探索软件开发领域的可能性。了解开发过程、技术选择和背后动机，您的反馈和意见对我很重要。感谢支持！在这里探索各种奇思妙想的实验，共同成长。
       </p>
     </header>
-  </div>
-  <div>
-    <div class="mt-20 gap-x-3 gap-y-1 flex cursor-pointer flex-wrap">
+    <div class="mt-8 gap-x-3 gap-y-1 flex cursor-pointer flex-wrap">
       {tags.map(tag => <Tag name={tag[0]} count={tag[1]} />)}
     </div>
     <div class="mt-8 group/list xl:max-w-none">
