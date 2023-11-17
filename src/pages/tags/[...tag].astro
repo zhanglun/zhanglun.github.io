@@ -1,12 +1,12 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
-import { SITE } from "src/config";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import getSortedTags from "@utils/getSortedTags";
 import getPostsByTag from "@utils/getPostsbyTag";
 import Tags from "@layouts/Tags.astro";
 
 export interface Props {
-    post: CollectionEntry<"blogs">;
+    post: CollectionEntry<"blogs" | "notion">;
     tag: string;
 }
 
@@ -24,8 +24,9 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.props;
-const posts = await getCollection("blog", ({ data }) => !data.draft);
-const tagPosts = getPostsByTag(posts, tag);
+const posts = await getCollection('blogs', ({ data }) => !data.draft);
+const posts2 = await getCollection('notion', ({ data }) => !data.draft);
+const tagPosts = getPostsByTag([...posts, ...posts2], tag);
 ---
 
 <Tags posts={tagPosts} title="Tags" tag={tag} />
