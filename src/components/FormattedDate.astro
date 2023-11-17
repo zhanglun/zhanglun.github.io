@@ -4,6 +4,7 @@ export interface Props {
 }
 
 const { date } = Astro.props;
+console.log("%c Line:7 🍢 date", "color:#b03734", date);
 ---
 
 <time datetime={date.toISOString()}>

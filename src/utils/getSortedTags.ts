@@ -11,6 +11,7 @@ const getSortedTags = (posts: CollectionEntry<"blogs" | "notion">[]) => {
                     self.indexOf(value) === index
             );
     });
+
     return tags;
 };
 
