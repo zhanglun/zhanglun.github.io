@@ -13,12 +13,13 @@ export const GET: APIRoute = async ({ params }) => {
   });
 };
 
-
 const postImportResult = await getCollection("blogs", ({ data }) => !data.draft);
+const postImportResult2 = await getCollection("notion", ({ data }) => !data.draft);
 const posts = Object.values(postImportResult);
+const posts2 = Object.values(postImportResult2);
 
 export async function getStaticPaths() {
-  return posts
+  return [...posts, ...posts2]
     .filter(({ data }: any) => !data.ogImage)
     .map(({ data }: any) => ({
       params: { ogTitle: data.title },
