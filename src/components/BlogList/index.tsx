@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import type { MarkdownInstance } from "astro";
-import type { Frontmatter } from "@types";
 import { ArticleItemLine } from "./ArticleItemLine";
-import slugify from "@utils/slugify";
+import type { CollectionEntry } from "astro:content";
 
 export interface Props {
-  allPosts: MarkdownInstance<Frontmatter>[];
+  allPosts: CollectionEntry<"blogs" | "notion">[];
 }
 
 export const BlogList = (props: Props) => {
@@ -15,15 +13,13 @@ export const BlogList = (props: Props) => {
   return (
     <div className="m-auto">
       <ul className="w-full">
-        {allPosts.map(({ frontmatter, id }: any) => {
-          const href = id ?
-            `${prefix}/blogs/${id}` :
-            `${prefix}/blogs/${slugify(frontmatter)}`
+        {allPosts.map(({ data, slug }: any) => {
+          const href = `${prefix}/blogs/${slug}`
           return (
             <ArticleItemLine
-              key={frontmatter.title}
+              key={data.title}
               href={href}
-              frontmatter={frontmatter}
+              frontmatter={data}
             />
           );
         })}

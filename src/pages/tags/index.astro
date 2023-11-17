@@ -1,0 +1,52 @@
+---
+import { SITE } from "src/config";
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import SectionContainer from "@components/SectionContainer.astro";
+import getSortedTags from "@utils/getSortedTags";
+import { Hash, Undo2 } from "lucide-react";
+
+const posts = await getCollection('blogs');
+const posts2 = await getCollection('notion');
+const tags = getSortedTags([...posts, ...posts2]);
+
+---
+
+<Layout title={`Tags - ${SITE.title}`}>
+    <div
+        class="main-wrapper wrap-sm grid gap-16 px-8 md:gap-24 lg:gap-32 mx-auto"
+    >
+        <SectionContainer class="blogs--container mt-32">
+            <a
+                href="/"
+                class="font-medium flex no-underline text-neutral-500 mb-8"
+            >
+                <Undo2 strokeWidth={1} />  
+                &nbsp; Back to home
+            </a>
+            <h2
+                class="font-medium text-h4 text-neutral-500 my-4 leading-8 tracking-tighter"
+            >
+                Tags
+                <span class="ml-2 opacity-70 text-xl">
+                    (All tags used in blogs)
+                </span>
+            </h2>
+            <ul class="list-none space-y-5">
+                {
+                    tags.map((tag) => (
+                        <li class={`inline-block my-3 mx-1 underline-offset-8`}>
+                            <a
+                                href={`/tags/${tag.toLowerCase()}`}
+                                class={`text-lg pr-2 flex flex-wrap items-center relative underline hover:-top-0.5 hover:text-skin-accent focus-visible:p-1`}
+                            >
+                                <Hash strokeWidth={1} />
+                                &nbsp;<span>{tag.toLowerCase()}</span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </SectionContainer>
+    </div>
+</Layout>

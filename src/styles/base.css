@@ -34,10 +34,6 @@
     @apply font-mono bg-skin-fill text-skin-base min-h-screen flex flex-col 
     selection:bg-skin-accent selection:text-skin-inverted selection:bg-opacity-70;
   }
-  section,
-  footer {
-    @apply max-w-3xl mx-auto px-4;
-  }
   a {
     @apply outline-offset-1 outline-skin-fill outline-2 
     focus-visible:outline-dashed focus-visible:no-underline;

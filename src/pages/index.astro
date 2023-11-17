@@ -1,9 +1,9 @@
 ---
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Hash } from "lucide-react";
 import { SITE, MENU } from "@config";
+import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
-import slugify from "@utils/slugify";
-import type { Frontmatter } from "src/types";
+import getSortedTags from "@utils/getSortedTags";
 import { ArticleItemLine } from "@components/BlogList/ArticleItemLine";
 import Layout from "@layouts/Layout.astro";
 import CardGroup from "@/components/card/CardGroup.astro";
@@ -14,87 +14,122 @@ import CardHeader from "@/components/card/CardHeader.astro";
 
 import Icon from "src/assets/icon.png";
 import { projects } from "@components/Lab/projectData";
+import SectionContainer from "@components/SectionContainer.astro";
+import { Image } from "astro:assets";
 
-const posts = await Astro.glob<Frontmatter>("../content/{blogs,notion}/**/*.md");
-const sortedPosts = getSortedPosts(posts);
+const posts = await getCollection('blogs');
+const posts2 = await getCollection('notion');
+const sortedPosts = getSortedPosts([...posts, ...posts2]);
 const recentlyPosts = sortedPosts.slice(0, 6);
 const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
+const tags = getSortedTags([...posts, ...posts2]).slice(0, 6);
+
 ---
 <Layout>
-  <div class="max-w-screen-2xl context m-auto grid items-center justify-center">
-    <div class="grid items-center justify-center pt-40 pb-28">
-      <div class="grid gap-10 grid-rows-1">
-        <div class="grid gap-8 items-center grid-rows-[1fr_1fr] sm:grid-cols-[9rem_1fr] sm:grid-rows-1">
-          <img
-            class="w-36 h-36 rounded-full m-auto"
-            src={Icon.src}
-            alt=""
-          />
-          <h1 class=" p-0 m-0 text-center text-5xl sm:text-5xl text-[var(--color-text-base)">
-            {SITE.title}
-          </h1>
-        </div>
-        <p class="text-[1.5rem] sm:text-[2rem]">{SITE.description}</p>
+  <SectionContainer class="hero--container flex flex-col gap-8 mt-32">
+    <Image
+      src={Icon}
+      alt={"Photo by charlesdeluvio on Unsplash"}
+      width={160}
+      height={160}
+      format={"webp"}
+      class="rounded-full h-32 w-32 bg-neutral-100 object-cover p-4"
+    />
+    <div class="content-container">
+      <div class="page-title--content max-w-[54rem] mb-8 lg:mb-4">
+        <h1
+          class="text-4xl lg:text-3xl font-medium leading-8 lg:leading-10 tracking-tight lg:tracking-tighter mb-0"
+        >
+          {SITE.title}
+        </h1>
+      </div>
+      <div
+          class="content text-3xl md:text-3xl font-medium leading-8 lg:leading-10 tracking-tight lg:tracking-tighter text-neutral-500"
+      >
+      {SITE.description}
       </div>
     </div>
-    <div class="my-12">
-      <div class="flex flex-row my-4 items-center justify-between text-neutral-500">
-        <h2 class="text-2xl font-bold">Projects</h2>
-        <a href={`${prefix}/projects`} class="flex items-center gap-2">
-          View all projects <ArrowRight strokeWidth={1} />{" "}
-        </a>
-      </div>
-      <CardGroup class="grid scroll-m-24 gap-5 grid-cols-1 md:grid-cols-2 w-full">
-        {projects.slice(0, 4).map((project) => (
-          <Card
-            key={project.name}
-            class="col-span-1 cursor-alias"
-            link={project.url}
-            target="_blank"
-          >
-            <CardBody>
-              <CardImage
-                src={project.logo}
-                alt="Alternative text for photo"
-                imageClass="absolute top-0 right-0 m-6 p-4 bg-white rounded-3xl"
-                width={80}
-                height={80}
-              />
-              <div class="card-content absolute bottom-8 left-6 right-6">
-                <CardHeader class="">
-                    {project.name}
-                </CardHeader>
-                <div class="content break-words text-xl font-medium mt-4 tracking-tight lg:tracking-tighter text-neutral-400 ">
-                    <p>{project.description}</p>
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-        ))}
-      </CardGroup>
+  </SectionContainer>
+  <SectionContainer class="projects--container">
+    <div class="flex flex-row my-4 items-center justify-between text-neutral-500">
+      <h2 class="text-2xl font-bold">Projects</h2>
+      <a href={`${prefix}/projects`} class="flex items-center gap-2">
+        View all projects <ArrowRight strokeWidth={1} />{" "}
+      </a>
     </div>
-    <div class="my-12">
-      <div class="flex flex-row my-4 items-center justify-between text-neutral-500">
-        <h2 class="text-2xl font-bold">Recently Posted</h2>
-        <a href={`${prefix}/blogs`} class="flex items-center gap-2">
-          View all blogs <ArrowRight strokeWidth={1} />{" "}
-        </a>
-      </div>
-      <ul>
-        {recentlyPosts.map(({ frontmatter, id }: any) => {
-          const href = id
-            ? `${prefix}/blogs/${id}`
-            : `${prefix}/blogs/${slugify(frontmatter)}`;
-          return (
-            <ArticleItemLine
-              key={frontmatter.title}
-              href={href}
-              frontmatter={frontmatter}
+    <CardGroup class="grid scroll-m-24 gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full">
+      {projects.slice(0, 4).map((project) => (
+        <Card
+          key={project.name}
+          class="col-span-1 cursor-alias"
+          link={project.url}
+          target="_blank"
+        >
+          <CardBody>
+            <CardImage
+              src={project.logo}
+              alt="Alternative text for photo"
+              imageClass="absolute top-0 right-0 m-6 p-4 bg-white rounded-3xl"
+              width={80}
+              height={80}
             />
-          );
-        })}
-      </ul>
+            <div class="card-content absolute bottom-8 left-6 right-6">
+              <CardHeader class="">
+                  {project.name}
+              </CardHeader>
+              <div class="content break-words text-xl font-medium mt-4 tracking-tight lg:tracking-tighter text-neutral-400 ">
+                  <p>{project.description}</p>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+      ))}
+    </CardGroup>
+  </SectionContainer>
+  <SectionContainer class="projects--container">
+    <div class="flex flex-row my-4 items-center justify-between text-neutral-500">
+      <h2 class="text-2xl font-bold">Recently Posted</h2>
+      <a href={`${prefix}/blogs`} class="flex items-center gap-2">
+        View all blogs <ArrowRight strokeWidth={1} />{" "}
+      </a>
     </div>
-  </div>
+    <ul>
+      {recentlyPosts.map(({ data, slug }: any) => {
+        const href = `${prefix}/blogs/${slug}`;
+
+        return (
+          <ArticleItemLine
+            key={data.title}
+            href={href}
+            frontmatter={data}
+          />
+        );
+      })}
+    </ul>
+  </SectionContainer>
+  <SectionContainer>
+    <div class="flex flex-row my-4 items-center justify-between text-neutral-500">
+      <h2 class="text-2xl font-bold">Tags</h2>
+      <a href={`${prefix}/tags`} class="flex items-center gap-2">
+        View all tags <ArrowRight strokeWidth={1} />{" "}
+      </a>
+    </div> 
+    <ul class="list-none space-y-5">
+      {
+          tags.map((tag) => (
+              <li class={`inline-block my-3 mx-1 underline-offset-8`}>
+                  <a
+                      href={`/tags/${tag.toLowerCase()}`}
+                      class={`text-lg pr-2 flex flex-wrap items-center relative underline hover:-top-0.5 hover:text-skin-accent focus-visible:p-1`}
+                  >
+                      <Hash />
+                      &nbsp;<span>{tag.toLowerCase()}</span>
+                  </a>
+              </li>
+          ))
+      }
+  </ul>
+  </SectionContainer>
+  <div></div>
 </Layout>

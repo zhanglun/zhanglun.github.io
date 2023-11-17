@@ -87,6 +87,8 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
     }
   </head>
   <body class="antialiased">
-    <slot />
+    <div class="main-wrapper max-w-[48rem] grid gap-16 px-8 md:gap-24 lg:gap-32 mx-auto">
+      <slot />
+    </div>
   </body>
 </html>
