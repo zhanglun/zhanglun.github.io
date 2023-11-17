@@ -5,6 +5,7 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
+import SectionContainer from "@components/SectionContainer.astro";
 
 export interface Props {
   post: MarkdownInstance<Frontmatter>;
@@ -20,26 +21,26 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
 ---
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
-  <Main>
-  <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
-    <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
-    <Datetime datetime={date} size="sm" className="mt-4 mb-2 mx-auto" />
-    {
-      tags && (
-        <ul class="gap-x-3 gap-y-1 flex items-center justify-center">
-          {tags.map(tag => (
-            <Tag name={tag} hideCount />
-          ))}
-        </ul>
-      )
-    }
-  </div>
-  <main id="main-content">
-    <article id="article" role="article" class="mx-auto max-w-3xl mt-8 prose">
-      {id ? <div>asdfsdf</div>: <Content />}
-    </article>
-  </main>
-  </Main>
+  <SectionContainer>
+    <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
+      <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
+      <Datetime datetime={date} size="sm" className="mt-4 mb-2 mx-auto" />
+      {
+        tags && (
+          <ul class="gap-x-3 gap-y-1 flex items-center justify-center">
+            {tags.map(tag => (
+              <Tag name={tag} hideCount />
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <main id="main-content">
+      <article id="article" role="article" class="mx-auto max-w-3xl mt-8 prose">
+        {id ? <div>asdfsdf</div>: <Content />}
+      </article>
+    </main>
+  </SectionContainer>
 </Layout>
 
 <style>

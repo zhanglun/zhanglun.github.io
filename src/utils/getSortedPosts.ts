@@ -1,23 +1,22 @@
-import type { MarkdownInstance } from "astro";
-import type { Frontmatter } from "../types";
+import type { CollectionEntry } from "astro:content";
 
-const getSortedPosts = (posts: MarkdownInstance<Frontmatter>[]) =>
+const getSortedPosts = (posts: CollectionEntry<"blogs" | "notion">[]) =>
   posts
-    .filter(({ frontmatter }) => !frontmatter.draft)
+    .filter(({ data }) => !data.draft)
     .map(post => {
-      const text = post.compiledContent().replace(/<[^>]+>/gi, "");
+      const text = post.body.replace(/<[^>]+>/gi, "");
       const firstPeriodIdx = text.search(/\.\s|。/gi);
       const description =
-        post.frontmatter.description ||
+        post.data.description ||
         text.slice(0, Math.min(250, firstPeriodIdx + 1));
       
-      post.frontmatter.description = description;
+      post.data.description = description;
 
       return post;
     })
     .sort((a, b) => {
-      const l = new Date(a.frontmatter.date);
-      const r = new Date(b.frontmatter.date); 
+      const l = new Date(a.data.date);
+      const r = new Date(b.data.date); 
 
       if (l > r) {
         return -1
