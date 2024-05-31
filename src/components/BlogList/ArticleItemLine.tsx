@@ -12,6 +12,7 @@ export interface Props {
 
 export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
   const { title } = frontmatter;
+  console.log("%c Line:15 🥒 frontmatter", "color:#4fff4B", frontmatter);
 
   return (
     <li className="group-hover/list:opacity-50 hover:!opacity-100">
@@ -23,7 +24,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
         <a
           href={href}
           itemProp="url"
-          className="text-[var(--color-text-base)] block text-base py-3"
+          className="text-[var(--color-text-base)] block text-base py-2"
         >
           <div className="flex justify-between items-center relative gap-4">
             <span

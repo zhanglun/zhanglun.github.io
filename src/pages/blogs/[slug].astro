@@ -1,24 +1,20 @@
 ---
-import { SITE } from "src/config";
-import Blogs from "@layouts/Blogs.astro";
-import PostDetails from "@layouts/PostDetails.astro";
-import getSortedPosts from "@utils/getSortedPosts";
+import Layout from "@layouts/Layout.astro";
+import Tag from "@components/Tag.astro";
+import Datetime from "@components/Datetime";
+import SectionContainer from "@components/SectionContainer.astro";
 import getPageNumbers from "@utils/getPageNumbers";
 import type { MarkdownInstance } from "astro";
 import type { Frontmatter } from "src/types";
-import slugify from "@utils/slugify";
 import { getCollection } from "astro:content";
-
-export interface Props {
-  post: MarkdownInstance<Frontmatter>;
-}
+import type { InferGetStaticParamsType, InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 type PostResult = {
   params: {
     slug: string | number;
   };
   props?: {
-    post: MarkdownInstance<Record<string, any>>;
+    entry: any;
   };
 }[];
 
@@ -29,16 +25,17 @@ type PagePaths = {
 }[];
 
 export async function getStaticPaths() {
-  const posts = await Astro.glob<Frontmatter>("../../content/{blogs,notion}/**/*.md");
-  const filteredPosts = posts.filter(({ frontmatter }) => !frontmatter.draft);
+  const posts = await getCollection("blogs");
+  const posts2 = await getCollection("notion");
+  const filteredPosts = [...posts, ...posts2].filter(({ data }) => !data.draft);
 
-  let postResult: PostResult = filteredPosts.map(post => {
+  let postResult:PostResult = filteredPosts.map(entry => {
     return {
       params: {
-        slug: slugify(post.frontmatter),
+        slug: entry.slug,
       },
       props: {
-        post,
+        entry,
       },
     };
   });
@@ -52,34 +49,40 @@ export async function getStaticPaths() {
   return [...postResult, ...pagePaths];
 }
 
-const { slug } = Astro.params;
-const { post } = Astro.props;
+getStaticPaths satisfies GetStaticPaths;
 
-const posts = await getCollection('blogs');
-const posts2 = await getCollection('notion');
-const sortedPosts = getSortedPosts([...posts, ...posts2]);
+export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const totalPages = getPageNumbers(sortedPosts.length);
+const { entry } = Astro.props as Props;
+const { title, author, description, ogImage, date, tags } = entry.data;
+const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
+  .href;
 
-const currentPage =
-  slug && !isNaN(Number(slug)) && totalPages.includes(Number(slug))
-    ? Number(slug)
-    : 0;
-const lastPost = currentPage * SITE.postPerPage;
-const startPost = lastPost - SITE.postPerPage;
+const { Content } = await entry.render();
 
-const paginatedPosts = sortedPosts.slice(startPost, lastPost);
 ---
 
-{
-  post ? (
-    <PostDetails post={post} />
-  ) : (
-    <Blogs
-      posts={paginatedPosts}
-      pageNum={currentPage}
-      totalPages={totalPages.length}
-      allPosts={[]}
-    />
-  )
-}
+<Layout title={title} author={author} description={description} ogImage={ogUrl}>
+  <SectionContainer>
+    <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
+      <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
+      <Datetime datetime={date} size="sm" className="mt-4 mb-2 mx-auto" />
+      {
+        tags && (
+          <ul class="gap-x-3 gap-y-1 flex items-center justify-center">
+            {tags.map(tag => (
+              <Tag name={tag} hideCount />
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <main id="main-content">
+      <article id="article" role="article" class="mx-auto max-w-3xl mt-8 prose">
+       <Content />
+      </article>
+    </main>
+  </SectionContainer>
+</Layout>
+
