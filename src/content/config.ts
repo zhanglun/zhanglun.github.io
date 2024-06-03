@@ -10,6 +10,7 @@ const blogs = defineCollection({
       .or(z.date())
       .transform((val) => new Date(val)),
     tags: z.array(z.string()).default(["others"]),
+    categories: z.array(z.string()).default(["others"]).nullish().or(z.string()).transform((val) => [].concat(val)),
     draft: z.boolean().optional(),
   })
 });
@@ -24,6 +25,7 @@ const notion = defineCollection({
       .or(z.date())
       .transform((val) => new Date(val)),
     tags: z.array(z.string()).default(["others"]),
+    categories: z.array(z.string()).default(["others"]).nullish().or(z.string()).transform((val) => [].concat(val)),
     draft: z.boolean().optional(),
   })
 });

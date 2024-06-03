@@ -1,6 +1,6 @@
 ---
-import { ArrowRight, Hash } from "lucide-react";
-import { SITE, MENU } from "@config";
+import { ArrowRight } from "lucide-react";
+import { SITE } from "@config";
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
 import getSortedTags from "@utils/getSortedTags";
@@ -16,6 +16,8 @@ import Icon from "src/assets/icon.png";
 import { projects } from "@components/Lab/projectData";
 import SectionContainer from "@components/SectionContainer.astro";
 import { Image } from "astro:assets";
+import Tag from "@components/Tag.astro";
+import getUniqueTags from "@utils/getUniqueTags";
 
 const posts = await getCollection('blogs');
 const posts2 = await getCollection('notion');
@@ -23,9 +25,10 @@ const sortedPosts = getSortedPosts([...posts, ...posts2]);
 const recentlyPosts = sortedPosts.slice(0, 6);
 const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
-const tags = getSortedTags([...posts, ...posts2]).slice(0, 6);
-
+const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
 ---
+
+
 <Layout>
   <SectionContainer class="hero--container flex flex-col gap-8 mt-32">
     <Image
@@ -107,6 +110,7 @@ const tags = getSortedTags([...posts, ...posts2]).slice(0, 6);
         );
       })}
     </ul>
+
   </SectionContainer>
   <SectionContainer>
     <div class="flex flex-row my-4 items-center justify-between text-neutral-800">
@@ -115,21 +119,13 @@ const tags = getSortedTags([...posts, ...posts2]).slice(0, 6);
         View all tags <ArrowRight strokeWidth={1} />{" "}
       </a>
     </div> 
-    <ul class="list-none space-y-5">
+    <div class="list-none space-y-5 space-x-2">
       {
-          tags.map((tag) => (
-              <li class={`inline-block my-3 mx-1 underline-offset-8`}>
-                  <a
-                      href={`/tags/${tag.toLowerCase()}`}
-                      class={`text-lg pr-2 flex flex-wrap items-center relative underline hover:-top-0.5 hover:text-skin-accent focus-visible:p-1`}
-                  >
-                      <Hash />
-                      &nbsp;<span>{tag.toLowerCase()}</span>
-                  </a>
-              </li>
-          ))
+        tags.map((tag) => (
+          <Tag name={tag[0]} href={`/tags/${tag[0].toLowerCase()}`} count={tag[1]}  />
+        ))
       }
-  </ul>
+  </div>
   </SectionContainer>
   <div></div>
 </Layout>

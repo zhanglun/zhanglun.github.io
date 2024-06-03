@@ -10,10 +10,10 @@ export interface Props {
 export default function Datetime({ datetime, size = "sm", className }: Props) {
   return (
     <div
-      className={`font-bold opacity-80 flex items-center justify-center space-x-2 ${className}`}
+      className={`font-medium opacity-80 flex items-center justify-center space-x-2 ${className}`}
     >
       <span className="sr-only">Posted on:</span>
-      <span className={`${size === "sm" ? "text-base" : "text-xl"}`}>
+      <span className={`${size === "sm" ? "text-sm" : "text-base"}`}>
         <FormattedDatetime datetime={datetime} />
       </span>
     </div>
