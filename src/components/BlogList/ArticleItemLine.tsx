@@ -43,7 +43,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
             </div>
             <div
               className="bg-[var(--color-text-base)] rounded-full text-[white] fill-[white] text-[0] opacity-0 p-1 scale-50 transition-all -rotate-[135deg]
-            group-hover:opacity-100 group-hover:scale-110"
+            group-hover:opacity-100 group-hover:scale-100"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -3,12 +3,12 @@ import { SITE } from "src/config";
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import SectionContainer from "@components/SectionContainer.astro";
-import getSortedTags from "@utils/getSortedTags";
 import { Hash, Undo2 } from "lucide-react";
+import getUniqueTags from "@utils/getUniqueTags";
 
 const posts = await getCollection('blogs');
 const posts2 = await getCollection('notion');
-const tags = getSortedTags([...posts, ...posts2]);
+const tags = getUniqueTags([...posts, ...posts2]);
 
 ---
 
@@ -37,11 +37,12 @@ const tags = getSortedTags([...posts, ...posts2]);
                     tags.map((tag) => (
                         <li class={`inline-block my-3 mx-1 underline-offset-8`}>
                             <a
-                                href={`/tags/${tag.toLowerCase()}`}
+                                href={`/tags/${tag[0].toLowerCase()}`}
                                 class={`text-lg pr-2 flex flex-wrap items-center relative underline hover:-top-0.5 hover:text-skin-accent focus-visible:p-1`}
                             >
                                 <Hash strokeWidth={1} />
-                                &nbsp;<span>{tag.toLowerCase()}</span>
+                                &nbsp;<span>{tag[0].toLowerCase()}</span>
+                                <sup class="text-[10px]">{tag[1]}</sup>
                             </a>
                         </li>
                     ))

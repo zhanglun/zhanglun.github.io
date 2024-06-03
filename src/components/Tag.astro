@@ -3,12 +3,18 @@ export interface Props {
   name: string;
   count?: number;
   hideCount?: boolean;
+  href?:string;
 }
 
-const { name, count = 0, hideCount } = Astro.props;
+const { name, count = 0, hideCount, href } = Astro.props;
 ---
-
-<div class="text-neutral-500 hover:text-neutral-700">
+{
+  href ? <a class="px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 capitalize">
   <span class="text-xs">{name}</span>
   {!hideCount && <sup class="text-[10px]">{count}</sup>}
-</div>
+</a> : <span class="px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 capitalize">
+  <span class="text-xs">{name}</span>
+  {!hideCount && <sup class="text-[10px]">{count}</sup>}
+</span>
+}
+

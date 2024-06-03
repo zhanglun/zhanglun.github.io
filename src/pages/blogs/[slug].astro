@@ -4,8 +4,6 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import SectionContainer from "@components/SectionContainer.astro";
 import getPageNumbers from "@utils/getPageNumbers";
-import type { MarkdownInstance } from "astro";
-import type { Frontmatter } from "src/types";
 import { getCollection } from "astro:content";
 import type { InferGetStaticParamsType, InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
@@ -55,28 +53,31 @@ export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { entry } = Astro.props as Props;
-const { title, author, description, ogImage, date, tags } = entry.data;
+const { title, author, description, ogImage, date, tags, categories } = entry.data;
 const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
   .href;
 
-const { Content } = await entry.render();
+const { Content, remarkPluginFrontmatter } = await entry.render();
 
 ---
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
   <SectionContainer>
     <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
-      <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold">{title}</h1>
-      <Datetime datetime={date} size="sm" className="mt-4 mb-2 mx-auto" />
-      {
-        tags && (
-          <ul class="gap-x-3 gap-y-1 flex items-center justify-center">
-            {tags.map(tag => (
-              <Tag name={tag} hideCount />
-            ))}
-          </ul>
-        )
-      }
+      <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold mb-6">{title}</h1>
+      <div class="flex gap-3 items-center justify-center my-3">
+      <Datetime datetime={date} size="sm" />
+      <span class="text-sm">{remarkPluginFrontmatter.minutesRead}</span>
+      </div>
+        <ul class="gap-x-1.5 gap-y-1 flex items-center justify-center">
+          {categories.map(category => (
+            <span class="px-2.5 py-1 rounded-lg text-xs bg-zinc-50">{category}</span>
+          ))}
+          
+          {tags.map(tag => (
+            <Tag name={tag} hideCount />
+          ))}
+        </ul>
     </div>
     <main id="main-content">
       <article id="article" role="article" class="mx-auto max-w-3xl mt-8 prose">
