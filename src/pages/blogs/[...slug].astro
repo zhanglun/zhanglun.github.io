@@ -26,6 +26,7 @@ export async function getStaticPaths() {
   const posts = await getCollection("blogs");
   const posts2 = await getCollection("notion");
   const filteredPosts = [...posts, ...posts2].filter(({ data }) => !data.draft);
+  console.log("%c Line:29 🧀 filteredPosts", "color:#f5ce50", filteredPosts);
 
   let postResult:PostResult = filteredPosts.map(entry => {
     return {
@@ -38,13 +39,7 @@ export async function getStaticPaths() {
     };
   });
 
-  const pagePaths: PagePaths = getPageNumbers(filteredPosts.length).map(
-    pageNum => ({
-      params: { slug: String(pageNum) },
-    })
-  );
-
-  return [...postResult, ...pagePaths];
+  return [...postResult];
 }
 
 getStaticPaths satisfies GetStaticPaths;
