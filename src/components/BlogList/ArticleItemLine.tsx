@@ -33,7 +33,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
             ></span>
             <span
               itemProp="headline"
-              className="max-w-[calc(100%-100px)] md:max-w-[calc(100%-118px)] text-[var(--color-text-base)] block text-base group-hover:underline shrink-0 text-ellipsis overflow-hidden whitespace-nowrap"
+              className="max-w-[calc(100%-450px)] md:max-w-[calc(100%-450px)] text-[var(--color-text-base)] block text-base group-hover:underline shrink-0 text-ellipsis overflow-hidden whitespace-nowrap"
             >
               {title}
             </span>
