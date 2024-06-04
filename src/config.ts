@@ -14,6 +14,26 @@ export const SITE = {
 };
 export const MENU = [
   {
+    id: "home",
+    name: "Home",
+    url: "/",
+  },
+  {
+    id: "blogs",
+    name: "Blogs",
+    url: "/blogs",
+  },
+  {
+    id: "archive",
+    name: "Archive",
+    url: "/archive",
+  },
+  {
+    id: "projects",
+    name: "Projects",
+    url: "/projects",
+  },
+  {
     id: "about",
     name: "About",
     url: "/about",
@@ -21,10 +41,10 @@ export const MENU = [
 ];
 
 export const LOGO_IMAGE = {
-  enable: false,
+  enable: true,
   svg: true,
-  width: 216,
-  height: 46,
+  width: 30,
+  height: 30,
 };
 
 export const SOCIALS: SocialObjects = [
@@ -147,5 +167,57 @@ export const SOCIALS: SocialObjects = [
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on Mastodon`,
     active: false,
+  },
+];
+
+export const PROJECTS = [
+  {
+    name: "Lettura",
+    description: "基于 Tauri 的跨平台 RSS 桌面阅读器",
+    url: "https://github.com/zhanglun/lettura",
+    thumbnail: "",
+    logo: "/assets/lettura-icon.png",
+  },
+  {
+    name: "BookWise",
+    description: "book wise read wise",
+    url: "https://github.com/zhanglun/bookwise",
+    thumbnail: "",
+    logo: "/assets/icon.png",
+  },
+  {
+    name: "Gatsby blog theme",
+    description: "为Gatsby.js创建的个人博客主题",
+    url: "https://github.com/zhanglun/gatsby-theme-facile",
+    thumbnail: "",
+    logo: "/assets/icon.png",
+  },
+  {
+    name: "Pavo",
+    description: "跨平台的桌面壁纸程序",
+    url: "https://github.com/zhanglun/pavo",
+    thumbnail: "",
+    logo: "/assets/icon.png",
+  },
+  {
+    name: 'notify',
+    description: 'Notify Component',
+    url: 'https://github.com/zhanglun/notify',
+    thumbnail: "",
+    logo: "/assets/icon.png",
+  },
+  {
+    name: 'hexo-theme-Tinny',
+    description: 'A theme for Hexo',
+    url: 'https://github.com/zhanglun/hexo-theme-Tinny',
+    thumbnail: "",
+    logo: "/assets/icon.png",
+  },
+  {
+    name: 'bluerobin',
+    description: 'online todo list based on Vue ecosystem',
+    url: 'https://github.com/zhanglun/bluerobin',
+    thumbnail: "",
+    logo: "/assets/icon.png",
   },
 ];

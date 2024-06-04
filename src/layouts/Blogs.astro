@@ -1,5 +1,6 @@
 ---
 import { BlogList } from "@components/BlogList";
+import Header from "@components/Header.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import Tag from "@components/Tag.astro";
 import Layout from "./Layout.astro";
@@ -18,7 +19,8 @@ let tags = getUniqueTags(allPosts);
 ---
 
 <Layout>
-  <div class="mt-40">
+  <Header activeNav="blogs"/>
+  <div class="mt-16">
     <header class="flex items-start">
       <h1
         class="w-full text-4xl font-bold leading-10 pr-8 text-text-lvl-1 lg:w-1/3"
