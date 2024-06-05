@@ -1,6 +1,6 @@
 ---
 import { ArrowRight } from "lucide-react";
-import { SITE } from "@config";
+import { SITE, PROJECTS } from "@config";
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
 import { ArticleItemLine } from "@components/BlogList/ArticleItemLine";
@@ -12,7 +12,6 @@ import CardImage from "@/components/card/CardImage.astro";
 import CardHeader from "@/components/card/CardHeader.astro";
 
 import Icon from "src/assets/icon.png";
-import { projects } from "@components/Lab/projectData";
 import SectionContainer from "@components/SectionContainer.astro";
 import { Image } from "astro:assets";
 import Tag from "@components/Tag.astro";
@@ -61,7 +60,7 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
       </a>
     </div>
     <CardGroup class="grid scroll-m-24 gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full">
-      {projects.slice(0, 4).map((project) => (
+      {PROJECTS.slice(0, 4).map((project) => (
         <Card
           key={project.name}
           class="col-span-1 cursor-alias"
