@@ -8,6 +8,7 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.9",
     "@astrojs/svelte": "^5.7.2",
+    "@astrojs/ts-plugin": "^1.10.2",
     "@notionhq/client": "^1.0.4",
     "@vercel/og": "^0.5.20",
     "astro": "^4.16.5",
