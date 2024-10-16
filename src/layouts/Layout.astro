@@ -1,7 +1,10 @@
 ---
 import { SITE } from "src/config";
 import { ViewTransitions } from 'astro:transitions';
+import NavMenu from '../components/NavMenu/index.svelte';
 import "../styles/base.css";
+
+console.log("🚀 ~ file: Layout.astro:5 ~ NavMenu:", NavMenu)
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -91,6 +94,7 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
   <body class="antialiased">
     <div class="main-wrapper w-[42rem] grid gap-14 px-8 mx-auto">
       <slot />
+      <NavMenu />
     </div>
   </body>
 </html>
