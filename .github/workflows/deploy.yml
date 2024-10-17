@@ -27,7 +27,7 @@ jobs:
       - name: Sync Pnpm version
         uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 8 
       - name: Sync node version and setup cache
         uses: actions/setup-node@v4
         with:
@@ -44,6 +44,8 @@ jobs:
 
       - name: Install, build, and upload your site
         uses: withastro/action@v3
+        with:
+          package-manager: pnpm@latest
       - name: Build storybook and copy some files
         run: |
           # pnpm run build-storybook
