@@ -31,20 +31,20 @@
     <Home strokeWidth={1.5} size={16} />
   </a>
   <a
-    href="blog"
+    href="/blog"
     class="flex items-center justify-center p-2 rounded-full hover:bg-gray-300"
   >
     <ScrollTextIcon strokeWidth={1.5} size={16} />
   </a>
 
   <a
-    href="projects"
+    href="/projects"
     class="flex items-center justify-center p-2 rounded-full hover:bg-gray-300"
   >
     <Code strokeWidth={1.5} size={16} />
   </a>
   <a
-    href="about"
+    href="/about"
     class="flex items-center justify-center p-2 rounded-full hover:bg-gray-300"
   >
     <Baby strokeWidth={1.5} size={16} />
