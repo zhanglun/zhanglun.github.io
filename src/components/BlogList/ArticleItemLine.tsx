@@ -12,7 +12,6 @@ export interface Props {
 
 export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
   const { title } = frontmatter;
-  console.log("%c Line:15 🥒 frontmatter", "color:#4fff4B", frontmatter);
 
   return (
     <li className="group-hover/list:opacity-50 hover:!opacity-100">
