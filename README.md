@@ -9,7 +9,7 @@ astro-theme-facile is a minimal, responsive, accessible and SEO-friendly Astro b
 
 This theme follows best practices and provides accessibility out of the box. Light and dark mode are supported by default. Moreover, additional color schemes can also be configured.
 
-This theme is self-documented \_ which means articles/blogs in this theme can also be considered as documentations. Read [the blog posts](https://zhanglun.github.io/blogs/) or check [the README Documentation Section](#-documentation) for more info.
+This theme is self-documented \_ which means articles/blogs in this theme can also be considered as documentations. Read [the blog posts](https://zhanglun.github.io/blog/) or check [the README Documentation Section](#-documentation) for more info.
 
 ## 🔥 Features
 

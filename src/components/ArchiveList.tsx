@@ -25,7 +25,9 @@ export const ArchiveList = ({
             return (
               <Card
                 key={idx}
-                href={`${import.meta.env.BASE_URL.slice(0, -1)}/blogs/${slugify(frontmatter)}`}
+                href={`${import.meta.env.BASE_URL.slice(0, -1)}/blog/${slugify(
+                  frontmatter
+                )}`}
                 frontmatter={frontmatter}
                 rawContent={compiledContent()}
               />

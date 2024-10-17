@@ -1,0 +1,34 @@
+---
+import { BlogList } from "@components/BlogList";
+import getUniqueTags from "@utils/getUniqueTags";
+import Tag from "@components/Tag.astro";
+import Layout from "./Layout.astro";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  pageNum: number;
+  totalPages: number;
+  posts: CollectionEntry<"blogs" | "notion">[];
+  allPosts: CollectionEntry<"blogs" | "notion">[];
+}
+
+const { allPosts } = Astro.props;
+
+let tags = getUniqueTags(allPosts);
+---
+
+<Layout>
+  <header class="flex items-start">
+    <h1
+      class="w-full text-4xl font-bold leading-10 pr-8 text-text-lvl-1 lg:w-1/3"
+    >
+      My Blog
+    </h1>
+  </header>
+  <div class="mt-8 gap-x-3 gap-y-1 flex cursor-pointer flex-wrap">
+    {tags.map(tag => <Tag name={tag[0]} count={tag[1]} />)}
+  </div>
+  <div class="mt-8 group/list xl:max-w-none">
+    <BlogList allPosts={allPosts} />
+  </div>
+</Layout>

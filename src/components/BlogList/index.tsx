@@ -14,7 +14,7 @@ export const BlogList = (props: Props) => {
     <div className="m-auto">
       <ul className="w-full">
         {allPosts.map(({ data, slug }: any) => {
-          const href = `${prefix}/blogs/${slug}`
+          const href = `${prefix}/blog/${slug}`;
           return (
             <ArticleItemLine
               key={data.title}
