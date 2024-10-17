@@ -96,7 +96,7 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
     }
   </head>
   <body class="antialiased">
-    <div class="main-wrapper w-[42rem] grid gap-14 px-8 mx-auto">
+    <div class="main-wrapper w-[42rem] grid gap-14 px-4 py-8 mx-auto">
       <slot />
     </div>
     <NavMenu client:load />
