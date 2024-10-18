@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
+const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 function withOpacity(variableName) {
@@ -25,53 +26,60 @@ module.exports = {
       xl: "1280px",
       "2xl": "1526px",
     },
-    colors: colors,
 
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px'
+      }
+    },
+    colors: colors,
     extend: {
-      textColor: {
-        skin: {
-          base: withOpacity("--color-text-base"),
-          accent: withOpacity("--color-accent"),
-          inverted: withOpacity("--color-fill"),
+      colors: {
+        border: 'hsl(var(--border) / <alpha-value>)',
+        input: 'hsl(var(--input) / <alpha-value>)',
+        ring: 'hsl(var(--ring) / <alpha-value>)',
+        background: 'hsl(var(--background) / <alpha-value>)',
+        foreground: 'hsl(var(--foreground) / <alpha-value>)',
+        primary: {
+          DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
+          foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'
         },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
+          foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive) / <alpha-value>)',
+          foreground: 'hsl(var(--destructive-foreground) / <alpha-value>)'
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
+          foreground: 'hsl(var(--muted-foreground) / <alpha-value>)'
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent) / <alpha-value>)',
+          foreground: 'hsl(var(--accent-foreground) / <alpha-value>)'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover) / <alpha-value>)',
+          foreground: 'hsl(var(--popover-foreground) / <alpha-value>)'
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card) / <alpha-value>)',
+          foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
+        }
       },
-      backgroundColor: {
-        skin: {
-          fill: withOpacity("--color-fill"),
-          accent: withOpacity("--color-accent"),
-          inverted: withOpacity("--color-text-base"),
-          card: withOpacity("--color-card"),
-          "card-muted": withOpacity("--color-card-muted"),
-        },
-      },
-      outlineColor: {
-        skin: {
-          fill: withOpacity("--color-accent"),
-        },
-      },
-      borderColor: {
-        skin: {
-          line: withOpacity("--color-border"),
-          fill: withOpacity("--color-text-base"),
-          accent: withOpacity("--color-accent"),
-        },
-      },
-      fill: {
-        skin: {
-          base: withOpacity("--color-text-base"),
-          accent: withOpacity("--color-accent"),
-        },
-        transparent: "transparent",
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
       },
       fontFamily: {
-        mono: [
-          "-apple-system,system-ui, Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,Helvetica Neue, Noto Serif SC,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial",
-        ],
-        code: [
-          "DM Mono,Menlo,Andale Mono,Ubuntu Mono,Monaco,Consolas,Courier New,monospace"
-        ],
-      },
-    },
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans]
+      }
+    }
   },
   plugins: [require("@tailwindcss/typography")],
 };
