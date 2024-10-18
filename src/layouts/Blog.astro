@@ -25,7 +25,7 @@ let tags = getUniqueTags(allPosts);
       My Blog
     </h1>
   </header>
-  <div class="mt-8 gap-x-3 gap-y-1 flex cursor-pointer flex-wrap">
+  <div class="mt-8 gap-x-2 gap-y-2 flex cursor-pointer flex-wrap">
     {tags.map(tag => <Tag name={tag[0]} count={tag[1]} />)}
   </div>
   <div class="mt-8 group/list xl:max-w-none">

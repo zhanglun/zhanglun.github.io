@@ -24,10 +24,14 @@ export function CircleArrow(props: CircleArrowProps) {
   };
 
   const boxClass = `
-    inline-block text-0 p-1 border-[var(--color-text-base)] border leading-[0] rounded-full transition-all duration-150 ease-in-out 
-     ${theme === 'dark' ? 'bg-[var(--color-text-base)] text-[white]' : 'bg-[white] text-[var(--color-text-base)]'} 
-     ${theme === 'dark' ? '' : 'hover:bg-[var(--color-text-base)] hover:text-[white]'} 
-     ${theme === 'dark' ? '' : 'group-hover:bg-[var(--color-text-base)] group-hover:text-[white]'} 
+    inline-block text-0 p-1 border-[black] border leading-[0] rounded-full transition-all duration-150 ease-in-out 
+     ${
+       theme === "dark" ? "bg-[black] text-[white]" : "bg-[white] text-[black]"
+     } 
+     ${theme === "dark" ? "" : "hover:bg-[black] hover:text-[white]"} 
+     ${
+       theme === "dark" ? "" : "group-hover:bg-[black] group-hover:text-[white]"
+     } 
      ${className}
   `;
 
