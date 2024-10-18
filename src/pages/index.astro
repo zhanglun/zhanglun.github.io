@@ -1,5 +1,5 @@
 ---
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { SITE } from "@config";
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
@@ -53,8 +53,15 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
       class="flex flex-row my-4 items-center justify-between text-neutral-800"
     >
       <h2 class="text-2xl font-bold">Projects</h2>
-      <a href={`${prefix}/projects`} class="flex items-center gap-2">
-        View all projects <ArrowRight strokeWidth={1} />{" "}
+      <a href={`${prefix}/projects`} class="flex items-center gap-1 group">
+        <span class="transition-all group-hover:-translate-x-2"
+          >more projects</span
+        >
+        <ArrowUpRight
+          strokeWidth={1.5}
+          size={18}
+          className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
+        />
       </a>
     </div>
     <div
@@ -81,8 +88,13 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
       class="flex flex-row my-4 items-center justify-between text-neutral-800"
     >
       <h2 class="text-2xl font-bold">Recently Posted</h2>
-      <a href={`${prefix}/blogs`} class="flex items-center gap-2">
-        View all blogs <ArrowRight strokeWidth={1} />{" "}
+      <a href={`${prefix}/blogs`} class="flex items-center gap-1 group">
+        <span class="transition-all group-hover:-translate-x-2">more blog</span>
+        <ArrowUpRight
+          strokeWidth={1.5}
+          size={18}
+          className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
+        />
       </a>
     </div>
     <ul>
@@ -102,11 +114,16 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
       class="flex flex-row my-4 items-center justify-between text-neutral-800"
     >
       <h2 class="text-2xl font-bold">Tags</h2>
-      <a href={`${prefix}/tags`} class="flex items-center gap-2">
-        View all tags <ArrowRight strokeWidth={1} />{" "}
+      <a href={`${prefix}/tags`} class="flex items-center gap-1 group">
+        <span class="transition-all group-hover:-translate-x-2">more tags</span>
+        <ArrowUpRight
+          strokeWidth={1.5}
+          size={18}
+          className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
+        />
       </a>
     </div>
-    <div class="list-none space-y-5 space-x-2">
+    <div class="mt-8 gap-x-2 gap-y-2 flex cursor-pointer flex-wrap">
       {
         tags.map(tag => (
           <Tag

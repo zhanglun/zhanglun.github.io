@@ -14,7 +14,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
   const { title } = frontmatter;
 
   return (
-    <li className="group-hover/list:opacity-50 hover:!opacity-100">
+    <li className="group-hover/list:opacity-50 hover:!opacity-100 transition-all">
       <article
         className="group "
         itemScope
@@ -23,7 +23,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
         <a
           href={href}
           itemProp="url"
-          className="text-[var(--color-text-base)] block text-base py-2"
+          className="text-[black] block text-base py-2"
         >
           <div className="flex justify-between items-center relative gap-4">
             <span
@@ -32,7 +32,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
             ></span>
             <span
               itemProp="headline"
-              className="max-w-[calc(100%-450px)] md:max-w-[calc(100%-450px)] text-[var(--color-text-base)] block text-base group-hover:underline shrink-0 text-ellipsis overflow-hidden whitespace-nowrap"
+              className="max-w-[calc(100%-250px)] md:max-w-[calc(100%-250px)] text-[black] block text-base group-hover:underline shrink-0 text-ellipsis overflow-hidden whitespace-nowrap"
             >
               {title}
             </span>
@@ -41,7 +41,7 @@ export function ArticleItemLine({ href, frontmatter, rawContent }: Props) {
               {dayjs(frontmatter.date).format("YYYY-MM-DD")}
             </div>
             <div
-              className="bg-[var(--color-text-base)] rounded-full text-[white] fill-[white] text-[0] opacity-0 p-1 scale-50 transition-all -rotate-[135deg]
+              className="bg-[black] rounded-full text-[white] fill-[white] text-[0] opacity-0 p-1 scale-50 transition-all -rotate-[135deg]
             group-hover:opacity-100 group-hover:scale-100"
             >
               <svg

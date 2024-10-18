@@ -16,11 +16,7 @@ export const BlogList = (props: Props) => {
         {allPosts.map(({ data, slug }: any) => {
           const href = `${prefix}/blog/${slug}`;
           return (
-            <ArticleItemLine
-              key={data.title}
-              href={href}
-              frontmatter={data}
-            />
+            <ArticleItemLine key={data.title} href={href} frontmatter={data} />
           );
         })}
       </ul>
