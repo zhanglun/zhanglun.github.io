@@ -71,7 +71,7 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 .idea
-src/content/notion
+contents/notion
 
 .vs
 .vscode
