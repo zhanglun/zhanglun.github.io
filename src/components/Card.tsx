@@ -13,7 +13,7 @@ const styles = {
   titleLink:
     "text-[var(--color-text-base)] block text-[1.125rem] font-semibold pt-3 pb-4",
   // titleLink:
-  //   `block text-skin-accent
+  //   `block text-accent
   //   font-medium text-2xl underline-offset-4
   //   decoration-dashed
   //   mb-2

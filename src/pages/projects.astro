@@ -1,13 +1,9 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import SectionContainer from "@components/SectionContainer.astro";
-import CardGroup from "@/components/card/CardGroup.astro";
-import Card from "@/components/card/Card.astro";
-import CardBody from "@/components/card/CardBody.astro";
-import CardImage from "@/components/card/CardImage.astro";
-import CardHeader from "@/components/card/CardHeader.astro";
+import ProjectCard from "@components/ProjectCard.svelte";
 
-import { PROJECTS } from "src/config";
+import { PROJECTS } from "src/data/projects";
 ---
 
 <Layout>
@@ -20,36 +16,24 @@ import { PROJECTS } from "src/config";
       </h1>
     </header>
     <div class="mt-20">
-      <CardGroup
+      <div
         class="grid scroll-m-24 gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full"
       >
         {
           PROJECTS.map(project => (
-            <Card
-              key={project.name}
-              class="col-span-1 cursor-alias"
-              link={project.url}
-              target="_blank"
-            >
-              <CardBody>
-                <CardImage
-                  src={project.logo}
-                  alt="Alternative text for photo"
-                  imageClass="absolute top-0 right-0 m-6 p-4 bg-white rounded-3xl"
-                  width={80}
-                  height={80}
-                />
-                <div class="card-content absolute bottom-8 left-6 right-6">
-                  <CardHeader class="">{project.name}</CardHeader>
-                  <div class="content break-words text-xl font-medium mt-4 tracking-tight lg:tracking-tighter text-neutral-400 ">
-                    <p>{project.description}</p>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
+            <ProjectCard
+              href={project.url}
+              title={project.name}
+              description={project.description}
+              dates={project.dates}
+              tags={project.technologies}
+              image={project.image}
+              video={project.video}
+              links={project.links}
+            />
           ))
         }
-      </CardGroup>
+      </div>
     </div>
   </SectionContainer>
 </Layout>
