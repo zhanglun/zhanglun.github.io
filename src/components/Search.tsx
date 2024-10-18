@@ -1,6 +1,5 @@
 import Fuse from "fuse.js";
 import React, { useEffect, useRef, useState } from "react";
-import Card from "@components/Card";
 import slugify from "@utils/slugify";
 import type { Frontmatter } from "src/types";
 import { Search } from "lucide-react";
@@ -105,19 +104,7 @@ export default function SearchBar({ searchList }: Props) {
         </div>
       )}
 
-      <ul>
-        {searchResults &&
-          searchResults.map(({ item, refIndex }) => (
-            <Card
-              frontmatter={item.frontmatter}
-              href={`${import.meta.env.BASE_URL.slice(0, -1)}/blog/${slugify(
-                item.frontmatter
-              )}`}
-              key={`${refIndex}-${slugify(item.frontmatter)}`}
-              rawContent={item.compiledContent}
-            />
-          ))}
-      </ul>
+      <ul></ul>
     </div>
   );
 }
