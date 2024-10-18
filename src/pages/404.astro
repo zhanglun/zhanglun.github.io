@@ -1,7 +1,6 @@
 ---
 import { SITE } from "src/config";
 import Layout from "@layouts/Layout.astro";
-import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 ---
 
@@ -19,13 +18,11 @@ import LinkButton from "@components/LinkButton.astro";
       </LinkButton>
     </div>
   </main>
-
-  <Footer />
 </Layout>
 
 <style>
   #main-content {
-    @apply max-w-3xl mx-auto flex-1 justify-center items-center flex;
+    @apply mx-auto my-20 flex-1 justify-center items-center flex;
   }
   .not-found-wrapper {
     @apply flex flex-col items-center justify-center mb-14;
