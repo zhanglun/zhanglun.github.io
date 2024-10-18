@@ -1,5 +1,5 @@
 ---
-import { Hash } from 'lucide-react';
+import { Hash } from "lucide-react";
 export interface Props {
   name: string;
   size?: "sm" | "lg";
@@ -17,13 +17,16 @@ const { name, size = "sm" } = Astro.props;
     href={`/categories/${name}`}
     class={`flex items-center ${size === "sm" ? "pr-1 text-sm" : "pr-2 text-lg"} group`}
   >
-    <Hash size="20" className={`${size === "sm" ? " scale-75" : "scale-110"}`}/>
+    <Hash
+      size="20"
+      className={`${size === "sm" ? " scale-75" : "scale-110"}`}
+    />
     &nbsp;<span>{name}</span>
   </a>
 </li>
 
 <style>
   a {
-    @apply underline decoration-dashed hover:text-skin-accent relative hover:-top-0.5 focus-visible:p-1;
+    @apply underline decoration-dashed hover:text-accent relative hover:-top-0.5 focus-visible:p-1;
   }
 </style>
