@@ -3,22 +3,14 @@ export interface Props {
   name: string;
   count?: number;
   hideCount?: boolean;
-  href?: string;
 }
 
 const { name, count = 0, hideCount, href } = Astro.props;
 ---
 
-{
-  href ? (
-    <a class="px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 capitalize flex items-center gap-2 border border-orange-200">
-      <span class="text-xs">{name}</span>
-      {!hideCount && <span class="text-[10px]">{count}</span>}
-    </a>
-  ) : (
-    <span class="px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 capitalize flex items-center gap-2 border border-orange-200">
-      <span class="text-xs">{name}</span>
-      {!hideCount && <span class="text-[10px]">{count}</span>}
-    </span>
-  )
-}
+<span
+  class="px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 capitalize flex items-center gap-2 border border-orange-200"
+>
+  <span class="text-xs">{name}</span>
+  {!hideCount && <span class="text-[10px]">{count}</span>}
+</span>

@@ -1,7 +1,7 @@
 ---
-import { BlogList } from "@components/BlogList";
+import BlogList from "@components/BlogList/index.svelte";
 import getUniqueTags from "@utils/getUniqueTags";
-import Tag from "@components/Tag.astro";
+import Tag from "@components/Tag.svelte";
 import Layout from "./Layout.astro";
 import type { CollectionEntry } from "astro:content";
 
@@ -25,10 +25,7 @@ let tags = getUniqueTags(allPosts);
       My Blog
     </h1>
   </header>
-  <div class="mt-8 gap-x-2 gap-y-2 flex cursor-pointer flex-wrap">
-    {tags.map(tag => <Tag name={tag[0]} count={tag[1]} />)}
-  </div>
   <div class="mt-8 group/list xl:max-w-none">
-    <BlogList allPosts={allPosts} />
+    <BlogList tags={tags} allPosts={allPosts} client:load />
   </div>
 </Layout>
