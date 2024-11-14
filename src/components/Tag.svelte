@@ -1,25 +1,27 @@
 <script lang="ts">
-  // export let name: string;
-  // export let count: number = 0;
-  // export let hideCount?: Boolean;
-  // export let onClick: () => void;
-
+  import { clsx } from "clsx";
   interface Props {
     name: string;
     count: number;
+    selected?: Boolean;
     hideCount?: Boolean;
     onClick: () => void;
   }
 
-  const { name, count, hideCount, onClick } = $props();
+  const { name, count, hideCount, onClick, selected } = $props();
   function handleClick() {
-    console.log('onClick called');
+    console.log("onClick called");
     onClick();
   }
 </script>
 
 <button
-  class="px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 capitalize flex items-center gap-2 border border-orange-200"
+  class={clsx(
+    "px-2.5 py-1 rounded-lg text-xs text-orange-600 font-medium bg-orange-50/80 hover:bg-orange-100 capitalize flex items-center gap-2 border border-orange-200",
+    {
+      "bg-orange-600 text-orange-100 border-orange-600 hover:text-orange-100 hover:bg-orange-600": selected,
+    }
+  )}
   onclick={handleClick}
 >
   <span class="text-xs">{name}</span>

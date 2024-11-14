@@ -1,5 +1,6 @@
 <script lang="ts">
   import Tag from "@/components/Tag.svelte";
+  import ArticleItemLine from "./ArticleItemLine.svelte";
   import type { CollectionEntry } from "astro:content";
 
   interface Props {
@@ -10,30 +11,38 @@
   const { allPosts, tags } = $props();
   const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
-  let filterPosts = [...allPosts];
+  let filterPosts = $state([...allPosts]);
+  let currentTag = $state("");
 
   function filterByTag(tag: string) {
     console.log("🚀 ~ file: Blog.astro:22 ~ filterByTag ~ tag:", tag);
 
-    filterPosts = allPosts.filter(post => post.data.tags.includes(tag));
+    if (tag === currentTag) {
+      currentTag = ''
+    } else {
+      currentTag = tag
+    }
+
+    filterPosts = currentTag ? allPosts.filter(post => post.data.tags.includes(currentTag)) : allPosts;
   }
 </script>
 
-<div className="m-auto">
-  <div class="mt-8 gap-x-2 gap-y-2 flex cursor-pointer flex-wrap">
+<div class="w-[42rem">
+  <div class="gap-x-2 gap-y-2 flex cursor-pointer flex-wrap">
     {#each tags as tag}
       <Tag
         name={tag[0]}
         count={tag[1]}
+        selected={currentTag === tag[0]}
         onClick={() => {
           filterByTag(tag[0]);
         }}
       />
     {/each}
   </div>
-  <ul className="w-full">
+  <ul class="w-[42rem] mt-8">
     {#each filterPosts as { data, slug }}
-      <li>{data.title}</li>
+      <ArticleItemLine href={`${prefix}/blog/${slug}`} frontmatter={data} />
     {/each}
   </ul>
 </div>
