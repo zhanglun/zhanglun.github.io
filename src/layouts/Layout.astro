@@ -96,8 +96,10 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
     }
   </head>
   <body class="antialiased">
-    <div class="main-wrapper w-[42rem] grid gap-14 px-4 py-8 mx-auto">
+    <div class="main-wrapper max-w-[1728px] w-full mx-auto">
+      <div class="gridLayout">
       <slot />
+      </div>
     </div>
     <NavMenu client:load />
     <ModeWatcher client:load />
