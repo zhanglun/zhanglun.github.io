@@ -8,7 +8,9 @@ import Layout from "@layouts/Layout.astro";
 import ProjectCard from "@/components/ProjectCard.svelte";
 
 import Icon from "src/assets/icon.png";
-import SectionContainer from "@components/SectionContainer.astro";
+import section from "@components/section.svelte";
+import HomeHero from '@components/HomeHero.svelte';
+import ProjectSection from '@components/ProjectSection.svelte'
 import { Image } from "astro:assets";
 import Tag from "@components/Tag.astro";
 import getUniqueTags from "@utils/getUniqueTags";
@@ -24,66 +26,11 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
 ---
 
 <Layout>
-  <SectionContainer class="hero--container flex flex-col gap-8 mt-32">
-    <Image
-      src={Icon}
-      alt={"Photo by charlesdeluvio on Unsplash"}
-      width={160}
-      height={160}
-      format={"webp"}
-      class="rounded-full h-32 w-32 bg-neutral-100 object-cover p-4"
-    />
-    <div class="content-container">
-      <div class="page-title--content max-w-[54rem] mb-8 lg:mb-4">
-        <h1
-          class="text-4xl lg:text-3xl font-medium leading-8 lg:leading-10 tracking-tight lg:tracking-tighter mb-0"
-        >
-          {SITE.title}
-        </h1>
-      </div>
-      <div
-        class="content text-3xl md:text-3xl font-medium leading-8 lg:leading-10 tracking-tight lg:tracking-tighter text-neutral-500"
-      >
-        {SITE.description}
-      </div>
-    </div>
-  </SectionContainer>
-  <SectionContainer class="projects--container">
-    <div
-      class="flex flex-row my-4 items-center justify-between text-neutral-800"
-    >
-      <h2 class="text-2xl font-bold">Projects</h2>
-      <a href={`${prefix}/projects`} class="flex items-center gap-1 group">
-        <span class="transition-all group-hover:-translate-x-2"
-          >more projects</span
-        >
-        <ArrowUpRight
-          strokeWidth={1.5}
-          size={18}
-          className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
-        />
-      </a>
-    </div>
-    <div
-      class="grid scroll-m-24 gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full"
-    >
-      {
-        PROJECTS.slice(0, 4).map(project => (
-          <ProjectCard
-            href={project.url}
-            title={project.name}
-            description={project.description}
-            dates={project.dates}
-            tags={project.technologies}
-            image={project.image}
-            video={""}
-            links={project.links}
-          />
-        ))
-      }
-    </div>
-  </SectionContainer>
-  <SectionContainer class="projects--container">
+  <HomeHero site={SITE} />
+  <ProjectSection prefix={prefix} projects={PROJECTS}/>
+  <section class="section projects--container">
+  </section>
+  <section class=" section projects--container">
     <div
       class="flex flex-row my-4 items-center justify-between text-neutral-800"
     >
@@ -108,8 +55,8 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
         })
       }
     </ul>
-  </SectionContainer>
-  <SectionContainer>
+  </section>
+  <section class="section ">
     <div
       class="flex flex-row my-4 items-center justify-between text-neutral-800"
     >
@@ -134,6 +81,10 @@ const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
         ))
       }
     </div>
-  </SectionContainer>
+  </section>
   <div></div>
+</Layout>
+
+  <style>
+  </style>
 </Layout>
