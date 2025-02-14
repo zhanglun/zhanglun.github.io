@@ -68,6 +68,7 @@
     display: grid;
     grid-template-columns: subgrid;
     align-self: start;
+    gap: 24px;
   }
 
   .plusIcons {

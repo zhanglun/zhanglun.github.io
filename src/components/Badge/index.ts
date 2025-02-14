@@ -2,11 +2,11 @@ import { type VariantProps, tv } from "tailwind-variants";
 export { default as Badge } from "./Badge.svelte";
 
 export const badgeVariants = tv({
-  base: "inline-flex select-none items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  base: "badge text-[var(--tagBorderColor)] border border-dashed border-[var(--tagBorderColor)] rounded-[3px] p-[2px_5px_2.5px] leading-none",
   variants: {
     variant: {
       default:
-        "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        "",
       secondary:
         "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
       destructive:
