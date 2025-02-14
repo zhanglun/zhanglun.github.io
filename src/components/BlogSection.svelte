@@ -4,9 +4,20 @@
 
 <section class="section blog--section">
   <div class="title">
-    <h2 class="text-2xl font-bold">Blog</h2>
+    Blog
   </div>
   <div class="list">
+    <div class="header">
+      <div class="label label__date text-smallcaps">
+        <span>/</span> DATE
+      </div>  
+      <div class="label label__title text-smallcaps">
+        <span>/</span> TITLE
+      </div>  
+      <div class="label label__type text-smallcaps">
+        <span>/</span> TYPE
+      </div>  
+    </div>
 
   </div>
 </section>
@@ -14,6 +25,7 @@
 <style>
   .blog--section {
     row-gap: 32px;
+    margin-top: 60px;
   }
 
   .title {
@@ -28,64 +40,39 @@
   }
 
   .list {
-    grid-column: 8 / 25;
+    /* grid-column: 8 / 25; */
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: subgrid;
     align-self: start;
   }
-  .plusIcons {
-    color: var(--plusIconColor, --fontColor);
+
+  .header {
+    grid-column: 1 / -1;
     display: grid;
-    grid-column: 1/ -1;
     grid-template-columns: subgrid;
+    border-bottom: .5px solid var(--sectionLabels, --fontColor);
+    padding-bottom: 6px;
+    align-self: start;
   }
 
-  .plusIcons img:first-of-type,
-  .plusIcons svg:first-of-type {
-    grid-column: 1 / 1;
-    grid-row: 1;
+  .label {
+    color: var(--sectionLabels, --fontColor);
+    display: flex;
+    gap: 4px;
+    grid-column: 1 / -1;
   }
 
-  .plusIcons img:nth-of-type(2n),
-  .plusIcons svg:nth-of-type(2n) {
-    grid-column: 16 / 16;
-    grid-row: 1;
+  .label__date {
+    grid-column: 1/3
   }
 
-  .plusIcons img:nth-of-type(3n),
-  .plusIcons svg:nth-of-type(3n) {
-    grid-column: 1 / 1;
-    grid-row: 1;
-  }
-  .plusIcons img:nth-of-type(4n),
-  .plusIcons svg:nth-of-type(4n) {
-    grid-column: -1 / -1;
-    grid-row: 1;
-    justify-self: end;
-    transform: traslateX(-50%);
+  .label__title {
+    grid-column: 3/18
   }
 
-  .plusIcons_icon {
-    display: block;
-    color: var(--plusIconColor);
-    transform: translateX(-50%);
-  }
+  .label__type {
+    grid-column: 18/24
 
-  .subTitle {
-    color: var(--bodyTextColor, --fontColor);
-    padding-top: 50px;
-    padding-left: 6px;
-    padding-right: 6px;
-    grid-column: 1 / 15;
-    grid-row: 3;
-    font-size: calc(20px + ((43 - 20) * (100vw - 390px) / (1728 - 390)));
-    line-height: 95%;
-    font-family:
-      sohne-var,
-      Helvetica Neue,
-      Arial,
-      sans-serif;
-    font-style: normal;
-    font-weight: 300;
   }
 </style>
