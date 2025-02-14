@@ -1,90 +1,23 @@
 ---
-import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { SITE } from "@config";
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
-import { ArticleItemLine } from "@components/BlogList/ArticleItemLine";
 import Layout from "@layouts/Layout.astro";
-import ProjectCard from "@/components/ProjectCard.svelte";
 
-import Icon from "src/assets/icon.png";
-import section from "@components/section.svelte";
 import HomeHero from '@components/HomeHero.svelte';
 import ProjectSection from '@components/ProjectSection.svelte'
-import { Image } from "astro:assets";
-import Tag from "@components/Tag.astro";
-import getUniqueTags from "@utils/getUniqueTags";
+import BlogSection from '@components/BlogSection.svelte'
 import { PROJECTS } from "@data/projects";
 
 const posts = await getCollection("blogs");
 const posts2 = await getCollection("notion");
 const sortedPosts = getSortedPosts([...posts, ...posts2]);
-const recentlyPosts = sortedPosts.slice(0, 6);
 const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
-const tags = getUniqueTags([...posts, ...posts2]).slice(0, 10);
 ---
 
 <Layout>
   <HomeHero site={SITE} />
   <ProjectSection prefix={prefix} projects={PROJECTS}/>
-  <section class="section projects--container">
-  </section>
-  <section class=" section projects--container">
-    <div
-      class="flex flex-row my-4 items-center justify-between text-neutral-800"
-    >
-      <h2 class="text-2xl font-bold">Recently Posted</h2>
-      <a href={`${prefix}/blog`} class="flex items-center gap-1 group">
-        <span class="transition-all group-hover:-translate-x-2">more blog</span>
-        <ArrowUpRight
-          strokeWidth={1.5}
-          size={18}
-          className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
-        />
-      </a>
-    </div>
-    <ul>
-      {
-        recentlyPosts.map(({ data, slug }: any) => {
-          const href = `${prefix}/blog/${slug}`;
-
-          return (
-            <ArticleItemLine key={data.title} href={href} frontmatter={data} />
-          );
-        })
-      }
-    </ul>
-  </section>
-  <section class="section ">
-    <div
-      class="flex flex-row my-4 items-center justify-between text-neutral-800"
-    >
-      <h2 class="text-2xl font-bold">Tags</h2>
-      <a href={`${prefix}/tags`} class="flex items-center gap-1 group">
-        <span class="transition-all group-hover:-translate-x-2">more tags</span>
-        <ArrowUpRight
-          strokeWidth={1.5}
-          size={18}
-          className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
-        />
-      </a>
-    </div>
-    <div class="mt-8 gap-x-2 gap-y-2 flex cursor-pointer flex-wrap">
-      {
-        tags.map(tag => (
-          <Tag
-            name={tag[0]}
-            href={`/tags/${tag[0].toLowerCase()}`}
-            count={tag[1]}
-          />
-        ))
-      }
-    </div>
-  </section>
-  <div></div>
-</Layout>
-
-  <style>
-  </style>
+  <BlogSection posts={sortedPosts} />
 </Layout>

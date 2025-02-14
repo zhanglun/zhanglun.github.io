@@ -4,43 +4,70 @@
   export let projects = [];
 </script>
 
-<section class="section home-hero-section">
-  <div class="flex flex-row my-4 items-center justify-between text-neutral-800">
-    <h2 class="text-2xl font-bold">Projects</h2>
-    <a href={`${prefix}/projects`} class="flex items-center gap-1 group">
-      <span class="transition-all group-hover:-translate-x-2"
-        >more projects</span
-      >
-      <!-- <ArrowUpRight
-        strokeWidth={1.5}
-        size={18}
-        className="transition-all origin-center group-hover:translate-x-2 text-primary group-hover:-translate-y-2 "
-      /> -->
-    </a>
+<section class="section project--section">
+  <!-- <div class="title text-xl font-bold">
+    Projects
+  </div> -->
+  <div class="header">
+    <div class="label text-smallcaps">
+      <span>/</span> PROJECTS
+    </div>  
   </div>
-  <div
-    class="grid scroll-m-24 gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full"
-  >
+  <div class="list">
     {#each projects.slice(0, 4) as project}
-      <ProjectCard
-        href={project.url}
-        title={project.name}
-        description={project.description}
-        dates={project.dates}
-        tags={project.technologies}
-        image={project.image}
-        video={""}
-        links={project.links}
-      />
+        <ProjectCard
+          href={project.url}
+          title={project.name}
+          description={project.description}
+          dates={project.dates}
+          tags={project.technologies}
+          image={project.image}
+          video={""}
+          links={project.links}
+        />
     {/each}
   </div>
 </section>
 
 <style>
-  .home-hero-section {
-    position: relative;
-    margin-top: 64px;
-    --iconWidth: calc(63px + ((88 - 63) * (100vw - 390px) / (1440 - 390)));
+  .project--section {
+    row-gap: 32px;
+    margin-top: 60px;
+  }
+
+  .title {
+    grid-column: 1 / 14;
+    display: flex;
+    color: var(--headingTextColor, --fontColor);
+    font-size: calc(54px + ((114 - 54) * (100vw - 390px) / (1728 - 390)));
+    font-style: normal;
+    font-weight: 300;
+    line-height: 84%;
+    letter-spacing: -0.06em;
+  }
+
+  .header {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    border-bottom: .5px solid var(--sectionLabels, --fontColor);
+    padding-bottom: 6px;
+    align-self: start;
+  }
+
+  .label {
+    color: var(--sectionLabels, --fontColor);
+    display: flex;
+    gap: 4px;
+    grid-column: 1 / -1;
+  }
+
+  .list {
+    /* grid-column: 8 / 25; */
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-self: start;
   }
 
   .plusIcons {
@@ -67,7 +94,6 @@
     grid-column: 1 / 1;
     grid-row: 1;
   }
-
   .plusIcons img:nth-of-type(4n),
   .plusIcons svg:nth-of-type(4n) {
     grid-column: -1 / -1;

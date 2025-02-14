@@ -121,3 +121,13 @@
   grid-template-columns: subgrid;
   grid-template-rows: auto;
 }
+
+.text-smallcaps {
+  color: var(--squareTextColor,--fontColor);
+  font-family: sohne-mono;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -.012em;
+  text-transform: uppercase
+}
