@@ -1,38 +1,19 @@
 <script lang="ts">
-  import ProjectCard from "./ProjectCard.svelte";
-  export let prefix = "";
-  export let projects = [];
+  export let posts = [];
 </script>
 
-<section class="section project--section">
-  <!-- <div class="title text-xl font-bold">
-    Projects
-  </div> -->
-  <div class="header">
-    <div class="label text-smallcaps">
-      <span>/</span> PROJECTS
-    </div>  
+<section class="section blog--section">
+  <div class="title">
+    <h2 class="text-2xl font-bold">Blog</h2>
   </div>
   <div class="list">
-    {#each projects.slice(0, 4) as project}
-        <ProjectCard
-          href={project.url}
-          title={project.name}
-          description={project.description}
-          dates={project.dates}
-          tags={project.technologies}
-          image={project.image}
-          video={""}
-          links={project.links}
-        />
-    {/each}
+
   </div>
 </section>
 
 <style>
-  .project--section {
+  .blog--section {
     row-gap: 32px;
-    margin-top: 60px;
   }
 
   .title {
@@ -46,30 +27,12 @@
     letter-spacing: -0.06em;
   }
 
-  .header {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: subgrid;
-    border-bottom: .5px solid var(--sectionLabels, --fontColor);
-    padding-bottom: 6px;
-    align-self: start;
-  }
-
-  .label {
-    color: var(--sectionLabels, --fontColor);
-    display: flex;
-    gap: 4px;
-    grid-column: 1 / -1;
-  }
-
   .list {
-    /* grid-column: 8 / 25; */
-    grid-column: 1 / -1;
+    grid-column: 8 / 25;
     display: grid;
     grid-template-columns: subgrid;
     align-self: start;
   }
-
   .plusIcons {
     color: var(--plusIconColor, --fontColor);
     display: grid;
