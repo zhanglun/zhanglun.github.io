@@ -12,6 +12,7 @@ import { PROJECTS } from "@data/projects";
 const posts = await getCollection("blogs");
 const posts2 = await getCollection("notion");
 const sortedPosts = getSortedPosts([...posts, ...posts2]);
+console.log("🚀 ~ sortedPosts:", sortedPosts[0])
 const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
 ---

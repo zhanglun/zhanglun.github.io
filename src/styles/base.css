@@ -131,3 +131,20 @@
   letter-spacing: -.012em;
   text-transform: uppercase
 }
+
+.text-md {
+  font-size: calc(20px + ((27 - 20) * (100vw - 390px) / (760 - 390)));
+  line-height: 100%;
+  letter-spacing: -.04em;
+  @media (min-width: 760px) {
+      font-size:calc(22px + ((27 - 22) * (100vw - 760px) / (960 - 760)))
+  }
+
+  @media (min-width: 960px) {
+      font-size:calc(22px + ((28 - 22) * (100vw - 960px) / (1728 - 960)))
+  }
+
+  @media (min-width: 1728px) {
+      font-size:28px
+  }
+}
