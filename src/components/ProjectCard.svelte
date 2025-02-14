@@ -17,7 +17,7 @@
 
 <!-- Card -->
 <div class="item h-full flex flex-col overflow-hidden">
-  <a href={href || "#"} class="block cursor-pointer col-start-1 col-end-7">
+  <a href={href || "#"} class="block cursor-pointer col-start-1 col-end-7 aspect-square">
     {#if video}
       <video
         class="pointer-events-none mx-auto h-40 w-full object-cover object-top"
@@ -28,7 +28,7 @@
       ></video>
     {:else}
       <img
-        class="h-40 w-full overflow-hidden object-cover object-top"
+        class="w-full overflow-hidden object-cover object-top"
         src={image}
         alt={title}
       />
