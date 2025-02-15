@@ -148,3 +148,22 @@
       font-size:28px
   }
 }
+
+.text-hero {
+    color: var(--fontColor);
+    font-size: calc(80px + ((150 - 80) * (100vw - 390px) / (960 - 390)));
+    font-weight: 300;
+    line-height: 90%;
+    letter-spacing: -.07em;
+    @media (min-width: 600px) {
+        line-height:84%;
+        font-size:calc(50px + ((100 - 80) * (100vw - 600px) / (960 - 600)))}
+
+    @media (min-width: 960px) {
+        line-height:84%;
+        font-size:calc(50px + ((170 - 100) * (100vw - 960px) / (1728 - 960)))}
+
+    @media (min-width: 1728px) {
+        font-size:100px
+    }
+}

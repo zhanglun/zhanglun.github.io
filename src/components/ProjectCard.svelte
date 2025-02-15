@@ -17,7 +17,7 @@
 
 <!-- Card -->
 <div class="item h-full flex flex-col overflow-hidden">
-  <a href={href || "#"} class="block cursor-pointer col-start-1 col-end-7 aspect-square">
+  <a href={href || "#"} class="block cursor-pointer aspect-square image">
     {#if video}
       <video
         class="pointer-events-none mx-auto h-40 w-full object-cover object-top"
@@ -54,7 +54,7 @@
       {#if tags && tags.length > 0}
         <div class="mt-2 flex flex-wrap gap-1">
           {#each tags as tag}
-            <Badge class="text-smallcaps badge">
+            <Badge class="badge">
               {tag}
             </Badge>
           {/each}
@@ -99,6 +99,15 @@
     --overlap: calc(3px + 0.3vw);
   }
 
+  .image {
+    position: relative;
+    background: var(--artBackground);
+    cursor: -webkit-grab;
+    cursor: grab;
+    grid-column: 1 / 7;
+    grid-row: span 2;
+  }
+
   .content:hover .title {
     background-image: linear-gradient(
       transparent var(--overlap),
@@ -114,9 +123,40 @@
     );
     color: var(--invertedTextColor);
   }
+
   .content:hover .badge {
     background: var(--highlightColor);
     color: var(--invertedTextColor);
     border-color: var(--invertedTextColor);
+  }
+
+  @media (max-width: 959px) {
+    .item {
+      grid-column: 1/-1;
+    }
+
+    .image {
+      grid-column: 1/8;
+    }
+
+    .content {
+      grid-column: 8/-2;
+    }
+  }
+
+  @media (max-width: 759px) {
+    .item {
+      row-gap: 8px;
+    }
+
+    .image {
+      grid-column: 1/-1;
+      grid-row: 1;
+    }
+
+    .content {
+      grid-column: 1/-1;
+      grid-row: 2;
+    }
   }
 </style>

@@ -58,8 +58,8 @@
       ></path></svg
     >
   </div>
-  <div class="col-start-1 col-end-[15]">
-    <h1 class="text-7xl font-medium mb-0">
+  <div class="title">
+    <h1 class=" text-hero">
       {site.title}
     </h1>
   </div>
@@ -135,6 +135,7 @@
     display: grid;
     grid-column: 1/ -1;
     grid-template-columns: subgrid;
+    padding: 14px 0;
   }
 
   .plusIcons img:first-of-type,
@@ -151,7 +152,7 @@
 
   .plusIcons img:nth-of-type(3n),
   .plusIcons svg:nth-of-type(3n) {
-    grid-column: 1 / 1;
+    grid-column: 22 / 22;
     grid-row: 1;
   }
 
@@ -167,6 +168,14 @@
     display: block;
     color: var(--plusIconColor);
     transform: translateX(-50%);
+  }
+  
+  .title {
+    grid-column: 1 / 15;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: var(--headingTextColor, --fontColor);
   }
 
   .subTitle {
@@ -186,4 +195,14 @@
     font-style: normal;
     font-weight: 300;
   }
+
+@media (max-width: 959px) {
+  .title {
+    grid-column: 1/22;
+
+  }
+  .subTitle {
+    grid-column: 1/22;
+  }
+}
 </style>
