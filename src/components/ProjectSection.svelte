@@ -5,9 +5,6 @@
 </script>
 
 <section class="section project--section">
-  <!-- <div class="title text-xl font-bold">
-    Projects
-  </div> -->
   <div class="header">
     <div class="label text-smallcaps">
       <span>/</span> PROJECTS
@@ -15,16 +12,16 @@
   </div>
   <div class="list">
     {#each projects.slice(0, 4) as project}
-        <ProjectCard
-          href={project.url}
-          title={project.name}
-          description={project.description}
-          dates={project.dates}
-          tags={project.technologies}
-          image={project.image}
-          video={""}
-          links={project.links}
-        />
+      <ProjectCard
+        href={project.url}
+        title={project.name}
+        description={project.description}
+        dates={project.dates}
+        tags={project.technologies}
+        image={project.image}
+        video={""}
+        links={project.links}
+      />
     {/each}
   </div>
 </section>
@@ -69,44 +66,6 @@
     grid-template-columns: subgrid;
     align-self: start;
     gap: 24px;
-  }
-
-  .plusIcons {
-    color: var(--plusIconColor, --fontColor);
-    display: grid;
-    grid-column: 1/ -1;
-    grid-template-columns: subgrid;
-  }
-
-  .plusIcons img:first-of-type,
-  .plusIcons svg:first-of-type {
-    grid-column: 1 / 1;
-    grid-row: 1;
-  }
-
-  .plusIcons img:nth-of-type(2n),
-  .plusIcons svg:nth-of-type(2n) {
-    grid-column: 16 / 16;
-    grid-row: 1;
-  }
-
-  .plusIcons img:nth-of-type(3n),
-  .plusIcons svg:nth-of-type(3n) {
-    grid-column: 1 / 1;
-    grid-row: 1;
-  }
-  .plusIcons img:nth-of-type(4n),
-  .plusIcons svg:nth-of-type(4n) {
-    grid-column: -1 / -1;
-    grid-row: 1;
-    justify-self: end;
-    transform: traslateX(-50%);
-  }
-
-  .plusIcons_icon {
-    display: block;
-    color: var(--plusIconColor);
-    transform: translateX(-50%);
   }
 
   .subTitle {
