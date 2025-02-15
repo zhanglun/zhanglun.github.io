@@ -2,10 +2,11 @@
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
   export let posts = [];
+  export let prefix = "";
 </script>
 
 <section class="section blog--section">
-  <div class="title">Blog</div>
+  <div class="title">Blog <sup>({posts.length})</sup></div>
   <div class="list">
     <div class="header">
       <div class="label label__date text-smallcaps">
@@ -19,7 +20,7 @@
       </div>
     </div>
     {#each posts as post}
-      <div class="list__item">
+      <a class="list__item" href={`${prefix}/blog/${post.slug}`}>
         <div class="list__item-visible">
           <div class="list__item-date">
             <div class="list__item-date__icon"></div>
@@ -52,7 +53,7 @@
             ></path></svg
           >
         </div>
-      </div>
+      </a>
     {/each}
   </div>
 </section>
@@ -64,9 +65,11 @@
     grid-column: 1/-1;
     grid-row-gap: 36px;
     row-gap: 36px;
-    margin-top: 100px;
     @media (min-width: 760px) {
-      margin-top: 160px;
+      padding-top: 93px;
+      row-gap: 24px;
+    }
+    @media (min-width: 960px) {
       row-gap: 56px;
     }
   }
@@ -80,6 +83,15 @@
     font-weight: 300;
     line-height: 84%;
     letter-spacing: -0.06em;
+  }
+
+  .title sup {
+    color: var(--counterColor, --fontColor);
+    font-size: calc(12px + ((20 - 12) * (100vw - 390px) / (1728 - 390)));
+    line-height: 100%;
+    letter-spacing: -0.03em;
+    vertical-align: top;
+    margin-left: 8px;
   }
 
   .list {
