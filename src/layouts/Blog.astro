@@ -1,8 +1,8 @@
 ---
 import BlogList from "@components/BlogList/index.svelte";
 import getUniqueTags from "@utils/getUniqueTags";
-import Tag from "@components/Tag.svelte";
 import Layout from "./Layout.astro";
+import BlogSection from "@components/BlogSection.svelte";
 import type { CollectionEntry } from "astro:content";
 
 export interface Props {
@@ -18,14 +18,5 @@ let tags = getUniqueTags(allPosts);
 ---
 
 <Layout>
-  <header class="flex items-start">
-    <h1
-      class="w-full text-4xl font-bold leading-10 pr-8 text-text-lvl-1 lg:w-1/3"
-    >
-      My Blog
-    </h1>
-  </header>
-  <div class="group/list xl:max-w-none">
-    <BlogList tags={tags} allPosts={allPosts} client:load />
-  </div>
+  <BlogSection posts={allPosts} client:load />
 </Layout>

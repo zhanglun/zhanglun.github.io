@@ -20,5 +20,5 @@ const prefix = import.meta.env.BASE_URL.slice(0, -1);
 <Layout>
   <HomeHero site={SITE} />
   <ProjectSection prefix={prefix} projects={PROJECTS}/>
-  <BlogSection posts={sortedPosts} />
+  <BlogSection prefix={prefix} posts={sortedPosts} />
 </Layout>
