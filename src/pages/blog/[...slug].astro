@@ -3,9 +3,14 @@ import Layout from "@layouts/Layout.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import SectionContainer from "@components/SectionContainer.svelte";
+import BlogDetail from "@components/BlogDetail.svelte";
 import getPageNumbers from "@utils/getPageNumbers";
 import { getCollection } from "astro:content";
-import type { InferGetStaticParamsType, InferGetStaticPropsType, GetStaticPaths } from 'astro';
+import type {
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+  GetStaticPaths,
+} from "astro";
 
 type PostResult = {
   params: {
@@ -27,7 +32,7 @@ export async function getStaticPaths() {
   const posts2 = await getCollection("notion");
   const filteredPosts = [...posts, ...posts2].filter(({ data }) => !data.draft);
 
-  let postResult:PostResult = filteredPosts.map(entry => {
+  let postResult: PostResult = filteredPosts.map(entry => {
     return {
       params: {
         slug: entry.slug,
@@ -47,16 +52,27 @@ export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { entry } = Astro.props as Props;
-const { title, author, description, ogImage, date, tags, categories } = entry.data;
+const { title, author, description, ogImage, date, tags, categories } =
+  entry.data;
+console.log("🚀 ~ entry:", entry);
 const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
   .href;
 
 const { Content, remarkPluginFrontmatter } = await entry.render();
-
 ---
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
-  <SectionContainer>
+  <BlogDetail
+    title={title}
+    date={date}
+    tags={tags}
+    categories={categories}
+    post={entry.data}
+  >
+    <Content />
+  </BlogDetail>
+
+  <!-- <SectionContainer>
     <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
       <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold mb-6">{title}</h1>
       <div class="flex gap-3 items-center justify-center my-3">
@@ -78,6 +94,5 @@ const { Content, remarkPluginFrontmatter } = await entry.render();
        <Content />
       </article>
     </main>
-  </SectionContainer>
+  </SectionContainer> -->
 </Layout>
-
