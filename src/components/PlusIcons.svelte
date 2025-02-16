@@ -59,6 +59,7 @@
     ></path>
   </svg>
 </div>
+
 <style>
   .plusIcons {
     color: var(--plusIconColor, --fontColor);
@@ -99,6 +100,37 @@
     color: var(--plusIconColor);
     transform: translateX(-50%);
   }
-  
 
+  @media (max-width: 959px) {
+    .plusIcons img:first-of-type,
+    .plusIcons svg:first-of-type {
+      grid-column: 1/1;
+    }
+
+    .plusIcons img:nth-of-type(2n),
+    .plusIcons svg:nth-of-type(2n) {
+      grid-column: 13/13;
+    }
+
+    .plusIcons img:nth-of-type(3n),
+    .plusIcons svg:nth-of-type(3n) {
+      display: none;
+    }
+
+    .plusIcons img:nth-of-type(4n),
+    .plusIcons svg:nth-of-type(4n) {
+      grid-column: -1/-1;
+    }
+
+    .BlogPostHero_caption__IxlSE {
+      grid-column: -3/-1;
+    }
+  }
+
+  @media (max-width: 759px) {
+    .plusIcons img:nth-of-type(2),
+    .plusIcons svg:nth-of-type(2) {
+      grid-column: 6/6;
+    }
+  }
 </style>
