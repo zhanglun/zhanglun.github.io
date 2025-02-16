@@ -48,7 +48,7 @@
     <a href="/projects" class="nav-item-link">
       [P] PROJECT 
     </a>
-    <a href="github.com/zhanglun" class="nav-item-link">
+    <a href="https://github.com/zhanglun" class="nav-item-link">
       [G] GITHUB
     </a>
     <a href="/about" class="nav-item-link">
