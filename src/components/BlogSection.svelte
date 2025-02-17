@@ -1,4 +1,5 @@
 <script lang="ts">
+  import LineHeader from "./LineHeader.svelte";
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
   export let posts = [];
@@ -6,7 +7,12 @@
 </script>
 
 <section class="section blog--section">
-  <div class="title">Blog <sup>({posts.length})</sup></div>
+  <div class="sidebar">
+    <div class="title">Blog <sup>({posts.length})</sup></div>
+    <div class="filter">
+      <LineHeader title="FILTERS" />
+    </div>
+  </div>
   <div class="list">
     <div class="header">
       <div class="label label__date text-smallcaps">
@@ -74,6 +80,14 @@
     }
   }
 
+  .sidebar {
+    grid-template-rows: subgrid;
+    grid-column: 1 / -1;
+    grid-row: 1 / 3;
+    grid-row-gap: 56px;
+    row-gap: 56px;
+  }
+
   .title {
     grid-column: 1 / 14;
     display: flex;
@@ -120,6 +134,7 @@
       background: var(--highlightColor);
     }
   }
+
   .header {
     grid-column: 1 / -1;
     display: grid;
@@ -127,6 +142,10 @@
     border-bottom: 0.5px solid var(--sectionLabels, --fontColor);
     padding-bottom: 6px;
     align-self: start;
+
+    @media (max-width: 759px) {
+      display: none;
+    }
   }
 
   .label {
@@ -141,11 +160,17 @@
   }
 
   .label__title {
-    grid-column: 3/18;
+    grid-column: 3/15;
+    @media (min-width: 760px) {
+      grid-column: 3/15;
+    }
   }
 
   .label__type {
-    grid-column: 18/24;
+    grid-column: 15/18;
+    @media (min-width: 760px) {
+      grid-column: 15/-2;
+    }
   }
 
   .list__item {
@@ -175,17 +200,21 @@
     color: var(--squareTextColor, --fontColor);
   }
   .list__item-title {
-    grid-column: 3 / 18;
+    grid-column: 3 / 14;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow-x: hidden;
     overflow-y: hidden;
     line-height: 1.2;
     margin-top: -4px;
+
+    @media (min-width: 760px) {
+      grid-column: 3/15;
+    }
   }
 
   .list__item-type {
-    grid-column: 18/19;
+    grid-column: 15/17;
     grid-row: 1;
     justify-self: start;
     align-self: center;
