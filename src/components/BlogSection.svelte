@@ -1,9 +1,13 @@
 <script lang="ts">
+  import DirectoryToggle from "./DirectoryToggle.svelte";
   import LineHeader from "./LineHeader.svelte";
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
+
   export let posts = [];
   export let prefix = "";
+  export let categories = [];
+  export let tags = [];
 </script>
 
 <section class="section blog--section">
@@ -11,6 +15,8 @@
     <div class="title">Blog <sup>({posts.length})</sup></div>
     <div class="filter">
       <LineHeader title="FILTERS" />
+      <DirectoryToggle name="Catetory" list={categories} />
+      <DirectoryToggle name="Tag" list={tags} />
     </div>
   </div>
   <div class="list">
@@ -81,7 +87,10 @@
   }
 
   .sidebar {
+    display: grid;
+    grid-template-columns: subgrid;
     grid-template-rows: subgrid;
+    align-self: start;
     grid-column: 1 / -1;
     grid-row: 1 / 3;
     grid-row-gap: 56px;
@@ -239,6 +248,27 @@
   @media (min-width: 760px) {
     .list__item-button {
       grid-row: 1;
+    }
+  }
+
+
+  .filter {
+    position: sticky;
+    top: var(--stickyOffset);
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / 7;
+    grid-row-gap: 16px;
+    row-gap: 16px;
+    align-self: start;
+  }
+
+  @media (max-width: 959px) {
+    .filter {
+      position: relative;
+      top: 0;
+      grid-column: 1/-1;
+      row-gap: 0;
     }
   }
 </style>
