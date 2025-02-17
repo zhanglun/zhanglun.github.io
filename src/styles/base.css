@@ -4,26 +4,27 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 72.22% 50.59%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
+    --screenWidth: tan(atan2(var(--_w),1px));
+    --screenHeight: tan(atan2(var(--_h),1px));
+    --accentColor: purple;
+    --fontColorStatic: #1e1e1e;
+    --fontColor: #1e1e1e;
+    --fontInvertColor: #eaeaea;
+    --buttonColor: #1e1e1e11;
+    --borderColorLight: #1e1e1e44;
+    --inactiveColor: #8d8d8d;
+    --backgroundColor: #eaeaea;
+    --middleColor: #eaeaea;
+    --highlightColor: #c4e817;
+    --stickyOffset: 60px;
+    --windowFrameBG: #dcdcdc;
+    --listItemIconColor: var(--fontColor);
+    --tagColor: var(--fontColor);
+    --counterColor: #1e1e1e;
+    --artBackground: #e8e8e8;
+    --artForeground: #eaeaea;
+    --artStroke: #1e1e1e;
+    --listItemText: #1e1e1e;
 
     --fontInvertColor: #e8e8e8;
     --buttonColor: #1e1e1e;
@@ -102,6 +103,7 @@
     background: var(--backgroundColor);
     background-attachment: fixed;
     -webkit-text-size-adjust: 100%;
+    line-height: initial;
   }
 
   .gridLayout {
@@ -111,7 +113,15 @@
     grid-auto-flow: row;
     padding: 0 12px;
     row-gap: 0;
-    grid-template-columns: repeat(24, 1fr);
+    grid-template-columns: repeat(8, 1fr);
+    
+    @media (min-width: 760px) {
+      grid-template-columns: repeat(16, 1fr);
+    }
+  
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(24, 1fr);
+    }
   }
 }
 
@@ -123,47 +133,66 @@
 }
 
 .text-smallcaps {
-  color: var(--squareTextColor,--fontColor);
+  color: var(--squareTextColor, --fontColor);
   font-family: sohne-mono;
   font-size: 12px;
   font-style: normal;
   font-weight: 300;
-  letter-spacing: -.012em;
-  text-transform: uppercase
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+}
+
+.text-lg {
+  font-size: calc(20px + ((43 - 20) * (100vw - 390px) / (1728 - 390)));
+  line-height: 95%;
+  letter-spacing: -.06em;
+  @media (min-width: 1728px) {
+      font-size:43px
+  }
+}
+
+.text-lg,.text-md {
+  color: var(--headingTextColor,--fontColor);
+  font-family: sohne-var,Helvetica Neue,Arial,sans-serif;
+  font-style: normal;
+  font-weight: 300
 }
 
 .text-md {
   font-size: calc(20px + ((27 - 20) * (100vw - 390px) / (760 - 390)));
   line-height: 100%;
-  letter-spacing: -.04em;
+  letter-spacing: -0.04em;
   @media (min-width: 760px) {
-      font-size:calc(22px + ((27 - 22) * (100vw - 760px) / (960 - 760)))
+    font-size: calc(22px + ((27 - 22) * (100vw - 760px) / (960 - 760)));
   }
 
   @media (min-width: 960px) {
-      font-size:calc(22px + ((28 - 22) * (100vw - 960px) / (1728 - 960)))
+    font-size: calc(22px + ((28 - 22) * (100vw - 960px) / (1728 - 960)));
   }
 
   @media (min-width: 1728px) {
-      font-size:28px
+    font-size: 28px;
   }
 }
 
 .text-hero {
-    color: var(--fontColor);
-    font-size: calc(80px + ((150 - 80) * (100vw - 390px) / (960 - 390)));
-    font-weight: 300;
-    line-height: 90%;
-    letter-spacing: -.07em;
-    @media (min-width: 600px) {
-        line-height:84%;
-        font-size:calc(50px + ((100 - 80) * (100vw - 600px) / (960 - 600)))}
+  color: var(--fontColor);
+  font-size: calc(80px + ((150 - 80) * (100vw - 390px) / (960 - 390)));
+  font-weight: 300;
+  line-height: 100%;
+  word-break: break-word;
+  
+  @media (min-width: 600px) {
+    line-height: 84%;
+    font-size: calc(50px + ((100 - 80) * (100vw - 600px) / (960 - 600)));
+  }
 
-    @media (min-width: 960px) {
-        line-height:84%;
-        font-size:calc(50px + ((170 - 100) * (100vw - 960px) / (1728 - 960)))}
+  @media (min-width: 960px) {
+    line-height: 84%;
+    font-size: calc(50px + ((170 - 100) * (100vw - 960px) / (1728 - 960)));
+  }
 
-    @media (min-width: 1728px) {
-        font-size:100px
-    }
+  @media (min-width: 1728px) {
+    font-size: 100px;
+  }
 }

@@ -54,7 +54,6 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props as Props;
 const { title, author, description, ogImage, date, tags, categories } =
   entry.data;
-console.log("🚀 ~ entry:", entry);
 const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
   .href;
 
@@ -68,6 +67,7 @@ const { Content, remarkPluginFrontmatter } = await entry.render();
     tags={tags}
     categories={categories}
     post={entry.data}
+    remarkPluginFrontmatter={remarkPluginFrontmatter}
   >
     <Content />
   </BlogDetail>

@@ -1,10 +1,16 @@
 <script lang="ts">
+  import LineHeader from "./LineHeader.svelte";
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
   import PlusIcons from "@/components/PlusIcons.svelte";
 
   export let post = {};
+  export let date = new Date();
+  export let categories = [];
+  export let tags = [];
+  export let remarkPluginFrontmatter = {};
   export let prefix = "";
+  console.log("🚀 ~ remarkPluginFrontmatter:", remarkPluginFrontmatter);
 </script>
 
 <section class="section hero--section">
@@ -17,13 +23,40 @@
   <PlusIcons />
 </section>
 <section class="section body--section">
-  <div class="sidebar">asdf</div>
-  <div class="article">
-    <div class="articleHeader">
-      <div class="label text-smallcaps">
-        <span>/</span> ARTICLE
+  <div class="sidebar">
+    <div class="text-lg smart-title">
+      {post.title}
+    </div>
+    <div class="metadata">
+      <LineHeader title="METADATA" />
+      <div class="metadata__item text-smallcaps">
+        <span>Date: </span>
+        <span>{dayjs(date).format("YYYY.M.DD HH:mm")}</span>
+      </div>
+      <div class="metadata__item text-smallcaps">
+        <span>Categories: </span>
+        <span>
+          {#each categories as category}
+            <Badge>{category}</Badge>
+          {/each}
+        </span>
+      </div>
+      <div class="metadata__item text-smallcaps">
+        <span>READING TIME: </span>
+        <span>{remarkPluginFrontmatter.minutesRead}</span>
+      </div>
+      <div class="metadata__item text-smallcaps">
+        <span>Tags: </span>
+        <span class="flex flex-wrap gap-1">
+          {#each tags as tag}
+            <Badge>{tag}</Badge>
+          {/each}
+        </span>
       </div>
     </div>
+  </div>
+  <div class="article">
+    <LineHeader title="ARTICLE" />
     <div class="articleBody">
       <slot></slot>
     </div>
@@ -71,15 +104,19 @@
     grid-column: 1/-1;
     display: grid;
     grid-template-columns: subgrid;
-    grid-row-gap: 24px;
-    row-gap: 24px;
     align-self: start;
+    row-gap: 24px;
     @media (min-width: 960px) {
       top: var(--stickyOffset);
       position: -webkit-sticky;
       position: sticky;
       grid-column: 1/7;
     }
+  }
+
+  .smart-title {
+    grid-column: 1/-1;
+    word-break: break-word;
   }
 
   .article {
@@ -89,6 +126,19 @@
     align-self: start;
     grid-row-gap: 16px;
     row-gap: 16px;
+  }
+
+  .metadata {
+    grid-column: 1/-1;
+  }
+
+  .metadata__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 16px;
+    row-gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px dotted var(--dottedBorderColor);
   }
 
   @media (min-width: 960px) {
@@ -116,15 +166,6 @@
     }
   }
 
-  .articleHeader {
-    grid-column: 1/-1;
-    display: grid;
-    grid-template-columns: subgrid;
-    border-bottom: 0.5px solid var(--sectionLabels, --fontColor);
-    padding-bottom: 6px;
-    align-self: start;
-  }
-
   .articleBody {
     grid-column: 1/-1;
     display: flex;
@@ -150,13 +191,6 @@
 
   .articleBody > :first-child {
     margin: 0;
-  }
-
-  .label {
-    color: var(--sectionLabels, --fontColor);
-    display: flex;
-    gap: 4px;
-    grid-column: 1 / -1;
   }
 
   .label__date {
