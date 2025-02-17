@@ -1,9 +1,9 @@
 ---
-import BlogList from "@components/BlogList/index.svelte";
 import getUniqueTags from "@utils/getUniqueTags";
 import Layout from "./Layout.astro";
 import BlogSection from "@components/BlogSection.svelte";
 import type { CollectionEntry } from "astro:content";
+import getUniqueCategories from "@utils/getUniqueCategories";
 
 export interface Props {
   pageNum: number;
@@ -15,8 +15,14 @@ export interface Props {
 const { allPosts } = Astro.props;
 
 let tags = getUniqueTags(allPosts);
+let categories = getUniqueCategories(allPosts);
 ---
 
 <Layout>
-  <BlogSection posts={allPosts} client:load />
+  <BlogSection
+    posts={allPosts}
+    tags={tags}
+    categories={categories}
+    client:load
+  />
 </Layout>
