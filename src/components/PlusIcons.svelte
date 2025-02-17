@@ -92,7 +92,7 @@
     grid-column: -1 / -1;
     grid-row: 1;
     justify-self: end;
-    transform: traslateX(-50%);
+    transform: translateX(-50%);
   }
 
   .plusIcons_icon {
