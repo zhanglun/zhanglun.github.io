@@ -86,14 +86,12 @@
     border-radius: 2px;
     align-items: center;
     justify-content: center;
-    font-family: sohne-mono;
     text-transform: uppercase;
     color: var(--buttonColor);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 
     color: var(--squareTextColor,--fontColor);
-    font-family: sohne-mono;
     font-size: 12px;
     font-style: normal;
     font-weight: 300;

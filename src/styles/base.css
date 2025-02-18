@@ -92,13 +92,26 @@
   }
 }
 
+@font-face {
+  font-family: "SN Pro";
+  src: url("/public/assets/SNPro-Regular.woff2") format("woff2-variations");
+  font-weight: 200 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SN Pro";
+  src: url("/public/assets/SNPro-RegularItalic.woff2") format("woff2-variations");
+  font-weight: 200 900;
+  font-style: italic;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
-    /* @apply bg-background text-foreground; */
-    font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+    /* font-family: "SN Pro", Helvetica Neue, Arial, sans-serif; */
+    font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;;
     color: var(--bodyTextColor);
     background: var(--backgroundColor);
     background-attachment: fixed;
@@ -134,7 +147,6 @@
 
 .text-smallcaps {
   color: var(--squareTextColor, --fontColor);
-  font-family: sohne-mono;
   font-size: 12px;
   font-style: normal;
   font-weight: 300;
@@ -154,7 +166,7 @@
 .text-lg,
 .text-md {
   color: var(--headingTextColor, --fontColor);
-  font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+  font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-style: normal;
   font-weight: 300;
 }
@@ -227,7 +239,7 @@
 
 .articleBody h1 {
   color: red;
-  font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+  font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-size: 10px;
   font-style: normal;
 }
@@ -240,7 +252,7 @@
 .articleBody h2,
 .articleBody h3 {
   color: var(--bodyTextColor);
-  font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+  font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-style: normal;
   font-weight: 300;
   line-height: 100%;
@@ -253,7 +265,7 @@
 
 .articleBody h4 {
   color: var(--bodyTextColor);
-  font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+  font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 300;
@@ -269,7 +281,7 @@
 .articleBody h5,
 .articleBody h6 {
   color: var(--bodyTextColor);
-  font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+  font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 100%;
@@ -283,7 +295,7 @@
 .articleBody li,
 .articleBody p {
   color: var(--bodyTextColor);
-  font-family: sohne-var, Helvetica Neue, Arial, sans-serif;
+  font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 300;
@@ -348,7 +360,6 @@
   color: var(--bodyTextColor);
   padding: 0 4px 2px;
   font-size: 16px;
-  font-family: sohne-mono;
   border-radius: 3px;
   text-wrap: pretty;
   display: inline-block;
