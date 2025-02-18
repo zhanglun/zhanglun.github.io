@@ -239,7 +239,6 @@
     overflow-x: hidden;
     overflow-y: hidden;
     line-height: 1.2;
-    margin-top: -4px;
   }
 
   .list__item-type {
