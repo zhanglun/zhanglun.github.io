@@ -1,7 +1,13 @@
 <script lang="ts">
-  export let className: stirng = '';
-  export let name: string = "";
-  export let list: [string, number][] = [];
+  const { className, name, list, onFilter} = $props();
+
+  let renderData: [string, number, boolean][] = $state(list.map((_) => [..._, false]))
+
+  function handleSelect (item: [string, number, boolean], idx: number) {
+    renderData[idx][2] = !renderData[idx][2]
+    
+    onFilter(renderData.filter((_) => _[2]))
+  }
 </script>
 
 <div class={`directory ${className}`}>
@@ -39,9 +45,10 @@
   <div class="content">
     <div class="content__inner">
       <ul class="filterList">
-        {#each list as item}
+        {#each renderData as item, index}
           <li class="filterList__item">
-            <div class="filterList__option">
+            <div class="filterList__option" onclick={() => handleSelect(item, index)}>
+              {#if !item[2]}
               <svg
                 width="10"
                 height="9"
@@ -49,20 +56,24 @@
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 class="checkboxIcon"
+                class:checkboxIcon--active={item[2]}
                 ><title>Checkbox icon</title><path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
                   d="M1 1L-3.49691e-07 1L-4.37113e-08 8L1 8L1 9L9 9L9 8L10 8L10 1L9 1L9 -3.93402e-07L1 -4.37114e-08L1 1ZM1 1L9 1L9 8L1 8L1 1Z"
                   fill="currentColor"
-                ></path></svg
-              >
+                ></path>
+              </svg>
+              {/if}
+              {#if item[2]}
               <svg
                 width="10"
                 height="9"
                 viewBox="0 0 10 9"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="checkboxIcon Filter_checkboxActive__Ha1WG"
+                class="checkboxIcon"
+                class:checkboxIcon--active={item[2]}
                 ><title>Checkbox icon</title><path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
@@ -70,7 +81,8 @@
                   fill="currentColor"
                 ></path></svg
               >
-              <span>
+              {/if}
+              <span class:filterList__option--active={item[2]}>
                 {item[0]}
                 <span class="filterList__option-count">({item[1]})</span>
               </span>
@@ -161,10 +173,19 @@
     }
   }
 
+  .filterList__option--active {
+    color: var(--invertedTextColor, --fontColor);
+    background: var(--highlightColor);
+  }
+
   .checkboxIcon {
     width: 15px;
     height: 15px;
     opacity: 0.4;
+  }
+
+  .checkboxIcon--active {
+    opacity: 1;
   }
 
   .directoryIcon {

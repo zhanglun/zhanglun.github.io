@@ -4,10 +4,55 @@
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
 
-  export let posts = [];
-  export let prefix = "";
-  export let categories = [];
-  export let tags = [];
+  const { posts = [], prefix = "", categories = [], tags = [] } = $props();
+
+  let filterTags = [];
+  let filterCategories = [];
+
+  let list = $state([...posts]);
+
+  function getListAfterFilter() {
+    const filterCategoriesNames = filterCategories.map(_ => _[0].toLowerCase());
+    const filterTagsNames = filterTags.map(_ => _[0].toLowerCase());
+
+    let result = [...posts];
+
+    if (filterCategoriesNames.length) {
+      result = result.filter(post => {
+        return post.data.categories.some(category =>
+          filterCategoriesNames.includes(category.toLowerCase())
+        );
+      });
+    }
+
+    if (filterTagsNames.length) {
+      result = result.filter(post => {
+        return post.data.tags.some(tag =>
+          filterTagsNames.includes(tag.toLowerCase())
+        );
+      });
+    }
+
+    list = result;
+  }
+
+  function clearFilter() {
+    filterTags = [];
+    filterCategories = [];
+    getListAfterFilter();
+  }
+
+  function handleFilterPostWithTags(tags: [string, number, boolean][]) {
+    filterTags = [...tags];
+    getListAfterFilter();
+  }
+
+  function handleFilterPostWithCategories(
+    categories: [string, number, boolean][]
+  ) {
+    filterCategories = [...categories];
+    getListAfterFilter();
+  }
 </script>
 
 <section class="section blog--section">
@@ -17,10 +62,22 @@
       <LineHeader
         title="FILTERS"
         subfix="CLEAR FILTERS"
-        onSubfixClick={() => {}}
+        onSubfixClick={() => {
+          clearFilter();
+        }}
       />
-      <DirectoryToggle name="Catetory" list={categories} />
-      <DirectoryToggle name="Tag" list={tags} className="secondDir" />
+      <DirectoryToggle
+        name="Catetory"
+        list={categories}
+        className=""
+        onFilter={handleFilterPostWithCategories}
+      />
+      <DirectoryToggle
+        name="Tag"
+        list={tags}
+        className="secondDir"
+        onFilter={handleFilterPostWithTags}
+      />
     </div>
   </div>
   <div class="list">
@@ -35,7 +92,7 @@
         <span>/</span> TYPE
       </div>
     </div>
-    {#each posts as post}
+    {#each list as post}
       <a class="list__item" href={`${prefix}/blog/${post.slug}`}>
         <div class="list__item-visible">
           <div class="list__item-date">
@@ -165,6 +222,7 @@
     border-bottom: 0.5px solid var(--sectionLabels, --fontColor);
     padding-bottom: 6px;
     align-self: start;
+    line-height: 1;
 
     @media (max-width: 759px) {
       display: none;
