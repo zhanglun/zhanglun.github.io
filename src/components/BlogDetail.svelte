@@ -4,13 +4,14 @@
   import Badge from "@/components/Badge/Badge.svelte";
   import PlusIcons from "@/components/PlusIcons.svelte";
 
-  export let post = {};
-  export let date = new Date();
-  export let categories = [];
-  export let tags = [];
-  export let remarkPluginFrontmatter = {};
-  export let prefix = "";
-  console.log("🚀 ~ remarkPluginFrontmatter:", remarkPluginFrontmatter);
+  const {
+    post = {},
+    date = new Date(),
+    categories = [],
+    tags = [],
+    remarkPluginFrontmatter = {},
+    prefix = "",
+  } = $props();
 </script>
 
 <section class="section hero--section">
@@ -58,7 +59,7 @@
   <div class="article">
     <LineHeader title="ARTICLE" />
     <div class="articleBody">
-      <slot></slot>
+      <slot name="content"></slot>
     </div>
   </div>
 </section>

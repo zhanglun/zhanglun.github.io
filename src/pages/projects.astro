@@ -1,39 +1,9 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import SectionContainer from "@components/SectionContainer.svelte";
-import ProjectCard from "@components/ProjectCard.svelte";
-
 import { PROJECTS } from "src/data/projects";
+import ProjectSection from '@/components/ProjectSection.svelte';
 ---
 
 <Layout>
-  <SectionContainer>
-    <header class="flex items-start">
-      <h1
-        class="w-full text-4xl font-bold leading-10 pr-8 text-text-lvl-1 lg:w-1/3"
-      >
-        Projects
-      </h1>
-    </header>
-    <div class="mt-20">
-      <div
-        class="grid scroll-m-24 gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full"
-      >
-        {
-          PROJECTS.map(project => (
-            <ProjectCard
-              href={project.url}
-              title={project.name}
-              description={project.description}
-              dates={project.dates}
-              tags={project.technologies}
-              image={project.image}
-              video={""}
-              links={project.links}
-            />
-          ))
-        }
-      </div>
-    </div>
-  </SectionContainer>
+  <ProjectSection projects={PROJECTS} />
 </Layout>

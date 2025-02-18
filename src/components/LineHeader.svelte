@@ -31,14 +31,14 @@
     color: var(--sectionLabels, --fontColor);
     display: flex;
     gap: 4px;
-    grid-column: 1 / 4;
+    grid-column: 1 / 3;
   }
 
   .lineHeader__subfix {
     color: var(--sectionLabels, --fontColor);
     display: flex;
     gap: 4px;
-    grid-column: 4 / -1; 
+    grid-column: 3 / -1; 
     justify-self: flex-end;
     cursor: pointer;
   }
