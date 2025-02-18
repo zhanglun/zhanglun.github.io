@@ -14,9 +14,13 @@
   <div class="sidebar">
     <div class="title">Blog <sup>({posts.length})</sup></div>
     <div class="filter">
-      <LineHeader title="FILTERS" />
+      <LineHeader
+        title="FILTERS"
+        subfix="CLEAR FILTERS"
+        onSubfixClick={() => {}}
+      />
       <DirectoryToggle name="Catetory" list={categories} />
-      <DirectoryToggle name="Tag" list={tags} />
+      <DirectoryToggle name="Tag" list={tags} className="secondDir" />
     </div>
   </div>
   <div class="list">
@@ -95,6 +99,13 @@
     grid-row: 1 / 3;
     grid-row-gap: 56px;
     row-gap: 56px;
+
+    @media (min-width: 960px) {
+      position: -webkit-sticky;
+      position: sticky;
+      top: var(--stickyOffset);
+      grid-column: 1 / 7;
+    }
   }
 
   .title {
@@ -118,11 +129,14 @@
   }
 
   .list {
-    /* grid-column: 8 / 25; */
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: subgrid;
     align-self: start;
+    @media (min-width: 960px) {
+      grid-column: 8 / 25;
+      grid-row: 2/4;
+    }
   }
 
   .list__item-visible {
@@ -250,7 +264,6 @@
       grid-row: 1;
     }
   }
-
 
   .filter {
     position: sticky;

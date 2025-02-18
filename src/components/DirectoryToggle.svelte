@@ -1,9 +1,10 @@
 <script lang="ts">
-  export let name = "";
-  export let list = [];
+  export let className: stirng = '';
+  export let name: string = "";
+  export let list: [string, number][] = [];
 </script>
 
-<div class="directory">
+<div class={`directory ${className}`}>
   <div class="toggle">
     <svg
       class="directoryIcon"
@@ -86,6 +87,9 @@
     display: flex;
     flex-direction: column;
     grid-column: 1/ 4;
+  }
+  .secondDir {
+    grid-column: 4/7;
   }
   .toggle {
     --webkit-appearance: none;
