@@ -1,5 +1,7 @@
 <script lang="ts">
   export let title = "";
+  export let subfix = "";
+  export let onSubfixClick = () => {};
 </script>
 
 <div class="lineHeader">
@@ -7,6 +9,11 @@
     <span>/</span>
     {title}
   </div>
+  {#if subfix}
+    <div class="lineHeader__subfix text-smallcaps" onclick={onSubfixClick}>
+      {subfix}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -17,12 +24,21 @@
     border-bottom: 0.5px solid var(--sectionLabels, --fontColor);
     padding-bottom: 6px;
     align-self: start;
+    line-height: 1;
   }
 
   .lineHeader__label {
     color: var(--sectionLabels, --fontColor);
     display: flex;
     gap: 4px;
-    grid-column: 1 / -1;
+    grid-column: 1 / 4;
+  }
+
+  .lineHeader__subfix {
+    color: var(--sectionLabels, --fontColor);
+    display: flex;
+    gap: 4px;
+    grid-column: 4 / -1; 
+    justify-self: flex-end
   }
 </style>
