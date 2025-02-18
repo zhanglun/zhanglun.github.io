@@ -1,7 +1,7 @@
 ---
 title: Node学习笔记-Server-Side Templates
 date: 2014-11-03 13:39:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [笔记,Node.js]
 ---
 

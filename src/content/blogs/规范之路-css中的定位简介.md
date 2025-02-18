@@ -1,7 +1,7 @@
 ---
 title: 规范之路-CSS中的定位简介
 date: 2014-09-12 20:30:00
-categories: ['重构']
+categories: ['技术研究']
 tags: ["CSS", "笔记"]
 
 ---

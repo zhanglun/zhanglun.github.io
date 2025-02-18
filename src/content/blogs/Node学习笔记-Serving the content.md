@@ -1,7 +1,7 @@
 ---
 title: Node学习笔记-Serving the content
 date: 2014-10-28 19:40:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [笔记,Node.js]
 
 ---

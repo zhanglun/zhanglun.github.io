@@ -1,6 +1,6 @@
 ---
 title: 利用pip安装Django
-categories: ['Python']
+categories: ['解决方案']
 date: 2014-07-12 20:30:00
 tags: [Python]
 

@@ -1,7 +1,7 @@
 ---
 title: Node.js入门-Node.js 介绍
 date: 2014-04-19 21:55:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [Node.js]
 
 ---

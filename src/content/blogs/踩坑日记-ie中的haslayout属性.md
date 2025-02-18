@@ -1,6 +1,7 @@
 ---
 title: 踩坑日记-IE中的 hasLayout 属性
 date: 2014-08-12 13:26:00
+categories: ['解决方案']
 tags: [CSS, 笔记, 兼容性, 填坑日记]
 
 ---

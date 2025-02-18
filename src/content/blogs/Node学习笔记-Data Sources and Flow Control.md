@@ -1,7 +1,7 @@
 ---
 title: Node学习笔记-Data Sources and Flow Control
 date: 2014-11-06 21:17:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [笔记,Node.js]
 ---
 

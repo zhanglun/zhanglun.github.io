@@ -1,6 +1,7 @@
 ---
 title: TypeScript学习笔记-在Webpack中配置TypeScript
 date: 2018-07-15 11:26:49
+categories: ['学习笔记']
 tags: ['TypeScript']
 ---
 

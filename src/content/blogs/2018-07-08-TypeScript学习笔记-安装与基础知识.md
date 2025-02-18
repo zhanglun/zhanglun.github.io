@@ -1,6 +1,7 @@
 ---
 title: TypeScript学习笔记-入门:安装与基础知识
 date: 2018-07-08 21:08:03
+categories: ['学习笔记']
 tags: ['TypeScript']
 ---
 

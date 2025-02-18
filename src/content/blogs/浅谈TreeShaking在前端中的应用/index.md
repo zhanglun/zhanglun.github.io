@@ -1,6 +1,7 @@
 ---
 title: "浅谈TreeShaking在前端中的应用 - Rollup VS Webpack"
 date: 2019-11-14T21:50:12+08:00
+categories: ['技术研究']
 draft: false
 ---
 

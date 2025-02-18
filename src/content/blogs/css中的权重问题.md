@@ -1,7 +1,7 @@
 ---
 title: CSS 中的权重问题  
 date: 2014-09-26 12:23:00  
-categories: ['前端'] 
+categories: ['技术学习'] 
 tags: ["CSS","笔记"]  
 
 ---
