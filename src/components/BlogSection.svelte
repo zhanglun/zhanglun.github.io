@@ -309,7 +309,6 @@
     overflow-x: hidden;
     overflow-y: hidden;
     line-height: 1.2;
-    margin-top: -4px;
 
     @media (min-width: 760px) {
       grid-column: 3/15;
