@@ -39,6 +39,7 @@
     display: flex;
     gap: 4px;
     grid-column: 4 / -1; 
-    justify-self: flex-end
+    justify-self: flex-end;
+    cursor: pointer;
   }
 </style>
