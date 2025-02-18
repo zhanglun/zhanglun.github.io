@@ -1,7 +1,7 @@
 ---
 title: Electron 开发的 gulp 配置
 date: 2016-08-05 16:30:38
-categories: [前端]
+categories: ['技术研究']
 tags: ['electron']
 ---
 

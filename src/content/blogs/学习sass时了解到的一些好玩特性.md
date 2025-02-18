@@ -1,6 +1,6 @@
 ---
 title: 学习sass时了解到的一些好玩特性
-categories: ['前端']
+categories: ['技术学习']
 date: 2014-05-08 21:34:00
 tags: [Sass, CSS]
 

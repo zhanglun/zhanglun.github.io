@@ -1,6 +1,6 @@
 ---
 title: 规范之路-visual formatting model 概述
-categories: ['重构']
+categories: ['技术研究']
 date: 2014-08-21 20:39:00
 tags: [CSS, 笔记]
 ---

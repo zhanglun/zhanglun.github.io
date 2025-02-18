@@ -1,7 +1,7 @@
 ---
 title: Node学习笔记-Nodejs中的核心API之Events
 date: 2014-05-12 19:40:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [笔记,Node.js]
 
 ---

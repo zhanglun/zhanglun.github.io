@@ -1,7 +1,7 @@
 ---
 title: CSS的盒模型-过去和将来  
 date: 2014-10-05 14:30:00  
-categories: ['前端'] 
+categories: ['技术学习'] 
 tags: ["CSS", "笔记"]  
 
 ---

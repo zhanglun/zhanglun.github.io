@@ -1,6 +1,7 @@
 ---
 title: "IntersectionObserver、MutationObserver和ResizeObserver"
 date: 2019-07-13T22:31:06+08:00
+categories: ['技术研究']
 draft: false
 ---
 

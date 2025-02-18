@@ -1,6 +1,6 @@
 ---
 title: Node学习笔记-Node.js中的模块
-categories: ['Node.js']
+categories: ['学习笔记']
 date: 2014-04-25 19:40:00
 tags: [笔记, Node.js]
 

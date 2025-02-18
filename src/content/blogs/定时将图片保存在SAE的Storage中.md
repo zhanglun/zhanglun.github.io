@@ -1,7 +1,7 @@
 ---
 title: 定时将图片保存在SAE的Storage中
 date: 2014-11-10 19:27:00
-categories: ['Python']
+categories: ['解决方案']
 tags: [webpy, Python]
 ---
 

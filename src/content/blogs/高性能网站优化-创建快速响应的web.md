@@ -1,7 +1,7 @@
 ---
 title: 高性能网站优化-创建快速响应的Web
 date: 2014-03-15 21:55:00
-categories: ['前端']
+categories: ['技术学习']
 tags: [web优化]
 ---
 
