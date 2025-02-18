@@ -20,7 +20,7 @@
     if (filterCategoriesNames.length) {
       result = result.filter(post => {
         return post.data.categories.some(category =>
-          filterCategoriesNames.includes(category.toLowerCase())
+          filterCategoriesNames.includes(category?.toLowerCase())
         );
       });
     }
