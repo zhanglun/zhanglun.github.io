@@ -1,6 +1,6 @@
 ---
 title: JavaScript中的事件处理程序
-categories: ['前端']
+categories: ['技术学习']
 date: 2014-04-06 19:40:00
 tags: [JavaScript]
 

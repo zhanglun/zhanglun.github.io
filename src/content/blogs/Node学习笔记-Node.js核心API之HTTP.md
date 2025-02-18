@@ -1,7 +1,7 @@
 ---
 title: Node学习笔记-Node.js中的核心API之HTTP
 date: 2014-05-13 17:36:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [笔记,Node.js]
 
 ---

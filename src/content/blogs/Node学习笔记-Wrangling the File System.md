@@ -1,7 +1,7 @@
 ---
 title: Node学习笔记-Wrangling the File System
 date: 2014-11-07 17:29:00
-categories: ['Node.js']
+categories: ['学习笔记']
 tags: [笔记,Node.js]
 ---
 

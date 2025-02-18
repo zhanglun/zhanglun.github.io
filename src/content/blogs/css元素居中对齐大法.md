@@ -1,7 +1,7 @@
 ---
 title: CSS元素居中对齐大法  
 date: 2014-09-30 20:34:00  
-categories: ['前端'] 
+categories: ['技术学习'] 
 tags: ["译文","CSS","笔记"]
 
 ---

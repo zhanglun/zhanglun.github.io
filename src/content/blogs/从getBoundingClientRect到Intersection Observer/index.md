@@ -1,6 +1,7 @@
 ---
 title: "从getBoundingClientRect到Intersection Observer"
 date: 2019-05-23T20:54:17+08:00
+categories: ['技术研究']
 draft: false
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: git 使用笔记(二)-撤销操作
 date: 2014-07-22 21:09:00  
+categories: ['工具使用']
 tags: [Git, 笔记]
 
 ---

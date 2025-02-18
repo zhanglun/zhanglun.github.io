@@ -1,6 +1,7 @@
 ---
 title: "为Promise增加abort方法"
 date: 2020-01-16T19:50:24+08:00
+categories: ['技术研究']
 draft: false
 ---
 

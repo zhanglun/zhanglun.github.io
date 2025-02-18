@@ -1,6 +1,6 @@
 ---
 title: Hello hexo
-categories: ['随笔']
+categories: ['生活杂记']
 date: 2014-04-10 14:32:44
 tags: [随笔]
 

@@ -1,7 +1,7 @@
 ---
 title: CSS 布局的未来：网格布局
 date: 2015-11-22 14:39
-categories: ['前端']
+categories: ['技术学习']
 tags: ['CSS']
 ---
 

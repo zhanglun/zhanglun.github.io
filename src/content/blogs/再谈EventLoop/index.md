@@ -1,6 +1,7 @@
 ---
 title: "再谈EventLoop"
 date: 2019-08-20T16:56:04+08:00
+categories: ['技术研究']
 draft: false
 ---
 

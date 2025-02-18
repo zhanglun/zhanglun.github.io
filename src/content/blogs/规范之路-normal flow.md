@@ -1,7 +1,7 @@
 ---
 title: 规范之路-Normal Flow
 date: 2014-10-02 20:39:00
-categories: ['重构']
+categories: ['技术研究']
 tags: ["CSS", "笔记"]
 
 ---
