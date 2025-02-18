@@ -8,8 +8,9 @@
 
   let filterTags = [];
   let filterCategories = [];
-
   let list = $state([...posts]);
+  let CategoryToggle;
+  let TagToggle;
 
   function getListAfterFilter() {
     const filterCategoriesNames = filterCategories.map(_ => _[0].toLowerCase());
@@ -40,6 +41,9 @@
     filterTags = [];
     filterCategories = [];
     getListAfterFilter();
+    
+    CategoryToggle.clear();
+    TagToggle.clear();
   }
 
   function handleFilterPostWithTags(tags: [string, number, boolean][]) {
@@ -71,12 +75,14 @@
         list={categories}
         className=""
         onFilter={handleFilterPostWithCategories}
+        bind:this={CategoryToggle}
       />
       <DirectoryToggle
         name="Tag"
         list={tags}
         className="secondDir"
         onFilter={handleFilterPostWithTags}
+        bind:this={TagToggle}
       />
     </div>
   </div>
