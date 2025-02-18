@@ -4,13 +4,19 @@
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
 
-  const { posts = [], prefix = "", categories = [], tags = [] } = $props();
+  const {
+    posts = [],
+    prefix = "",
+    categories = [],
+    tags = [],
+    mode,
+  } = $props();
 
   let filterTags = [];
   let filterCategories = [];
   let list = $state([...posts]);
-  let CategoryToggle;
-  let TagToggle;
+  let CategoryToggle: any;
+  let TagToggle: any;
 
   function getListAfterFilter() {
     const filterCategoriesNames = filterCategories.map(_ => _[0].toLowerCase());
@@ -41,7 +47,7 @@
     filterTags = [];
     filterCategories = [];
     getListAfterFilter();
-    
+
     CategoryToggle.clear();
     TagToggle.clear();
   }
@@ -59,7 +65,7 @@
   }
 </script>
 
-<section class="section blog--section">
+<section class={`section blog--section ${mode ? "blog--section--mini" : ""}`}>
   <div class="sidebar">
     <div class="title">Blog <sup>({posts.length})</sup></div>
     <div class="filter">
@@ -77,13 +83,15 @@
         onFilter={handleFilterPostWithCategories}
         bind:this={CategoryToggle}
       />
-      <DirectoryToggle
-        name="Tag"
-        list={tags}
-        className="secondDir"
-        onFilter={handleFilterPostWithTags}
-        bind:this={TagToggle}
-      />
+      {#if mode !== "mini"}
+        <DirectoryToggle
+          name="Tag"
+          list={tags}
+          className="secondDir"
+          onFilter={handleFilterPostWithTags}
+          bind:this={TagToggle}
+        />
+      {/if}
     </div>
   </div>
   <div class="list">
@@ -152,7 +160,6 @@
       row-gap: 56px;
     }
   }
-
   .sidebar {
     display: grid;
     grid-template-columns: subgrid;
@@ -169,6 +176,9 @@
       top: var(--stickyOffset);
       grid-column: 1 / 7;
     }
+  }
+  .blog--section--mini .sidebar {
+    grid-column: 1/5;
   }
 
   .title {
@@ -199,6 +209,12 @@
     @media (min-width: 960px) {
       grid-column: 8 / 25;
       grid-row: 2/4;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .blog--section--mini .list {
+      grid-column: 6 / 25;
     }
   }
 

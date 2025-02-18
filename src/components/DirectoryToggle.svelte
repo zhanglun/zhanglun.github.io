@@ -1,5 +1,6 @@
 <script lang="ts">
   const { className, name, list, onFilter } = $props();
+  let expand = $state(false);
 
   let renderData: [string, number, boolean][] = $state(
     list.map(_ => [..._, false])
@@ -21,34 +22,38 @@
 
 <div class={`directory ${className}`}>
   <div class="toggle">
-    <svg
-      class="directoryIcon"
-      width="12"
-      height="10"
-      viewBox="0 0 12 10"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      ><title>Folder Icon</title><path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M7 0H1V1H0V2V3V9H1V10H11V9H12V3H11V2H8V1H7V0ZM11 3V9H1V3H7H8H11ZM7 1V2H1V1H7Z"
-        fill="currentColor"
-      ></path></svg
-    >
-    <svg
-      class="directoryIcon"
-      width="12"
-      height="10"
-      viewBox="0 0 12 10"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      ><title>Folder Icon</title><path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M1 0H7V1H1V0ZM1 6V1H0V9H1V10H11V9H12V3H11V2H8V1H7V2H8V3H11V4H3V5H2V6H1ZM1 7V9H11V5H3V6H2V7H1Z"
-        fill="currentColor"
-      ></path></svg
-    >
+    {#if expand}
+      <svg
+        class="directoryIcon"
+        width="12"
+        height="10"
+        viewBox="0 0 12 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        ><title>Folder Icon</title><path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M7 0H1V1H0V2V3V9H1V10H11V9H12V3H11V2H8V1H7V0ZM11 3V9H1V3H7H8H11ZM7 1V2H1V1H7Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    {/if}
+    {#if !expand}
+      <svg
+        class="directoryIcon"
+        width="12"
+        height="10"
+        viewBox="0 0 12 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        ><title>Folder Icon</title><path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M1 0H7V1H1V0ZM1 6V1H0V9H1V10H11V9H12V3H11V2H8V1H7V2H8V3H11V4H3V5H2V6H1ZM1 7V9H11V5H3V6H2V7H1Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    {/if}
     {name}
   </div>
   <div class="content">
