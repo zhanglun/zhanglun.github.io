@@ -4,20 +4,31 @@ import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
 import Layout from "@layouts/Layout.astro";
 
-import HomeHero from '@components/HomeHero.svelte';
-import ProjectSection from '@components/ProjectSection.svelte'
-import BlogSection from '@components/BlogSection.svelte'
+import HomeHero from "@components/HomeHero.svelte";
+import ProjectSection from "@components/ProjectSection.svelte";
+import BlogSection from "@components/BlogSection.svelte";
 import { PROJECTS } from "@data/projects";
+import getUniqueTags from "@utils/getUniqueTags";
+import getUniqueCategories from "@utils/getUniqueCategories";
 
 const posts = await getCollection("blogs");
 const posts2 = await getCollection("notion");
 const sortedPosts = getSortedPosts([...posts, ...posts2]);
 const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
+let tags = getUniqueTags(sortedPosts);
+let categories = getUniqueCategories(sortedPosts);
 ---
 
 <Layout>
   <HomeHero site={SITE} />
-  <ProjectSection prefix={prefix} projects={PROJECTS}/>
-  <BlogSection prefix={prefix} posts={sortedPosts} />
+  <ProjectSection prefix={prefix} projects={PROJECTS} />
+  <BlogSection
+    prefix={prefix}
+    posts={sortedPosts}
+    tags={tags}
+    categories={categories}
+    mode="mini"
+    client:load
+  />
 </Layout>

@@ -69,7 +69,7 @@ const { Content, remarkPluginFrontmatter } = await entry.render();
     post={entry.data}
     remarkPluginFrontmatter={remarkPluginFrontmatter}
   >
-    <Content />
+    <Content slot="content"/>
   </BlogDetail>
 
   <!-- <SectionContainer>
