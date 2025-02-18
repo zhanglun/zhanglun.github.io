@@ -7,7 +7,8 @@ const getUniqueTags = (posts: CollectionEntry<"blogs" | "notion">[]): [string, n
 
   filteredPosts.forEach(post => {
     tags = [...tags, ...(post.data.tags || [])].map(tag =>
-      slugifyStr(tag)
+      // slugifyStr(tag)
+      tag
     );
   });
 
@@ -20,6 +21,8 @@ const getUniqueTags = (posts: CollectionEntry<"blogs" | "notion">[]): [string, n
 
     return acu;
   }, {});
+
+  console.log(map)
 
   return Object.entries(map);
 };
