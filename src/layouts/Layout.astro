@@ -94,11 +94,54 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
         />
       )
     }
+    <script>
+      let base = 0;
+      let timestamp = 0;
+
+      function animate(time: number) {
+        if (time - timestamp >= 240) {
+          base += 6;
+          let t: string = ((0.5 * base + 120) % 360) + "";
+          let o: string = ((0.5 * base + 240) % 360) + "";
+          let n: string = ((0.5 * base + 360) % 360) + "";
+          let l = "hsl("
+            .concat(t, "deg, ")
+            .concat("40", "%, ")
+            .concat("96", "%)");
+          let i = "hsl("
+            .concat(o, "deg, ")
+            .concat("40", "%, ")
+            .concat("96", "%)");
+          let c = "hsl("
+            .concat(n, "deg, ")
+            .concat("40", "%, ")
+            .concat("96", "%)");
+          let s = "linear-gradient(20deg, "
+            .concat(l, ", ")
+            .concat(i, ", ")
+            .concat(c, ")");
+          let u = "hsl(".concat(o, "deg, 80%, 70%)");
+          let d = "hsl(".concat(o, "deg, 30%, 10%)");
+
+          let body = document.body;
+          body.style.backgroundImage = s;
+          body.style.setProperty("--fontColor", d);
+          body.style.setProperty("--artForeground", i);
+          body.style.setProperty("--highlightColor", u);
+
+          timestamp = time;
+        }
+
+        window.requestAnimationFrame(animate);
+      }
+
+      window.requestAnimationFrame(animate);
+    </script>
   </head>
   <body class="antialiased">
     <div class="main-wrapper max-w-[1728px] w-full mx-auto">
       <div class="gridLayout">
-      <slot />
+        <slot />
       </div>
     </div>
     <NavMenu client:load />
