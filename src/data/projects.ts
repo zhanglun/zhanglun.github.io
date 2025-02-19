@@ -31,6 +31,23 @@ export const PROJECTS = [
     ],
   },
   {
+    name: "Pavo",
+    description: "跨平台的桌面壁纸程序",
+    url: "https://github.com/zhanglun/pavo",
+    thumbnail: "",
+    logo: "/assets/icon.png",
+    image: "/assets/pavo.jpeg",
+    dates: "",
+    technologies: ["tauri", "yew", "tailwindcss"],
+    links: [
+      {
+        type: "Source",
+        href: "https://github.com/zhanglun/pavo",
+        icon: Github,
+      },
+    ],
+  },
+  {
     name: "BookWise",
     description: "book wise read wise",
     url: "https://github.com/zhanglun/bookwise",
@@ -69,20 +86,10 @@ export const PROJECTS = [
     image: "/assets/icon.png",
     dates: "",
     technologies: ["gatsby", "react", "tailwindcss", "typescript"],
-  },
-  {
-    name: "Pavo",
-    description: "跨平台的桌面壁纸程序",
-    url: "https://github.com/zhanglun/pavo",
-    thumbnail: "",
-    logo: "/assets/icon.png",
-    image: "/assets/pavo.jpeg",
-    dates: "",
-    technologies: ["tauri", "yew", "tailwindcss"],
     links: [
       {
         type: "Source",
-        href: "https://github.com/zhanglun/pavo",
+        href: "https://github.com/zhanglun/gatsby-theme-facile",
         icon: Github,
       },
     ],
