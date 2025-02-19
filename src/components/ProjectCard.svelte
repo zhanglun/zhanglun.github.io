@@ -42,17 +42,15 @@
       <span class="hidden font-sans text-xs underline print:visible">
         {link?.replace("https://", "").replace("www.", "").replace("/", "")}
       </span>
-      <div
-        class="mt-4 mb-4"
-      >
+      <div class="mt-4 mb-4">
         <!-- {@html marked(description)} -->
-         <span class="description">{description}</span>
+        <span class="description">{description}</span>
       </div>
     </div>
     <!-- Card Content -->
     <div class="mt-auto flex flex-col">
       {#if tags && tags.length > 0}
-        <div class="mt-2 flex flex-wrap gap-1">
+        <div class="mt-2 mb-4 flex flex-wrap gap-1">
           {#each tags as tag}
             <Badge>
               {tag}
@@ -62,26 +60,13 @@
       {/if}
     </div>
     <!-- Card Footer -->
-    <div class="pb-2 flex items-center pt-2">
+    <div class="grid grid-cols-2 gap-1">
       {#if links && links.length > 0}
-        <div class="flex flex-row flex-wrap items-start gap-1">
-          {#each links as link}
-            <a href={link?.href} target="_blank">
-              <Badge
-                class="flex gap-1 items-center justify-center"
-              >
-                <!-- {link.icon} -->
-                <svelte:component
-                  this={link.icon}
-                  class="mb-px"
-                  size={10}
-                  strokeWidth={1.5}
-                />
-                {link.type}
-              </Badge>
-            </a>
-          {/each}
-        </div>
+        {#each links as link}
+          <a href={link?.href} target="_blank" class="buttonSm">
+            {link.type}
+          </a>
+        {/each}
       {/if}
     </div>
   </div>

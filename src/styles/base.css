@@ -395,3 +395,31 @@
 .articleBody strong {
   font-weight: 500;
 }
+
+
+.buttonSm {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 8px 12px 8px;
+  background: transparent;
+  border-radius: 99px;
+  border: 1px solid var(--buttonColor,--fontColor);
+  cursor: pointer;
+  letter-spacing: -.42px;
+  line-height: 1;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500
+}
+
+.buttonSm:visited {
+  color: var(--buttonColor,--fontColor)
+}
+
+@media (pointer: fine) {
+  .buttonSm:hover {
+      background-color:var(--buttonColor);
+      color: var(--backgroundColor)
+  }
+}
