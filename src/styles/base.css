@@ -100,7 +100,8 @@
 }
 @font-face {
   font-family: "SN Pro";
-  src: url("/public/assets/SNPro-RegularItalic.woff2") format("woff2-variations");
+  src: url("/public/assets/SNPro-RegularItalic.woff2")
+    format("woff2-variations");
   font-weight: 200 900;
   font-style: italic;
 }
@@ -111,7 +112,7 @@
   }
   body {
     /* font-family: "SN Pro", Helvetica Neue, Arial, sans-serif; */
-    font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;;
+    font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
     color: var(--bodyTextColor);
     background: var(--backgroundColor);
     background-attachment: fixed;
@@ -336,31 +337,25 @@
   margin: 24px 0 0 12px;
 }
 
-.articleBody pre > div {
-  border-radius: 4px;
-  background: var(--codeBG) !important;
-  border: 1px solid var(--codeBorderColor);
-}
-
 .articleBody code::selection,
 .articleBody code > span::selection {
   background: hsla(0, 0%, 100%, 0.15);
   color: inherit;
 }
 
-.articleBody code.BlogPost_codeSnippet__PAwCt::selection {
+.articleBody code::selection {
   background: var(--windowFrameBG);
   color: var(--invertedTextColor);
 }
 
-.articleBody code.BlogPost_codeSnippet__PAwCt {
+.articleBody p code {
   border-radius: 4px;
   border: 1px solid var(--dottedBorderColor);
   background: var(--navButtonBG);
   color: var(--bodyTextColor);
-  padding: 0 4px 2px;
-  font-size: 16px;
-  border-radius: 3px;
+  padding: 1px 3px;
+  font-size: 14px;
+  margin: 0 2px 1px;
   text-wrap: pretty;
   display: inline-block;
 }
@@ -396,7 +391,6 @@
   font-weight: 500;
 }
 
-
 .buttonSm {
   display: block;
   width: 100%;
@@ -404,22 +398,30 @@
   padding: 8px 12px 8px;
   background: transparent;
   border-radius: 99px;
-  border: 1px solid var(--buttonColor,--fontColor);
+  border: 1px solid var(--buttonColor, --fontColor);
   cursor: pointer;
-  letter-spacing: -.42px;
+  letter-spacing: -0.42px;
   line-height: 1;
   font-size: 14px;
   font-style: normal;
-  font-weight: 500
+  font-weight: 500;
 }
 
 .buttonSm:visited {
-  color: var(--buttonColor,--fontColor)
+  color: var(--buttonColor, --fontColor);
 }
 
 @media (pointer: fine) {
   .buttonSm:hover {
-      background-color:var(--buttonColor);
-      color: var(--backgroundColor)
+    background-color: var(--buttonColor);
+    color: var(--backgroundColor);
   }
+}
+
+.astro-code {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  /* background: var(--codeBG) !important;
+  border: 1px solid var(--codeBorderColor); */
 }
