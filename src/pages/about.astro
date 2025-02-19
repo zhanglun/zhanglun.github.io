@@ -6,6 +6,82 @@ import AboutSection from "../components/AboutSection.svelte";
 
 <Layout>
   <AboutSection>
-    <AboutMd slot="content" />
+    <!-- <AboutMd slot="content" /> -->
+    <div slot="content" class="">
+      <a
+        href="mailto:zhanglun1410@gmail.com"
+        class="flex flex-row items-center gap-2 absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] nice-button"
+      >
+        @CONTRACT ME
+      </a>
+    </div>
   </AboutSection>
 </Layout>
+<style>
+  a {
+    font-size: calc(24px + ((114 - 54) * (100vw - 390px) / (1728 - 390)));
+    font-style: normal;
+    font-weight: 300;
+    line-height: 130%;
+    letter-spacing: -0.18px;
+    transition: background-color 0.1s linear;
+  }
+  a:hover {
+    background-color: var(--highlightColor);
+    color: var(--invertedTextColor);
+  }
+
+  .nice-button {
+    border: 0.5px dashed var(--sectionLabels, --fontColor);
+    outline: none;
+    background-color: transparent;
+    transition: 1s;
+    cursor: pointer;
+    padding: calc(4px + ((114 - 54) * (100vw - 390px) / (1728 - 390) / 2))
+      calc(4px + ((114 - 54) * (100vw - 390px) / (1728 - 390)));
+    animation: border 1.5s linear 0s infinite alternate both;
+  }
+
+  .nice-button::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 3%;
+    right: 3%;
+    height: 1.5px;
+    background-color: var(--backgroundColor);
+    /* background-color: red; */
+    transition: 0.5s;
+    transform-origin: center;
+  }
+
+  .nice-button::before {
+    content: "";
+    transform-origin: center;
+    position: absolute;
+    bottom: -1px;
+    left: 3%;
+    right: 3%;
+    height: 1.5px;
+    background-color: var(--backgroundColor);
+    transition: 0.5s;
+  }
+
+  .nice-button:hover::before,
+  .nice-button:hover::after {
+    transform: scale(0);
+  }
+
+  .nice-button:hover {
+    border-style: solid;
+  }
+
+  @keyframes border {
+    0% {
+      border-style: dashed;
+    }
+    100% {
+      border-style: solid;
+    }
+  }
+</style>
