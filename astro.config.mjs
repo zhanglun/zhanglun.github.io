@@ -39,7 +39,7 @@ export default defineConfig({
       remarkReadingTime,
     ],
     shikiConfig: {
-      theme: "one-dark-pro",
+      theme: "catppuccin-frappe",
       wrap: true,
     },
   },
