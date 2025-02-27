@@ -92,6 +92,11 @@
   }
 }
 
+::selection {
+  background: var(--highlightColor);
+  color: var(--invertedTextColor)
+}
+
 @font-face {
   font-family: "SN Pro";
   src: url("/public/assets/SNPro-Regular.woff2") format("woff2-variations");
