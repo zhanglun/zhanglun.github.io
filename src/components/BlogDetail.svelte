@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { fade, slide } from "svelte/transition";
   import LineHeader from "./LineHeader.svelte";
   import dayjs from "dayjs";
   import Badge from "@/components/Badge/Badge.svelte";
   import PlusIcons from "@/components/PlusIcons.svelte";
+  import { onMount } from "svelte";
 
   const {
     post = {},
@@ -12,9 +14,33 @@
     remarkPluginFrontmatter = {},
     prefix = "",
   } = $props();
+
+  let visible = $state(true);
+
+  let heroSectionElement: HTMLElement;
+  let titleElement: HTMLElement;
+
+  onMount(async () => {
+    let callback = (entries, observer) => {
+      console.log("🚀 ~ callback ~ entries:", entries[0].intersectionRatio);
+      if (entries[0].isIntersecting) {
+        visible = false;
+        titleElement.style.opacity = 0;
+      } else {
+        visible = true;
+        titleElement.style.opacity = 1;
+      }
+    };
+    const observer = new IntersectionObserver(callback, {
+      rootMargin: "0px",
+      threshold: 1,
+    });
+
+    observer.observe(heroSectionElement);
+  });
 </script>
 
-<section class="section hero--section">
+<section class="section hero--section" bind:this={heroSectionElement}>
   <PlusIcons />
   <div class="title">
     <h1 class="text-hero">
@@ -25,9 +51,15 @@
 </section>
 <section class="section body--section">
   <div class="sidebar">
-    <div class="text-lg smart-title">
-      {post.title}
-    </div>
+    {#if visible}
+      <div
+        class="text-lg smart-title"
+        transition:slide
+        bind:this={titleElement}
+      >
+        {post.title}
+      </div>
+    {/if}
     <div class="metadata">
       <LineHeader title="METADATA" />
       <div class="metadata__item text-smallcaps">
