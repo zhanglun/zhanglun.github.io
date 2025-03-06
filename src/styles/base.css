@@ -94,7 +94,7 @@
 
 ::selection {
   background: var(--highlightColor);
-  color: var(--invertedTextColor)
+  color: var(--invertedTextColor);
 }
 
 @font-face {
@@ -202,12 +202,10 @@
   word-break: break-word;
 
   @media (min-width: 600px) {
-    line-height: 84%;
     font-size: calc(50px + ((100 - 80) * (100vw - 600px) / (960 - 600)));
   }
 
   @media (min-width: 960px) {
-    line-height: 84%;
     font-size: calc(50px + ((170 - 100) * (100vw - 960px) / (1728 - 960)));
   }
 
@@ -224,15 +222,15 @@
 }
 
 .articleBody pre,
-.articleBody > p {
+.articleBody p {
   margin: 24px 0 0;
 }
 
-.articleBody > h2,
-.articleBody > h3,
-.articleBody > h4,
-.articleBody > h5,
-.articleBody > h6 {
+.articleBody h2,
+.articleBody h3,
+.articleBody h4,
+.articleBody h5,
+.articleBody h6 {
   margin: 40px 0 0;
   & strong {
     font-weight: 300;
@@ -244,7 +242,6 @@
 }
 
 .articleBody h1 {
-  color: red;
   font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-size: 10px;
   font-style: normal;
@@ -309,6 +306,17 @@
   letter-spacing: -0.18px;
 }
 
+@media (min-width: 960px) {
+  .articleBody li,
+  .articleBody p {
+    font-size: 18px;
+  }
+
+  .articleBody code {
+    font-size: 16px;
+  }
+}
+
 .articleBody a {
   position: relative;
   border-bottom: 1px solid var(--borderColor);
@@ -334,6 +342,7 @@
   gap: 8px;
   margin: 24px 0 0;
   padding-left: 28px;
+  list-style: initial;
 }
 
 .articleBody blockquote {
