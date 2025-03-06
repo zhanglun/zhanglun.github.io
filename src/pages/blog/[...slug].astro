@@ -68,6 +68,7 @@ const { Content, remarkPluginFrontmatter } = await entry.render();
     categories={categories}
     post={entry.data}
     remarkPluginFrontmatter={remarkPluginFrontmatter}
+    client:load
   >
     <Content slot="content"/>
   </BlogDetail>
