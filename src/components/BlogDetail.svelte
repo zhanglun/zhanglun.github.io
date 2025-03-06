@@ -58,8 +58,8 @@
   </div>
   <div class="article">
     <LineHeader title="ARTICLE" />
-    <div class="articleBody">
-      <slot name="content"></slot>
+    <div class="articleBody 222">
+      <slot name="content" class="articleBody"></slot>
     </div>
   </div>
 </section>
