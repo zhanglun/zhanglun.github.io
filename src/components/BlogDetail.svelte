@@ -90,7 +90,7 @@
   </div>
   <div class="article">
     <LineHeader title="ARTICLE" />
-    <div class="articleBody 222">
+    <div class="articleBody">
       <slot name="content" class="articleBody"></slot>
     </div>
   </div>
@@ -178,127 +178,6 @@
     .article {
       grid-column: 8/25;
     }
-
-    .aboutAuthor,
-    .additionalResources,
-    .articleBody {
-      grid-column: 1/14;
-    }
-
-    .articleBody li,
-    .articleBody p {
-      font-size: 18px;
-    }
-  }
-
-  @media (min-width: 1400px) {
-    .aboutAuthor,
-    .additionalResources,
-    .articleBody {
-      grid-column: 1/13;
-    }
-  }
-
-  .articleBody {
-    grid-column: 1/-1;
-    display: flex;
-    flex-direction: column;
-    counter-reset: label-count;
-  }
-
-  .articleBody pre,
-  .articleBody > p {
-    margin: 24px 0 0;
-  }
-
-  .articleBody > h2,
-  .articleBody > h3,
-  .articleBody > h4,
-  .articleBody > h5,
-  .articleBody > h6 {
-    margin: 40px 0 0;
-    & strong {
-      font-weight: 300;
-    }
-  }
-
-  .articleBody > :first-child {
-    margin: 0;
-  }
-
-  .label__date {
-    grid-column: 1/3;
-  }
-
-  .label__title {
-    grid-column: 3/18;
-  }
-
-  .label__type {
-    grid-column: 18/24;
-  }
-
-  .list__item {
-    display: grid;
-    grid-template-columns: subgrid;
-    border-bottom: 0.5px solid var(--borderColor, --fontColor);
-    color: var(--listItemText);
-    grid-column: 1 / -1;
-  }
-
-  .list__item-date {
-    grid-column: 1 / 3;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .list__item-date__icon {
-    width: 8px;
-    height: 8px;
-    min-width: 8px;
-    min-height: 8px;
-    margin-top: 0.5px;
-    background-color: var(--squareTextColor);
-  }
-  .list__item-date__text {
-    color: var(--squareTextColor, --fontColor);
-  }
-  .list__item-title {
-    grid-column: 3 / 18;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    line-height: 1.2;
-  }
-
-  .list__item-type {
-    grid-column: 18/19;
-    grid-row: 1;
-    justify-self: start;
-    align-self: center;
-  }
-
-  .list__item-button {
-    grid-column: -2/-1;
-    grid-row: 2;
-    align-self: center;
-    justify-self: end;
-  }
-
-  @media (max-width: 759px) {
-    .list__item-title {
-      grid-column: 1/-2;
-    }
-
-    .list__item-type {
-      display: none;
-    }
-  }
-  @media (min-width: 760px) {
-    .list__item-button {
-      grid-row: 1;
-    }
+    
   }
 </style>

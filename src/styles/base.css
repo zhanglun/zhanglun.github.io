@@ -219,6 +219,48 @@
   display: flex;
   flex-direction: column;
   counter-reset: label-count;
+  padding-bottom: 44px;
+}
+
+@media (min-width: 960px) {
+  .article {
+    grid-column: 8/25;
+  }
+
+  .aboutAuthor,
+  .additionalResources,
+  .articleBody {
+    grid-column: 1/14;
+  }
+
+  .articleBody li,
+  .articleBody p {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .aboutAuthor,
+  .additionalResources,
+  .articleBody {
+    grid-column: 1/13;
+  }
+}
+.articleBody p:has(img) {
+  border-radius: 4px;
+  border: 1px solid var(--blogImageBorder);
+  background: var(--blogImageBG);
+  padding: 8px;
+
+  @media (min-width: 760px) {
+    padding: 16px;
+  }
+}
+
+.articleBody img {
+  width: 100%;
+  border-radius: 4px;
+  object-fit: contain;
 }
 
 .articleBody pre,
@@ -329,11 +371,12 @@
 }
 
 .articleBody ol {
+  list-style: initial;
   display: grid;
   grid-gap: 8px;
   gap: 8px;
   margin: 24px 0 0;
-  padding-left: 24px;
+  padding-left: 34px;
 }
 
 .articleBody ul {
