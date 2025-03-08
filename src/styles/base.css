@@ -100,14 +100,24 @@
 @font-face {
   font-family: "SN Pro";
   src: url("/public/assets/SNPro-Regular.woff2") format("woff2-variations");
-  font-weight: 200 900;
+  font-weight: 200 400;
+  font-stretch:normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SN Pro";
+  src: url("/public/assets/SNPro-Medium.woff2") format("woff2-variations");
+  font-weight: 500;
+  font-stretch:normal;
   font-style: normal;
 }
 @font-face {
   font-family: "SN Pro";
-  src: url("/public/assets/SNPro-RegularItalic.woff2")
+  src: url("/public/assets/SNPro-Semibold.woff2")
     format("woff2-variations");
   font-weight: 200 900;
+  font-stretch:normal;
   font-style: italic;
 }
 

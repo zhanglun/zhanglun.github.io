@@ -7,7 +7,6 @@
   export let title: string;
   export let href: string = "";
   export let description: string;
-  export let dates: string;
   export let tags: readonly string[];
   export let link: string = "";
   export let image: string = "";
@@ -16,9 +15,12 @@
 </script>
 
 <!-- Card -->
-<div class="item h-full flex flex-col overflow-hidden">
-  <a href={href || "#"} class="block cursor-pointer aspect-square image">
-    {#if video}
+<div class="item h-full flex flex-col">
+  <a
+    href={href || "#"}
+    class="block cursor-pointer aspect-square image row-span-1"
+  >
+    <!-- {#if video}
       <video
         class="pointer-events-none mx-auto h-40 w-full object-cover object-top"
         src={video}
@@ -32,10 +34,15 @@
         src={image}
         alt={title}
       />
-    {/if}
+    {/if} -->
+    <div class="h-full flex items-center justify-center my-logo">
+      <div class="my-logo-text">
+        {title.slice(0, 1)}
+      </div>
+    </div>
   </a>
   <!-- Card Header -->
-  <div class="content px-2 flex flex-col col-start-7 col-end-12 row-span-1">
+  <div class="content px-2 flex flex-col row-span-1">
     <div class="">
       <!-- Card Title -->
       <span class="title mt-1 mb-3 text-3xl">{title}</span>
@@ -85,12 +92,46 @@
     --overlap: 0px;
   }
 
+  .item:first-of-type::after {
+    content: "";
+    position: absolute;
+    right: -12px;
+    bottom: 0;
+    height: 100%;
+    border-left: 0.5px dashed var(--borderColor);
+  }
+
+  .item:first-of-type::before {
+    content: "";
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 100%;
+    border-top: 0.5px dashed var(--borderColor);
+  }
+
+  .item:last-of-type:before {
+    content: "";
+    position: absolute;
+    left: -12px;
+    bottom: 0;
+    height: 100%;
+    border-left: 0.5px dashed var(--borderColor);
+  }
+
+  .item:last-of-type::after {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    width: 100%;
+    border-top: 0.5px dashed var(--borderColor);
+  }
+
   .image {
     position: relative;
     background: var(--artBackground);
-    cursor: -webkit-grab;
-    cursor: grab;
-    grid-column: 1 / 7;
+    grid-column: 1 / 6;
     grid-row: span 2;
   }
 
@@ -114,6 +155,28 @@
     background: var(--highlightColor);
     color: var(--invertedTextColor);
     border-color: var(--invertedTextColor);
+  }
+
+  .my-logo-text {
+    font-size: 10rem;
+    font-weight: 400;
+    transform: rotate(-45deg);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .my-logo {
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background-color: var(--windowFrameBG);
+    }
+    &:hover .my-logo-text {
+      transform: rotate(0);
+      color: var(--windowBarText);
+    }
+  }
+  
+  .content {
+    grid-column: 6/12;
   }
 
   @media (max-width: 959px) {

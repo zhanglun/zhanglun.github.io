@@ -2,8 +2,8 @@ import { Globe, Github } from "lucide-svelte";
 
 export const PROJECTS = [
   {
-    name: "Lettura",
-    description: "基于 Tauri 的跨平台 RSS 桌面阅读器",
+    name: "Lettura: Follow your favorite content and never miss a story",
+    description: "基于 Tauri 框架构建的跨平台 RSS 桌面阅读器，简洁美观的界面、便捷的键盘快捷键。",
     url: "https://github.com/zhanglun/lettura",
     thumbnail: "",
     logo: "/assets/lettura-icon.png",
@@ -31,14 +31,14 @@ export const PROJECTS = [
     ],
   },
   {
-    name: "Pavo",
-    description: "跨平台的桌面壁纸程序",
+    name: "Pavo: Easily customize and change your desktop background",
+    description: "一款跨平台桌面壁纸程序，使用Bing每日一图，基于Rust Tauri开发，支持自动和手动切换壁纸。",
     url: "https://github.com/zhanglun/pavo",
     thumbnail: "",
     logo: "/assets/icon.png",
     image: "/assets/pavo.jpeg",
     dates: "",
-    technologies: ["tauri", "yew", "tailwindcss"],
+    technologies: ["tauri", "svelte", "tailwindcss"],
     links: [
       {
         type: "Source",
@@ -48,12 +48,12 @@ export const PROJECTS = [
     ],
   },
   {
-    name: "BookWise",
-    description: "book wise read wise",
+    name: "BookWise: book wise read wise",
+    description: "一款正在开发的阅读软件，目标是为用户提供更好的阅读、学习和笔记体验。",
     url: "https://github.com/zhanglun/bookwise",
     thumbnail: "",
     logo: "/assets/icon.png",
-    image: "/assets/icon.png",
+    video: "/assets/1.webm",
     links: [
       {
         type: "Website",
@@ -83,7 +83,7 @@ export const PROJECTS = [
     url: "https://github.com/zhanglun/gatsby-theme-facile",
     thumbnail: "",
     logo: "/assets/icon.png",
-    image: "/assets/icon.png",
+    video: "/assets/2.webm",
     dates: "",
     technologies: ["gatsby", "react", "tailwindcss", "typescript"],
     links: [
