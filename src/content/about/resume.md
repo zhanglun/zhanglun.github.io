@@ -6,16 +6,17 @@
 * 工作年限：10年
 * 联系方式：15601891270
 * 邮箱: **zhanglun1410@gmail.com**
-* 个人博客：**[https://zhanglun.github.io](https://zhanglun.github.io)**
-* Github：**[http://github.com/zhanglun](http://github.com/zhanglun)**
+* 个人博客：[https://zhanglun.github.io](https://zhanglun.github.io)
+* Github：[http://github.com/zhanglun](http://github.com/zhanglun)
 * 英语水平: CET-4/英文读写无压力
 
 # 个人优势
-1. 10 年资深前端经验，前端工程化经验丰富，在多团队成功实践标准化组件库建设。
-2. 熟练运用 Vue、React 等主流框架，在 B 端业务领域成果丰硕，成功攻克关键难题。
-3. 3 年以上 Node.js 全栈开发经验，对 Python 开发、消息队列及 Redis 等工具有实战经验。
+
+1. 10 年前端经验，在团队中常担任技术核心角色，主导技术选型和架构设计，推动前端团队的技术提升和规范化建设
+2. 熟练运用 Vue、React 等主流框架， 有较丰富的 B 端业务场景开发和性能优化经验。
+3. 3 年 Node.js 全栈开发经验，独立完成复杂项目从开发到上线维护的全流程，和运维后端人员交流合作无障碍。
 4. 两年团队管理经验，拥有 0-1 搭建前端团队的经验。
-5. 秉持兴趣与实用导向，技术选型始终坚守「工程收益/维护成本」评估模型
+5. 有Python开发、中间件使用和数据库应用的经验。
 
 # 工作经历
 
