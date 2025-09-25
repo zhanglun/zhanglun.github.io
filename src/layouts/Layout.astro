@@ -2,10 +2,10 @@
 import { SITE } from "src/config";
 import { ViewTransitions } from "astro:transitions";
 import NavMenu from "../components/NavMenu/index.svelte";
-import { ModeWatcher, setMode } from "mode-watcher";
+// import { ModeWatcher, setMode } from "mode-watcher";
 import "../styles/base.css";
 
-setMode("dark");
+// setMode("dark");
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -145,6 +145,5 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
       </div>
     </div>
     <NavMenu client:load />
-    <ModeWatcher client:load />
   </body>
 </html>

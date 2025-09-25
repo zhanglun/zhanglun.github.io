@@ -21,8 +21,8 @@ let categories = getUniqueCategories(sortedPosts);
 ---
 
 <Layout>
-  <HomeHero site={SITE} />
-  <ProjectSection prefix={prefix} projects={PROJECTS} />
+  <HomeHero site={SITE} client:load/>
+  <ProjectSection prefix={prefix} projects={PROJECTS} client:load/>
   <BlogSection
     prefix={prefix}
     posts={sortedPosts}
