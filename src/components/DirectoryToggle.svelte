@@ -7,6 +7,7 @@
   );
 
   function handleSelect(item: [string, number, boolean], idx: number) {
+    console.log("🚀 ~ handleSelect ~ item:", item)
     renderData[idx][2] = !renderData[idx][2];
 
     onFilter(renderData.filter(_ => _[2]));
