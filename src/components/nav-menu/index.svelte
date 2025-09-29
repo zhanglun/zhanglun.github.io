@@ -41,19 +41,10 @@
         ></path></svg
       >
     </a>
-    <a href="/blog" class="nav-item-link">
-      [B] BLOG
-    </a>
-
-    <a href="/projects" class="nav-item-link">
-      [P] PROJECT 
-    </a>
-    <a href="https://github.com/zhanglun" class="nav-item-link">
-      [G] GITHUB
-    </a>
-    <a href="/about" class="nav-item-link">
-      [A] ABOUT
-    </a>
+    <a href="/blog" class="nav-item-link"> [B] BLOG </a>
+    <a href="/projects" class="nav-item-link"> [P] PROJECT </a>
+    <a href="https://github.com/zhanglun" class="nav-item-link"> [G] GITHUB </a>
+    <a href="/about" class="nav-item-link"> [A] ABOUT </a>
   </div>
 
   <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -91,12 +82,12 @@
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 
-    color: var(--squareTextColor,--fontColor);
+    color: var(--squareTextColor, --fontColor);
     font-size: 12px;
     font-style: normal;
     font-weight: 300;
-    letter-spacing: -.012em;
-    text-transform: uppercase
+    letter-spacing: -0.012em;
+    text-transform: uppercase;
   }
 
   .nav-item-link:hover {
