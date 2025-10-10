@@ -184,7 +184,6 @@
   color: var(--headingTextColor, --fontColor);
   font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-style: normal;
-  font-weight: 300;
 }
 
 .text-md {
@@ -206,21 +205,20 @@
 
 .text-hero {
   color: var(--fontColor);
-  font-size: calc(80px + ((150 - 80) * (100vw - 390px) / (960 - 390)));
-  font-weight: 300;
+  font-size: calc(40px + ((150 - 80) * (100vw - 390px) / (960 - 390)));
   line-height: 100%;
   word-break: break-word;
 
   @media (min-width: 600px) {
-    font-size: calc(50px + ((100 - 80) * (100vw - 600px) / (960 - 600)));
+    font-size: calc(40px + ((100 - 80) * (100vw - 600px) / (960 - 600)));
   }
 
   @media (min-width: 960px) {
-    font-size: calc(50px + ((170 - 100) * (100vw - 960px) / (1728 - 960)));
+    font-size: calc(40px + ((170 - 100) * (100vw - 960px) / (1728 - 960)));
   }
 
   @media (min-width: 1728px) {
-    font-size: 100px;
+    font-size: 90px;
   }
 }
 
@@ -230,6 +228,7 @@
   flex-direction: column;
   counter-reset: label-count;
   padding-bottom: 44px;
+  word-break: break-word;
 }
 
 @media (min-width: 960px) {
@@ -300,7 +299,7 @@
 }
 
 .articleBody h2 {
-  font-size: 48px;
+  font-size: 34px;
   letter-spacing: -2.88px;
 }
 
@@ -309,12 +308,11 @@
   color: var(--bodyTextColor);
   font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-style: normal;
-  font-weight: 300;
   line-height: 100%;
 }
 
 .articleBody h3 {
-  font-size: 36px;
+  font-size: 28px;
   letter-spacing: -1.8px;
 }
 
@@ -353,19 +351,17 @@
   font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
-  font-weight: 300;
-  line-height: 130%;
-  letter-spacing: -0.18px;
+  line-height: 28px;
 }
 
 @media (min-width: 960px) {
   .articleBody li,
   .articleBody p {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .articleBody code {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
