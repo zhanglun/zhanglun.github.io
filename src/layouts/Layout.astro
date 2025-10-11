@@ -93,7 +93,7 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
         />
       )
     }
-    <script>
+    <!-- <script>
       let base = 0;
       let timestamp = 0;
 
@@ -135,6 +135,65 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
       }
 
       window.requestAnimationFrame(animate);
+
+    </script> -->
+    <script>
+      function setupAnimationOptimized() {
+        let base = 0;
+        let timestamp = 0;
+        const body = document.body;
+        const UPDATE_INTERVAL = 240;
+
+        // 预先计算 HSL 颜色缓存
+        const colorCache = new Map();
+
+        function getColors(baseValue) {
+          const cacheKey = Math.floor(baseValue / 6) * 6; // 缓存每 6 单位的计算
+
+          if (!colorCache.has(cacheKey)) {
+            const t = (0.5 * baseValue + 120) % 360;
+            const o = (0.5 * baseValue + 240) % 360;
+            const n = (0.5 * baseValue + 360) % 360;
+
+            colorCache.set(cacheKey, [
+              `hsl(${t}deg, 40%, 96%)`,
+              `hsl(${o}deg, 40%, 96%)`,
+              `hsl(${n}deg, 40%, 96%)`,
+              `hsl(${o}deg, 30%, 10%)`,
+              `hsl(${o}deg, 80%, 70%)`,
+            ]);
+
+            // 保持缓存大小在合理范围内
+            if (colorCache.size > 100) {
+              const firstKey = colorCache.keys().next().value;
+              colorCache.delete(firstKey);
+            }
+          }
+
+          return colorCache.get(cacheKey);
+        }
+
+        function animate(time) {
+          if (time - timestamp >= UPDATE_INTERVAL) {
+            base += 6;
+            const [c1, c2, c3, fontColor, highlightColor] = getColors(base);
+
+            const gradient = `linear-gradient(20deg, ${c1}, ${c2}, ${c3})`;
+
+            body.style.backgroundImage = gradient;
+            body.style.setProperty("--fontColor", fontColor);
+            body.style.setProperty("--artForeground", c2);
+            body.style.setProperty("--highlightColor", highlightColor);
+
+            timestamp = time;
+          }
+          window.requestAnimationFrame(animate);
+        }
+
+        window.requestAnimationFrame(animate);
+      }
+
+      setupAnimationOptimized();
     </script>
   </head>
   <body class="antialiased">
