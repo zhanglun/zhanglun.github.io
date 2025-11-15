@@ -25,10 +25,14 @@
       console.log("🚀 ~ callback ~ entries:", entries[0].intersectionRatio);
       if (entries[0].isIntersecting) {
         visible = false;
-        titleElement.style.opacity = 0;
+        if (titleElement) {
+          titleElement.style.opacity = '0';
+        }
       } else {
         visible = true;
-        titleElement.style.opacity = 1;
+        if (titleElement) {
+          titleElement.style.opacity = '1';
+        }
       }
     };
     const observer = new IntersectionObserver(callback, {
@@ -178,6 +182,6 @@
     .article {
       grid-column: 8/25;
     }
-    
+
   }
 </style>
