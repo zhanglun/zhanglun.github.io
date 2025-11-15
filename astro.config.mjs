@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
+import mermaid from "astro-mermaid";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 import svelte from "@astrojs/svelte";
@@ -23,10 +24,11 @@ export default defineConfig({
     react(),
     sitemap(),
     svelte(),
+    mermaid({
+      theme: "forest",
+      autoTheme: true,
+    }),
   ],
-  // image: {
-  //   service: squooshImageService(),
-  // },
   markdown: {
     remarkPlugins: [
       remarkToc,
@@ -39,7 +41,7 @@ export default defineConfig({
       remarkReadingTime,
     ],
     shikiConfig: {
-      theme: "catppuccin-frappe",
+      theme: "one-dark-pro",
       wrap: true,
     },
   },
