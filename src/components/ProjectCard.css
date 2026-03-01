@@ -1,0 +1,127 @@
+.item {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 12;
+  grid-template-rows: auto;
+  position: relative;
+  grid-gap: 20px;
+  gap: 20px;
+  --overlap: 0px;
+}
+
+.item:first-of-type::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  bottom: 0;
+  height: 100%;
+  border-left: 0.5px dashed var(--borderColor);
+}
+
+.item:first-of-type::before {
+  content: "";
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  width: 100%;
+  border-top: 0.5px dashed var(--borderColor);
+}
+
+.item:last-of-type:before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  bottom: 0;
+  height: 100%;
+  border-left: 0.5px dashed var(--borderColor);
+}
+
+.item:last-of-type::after {
+  content: "";
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100%;
+  border-top: 0.5px dashed var(--borderColor);
+}
+
+.image {
+  position: relative;
+  background: var(--artBackground);
+  grid-column: 1 / 6;
+  grid-row: span 2;
+}
+
+.content:hover .title {
+  background-image: linear-gradient(
+    transparent var(--overlap),
+    var(--highlightColor) var(--overlap)
+  );
+  color: var(--invertedTextColor);
+}
+
+.content:hover .description {
+  background-image: linear-gradient(
+    transparent calc(var(--overlap) * 0.5),
+    var(--highlightColor) calc(var(--overlap) * 0.5)
+  );
+  color: var(--invertedTextColor);
+}
+
+.content:hover :global(.badge) {
+  background: var(--highlightColor);
+  color: var(--invertedTextColor);
+  border-color: var(--invertedTextColor);
+}
+
+.my-logo-text {
+  font-size: 10rem;
+  font-weight: 400;
+  transform: rotate(-45deg);
+  transition: all 0.3s ease-in-out;
+}
+
+.my-logo {
+  transition: all 0.3s ease-in-out;
+}
+.my-logo:hover {
+  background-color: var(--windowFrameBG);
+}
+.my-logo:hover .my-logo-text {
+  transform: rotate(0);
+  color: var(--windowBarText);
+}
+
+.content {
+  grid-column: 6/12;
+}
+
+@media (max-width: 959px) {
+  .item {
+    grid-column: 1/-1;
+  }
+
+  .image {
+    grid-column: 1/8;
+  }
+
+  .content {
+    grid-column: 8/-2;
+  }
+}
+
+@media (max-width: 759px) {
+  .item {
+    row-gap: 8px;
+  }
+
+  .image {
+    grid-column: 1/-1;
+    grid-row: 1;
+  }
+
+  .content {
+    grid-column: 1/-1;
+    grid-row: 2;
+  }
+}

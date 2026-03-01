@@ -1,11 +1,13 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import AboutMd from "../content/about/index.md";
-import AboutSection from "../components/AboutSection.svelte";
+import AboutSection from "../components/AboutSection";
 ---
 
 <Layout>
   <AboutSection client:load>
+    <div class="">
+      <a
     <div slot="content" class="">
       <a
         href="mailto:zhanglun1410@gmail.com"
@@ -13,6 +15,8 @@ import AboutSection from "../components/AboutSection.svelte";
       >
         @CONTRACT ME
       </a>
+    </div>
+  </AboutSection>
     </div>
   </AboutSection>
 </Layout>

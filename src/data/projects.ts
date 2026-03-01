@@ -1,4 +1,4 @@
-import { Globe, Github } from "lucide-svelte";
+import { Globe, Github } from "lucide-react";
 
 export const PROJECTS = [
   {
