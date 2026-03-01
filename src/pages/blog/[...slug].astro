@@ -3,7 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import SectionContainer from "@components/SectionContainer";
-import BlogDetail from "@components/BlogDetail.svelte";
+import BlogDetail from "@components/BlogDetail";
 import getPageNumbers from "@utils/getPageNumbers";
 import { getCollection } from "astro:content";
 import type {
@@ -70,6 +70,8 @@ const { Content, remarkPluginFrontmatter } = await entry.render();
     remarkPluginFrontmatter={remarkPluginFrontmatter}
     client:load
   >
+    <Content />
+  </BlogDetail>
     <Content slot="content"/>
   </BlogDetail>
 

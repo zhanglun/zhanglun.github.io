@@ -1,0 +1,41 @@
+.spin-right {
+  animation: spin 575ms cubic-bezier(0.075, 0.82, 0.17, 1.135);
+}
+
+.logo-icon {
+  display: block;
+  color: var(--buttonColor);
+}
+.nav-item-link {
+  background: var(--navButtonBG);
+  padding: 5px 8px;
+  display: flex;
+  border-radius: 2px;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  color: var(--buttonColor);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  color: var(--squareTextColor, --fontColor);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+}
+
+.nav-item-link:hover {
+  background: var(--highlightColor);
+  color: var(--invertedTextColor);
+}
+
+@keyframes spin {
+  0% {
+    transform: scale(0) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(720deg);
+  }
+}
