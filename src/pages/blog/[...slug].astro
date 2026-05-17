@@ -2,8 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
-import SectionContainer from "@components/SectionContainer.svelte";
-import BlogDetail from "@components/BlogDetail.svelte";
+import BlogDetail from "@components/BlogDetail";
 import getPageNumbers from "@utils/getPageNumbers";
 import { getCollection } from "astro:content";
 import type {
@@ -63,14 +62,13 @@ const { Content, remarkPluginFrontmatter } = await entry.render();
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
   <BlogDetail
     title={title}
-    date={date}
+    pubDate={date}
     tags={tags}
     categories={categories}
-    post={entry.data}
-    remarkPluginFrontmatter={remarkPluginFrontmatter}
+    readingTime={remarkPluginFrontmatter.minutesRead}
     client:load
   >
-    <Content slot="content"/>
+    <Content />
   </BlogDetail>
 
   <!-- <SectionContainer>

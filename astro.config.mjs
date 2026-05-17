@@ -6,8 +6,6 @@ import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 
-import svelte from "@astrojs/svelte";
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://zhanglun.github.io/",
@@ -22,7 +20,6 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
-    svelte(),
   ],
   // image: {
   //   service: squooshImageService(),
