@@ -21,7 +21,6 @@
     "fuse.js": "^6.6.2",
     "github-slugger": "^2.0.0",
     "lucide-react": "^0.263.1",
-    "lucide-svelte": "^0.453.0",
     "marked": "^14.1.4",
     "mdast-util-to-string": "^4.0.0",
     "mermaid": "^11.12.1",

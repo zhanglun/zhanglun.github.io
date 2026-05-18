@@ -1,0 +1,157 @@
+.item {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 12;
+  grid-template-rows: auto;
+  position: relative;
+  gap: 20px;
+  --overlap: 0px;
+}
+
+.item:first-of-type::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  bottom: 0;
+  height: 100%;
+  border-left: 0.5px dashed var(--borderColor);
+}
+
+.item:first-of-type::before {
+  content: "";
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  width: 100%;
+  border-top: 0.5px dashed var(--borderColor);
+}
+
+.item:last-of-type:before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  bottom: 0;
+  height: 100%;
+  border-left: 0.5px dashed var(--borderColor);
+}
+
+.item:last-of-type::after {
+  content: "";
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100%;
+  border-top: 0.5px dashed var(--borderColor);
+}
+
+.image {
+  position: relative;
+  background: var(--artBackground);
+  grid-column: 1 / 6;
+  grid-row: span 2;
+}
+
+.title {
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.content:hover .title {
+  background-image: linear-gradient(
+    transparent var(--overlap),
+    var(--highlightColor) var(--overlap)
+  );
+  color: var(--invertedTextColor);
+}
+
+.content:hover .description {
+  background-image: linear-gradient(
+    transparent calc(var(--overlap) * 0.5),
+    var(--highlightColor) calc(var(--overlap) * 0.5)
+  );
+  color: var(--invertedTextColor);
+}
+
+.content:hover :global(.badge) {
+  background: var(--highlightColor);
+  color: var(--invertedTextColor);
+  border-color: var(--invertedTextColor);
+}
+
+.myLogoText {
+  font-size: 10rem;
+  font-weight: 400;
+  transform: rotate(-45deg);
+  transition: all 0.3s ease-in-out;
+}
+
+.myLogo {
+  transition: all 0.3s ease-in-out;
+}
+
+.myLogo:hover {
+  background-color: var(--windowFrameBG);
+}
+
+.myLogo:hover .myLogoText {
+  transform: rotate(0);
+  color: var(--windowBarText);
+}
+
+.content {
+  grid-column: 6/12;
+}
+
+.buttonSm {
+  padding: 5px 8px;
+  display: flex;
+  border-radius: 2px;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  background: var(--navButtonBG);
+  color: var(--buttonColor);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.buttonSm:hover {
+  background: var(--highlightColor);
+  color: var(--invertedTextColor);
+}
+
+@media (max-width: 959px) {
+  .item {
+    grid-column: 1/-1;
+  }
+
+  .image {
+    grid-column: 1/8;
+  }
+
+  .content {
+    grid-column: 8/-2;
+  }
+}
+
+@media (max-width: 759px) {
+  .item {
+    row-gap: 8px;
+  }
+
+  .image {
+    grid-column: 1/-1;
+    grid-row: 1;
+  }
+
+  .content {
+    grid-column: 1/-1;
+    grid-row: 2;
+  }
+}

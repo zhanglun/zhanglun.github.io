@@ -53,9 +53,6 @@ importers:
       lucide-react:
         specifier: ^0.263.1
         version: 0.263.1(react@17.0.2)
-      lucide-svelte:
-        specifier: ^0.453.0
-        version: 0.453.0(svelte@5.39.6)
       marked:
         specifier: ^14.1.4
         version: 14.1.4
@@ -5363,11 +5360,6 @@ packages:
     resolution: {integrity: sha512-keqxAx97PlaEN89PXZ6ki1N8nRjGWtDa4021GFYLNj0RgruM5odbpl8GHTExj0hhPq3sF6Up0gnxt6TSHu+ovw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
-
-  lucide-svelte@0.453.0:
-    resolution: {integrity: sha512-K+eE2ZeE00ThIEbAmZB3Hq0sVS+1ZLj+7nqtJvN0Xrh/KZnfnEChG+do80sctqXQEE+iG1dA2T+5fVcJS1awfA==}
-    peerDependencies:
-      svelte: ^3 || ^4 || ^5.0.0-next.42
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -15039,10 +15031,6 @@ snapshots:
   lucide-react@0.263.1(react@17.0.2):
     dependencies:
       react: 17.0.2
-
-  lucide-svelte@0.453.0(svelte@5.39.6):
-    dependencies:
-      svelte: 5.39.6
 
   lz-string@1.5.0: {}
 

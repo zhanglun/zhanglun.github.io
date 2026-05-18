@@ -7,8 +7,6 @@ import sitemap from "@astrojs/sitemap";
 import mermaid from "astro-mermaid";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 
-import svelte from "@astrojs/svelte";
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://zhanglun.github.io/",
