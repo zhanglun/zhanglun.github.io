@@ -1,12 +1,12 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import AboutMd from "../content/about/index.md";
-import AboutSection from "../components/AboutSection.svelte";
+import AboutSection from "../components/AboutSection";
 ---
 
 <Layout>
   <AboutSection client:load>
-    <div slot="content" class="">
+    <div class="">
       <a
         href="mailto:zhanglun1410@gmail.com"
         class="flex flex-row items-center gap-2 absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] nice-button"

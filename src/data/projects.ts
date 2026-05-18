@@ -1,9 +1,10 @@
-import { Globe, Github } from "lucide-svelte";
+import { Globe, Github } from "lucide-react";
 
 export const PROJECTS = [
   {
     name: "Lettura: Follow your favorite content and never miss a story",
-    description: "基于 Tauri 框架构建的跨平台 RSS 桌面阅读器，简洁美观的界面、便捷的键盘快捷键。",
+    description:
+      "基于 Tauri 框架构建的跨平台 RSS 桌面阅读器，简洁美观的界面、便捷的键盘快捷键。",
     url: "https://github.com/zhanglun/lettura",
     thumbnail: "",
     logo: "/assets/lettura-icon.png",
@@ -32,7 +33,8 @@ export const PROJECTS = [
   },
   {
     name: "Pavo: Easily customize and change your desktop background",
-    description: "一款跨平台桌面壁纸程序，使用Bing每日一图，基于Rust Tauri开发，支持自动和手动切换壁纸。",
+    description:
+      "一款跨平台桌面壁纸程序，使用Bing每日一图，基于Rust Tauri开发，支持自动和手动切换壁纸。",
     url: "https://github.com/zhanglun/pavo",
     thumbnail: "",
     logo: "/assets/icon.png",
@@ -49,7 +51,8 @@ export const PROJECTS = [
   },
   {
     name: "BookWise: book wise read wise",
-    description: "一款正在开发的阅读软件，目标是为用户提供更好的阅读、学习和笔记体验。",
+    description:
+      "一款正在开发的阅读软件，目标是为用户提供更好的阅读、学习和笔记体验。",
     url: "https://github.com/zhanglun/bookwise",
     thumbnail: "",
     logo: "/assets/icon.png",
