@@ -11,34 +11,13 @@ export interface Props {
 const { noMarginTop = false } = Astro.props;
 ---
 
-<footer class={`${noMarginTop ? "max-w-screen-2xl" : "max-w-screen-2xl mt-auto"} context`}>
-  <div class="footer-wrapper">
+<footer class={`${noMarginTop ? "max-w-screen-2xl" : "max-w-screen-2xl mt-auto"} w-full context`}>
+  <div class="py-6 sm:py-4 flex flex-col sm:flex-row-reverse justify-between items-center">
     <Socials centered />
-    <div class="copyright-wrapper">
+    <div class="my-2 flex flex-col sm:flex-row items-center whitespace-nowrap">
       <span>Copyright &#169; {currentYear}</span>
-      <span class="separator">&nbsp;|&nbsp;</span>
+      <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
       <span>All rights reserved.</span>
     </div>
   </div>
 </footer>
-
-<style>
-  footer {
-    @apply w-full;
-  }
-  .footer-wrapper {
-    @apply py-6 sm:py-4 flex flex-col sm:flex-row-reverse justify-between items-center;
-  }
-  .link-button {
-    @apply p-2 my-1 hover:rotate-6;
-  }
-  /* .link-button svg {
-    @apply scale-125;
-  } */
-  .copyright-wrapper {
-    @apply my-2 flex flex-col sm:flex-row items-center whitespace-nowrap;
-  }
-  .separator {
-    @apply hidden sm:inline;
-  }
-</style>

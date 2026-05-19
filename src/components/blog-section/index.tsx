@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import DirectoryToggle from "../directory-toggle";
 import LineHeader from "../line-header";
 import dayjs from "dayjs";
-import { Badge } from "../Badge/badge";
+import { Badge } from "../Badge";
 import styles from './blog-section.module.css';
 
 interface Post {
@@ -137,7 +137,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
           <a
             key={index}
             className={styles.listItem}
-            href={`${prefix}/blog/${post.slug}`}
+            href={`${prefix}/blog/${post.id}`}
           >
             <div className={styles.listItemVisible}>
               <div className={styles.listItemDate}>

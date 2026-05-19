@@ -120,7 +120,7 @@ export default function BlogSection({
         {list.map((post, index) => (
           <a
             key={post.id || index}
-            href={`${prefix}/blog/${post.slug}`}
+            href={`${prefix}/blog/${post.id}`}
             className={styles.listItem}
           >
             <div className={styles.listItemVisible}>
