@@ -75,10 +75,16 @@
   margin-bottom: 24px;
 }
 
-/* Inner element required for the 0fr collapse trick */
+/* Inner element: min-height:0 for 0fr collapse, translateY for slide-from-top */
 .smartTitleInner {
   min-height: 0;
   word-break: break-word;
+  transform: translateY(-20px);
+  transition: transform 0.4s ease;
+}
+
+.smartTitleVisible .smartTitleInner {
+  transform: translateY(0);
 }
 
 .article {
