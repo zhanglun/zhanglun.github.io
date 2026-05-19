@@ -1,10 +1,11 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const blogs = defineCollection({
-  // Type-check frontmatter using a schema
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blogs" }),
   schema: z.object({
     title: z.string(),
-    // Transform string to Date object
     date: z
       .string()
       .or(z.date())
@@ -12,14 +13,13 @@ const blogs = defineCollection({
     tags: z.array(z.string()).default(["others"]),
     categories: z.array(z.string()).default(["others"]).nullish().or(z.string()).transform((val) => [].concat(val)),
     draft: z.boolean().optional(),
-  })
+  }),
 });
 
 const notion = defineCollection({
-  // Type-check frontmatter using a schema
+  loader: glob({ pattern: "**/index.md", base: "./src/content/notion" }),
   schema: z.object({
     title: z.string(),
-    // Transform string to Date object
     date: z
       .string()
       .or(z.date())
@@ -27,7 +27,7 @@ const notion = defineCollection({
     tags: z.array(z.string()).default(["others"]),
     categories: z.array(z.string()).default(["others"]).nullish().or(z.string()).transform((val) => [].concat(val)),
     draft: z.boolean().optional(),
-  })
+  }),
 });
 
 export const collections = { blogs, notion };
