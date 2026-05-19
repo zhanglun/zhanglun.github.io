@@ -1,4 +1,4 @@
-import { Globe, Github } from "lucide-react";
+import { Globe, CodeXml } from "lucide-react";
 
 export const PROJECTS = [
   {
@@ -27,7 +27,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/lettura",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
   },
@@ -45,7 +45,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/pavo",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
   },
@@ -66,7 +66,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/bookwise",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
     dates: "",
@@ -93,7 +93,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/gatsby-theme-facile",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
   },
@@ -110,7 +110,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/notify",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
   },
@@ -127,7 +127,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/hexo-theme-tinny",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
   },
@@ -144,7 +144,7 @@ export const PROJECTS = [
       {
         type: "Source",
         href: "https://github.com/zhanglun/bluerobin",
-        icon: Github,
+        icon: CodeXml,
       },
     ],
   },
