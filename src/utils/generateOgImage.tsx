@@ -1,31 +1,27 @@
 import React from "react";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
-import satori, { SatoriOptions } from "satori";
+import satori from "satori";
 import { SITE } from "@config";
+import type { SatoriOptions } from "satori";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-console.log("%c Line:11 🍡 import.meta.url", "color:#93c0a4", import.meta.url);
+const publicAssets = path.resolve(process.cwd(), "public/assets");
 
-console.log("%c Line:8 🌰 __dirname", "color:#ea7e5c", __dirname);
+const readAsset = (filename: string) =>
+  fs.readFileSync(path.join(publicAssets, filename));
 
-const fetchFonts = async () => {
-  const fontFileRegular = await fetch(
-    "https://raw.githubusercontent.com/zhanglun/zhanglun.github.io/master/public/assets/NotoSansSC-Regular.otf"
-  );
-  const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer();
-
-  // Bold Font
-  const fontFileBold = await fetch(
-    "https://raw.githubusercontent.com/zhanglun/zhanglun.github.io/master/public/assets/NotoSansSC-Medium.otf"
-  );
-  const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
-
-  return { fontRegular, fontBold };
+const readFont = (filename: string) => {
+  const font = readAsset(filename);
+  return font.buffer.slice(font.byteOffset, font.byteOffset + font.byteLength);
 };
 
-const { fontRegular, fontBold } = await fetchFonts();
+const toDataUri = (filename: string, mimeType: string) =>
+  `data:${mimeType};base64,${readAsset(filename).toString("base64")}`;
+
+const fontRegular = readFont("NotoSansSC-Regular.otf");
+const fontBold = readFont("NotoSansSC-Medium.otf");
+const coverImage = toDataUri("PyCharm_1920x1920.svg", "image/svg+xml");
+const avatarImage = toDataUri("icon.png", "image/png");
 
 const ogImage = (text: string) => {
   return (
@@ -43,7 +39,7 @@ const ogImage = (text: string) => {
       }}
     >
       <img
-        src="https://raw.githubusercontent.com/zhanglun/zhanglun.github.io/master/public/assets/PyCharm_1920x1920.svg"
+        src={coverImage}
         style={{
           position: "absolute",
           left: 0,
@@ -82,7 +78,7 @@ const ogImage = (text: string) => {
         }}
       >
         <img
-          src="https://raw.githubusercontent.com/zhanglun/zhanglun.github.io/master/public/assets/icon.png"
+          src={avatarImage}
           style={{ width: "66px", height: "66px", borderRadius: "50%" }}
         />
       </div>

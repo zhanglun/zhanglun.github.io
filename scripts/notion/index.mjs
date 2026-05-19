@@ -11,6 +11,32 @@ const databaseId = '45ab44626c7b4b8d9ecd22c9b70980b5';
 
 console.log('Loaded Source From Notion API');
 
+const retry = async (task, label, limit = 3) => {
+  let lastError;
+
+  for (let attempt = 1; attempt <= limit; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return await task();
+    } catch (e) {
+      lastError = e;
+
+      if (attempt === limit) {
+        break;
+      }
+
+      const message = e instanceof Error ? e.message : String(e);
+      console.warn(`Retry ${label} (${attempt + 1}/${limit}): ${message}`);
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise(resolve => {
+        setTimeout(resolve, attempt * 500);
+      });
+    }
+  }
+
+  throw lastError;
+};
+
 const formatContentAndCreate = (page) => {
   const title = getNotionPageTitle(page);
   const properties = getNotionPageProperties(page);
@@ -44,7 +70,7 @@ const formatContentAndCreate = (page) => {
 
   markdown = '---\n'.concat(YAML.stringify(frontmatter)).concat('\n---\n\n').concat(markdown.parent);
 
-  createPost(title, markdown);
+  return createPost(title, markdown);
 };
 
 // eslint-disable-next-line no-shadow
@@ -54,7 +80,10 @@ const download = async (token, databaseId) => {
     // notionVersion: '2021-05-13',
   });
   const n2m = new NotionToMarkdown({ notionClient });
-  const pages = await getPages(notionClient, databaseId);
+  const pages = await retry(
+    () => getPages(notionClient, databaseId),
+    'query pages'
+  );
 
   console.log('===> Page Total：%s', pages.length);
 
@@ -66,13 +95,16 @@ const download = async (token, databaseId) => {
     const task = pages.slice(i, i + limit).map((page) => (async () => {
       console.time(`Read page ${page.id}`);
 
-      const content = await n2m.pageToMarkdown(page.id);
+      const content = await retry(
+        () => n2m.pageToMarkdown(page.id),
+        `read page ${page.id}`
+      );
 
       console.timeEnd(`Read page ${page.id}`);
 
       page.markdown = n2m.toMarkdownString(content);
 
-      formatContentAndCreate(page);
+      await formatContentAndCreate(page);
 
       return page;
     })());

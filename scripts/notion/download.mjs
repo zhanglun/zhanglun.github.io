@@ -8,6 +8,7 @@ const DIST = path.resolve(process.cwd(), './src/content/notion');
 const CACHE_DIST = path.resolve(DIST, '.cache');
 // const ImageReg = /(!\[.*\]\(|cover:\s*)([^)\s]*)/g; // 包含封面
 const ImageReg = /(!\[.*\]\()([^)\s]*)/g;
+const DOWNLOAD_RETRY_LIMIT = 3;
 
 const getImageURLs = (content) => {
   const reg = new RegExp(ImageReg);
@@ -23,12 +24,18 @@ const getImageURLs = (content) => {
   return imageList;
 };
 
-function downloadImage(url, filepath) {
+const wait = (ms) => new Promise((resolve) => {
+  setTimeout(resolve, ms);
+});
+
+function downloadImage(url, filepath, attempt = 1) {
   return new Promise((resolve, reject) => {
     try {
-      client.get(new URL(url).href, (res) => {
+      const request = client.get(new URL(url).href, (res) => {
         if (res.statusCode === 200) {
-          res.pipe(fs.createWriteStream(filepath))
+          res
+            .on('error', reject)
+            .pipe(fs.createWriteStream(filepath))
             .on('error', reject)
             .once('close', () => {
               console.log(`Download ${url} to ${filepath}`);
@@ -41,10 +48,25 @@ function downloadImage(url, filepath) {
           reject(new Error(`Request Failed With a Status Code: ${res.statusCode}, URL: ${url}`));
         }
       });
+      request.setTimeout(30000, () => {
+        request.destroy(new Error(`Request timed out: ${url}`));
+      });
+      request.on('error', reject);
     } catch {
       console.log('url Error', url);
       resolve(filepath);
     }
+  }).catch(async (error) => {
+    if (attempt >= DOWNLOAD_RETRY_LIMIT) {
+      throw error;
+    }
+
+    console.warn(
+      `Retry download ${url} (${attempt + 1}/${DOWNLOAD_RETRY_LIMIT}): ${error.message}`
+    );
+    await wait(500 * attempt);
+
+    return downloadImage(url, filepath, attempt + 1);
   });
 }
 
@@ -82,7 +104,7 @@ export const createPost = (title, content) => {
     });
   });
 
-  p.then(() => {
+  return p.then(() => {
     imageURLs.forEach((url, idx) => {
       if (localFileList[idx]) {
         const href = url.split('?')[0];
