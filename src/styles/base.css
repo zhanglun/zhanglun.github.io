@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -122,9 +120,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     font-family: "SN Pro", Helvetica Neue, Arial, sans-serif;
     color: var(--bodyTextColor);
