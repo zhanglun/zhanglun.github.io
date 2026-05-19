@@ -61,15 +61,14 @@
 .smartTitle {
   grid-column: 1 / -1;
   word-break: break-word;
-  overflow: hidden;
-  max-height: 200px;
-  opacity: 1;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.4s ease;
 }
 
-.smartTitleHidden {
-  max-height: 0;
-  opacity: 0;
+.smartTitleVisible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .article {
