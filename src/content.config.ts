@@ -9,9 +9,19 @@ const blogs = defineCollection({
     date: z
       .string()
       .or(z.date())
-      .transform((val) => new Date(val)),
+      .transform(val => new Date(val)),
+    description: z.string().optional(),
+    author: z.string().optional(),
+    ogImage: z.string().optional(),
+    slug: z.string().optional(),
+    featured: z.boolean().optional(),
     tags: z.array(z.string()).default(["others"]),
-    categories: z.array(z.string()).default(["others"]).nullish().or(z.string()).transform((val) => [].concat(val)),
+    categories: z
+      .array(z.string())
+      .default(["others"])
+      .nullish()
+      .or(z.string())
+      .transform(val => [].concat(val)),
     draft: z.boolean().optional(),
   }),
 });
@@ -23,9 +33,19 @@ const notion = defineCollection({
     date: z
       .string()
       .or(z.date())
-      .transform((val) => new Date(val)),
+      .transform(val => new Date(val)),
+    description: z.string().optional(),
+    author: z.string().optional(),
+    ogImage: z.string().optional(),
+    slug: z.string().optional(),
+    featured: z.boolean().optional(),
     tags: z.array(z.string()).default(["others"]),
-    categories: z.array(z.string()).default(["others"]).nullish().or(z.string()).transform((val) => [].concat(val)),
+    categories: z
+      .array(z.string())
+      .default(["others"])
+      .nullish()
+      .or(z.string())
+      .transform(val => [].concat(val)),
     draft: z.boolean().optional(),
   }),
 });
