@@ -27,11 +27,11 @@ jobs:
       - name: Sync Pnpm version
         uses: pnpm/action-setup@v4
         with:
-          version: 8 
+          version: 10.22.0
       - name: Sync node version and setup cache
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: "22.14.0"
           cache: 'pnpm'
 
       - name: Install app dependencies and build web
@@ -45,7 +45,8 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
-          package-manager: pnpm@latest
+          node-version: "22.14.0"
+          package-manager: pnpm@10.22.0
       - name: Build storybook and copy some files
         run: |
           # pnpm run build-storybook
@@ -61,4 +62,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
