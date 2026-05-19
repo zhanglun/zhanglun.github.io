@@ -46,7 +46,7 @@
   display: grid;
   grid-template-columns: subgrid;
   align-self: start;
-  row-gap: 24px;
+  /* row-gap removed: spacing is owned by smartTitle's margin-bottom */
 }
 
 @media (min-width: 960px) {
@@ -58,17 +58,27 @@
   }
 }
 
+/* Outer wrapper: animates height (pushes metadata down) and fades in */
 .smartTitle {
   grid-column: 1 / -1;
-  word-break: break-word;
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.3s ease, transform 0.4s ease;
+  margin-bottom: 0;
+  transition: grid-template-rows 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
 }
 
 .smartTitleVisible {
+  grid-template-rows: 1fr;
   opacity: 1;
-  transform: translateY(0);
+  margin-bottom: 24px;
+}
+
+/* Inner element required for the 0fr collapse trick */
+.smartTitleInner {
+  min-height: 0;
+  word-break: break-word;
 }
 
 .article {
