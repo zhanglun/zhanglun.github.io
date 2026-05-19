@@ -24,8 +24,9 @@ export default function BlogDetail({
   children,
 }: BlogDetailProps) {
   const heroSectionRef = useRef<HTMLDivElement>(null);
-  const smartTitleRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState<boolean>(true);
+  const [heroVisible, setHeroVisible] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
+  const [animated, setAnimated] = useState<boolean>(false);
 
   useEffect(() => {
     const heroEl = heroSectionRef.current;
@@ -33,18 +34,28 @@ export default function BlogDetail({
 
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting) {
-          setVisible(false);
-        } else {
-          setVisible(true);
-        }
+        setHeroVisible(entries[0].isIntersecting);
       },
-      { rootMargin: "0px", threshold: 1 }
+      { rootMargin: "0px", threshold: 0 }
     );
 
     observer.observe(heroEl);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!heroVisible) {
+      setShow(true);
+      const id = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setAnimated(true));
+      });
+      return () => cancelAnimationFrame(id);
+    } else {
+      setAnimated(false);
+      const timer = setTimeout(() => setShow(false), 400);
+      return () => clearTimeout(timer);
+    }
+  }, [heroVisible]);
 
   return (
     <article className={styles.section}>
@@ -56,16 +67,17 @@ export default function BlogDetail({
 
       <div className={styles.bodySection}>
         <aside className={styles.sidebar}>
-          <div
-            ref={smartTitleRef}
-            className={clsx(
-              styles.smartTitle,
-              !visible && styles.smartTitleHidden,
-              "text-lg"
-            )}
-          >
-            {title}
-          </div>
+          {show && (
+            <div
+              className={clsx(
+                styles.smartTitle,
+                animated && styles.smartTitleVisible,
+                "text-lg"
+              )}
+            >
+              {title}
+            </div>
+          )}
           <div className={styles.metadata}>
             <LineHeader title="METADATA" />
             <div className={`${styles.metadataItem} text-smallcaps`}>
