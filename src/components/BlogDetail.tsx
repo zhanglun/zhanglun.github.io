@@ -68,14 +68,10 @@ export default function BlogDetail({
       <div className={styles.bodySection}>
         <aside className={styles.sidebar}>
           {show && (
-            <div
-              className={clsx(
-                styles.smartTitle,
-                animated && styles.smartTitleVisible,
-                "text-lg"
-              )}
-            >
-              {title}
+            <div className={clsx(styles.smartTitle, animated && styles.smartTitleVisible)}>
+              <div className={clsx(styles.smartTitleInner, "text-lg")}>
+                {title}
+              </div>
             </div>
           )}
           <div className={styles.metadata}>
