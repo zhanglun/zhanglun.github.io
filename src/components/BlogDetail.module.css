@@ -3,6 +3,7 @@
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
   grid-template-rows: auto;
+  margin-top: 60px;
 }
 
 .heroSection {
@@ -10,7 +11,6 @@
   display: grid;
   grid-template-columns: subgrid;
   position: relative;
-  margin-top: 80px;
   --iconWidth: calc(63px + ((88 - 63) * (100vw - 390px) / (1440 - 390)));
 }
 
@@ -66,7 +66,10 @@
   overflow: hidden;
   opacity: 0;
   margin-bottom: 0;
-  transition: grid-template-rows 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
+  transition:
+    grid-template-rows 0.4s ease,
+    opacity 0.3s ease,
+    margin-bottom 0.4s ease;
 }
 
 .smartTitleVisible {
