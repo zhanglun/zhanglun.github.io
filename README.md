@@ -1,136 +1,125 @@
-# astro-theme-facile :construction: :WIP:
+# zhanglun.github.io
 
-![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![GitHub](https://img.shields.io/github/license/zhanglun/astro-theme-facile?color=%232F3741&style=for-the-badge)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white&style=for-the-badge)](https://conventionalcommits.org)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge)](http://commitizen.github.io/cz-cli/)
+张小伦的网络日志。项目基于 Astro 构建，主要用于发布博客、项目页和个人介绍内容。
 
-astro-theme-facile is a minimal, responsive, accessible and SEO-friendly Astro blog theme. This theme is designed and crafted based on [my personal blog](https://zhanglun.github.io/).
+## 技术栈
 
-This theme follows best practices and provides accessibility out of the box. Light and dark mode are supported by default. Moreover, additional color schemes can also be configured.
+- [Astro](https://astro.build/)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Fuse.js](https://www.fusejs.io/)
+- [Mermaid](https://mermaid.js.org/)
+- [Notion API](https://developers.notion.com/) 内容同步
 
-This theme is self-documented \_ which means articles/blogs in this theme can also be considered as documentations. Read [the blog posts](https://zhanglun.github.io/blog/) or check [the README Documentation Section](#-documentation) for more info.
+## 本地开发
 
-## 🔥 Features
-
-- [x] super fast performance
-- [x] accessible (Keyboard/VoiceOver)
-- [x] responsive (mobile ~ desktops)
-- [x] SEO-friendly
-- [x] light & dark mode
-- [x] fuzzy search
-- [x] draft posts & pagination
-- [x] sitemap & rss feed
-- [x] followed best practices
-- [x] highly customizable
-- [x] dynamic OG image generation for blog posts ([Blog Post](https://zhanglun.github.io/blogsdynamic-og-image-generation-in-astro-theme-facile-blog-posts/))
-
-## 🚀 Project Structure
-
-Inside of astro-theme-facile, you'll see the following folders and files:
+项目使用 pnpm 管理依赖。
 
 ```bash
-/
-├── public/
-│   ├── assets/
-│   │   └── logo.svg
-│   │   └── logo.png
-│   └── favicon.svg
-│   └── astro-theme-facile-og.jpg
-│   └── robots.txt
+pnpm install
+pnpm dev
+```
+
+开发服务默认运行在 `http://localhost:3000`。
+
+## 常用命令
+
+| 命令 | 说明 |
+| --- | --- |
+| `pnpm dev` | 启动本地开发服务 |
+| `pnpm start` | `pnpm dev` 的别名 |
+| `pnpm build` | 构建生产版本到 `dist/` |
+| `pnpm preview` | 本地预览生产构建 |
+| `pnpm format:check` | 检查 Prettier 格式 |
+| `pnpm format` | 格式化代码 |
+| `pnpm download` | 从 Notion 同步文章内容 |
+| `pnpm storybook` | 启动 Storybook |
+| `pnpm cz` | 使用 Commitizen 提交 |
+
+## 项目结构
+
+```text
+.
+├── public/              # 静态资源、字体、站点图片
+├── scripts/             # Notion 内容同步脚本
 ├── src/
-│   ├── assets/
-│   │   └── socialIcons.ts
-│   ├── components/
-│   ├── contents/
-│   │   └── some-blog-posts.md
-│   ├── layouts/
-│   └── pages/
-│   └── styles/
-│   └── utils/
-│   └── config.ts
-│   └── types.ts
+│   ├── assets/          # 资源引用
+│   ├── components/      # Astro 和 React 组件
+│   ├── content/         # Markdown 内容
+│   │   ├── about/       # 个人介绍内容
+│   │   ├── blogs/       # 本地博客文章
+│   │   ├── labs/        # 实验内容
+│   │   └── notion/      # Notion 同步文章
+│   ├── data/            # 静态数据
+│   ├── layouts/         # 页面布局
+│   ├── pages/           # Astro 路由页面
+│   ├── styles/          # 全局样式
+│   ├── utils/           # 工具函数
+│   ├── config.ts        # 站点配置
+│   └── content.config.ts # Astro 内容集合配置
+├── astro.config.mjs
+├── tailwind.config.cjs
+├── tsconfig.json
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 内容管理
 
-Any static assets, like images, can be placed in the `public/` directory.
+博客内容由 Astro Content Collections 管理，集合定义在
+`src/content.config.ts`。
 
-All blog posts are stored in `src/contents/` directory.
+- `blogs`: 读取 `src/content/blogs/**/*.md`
+- `notion`: 读取 `src/content/notion/**/index.md`
 
-## 📖 Documentation
+文章 frontmatter 常用字段：
 
-Documentation can be read in two formats\_ _markdown_ & _blog post_.
-
-- Configuration - [markdown](src/contents/how-to-configure-astro-theme-facile-theme.md) | [blog post](https://zhanglun.github.io/blogshow-to-configure-astro-theme-facile-theme/)
-- Add Posts - [markdown](src/contents/adding-new-post.md) | [blog post](https://zhanglun.github.io/blogsadding-new-posts-in-astro-theme-facile-theme/)
-- Customize Color Schemes - [markdown](src/contents/customizing-astro-theme-facile-theme-color-schemes.md) | [blog post](https://zhanglun.github.io/blogscustomizing-astro-theme-facile-theme-color-schemes/)
-- Predefined Color Schemes - [markdown](src/contents/predefined-color-schemes.md) | [blog post](https://zhanglun.github.io/blogspredefined-color-schemes/)
-
-## 💻 Tech Stack
-
-**Main Framework** - [Astro](https://astro.build/)  
-**Type Checking** - [TypeScript](https://www.typescriptlang.org/)  
-**Component Framework** - [ReactJS](https://reactjs.org/)  
-**Styling** - [TailwindCSS](https://tailwindcss.com/)  
-**UI/UX** - [Figma](https://figma.com)  
-**Fuzzy Search** - [FuseJS](https://fusejs.io/)  
-**Icons** - [Boxicons](https://boxicons.com/) | [Tablers](https://tabler-icons.io/)  
-**Code Formatting** - [Prettier](https://prettier.io/)  
-**Deployment** - [Cloudflare Pages](https://pages.cloudflare.com/)  
-**Illustration in About Page** - [https://freesvgillustration.com](https://freesvgillustration.com/)
-
-## 👨🏻‍💻 Running Locally
-
-The easiest way to run this project locally is to run the following command in your desired directory.
-
-```bash
-# pnpm 6.x
-pnpm create astro@latest --template zhanglun/astro-theme-facile
-
-# pnpm 7+, extra double-dash is needed:
-pnpm create astro@latest -- --template zhanglun/astro-theme-facile
-
-# yarn
-yarn create astro --template zhanglun/astro-theme-facile
+```yaml
+title: 文章标题
+date: 2026-01-01
+description: 文章描述
+tags:
+  - frontend
+categories:
+  - notes
+draft: false
 ```
 
-## Google Site Verification (optional)
+生产构建会过滤 `draft: true` 的文章。
 
-You can easily add your [Google Site Verification HTML tag](https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag) in astro-theme-facile using environment variable. This step is optional. If you don't add the following env variable, the google-site-verification tag won't appear in the html `<head>` section.
+## Notion 同步
+
+运行以下命令从 Notion 拉取内容：
 
 ```bash
-# in your environment variable file (.env)
-PUBLIC_GOOGLE_SITE_VERIFICATION=your-google-site-verification-value
+pnpm download
 ```
 
-## 🧞 Commands
+同步脚本位于 `scripts/notion/`，生成的文章会进入
+`src/content/notion/`。
 
-All commands are run from the root of the project, from a terminal:
+## 环境变量
 
-| Command                | Action                                             |
-| :--------------------- | :------------------------------------------------- |
-| `pnpm install`          | Installs dependencies                              |
-| `pnpm run dev`          | Starts local dev server at `localhost:3000`        |
-| `pnpm run build`        | Build your production site to `./dist/`            |
-| `pnpm run preview`      | Preview your build locally, before deploying       |
-| `pnpm run format:check` | Check code format with Prettier                    |
-| `pnpm run format`       | Format codes with Prettier                         |
-| `pnpm run cz`           | Commit code changes with commitizen                |
-| `pnpm run astro ...`    | Run CLI commands like `astro add`, `astro preview` |
-| `pnpm run astro --help` | Get help using the Astro CLI                       |
+可在项目根目录创建 `.env`：
 
-## ✨ Feedback & Suggestions
+```bash
+PUBLIC_GOOGLE_SITE_VERIFICATION=your-verification-code
+```
 
-If you have any suggestions/feedback, feel free to open an issue if you find bugs or want to request new features.
+`PUBLIC_` 前缀的变量会暴露给客户端代码。
 
-## 📜 License
+## 构建与部署
 
-Licensed under the MIT License, Copyright © 2023
+```bash
+pnpm build
+```
 
----
+构建产物输出到 `dist/`。部署前可以运行：
 
-Made with 🤍 by [zhanglun](https://zhanglun.xyz) 👨🏻‍💻
+```bash
+pnpm preview
+```
 
-Thanks [Sat Naing](https://satnaing.dev/)
+## 许可
+
+`package.json` 声明为 `0BSD`。
