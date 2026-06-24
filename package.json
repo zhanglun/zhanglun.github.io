@@ -9,6 +9,7 @@
     "@astrojs/rss": "^4.0.18",
     "@astrojs/ts-plugin": "^1.10.8",
     "@notionhq/client": "^5.21.0",
+    "@scrambl/react": "^0.1.1",
     "@tailwindcss/vite": "^4.3.0",
     "@vercel/og": "^0.11.1",
     "astro": "^6.3.3",
