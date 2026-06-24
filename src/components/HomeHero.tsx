@@ -21,6 +21,24 @@ export default function HomeHero({ site }: HomeHeroProps) {
     trigger: "hover",
   });
 
+  const { ref: descRef, replay: replayDesc } = useScramble({
+    text: site.description,
+    chars: "blocks",
+    from: "left",
+    duration: 800,
+    playOnMount: true,
+    trigger: "hover",
+  });
+
+  const { ref: roleRef, replay: replayRole } = useScramble({
+    text: "Full-stack Developer / Open Source Lover.",
+    chars: "blocks",
+    from: "left",
+    duration: 800,
+    playOnMount: true,
+    trigger: "hover",
+  });
+
   return (
     <section className={clsx("section", styles.homeHeroSection)}>
       <PlusIcons />
@@ -30,8 +48,12 @@ export default function HomeHero({ site }: HomeHeroProps) {
         </h1>
       </div>
       <div className={styles.subTitle}>
-        {site.description}
-        <div>Full-stack Developer / Open Source Lover.</div>
+        <div ref={descRef} onClick={replayDesc}>
+          {site.description}
+        </div>
+        <div ref={roleRef} onClick={replayRole}>
+          Full-stack Developer / Open Source Lover.
+        </div>
       </div>
       <PlusIcons />
     </section>

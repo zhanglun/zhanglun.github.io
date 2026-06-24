@@ -1,4 +1,5 @@
 import React, { type ReactNode, useEffect, useRef, useState } from "react";
+import { useScramble } from "@scrambl/react";
 import clsx from "clsx";
 import LineHeader from "./LineHeader";
 import dayjs from "dayjs";
@@ -24,6 +25,14 @@ export default function BlogDetail({
   children,
 }: BlogDetailProps) {
   const heroSectionRef = useRef<HTMLDivElement>(null);
+  const { ref: titleRef, replay: replayTitle } = useScramble({
+    text: title,
+    chars: "blocks",
+    from: "left",
+    duration: 800,
+    playOnMount: true,
+    trigger: "hover",
+  });
   const [heroVisible, setHeroVisible] = useState<boolean>(true);
   const [show, setShow] = useState<boolean>(false);
   const [animated, setAnimated] = useState<boolean>(false);
@@ -61,7 +70,9 @@ export default function BlogDetail({
     <article className={styles.section}>
       <PlusIcons />
       <div className={styles.heroSection} ref={heroSectionRef}>
-        <h1 className={`${styles.title} text-hero`}>{title}</h1>
+        <h1 ref={titleRef} className={`${styles.title} text-hero`} onClick={replayTitle}>
+          {title}
+        </h1>
       </div>
       <PlusIcons />
 
