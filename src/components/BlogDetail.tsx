@@ -27,9 +27,9 @@ export default function BlogDetail({
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const { ref: titleRef, replay: replayTitle } = useScramble({
     text: title,
-    chars: "blocks",
+    chars: "braille",
     renderMode: "text",
-    from: "left",
+    from: "random",
     duration: 800,
     playOnMount: true,
     trigger: "hover",
