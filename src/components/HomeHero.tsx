@@ -15,6 +15,7 @@ export default function HomeHero({ site }: HomeHeroProps) {
   const { ref, replay } = useScramble({
     text: site.title,
     chars: "blocks",
+    renderMode: "text",
     from: "left",
     duration: 800,
     playOnMount: true,
@@ -24,6 +25,7 @@ export default function HomeHero({ site }: HomeHeroProps) {
   const { ref: descRef, replay: replayDesc } = useScramble({
     text: site.description,
     chars: "blocks",
+    renderMode: "text",
     from: "left",
     duration: 800,
     playOnMount: true,
@@ -33,6 +35,7 @@ export default function HomeHero({ site }: HomeHeroProps) {
   const { ref: roleRef, replay: replayRole } = useScramble({
     text: "Full-stack Developer / Open Source Lover.",
     chars: "blocks",
+    renderMode: "text",
     from: "left",
     duration: 800,
     playOnMount: true,

@@ -28,6 +28,7 @@ export default function BlogDetail({
   const { ref: titleRef, replay: replayTitle } = useScramble({
     text: title,
     chars: "blocks",
+    renderMode: "text",
     from: "left",
     duration: 800,
     playOnMount: true,
