@@ -2,6 +2,24 @@ import { Globe, CodeXml } from "lucide-react";
 
 export const PROJECTS = [
   {
+    name: "amber: your personal web shelf",
+    description:
+      "把网页保存成可长期阅读的个人档案：新内容先进入收件箱，安顿后上架；可按标签浏览，并从标题、正文、来源和标签中找回旧内容。",
+    url: "https://github.com/zhanglun/amber",
+    thumbnail: "",
+    logo: "/assets/icon.png",
+    image: "/assets/icon.png",
+    dates: "",
+    technologies: ["typescript", "hono", "prisma", "postgresql"],
+    links: [
+      {
+        type: "Source",
+        href: "https://github.com/zhanglun/amber",
+        icon: CodeXml,
+      },
+    ],
+  },
+  {
     name: "Lettura: Follow your favorite content and never miss a story",
     description:
       "基于 Tauri 框架构建的跨平台 RSS 桌面阅读器，简洁美观的界面、便捷的键盘快捷键。",
