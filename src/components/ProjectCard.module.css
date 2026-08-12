@@ -81,6 +81,7 @@
 }
 
 .myLogoText {
+  text-transform: uppercase;
   font-size: 10rem;
   font-weight: 400;
   transform: rotate(-45deg);
