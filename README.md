@@ -10,7 +10,6 @@
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Fuse.js](https://www.fusejs.io/)
 - [Mermaid](https://mermaid.js.org/)
-- [Notion API](https://developers.notion.com/) 内容同步
 
 ## 本地开发
 
@@ -33,7 +32,6 @@ pnpm dev
 | `pnpm preview` | 本地预览生产构建 |
 | `pnpm format:check` | 检查 Prettier 格式 |
 | `pnpm format` | 格式化代码 |
-| `pnpm download` | 从 Notion 同步文章内容 |
 | `pnpm storybook` | 启动 Storybook |
 | `pnpm cz` | 使用 Commitizen 提交 |
 
@@ -42,15 +40,14 @@ pnpm dev
 ```text
 .
 ├── public/              # 静态资源、字体、站点图片
-├── scripts/             # Notion 内容同步脚本
+├── scripts/             # 维护脚本与迁移记录
 ├── src/
 │   ├── assets/          # 资源引用
 │   ├── components/      # Astro 和 React 组件
 │   ├── content/         # Markdown 内容
 │   │   ├── about/       # 个人介绍内容
 │   │   ├── blogs/       # 本地博客文章
-│   │   ├── labs/        # 实验内容
-│   │   └── notion/      # Notion 同步文章
+│   │   └── labs/        # 实验内容
 │   ├── data/            # 静态数据
 │   ├── layouts/         # 页面布局
 │   ├── pages/           # Astro 路由页面
@@ -70,7 +67,6 @@ pnpm dev
 `src/content.config.ts`。
 
 - `blogs`: 读取 `src/content/blogs/**/*.md`
-- `notion`: 读取 `src/content/notion/**/index.md`
 
 文章 frontmatter 常用字段：
 
@@ -87,16 +83,7 @@ draft: false
 
 生产构建会过滤 `draft: true` 的文章。
 
-## Notion 同步
-
-运行以下命令从 Notion 拉取内容：
-
-```bash
-pnpm download
-```
-
-同步脚本位于 `scripts/notion/`，生成的文章会进入
-`src/content/notion/`。
+博客文章和文章图片都保存在 `src/content/blogs/`，由 Git 管理。图片应放在文章目录的 `images/` 子目录，并使用相对路径引用。
 
 ## 环境变量
 

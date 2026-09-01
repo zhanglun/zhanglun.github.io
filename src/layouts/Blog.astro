@@ -8,8 +8,8 @@ import getUniqueCategories from "@utils/getUniqueCategories";
 export interface Props {
   pageNum: number;
   totalPages: number;
-  posts: CollectionEntry<"blogs" | "notion">[];
-  allPosts: CollectionEntry<"blogs" | "notion">[];
+  posts: CollectionEntry<"blogs">[];
+  allPosts: CollectionEntry<"blogs">[];
 }
 
 const { allPosts } = Astro.props;

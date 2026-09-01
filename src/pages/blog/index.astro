@@ -6,8 +6,7 @@ import getPageNumbers from "@utils/getPageNumbers";
 import { getCollection } from "astro:content";
 
 const posts = await getCollection("blogs");
-const posts2 = await getCollection("notion");
-const sortedPosts = getSortedPosts([...posts, ...posts2]);
+const sortedPosts = getSortedPosts(posts);
 const totalPages = getPageNumbers(sortedPosts.length);
 const paginatedPosts = sortedPosts.slice(0, SITE.postPerPage);
 ---

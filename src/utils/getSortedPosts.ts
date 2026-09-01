@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 
-const getSortedPosts = (posts: CollectionEntry<"blogs" | "notion">[]) =>
+const getSortedPosts = (posts: CollectionEntry<"blogs">[]) =>
   posts
     .filter(({ data }) => !data.draft)
     .map(post => {

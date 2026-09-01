@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import remarkToc from "remark-toc";
@@ -7,6 +8,13 @@ import mermaid from "astro-mermaid";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 import tailwindcss from "@tailwindcss/vite";
+
+const migrationReport = JSON.parse(
+  fs.readFileSync(
+    new URL("./scripts/migrate-redirects.output.json", import.meta.url),
+    "utf8"
+  )
+);
 
 // Vite 7 bug: @vite/env virtual module resolution fails in some environments.
 // Providing it as an explicit no-op plugin fixes the import-analysis error.
@@ -27,6 +35,7 @@ export default defineConfig({
 
   redirects: {
     "/blogs/[...slug]": "/blog/[...slug]",
+    ...migrationReport.redirects,
   },
 
   integrations: [

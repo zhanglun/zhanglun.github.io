@@ -1,7 +1,7 @@
 import { slugifyStr } from "./slugify";
 import type { CollectionEntry } from "astro:content";
 
-const getUniqueTags = (posts: CollectionEntry<"blogs" | "notion">[]): [string, number][] => {
+const getUniqueTags = (posts: CollectionEntry<"blogs">[]): [string, number][] => {
   let tags: string[] = [];
   const filteredPosts = posts.filter(({ data }) => !data.draft);
 

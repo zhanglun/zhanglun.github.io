@@ -1,3 +1,10 @@
+---
+title: 不要展示思维链：如何设计 Codex 风格的 Agent Activity Stream
+date: 2026-08-28
+description: 从模型 reasoning 到公开活动流，讲清楚 Agent 过程展示的概念边界、产品价值、事件协议和工程实现。
+draft: false
+---
+
 # 不要展示思维链：如何设计 Codex 风格的 Agent Activity Stream
 
 > 从模型 reasoning 到公开活动流，讲清楚 Agent 过程展示的概念边界、产品价值、事件协议和工程实现。

@@ -1,7 +1,7 @@
 import { slugifyStr } from "./slugify";
 import type { CollectionEntry } from "astro:content";
 
-const getUniqueCategories = (posts: CollectionEntry<"blogs" | "notion">[]) => {
+const getUniqueCategories = (posts: CollectionEntry<"blogs">[]) => {
   let categories: string[] = [];
   const filteredPosts = posts.filter(({ data }) => !data.draft);
   filteredPosts.forEach(post => {
