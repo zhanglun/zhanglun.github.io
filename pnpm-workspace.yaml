@@ -1,9 +1,0 @@
-allowBuilds:
-  '@parcel/watcher': true
-  canvas: true
-  esbuild: true
-  rome: true
-  sharp: true
-minimumReleaseAgeExclude:
-  - '@astrojs/markdown-satteri@0.3.2'
-  - astro@7.0.2
