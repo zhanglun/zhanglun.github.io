@@ -1,5 +1,6 @@
 {
   "name": "zhanglun.github.io",
+  "packageManager": "pnpm@11.20.0",
   "private": true,
   "type": "module",
   "description": "A blog powered by Astro and Markdown",
