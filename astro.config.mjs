@@ -40,7 +40,7 @@ export default defineConfig({
 
   integrations: [
     react(),
-    sitemap(),
+    sitemap({ filter: page => new URL(page).pathname !== "/admin/" }),
     mermaid({
       theme: "forest",
       autoTheme: true,

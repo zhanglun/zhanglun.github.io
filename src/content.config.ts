@@ -22,7 +22,7 @@ const blogs = defineCollection({
       .default(["others"])
       .nullish()
       .or(z.string())
-      .transform(val => [].concat(val)),
+      .transform(val => (val ? (Array.isArray(val) ? val : [val]) : [])),
     draft: z.boolean().optional(),
   }),
 });

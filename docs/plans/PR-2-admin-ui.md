@@ -98,7 +98,7 @@ fixture 模式：`api.ts` 内部判断 `import.meta.env.PUBLIC_ADMIN_ORIGIN` 是
 - `/admin` 页面加 `<meta name="robots" content="noindex">`，并在 sitemap 中过滤
 - admin 视觉：白/暗双主题跟随 `prefers-color-scheme`，黑白灰 + 一个强调色，不引入组件库
 - CodeMirror 主题用自带暗色主题，不额外定制
-- 列表 248 篇全量渲染（无分页），前端搜索过滤足够快
+- 列表全量渲染（无分页），当前约 160 篇文章，前端搜索过滤足够快
 - 博客前台**不加入口链接**，admin 入口 = 直接访问 Vercel 域名 `/admin`
 - GH Pages 上也会存在 `/admin` 页面（同一份构建产物），API 未配置时显示"请在管理域名访问"提示，无害
 
@@ -116,7 +116,7 @@ fixture 模式：`api.ts` 内部判断 `import.meta.env.PUBLIC_ADMIN_ORIGIN` 是
 
 - 不做登录界面（PR 3 的 OAuth 跳转承担，未登录时 API 401 → UI 显示"去登录"）
 - 不做真实预览与图片上传（PR 4）
-- 不做分页/虚拟滚动（248 篇不需要）
+- 不做分页/虚拟滚动（当前文章数量不需要）
 - 不做富文本/所见即所得
 - 不做多语言、不做移动端专门优化（桌面优先，可用即可）
 
