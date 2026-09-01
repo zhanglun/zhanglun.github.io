@@ -6,10 +6,7 @@ import Footer from "@components/Footer.astro";
 import Search from "@components/Search";
 
 // Retrieve all articles
-const posts = [
-  ...(await getCollection("blogs", ({ data }) => !data.draft)),
-  ...(await getCollection("notion", ({ data }) => !data.draft)),
-];
+const posts = await getCollection("blogs", ({ data }) => !data.draft);
 
 // List of items to search in
 const searchList = await Promise.all(

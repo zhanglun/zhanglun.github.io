@@ -3,10 +3,7 @@ import { getCollection } from "astro:content";
 import { SITE } from "src/config";
 
 export const GET = async () => {
-  const posts = [
-    ...(await getCollection("blogs", ({ data }) => !data.draft)),
-    ...(await getCollection("notion", ({ data }) => !data.draft)),
-  ];
+  const posts = await getCollection("blogs", ({ data }) => !data.draft);
 
   return rss({
     title: SITE.title,

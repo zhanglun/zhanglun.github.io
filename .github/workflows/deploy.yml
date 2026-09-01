@@ -38,10 +38,6 @@ jobs:
         # Remove `&& yarn build` if you build your frontend in `beforeBuildCommand`
         run: pnpm install
 
-      - name: Sync content from Notion
-        run: |
-          pnpm run download
-
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:

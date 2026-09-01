@@ -35,7 +35,6 @@ pnpm format       # Auto-format with Prettier
 ### Other
 ```bash
 pnpm cz           # Commit with commitizen (conventional commits)
-pnpm download     # Download content from Notion
 pnpm storybook    # Run Storybook for component development
 ```
 
@@ -262,10 +261,9 @@ Example:
 
 ### Content Collections
 
-Blog posts are stored in two collections defined in `src/content/config.ts`:
+Blog posts are stored in the `blogs` collection defined in `src/content.config.ts`:
 
-- `blogs` — Local Markdown files in `src/content/blogs/`
-- `notion` — Synced from Notion via `pnpm download`
+- `blogs` — Git-managed Markdown files in `src/content/blogs/`
 
 Collection schema:
 ```typescript
@@ -316,7 +314,7 @@ try {
 ```
 /
 ├── public/              # Static assets
-├── scripts/             # Build scripts (Notion sync)
+├── scripts/             # Maintenance scripts and migration records
 ├── src/
 │   ├── assets/          # Asset references
 │   ├── components/      # UI components (React, Astro)
@@ -349,9 +347,10 @@ pnpm cz  # Interactive commit helper
 
 Posts with `draft: true` in frontmatter are filtered out in production builds.
 
-### Notion Integration
+### Content Management
 
-Run `pnpm download` to sync blog posts from Notion. The script is located at `scripts/notion/index.mjs`.
+Blog posts and their local images are managed in Git under `src/content/blogs/`.
+Images should live in an article's `images/` directory and use relative paths.
 
 ### Styling
 

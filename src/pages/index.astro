@@ -12,8 +12,7 @@ import getUniqueTags from "@utils/getUniqueTags";
 import getUniqueCategories from "@utils/getUniqueCategories";
 
 const posts = await getCollection("blogs");
-const posts2 = await getCollection("notion");
-const sortedPosts = getSortedPosts([...posts, ...posts2]);
+const sortedPosts = getSortedPosts(posts);
 const prefix = import.meta.env.BASE_URL.slice(0, -1);
 
 let tags = getUniqueTags(sortedPosts);

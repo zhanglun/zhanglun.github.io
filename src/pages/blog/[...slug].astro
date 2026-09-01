@@ -28,8 +28,7 @@ type PagePaths = {
 
 export async function getStaticPaths() {
   const posts = await getCollection("blogs");
-  const posts2 = await getCollection("notion");
-  const filteredPosts = [...posts, ...posts2].filter(({ data }) => !data.draft);
+  const filteredPosts = posts.filter(({ data }) => !data.draft);
 
   let postResult: PostResult = filteredPosts.map(entry => {
     return {
@@ -51,10 +50,12 @@ export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { entry } = Astro.props as Props;
-const { title, author, description, ogImage, date, tags, categories } =
+const { title, author, description, cover, ogImage, date, tags, categories } =
   entry.data;
-const ogUrl = new URL(ogImage ? ogImage : `${title}.svg`, Astro.url.origin)
-  .href;
+const ogUrl = new URL(
+  cover?.src || ogImage || `${title}.svg`,
+  Astro.url.origin
+).href;
 
 const { Content, remarkPluginFrontmatter } = await render(entry);
 ---
