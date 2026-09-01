@@ -100,7 +100,7 @@ query {
 ```
 
 服务端解析 frontmatter → 返回 `PostSummary[]`（PR 2 定义的类型）。
-单次请求、无遍历、无分页，248 篇毫秒级。
+单次请求、无分页，当前约 160 篇文章，满足管理后台的加载需求。
 
 ### 4.3 读取（GET /api/posts/:path）
 
@@ -168,7 +168,7 @@ PUBLIC_ADMIN_ORIGIN=         # https://<project>.vercel.app（OAuth redirect 与
 - [ ] 前置：master 未开启 branch protection（否则 PAT 直推 403，需先放行或关闭）
 - [ ] 未登录 `curl /api/posts` → 401
 - [ ] 登录流程走通；非白名单账号（他人 GitHub）登录 → 403 无 cookie
-- [ ] admin 列表显示 248 篇真实文章，搜索/筛选可用
+- [ ] admin 列表显示仓库中的全部文章，搜索/筛选可用
 - [ ] 编辑保存 → GitHub 上出现 `content: update ...` 单文件 commit
 - [ ] 新建（中文标题）→ 目录 `YYYY-MM-DD-拼音slug`、`draft: true`
 - [ ] 发布 → `draft: false`，master push 触发 GitHub Actions 部署
