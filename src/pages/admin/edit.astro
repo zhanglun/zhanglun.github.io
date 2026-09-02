@@ -1,7 +1,5 @@
 ---
 import AdminEditorApp from "../../components/admin/AdminEditorApp";
-
-const path = Astro.url.searchParams.get("path") || "new";
 ---
 
 <!doctype html>
@@ -13,6 +11,6 @@ const path = Astro.url.searchParams.get("path") || "new";
     <title>编辑文章 · zhanglun.github.io</title>
   </head>
   <body>
-    <AdminEditorApp client:load path={path} />
+    <AdminEditorApp client:only="react" />
   </body>
 </html>
