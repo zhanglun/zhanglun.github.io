@@ -1,7 +1,10 @@
+import { useMemo } from "react";
 import PostEditor from "./PostEditor";
+import "./admin.css";
 
-interface Props { path: string; }
-
-export default function AdminEditorApp({ path }: Props) {
+export default function AdminEditorApp() {
+  const path = useMemo(() => (
+    new URLSearchParams(window.location.search).get("path") || "new"
+  ), []);
   return <PostEditor path={path} onBack={() => { window.location.href = "/admin/"; }} onSaved={() => {}} />;
 }
