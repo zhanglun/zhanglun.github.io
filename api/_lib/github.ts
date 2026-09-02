@@ -22,7 +22,7 @@ async function github<T>(path: string, init?: RequestInit): Promise<T> {
   });
   const data = await response.json().catch(() => null);
   if (!response.ok) {
-    throw new GitHubError(response.status, data?.message || response.statusText);
+    throw new GitHubError(response.status, `${data?.message || response.statusText} [${init?.method || "GET"} ${path}]`);
   }
   return data as T;
 }

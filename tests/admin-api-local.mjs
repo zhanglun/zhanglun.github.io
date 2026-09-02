@@ -32,6 +32,10 @@ const files = {
     sha: "blob-local",
     content: Buffer.from('---\ntitle: "Local"\ndate: "2026-09-02"\ndraft: true\n---\n\nBody').toString("base64"),
   },
+  "src/content/blogs/2026-09-02-3-3/index.md": {
+    sha: "blob-33",
+    content: Buffer.from('---\ntitle: "33"\ndate: "2026-09-02"\ntags:\n  - "33"\ncategories:\n  - "33"\ndraft: true\n---\n\n33333').toString("base64"),
+  },
 };
 
 const fetchCalls = [];
@@ -103,6 +107,15 @@ const blobCall = fetchCalls.find(call => call.url.endsWith("/git/blobs"));
 const serialized = Buffer.from(JSON.parse(blobCall.init.body).content, "base64").toString();
 assert.match(serialized, /title: "33"/);
 assert.match(serialized, /- "33"/);
+
+res = response();
+await list(request("/api/posts?path=2026-09-02-3-3%2Findex.md", "PUT", {
+  frontmatter: { title: "33", date: "2026-09-02", tags: ["33"], categories: ["33"], draft: false },
+  body: "33333",
+  sha: "blob-33",
+}), res);
+assert.equal(res.statusCode, 200);
+assert.equal(json(res).frontmatter.draft, false);
 
 res = response();
 await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "PUT", {
