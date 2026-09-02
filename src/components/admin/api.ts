@@ -110,8 +110,8 @@ export async function savePost(
     fixturePosts.unshift(created);
     return structuredClone(created);
   }
-  return request<PostContent>(apiUrl(`/${path}`), {
-    method: "PUT",
+  return request<PostContent>(isFixtureMode ? apiUrl(`/${path}`) : path === "new" ? apiUrl("") : apiUrl(`/${path}`), {
+    method: path === "new" ? "POST" : "PUT",
     body: JSON.stringify(input),
   });
 }
