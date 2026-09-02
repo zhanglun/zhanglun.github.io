@@ -17,7 +17,7 @@ async function handle(request: Request) {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: process.env.PUBLIC_ADMIN_ORIGIN || "/admin",
+        Location: "/admin/",
         "Set-Cookie": sessionCookie(user.id),
       },
     });
