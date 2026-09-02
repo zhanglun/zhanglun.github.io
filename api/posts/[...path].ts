@@ -1,7 +1,6 @@
 import { GitHubError } from "../_lib/github";
 import { requireSession, unauthorized } from "../_lib/auth";
 import { readPost, removePost, writePost } from "../_lib/posts";
-import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel";
 
 type Context = { params: { path?: string | string[] } };
 const pathFrom = (params: Context["params"]) => Array.isArray(params.path) ? params.path.join("/") : params.path || "";
@@ -10,8 +9,9 @@ const errorResponse = (error: unknown) => {
   return Response.json({ error: error instanceof Error ? error.message : "Request failed" }, { status });
 };
 
-async function handle(request: Request, path: string) {
+export default async function handler(request: Request, context: Context) {
   if (!requireSession(request)) return unauthorized();
+  const path = pathFrom(context.params);
   try {
     if (request.method === "GET") return Response.json(await readPost(path));
     if (request.method === "DELETE") { await removePost(path); return new Response(null, { status: 204 }); }
@@ -22,8 +22,4 @@ async function handle(request: Request, path: string) {
     }
     return new Response("Method Not Allowed", { status: 405, headers: { Allow: "GET, PUT, DELETE" } });
   } catch (error) { return errorResponse(error); }
-}
-
-export default async function handler(request: VercelRequest, response: VercelResponse) {
-  await sendResponse(await handle(toRequest(request), pathFrom(request.query)), response);
 }
