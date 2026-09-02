@@ -1,7 +1,8 @@
 import { sessionCookie, validOAuthState } from "../_lib/auth";
 import { getUser } from "../_lib/github";
+import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel";
 
-export default async function handler(request: Request) {
+async function handle(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -23,4 +24,8 @@ export default async function handler(request: Request) {
   } catch (error) {
     return Response.json({ error: error instanceof Error ? error.message : "OAuth failed" }, { status: 502 });
   }
+}
+
+export default async function handler(request: VercelRequest, response: VercelResponse) {
+  await sendResponse(await handle(toRequest(request)), response);
 }
