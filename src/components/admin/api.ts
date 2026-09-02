@@ -45,7 +45,7 @@ const fixturePosts: PostContent[] = [
 ];
 
 const useFixture = !import.meta.env.PUBLIC_ADMIN_ORIGIN;
-const apiUrl = (path: string) => `/api/posts${path.split("/").map(encodeURIComponent).join("/")}`;
+const apiUrl = (path: string) => path ? `/api/posts/${encodeURIComponent(path)}` : "/api/posts";
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {

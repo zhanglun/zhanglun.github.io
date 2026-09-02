@@ -30,19 +30,20 @@ const parse = (path: string, text: string, sha: string): PostContent => {
   return { path, sha, frontmatter, body: parsed.content };
 };
 
+const yamlString = (value: string) => JSON.stringify(value);
 const serialize = (frontmatter: PostFrontmatter, body: string) => {
   const lines = [
-    `title: ${frontmatter.title}`,
-    `date: ${frontmatter.date}`,
+    `title: ${yamlString(frontmatter.title)}`,
+    `date: ${yamlString(frontmatter.date)}`,
     "tags:",
-    ...frontmatter.tags.map(item => `  - ${item}`),
+    ...frontmatter.tags.map(item => `  - ${yamlString(item)}`),
     "categories:",
-    ...frontmatter.categories.map(item => `  - ${item}`),
+    ...frontmatter.categories.map(item => `  - ${yamlString(item)}`),
     `draft: ${frontmatter.draft}`,
   ];
-  if (frontmatter.description) lines.push(`description: ${frontmatter.description}`);
-  if (frontmatter.cover) lines.push(`cover: ${frontmatter.cover}`);
-  if (frontmatter.ogImage) lines.push(`ogImage: ${frontmatter.ogImage}`);
+  if (frontmatter.description) lines.push(`description: ${yamlString(frontmatter.description)}`);
+  if (frontmatter.cover) lines.push(`cover: ${yamlString(frontmatter.cover)}`);
+  if (frontmatter.ogImage) lines.push(`ogImage: ${yamlString(frontmatter.ogImage)}`);
   return `---\n${lines.join("\n")}\n---\n${body.startsWith("\n") ? body : `\n${body}`}`;
 };
 
