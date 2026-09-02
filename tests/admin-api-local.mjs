@@ -66,7 +66,7 @@ const request = (url, method = "GET", body) => ({
   url,
   headers: { host: "localhost", cookie },
   body,
-  query: { path: url.replace(/^\/api\/posts\/?/, "").split("/").filter(Boolean).map(decodeURIComponent).join("/") },
+  query: Object.fromEntries(new URL(`http://localhost${url}`).searchParams),
 });
 const response = () => {
   const headers = {};
@@ -81,7 +81,6 @@ const json = res => res.body ? JSON.parse(res.body) : undefined;
 
 const require = createRequire(import.meta.url);
 const list = require(bundle(`${root}/api/posts/index.ts`, "posts-index")).default;
-const detail = require(bundle(`${root}/api/posts/[...path].ts`, "posts-detail")).default;
 
 let res = response();
 await list(request("/api/posts"), res);
@@ -89,7 +88,7 @@ assert.equal(res.statusCode, 200);
 assert.equal(json(res)[0].path, "2026-09-02-local/index.md");
 
 res = response();
-await detail(request("/api/posts/2026-09-02-local%2Findex.md"), res);
+await list(request("/api/posts?path=2026-09-02-local%2Findex.md"), res);
 assert.equal(res.statusCode, 200);
 assert.equal(json(res).frontmatter.title, "Local");
 
@@ -106,7 +105,7 @@ assert.match(serialized, /title: "33"/);
 assert.match(serialized, /- "33"/);
 
 res = response();
-await detail(request("/api/posts/2026-09-02-local%2Findex.md", "PUT", {
+await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "PUT", {
   frontmatter: { title: "Updated", date: "2026-09-02", tags: [], categories: [], draft: false },
   body: "Updated body",
   sha: "blob-local",
@@ -115,7 +114,7 @@ assert.equal(res.statusCode, 200);
 assert.equal(json(res).frontmatter.title, "Updated");
 
 res = response();
-await detail(request("/api/posts/2026-09-02-local%2Findex.md", "PUT", {
+await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "PUT", {
   frontmatter: { title: "Conflict", date: "2026-09-02", tags: [], categories: [], draft: false },
   body: "Conflict body",
   sha: "stale-sha",
@@ -123,7 +122,7 @@ await detail(request("/api/posts/2026-09-02-local%2Findex.md", "PUT", {
 assert.equal(res.statusCode, 409);
 
 res = response();
-await detail(request("/api/posts/2026-09-02-local%2Findex.md", "DELETE"), res);
+await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "DELETE"), res);
 assert.equal(res.statusCode, 204);
 
 console.log("admin API local self-check ok");

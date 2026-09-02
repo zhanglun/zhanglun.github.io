@@ -1,0 +1,18 @@
+---
+import AdminEditorApp from "../../components/admin/AdminEditorApp";
+
+const path = Astro.url.searchParams.get("path") || "new";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <title>编辑文章 · zhanglun.github.io</title>
+  </head>
+  <body>
+    <AdminEditorApp client:load path={path} />
+  </body>
+</html>

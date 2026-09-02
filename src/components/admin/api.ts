@@ -45,7 +45,7 @@ const fixturePosts: PostContent[] = [
 ];
 
 const useFixture = !import.meta.env.PUBLIC_ADMIN_ORIGIN;
-const apiUrl = (path: string) => path ? `/api/posts/${encodeURIComponent(path)}` : "/api/posts";
+const apiUrl = (path: string) => path ? `/api/posts?path=${encodeURIComponent(path)}` : "/api/posts";
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -110,7 +110,7 @@ export async function savePost(
     fixturePosts.unshift(created);
     return structuredClone(created);
   }
-  return request<PostContent>(isFixtureMode ? apiUrl(`/${path}`) : path === "new" ? apiUrl("") : apiUrl(`/${path}`), {
+  return request<PostContent>(path === "new" ? apiUrl("") : apiUrl(path), {
     method: path === "new" ? "POST" : "PUT",
     body: JSON.stringify(input),
   });
@@ -122,5 +122,5 @@ export async function deletePost(path: string): Promise<void> {
     if (index >= 0) fixturePosts.splice(index, 1);
     return;
   }
-  await request(apiUrl(`/${path}`), { method: "DELETE" });
+  await request(apiUrl(path), { method: "DELETE" });
 }
