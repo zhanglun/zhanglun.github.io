@@ -153,11 +153,11 @@ export async function createCommit(
   const ref = await github<{ object: { sha: string } }>(
     `/repos/${repo()}/git/ref/heads/${encodeURIComponent(branch())}`
   );
-  const commit = await github<{ tree: { sha: string } }>(
+  const headCommit = await github<{ tree: { sha: string } }>(
     `/repos/${repo()}/git/commits/${ref.object.sha}`
   );
   const base = await github<{ tree: TreeEntry[] }>(
-    `/repos/${repo()}/git/trees/${commit.tree.sha}?recursive=1`
+    `/repos/${repo()}/git/trees/${headCommit.tree.sha}?recursive=1`
   );
   const blobs = await Promise.all(
     changes.filter(change => !change.delete).map(async change => {
@@ -179,17 +179,17 @@ export async function createCommit(
   ];
   const nextTree = await github<{ sha: string }>(`/repos/${repo()}/git/trees`, {
     method: "POST",
-    body: JSON.stringify({ base_tree: commit.tree.sha, tree }),
+    body: JSON.stringify({ base_tree: headCommit.tree.sha, tree }),
   });
-  const commit = await github<{ sha: string }>(`/repos/${repo()}/git/commits`, {
+  const newCommit = await github<{ sha: string }>(`/repos/${repo()}/git/commits`, {
     method: "POST",
     body: JSON.stringify({ message, tree: nextTree.sha, parents: [ref.object.sha] }),
   });
   await github(`/repos/${repo()}/git/refs/heads/${encodeURIComponent(branch())}`, {
     method: "PATCH",
-    body: JSON.stringify({ sha: commit.sha, force: false }),
+    body: JSON.stringify({ sha: newCommit.sha, force: false }),
   });
-  return commit.sha;
+  return newCommit.sha;
 }
 
 export async function getUser(code: string) {
