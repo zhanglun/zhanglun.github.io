@@ -44,9 +44,8 @@ const fixturePosts: PostContent[] = [
   },
 ];
 
-const remoteOrigin = import.meta.env.PUBLIC_ADMIN_ORIGIN;
-const useFixture = !remoteOrigin;
-const apiUrl = (path: string) => `${remoteOrigin || ""}/api/posts${path.split("/").map(encodeURIComponent).join("/")}`;
+const useFixture = !import.meta.env.PUBLIC_ADMIN_ORIGIN;
+const apiUrl = (path: string) => `/api/posts${path.split("/").map(encodeURIComponent).join("/")}`;
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -57,6 +56,7 @@ export class ApiError extends Error {
 const request = async <T>(url: string, init?: RequestInit): Promise<T> => {
   const response = await fetch(url, {
     ...init,
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json", ...init?.headers },
   });
   if (!response.ok) {
