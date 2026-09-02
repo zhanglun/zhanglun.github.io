@@ -5,7 +5,8 @@ import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from
 
 const pathFrom = (query: VercelRequest["query"]) => {
   const path = query.path;
-  return Array.isArray(path) ? path.join("/") : path || "";
+  const value = Array.isArray(path) ? path.join("/") : path || "";
+  return decodeURIComponent(value);
 };
 const errorResponse = (error: unknown) => {
   const status = error instanceof GitHubError ? error.status : 502;
