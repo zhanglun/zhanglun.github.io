@@ -189,7 +189,7 @@ export async function createCommit(
     method: "PATCH",
     body: JSON.stringify({ sha: newCommit.sha, force: false }),
   });
-  return newCommit.sha;
+  return blobs[0]?.sha || newCommit.sha;
 }
 
 export async function getUser(code: string) {
