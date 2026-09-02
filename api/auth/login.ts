@@ -1,5 +1,5 @@
-import { oauthStateCookie } from "../_lib/auth";
-import { sendResponse, type VercelRequest, type VercelResponse } from "../_lib/vercel";
+import { oauthStateCookie } from "../_lib/auth.js";
+import { sendResponse, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
 async function handle() {
   if (!process.env.GITHUB_CLIENT_ID) {

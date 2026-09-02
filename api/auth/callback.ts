@@ -1,6 +1,6 @@
-import { sessionCookie, validOAuthState } from "../_lib/auth";
-import { getUser } from "../_lib/github";
-import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel";
+import { sessionCookie, validOAuthState } from "../_lib/auth.js";
+import { getUser } from "../_lib/github.js";
+import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
 async function handle(request: Request) {
   const url = new URL(request.url);

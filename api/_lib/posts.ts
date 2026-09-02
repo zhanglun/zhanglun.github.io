@@ -4,8 +4,8 @@ import type {
   PostContent,
   PostFrontmatter,
   PostSummary,
-} from "../../src/components/admin/types";
-import { createCommit, getBlogFiles, getBlogTree, getContent } from "./github";
+} from "../../src/components/admin/types.js";
+import { createCommit, getBlogFiles, getBlogTree, getContent } from "./github.js";
 
 const root = "src/content/blogs/";
 

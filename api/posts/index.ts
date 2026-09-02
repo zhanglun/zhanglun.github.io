@@ -1,6 +1,6 @@
-import { requireSession, unauthorized } from "../_lib/auth";
-import { listPosts } from "../_lib/posts";
-import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel";
+import { requireSession, unauthorized } from "../_lib/auth.js";
+import { listPosts } from "../_lib/posts.js";
+import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
 async function handle(request: Request) {
   if (!requireSession(request)) return unauthorized();
