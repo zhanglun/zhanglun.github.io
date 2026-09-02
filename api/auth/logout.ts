@@ -1,5 +1,5 @@
-import { clearSessionCookie } from "../_lib/auth";
-import { sendResponse, type VercelRequest, type VercelResponse } from "../_lib/vercel";
+import { clearSessionCookie } from "../_lib/auth.js";
+import { sendResponse, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
 async function handle() {
   return new Response(null, {

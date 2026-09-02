@@ -1,7 +1,7 @@
-import { GitHubError } from "../_lib/github";
-import { requireSession, unauthorized } from "../_lib/auth";
-import { readPost, removePost, writePost } from "../_lib/posts";
-import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel";
+import { GitHubError } from "../_lib/github.js";
+import { requireSession, unauthorized } from "../_lib/auth.js";
+import { readPost, removePost, writePost } from "../_lib/posts.js";
+import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
 const pathFrom = (query: VercelRequest["query"]) => {
   const path = query.path;
