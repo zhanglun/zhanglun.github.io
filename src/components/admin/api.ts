@@ -88,7 +88,7 @@ export async function getPost(path: string): Promise<PostContent> {
     if (!post) throw new Error("文章不存在");
     return structuredClone(post);
   }
-  return request<PostContent>(apiUrl(`/${path}`));
+  return request<PostContent>(apiUrl(path));
 }
 
 export async function savePost(
