@@ -5,7 +5,7 @@ import type {
   PostFrontmatter,
   PostSummary,
 } from "../../src/components/admin/types.js";
-import { createCommit, getBlogFiles, getBlogTree, getContent } from "./github.js";
+import { createCommit, getBlogFiles, getBlogTree, getContent, putContent } from "./github.js";
 
 const root = "src/content/blogs/";
 
@@ -90,9 +90,11 @@ export async function writePost(
       : !previous?.frontmatter.draft && input.frontmatter.draft
         ? "unpublish"
         : "update";
-  const sha = await createCommit(
+  const sha = await putContent(
+    root + target,
     `content: ${action} ${target.replace(/\/index\.md$/, "")}`,
-    [{ path: root + target, content: next }]
+    next,
+    path === "new" ? undefined : input.sha
   );
   return {
     conflict: false,

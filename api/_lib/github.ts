@@ -66,6 +66,28 @@ export async function getContent(path: string) {
   );
 }
 
+export async function putContent(
+  path: string,
+  message: string,
+  content: string,
+  sha?: string
+) {
+  const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+  const result = await github<{ content: { sha: string }; commit: { sha: string } }>(
+    `/repos/${repo()}/contents/${encodedPath}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        message,
+        content: Buffer.from(content).toString("base64"),
+        branch: branch(),
+        ...(sha ? { sha } : {}),
+      }),
+    }
+  );
+  return result.content.sha;
+}
+
 interface BlogTree {
   repository: {
     object: {
