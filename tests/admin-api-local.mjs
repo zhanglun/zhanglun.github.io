@@ -51,6 +51,7 @@ globalThis.fetch = async (url, init = {}) => {
   if (String(url).includes("/contents/")) {
     const path = decodeURIComponent(String(url).split("/contents/")[1].split("?")[0]);
     const file = files[path];
+    if (init.method === "PUT") return Response.json({ content: { sha: "blob-updated" }, commit: { sha: "commit-created" } });
     return file ? Response.json({ type: "file", path, sha: file.sha, content: file.content }) : Response.json({ message: "Not Found" }, { status: 404 });
   }
   if (String(url).includes("/git/ref/heads/")) return Response.json({ object: { sha: "head-sha" } });
@@ -103,7 +104,7 @@ await list(request("/api/posts", "POST", {
 } ), res);
 assert.equal(res.statusCode, 200);
 assert.equal(json(res).path, "2026-09-02-3-3/index.md");
-const blobCall = fetchCalls.find(call => call.url.endsWith("/git/blobs"));
+const blobCall = fetchCalls.find(call => call.url.includes("/contents/") && call.init.method === "PUT");
 const serialized = Buffer.from(JSON.parse(blobCall.init.body).content, "base64").toString();
 assert.match(serialized, /title: "33"/);
 assert.match(serialized, /- "33"/);

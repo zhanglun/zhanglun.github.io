@@ -24,7 +24,8 @@ async function handle(request: Request) {
     }
     return new Response("Method Not Allowed", { status: 405, headers: { Allow: "GET, POST, PUT, DELETE" } });
   } catch (error) {
-    return Response.json({ error: error instanceof Error ? error.message : "Request failed" }, { status: 502 });
+    const status = error instanceof Error && "status" in error && error.status === 409 ? 409 : 502;
+    return Response.json({ error: error instanceof Error ? error.message : "Request failed" }, { status });
   }
 }
 
