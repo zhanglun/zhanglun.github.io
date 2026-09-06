@@ -152,6 +152,11 @@ assert.equal(res.statusCode, 200);
 assert.match(json(res).html, /<h1/);
 assert.match(json(res).html, /<em>em<\/em>/);
 res = response();
+await preview(request("/api/preview", "POST", { body: "```mermaid\nflowchart TD\n  A-->B\n```" }), res);
+assert.equal(res.statusCode, 200);
+// 客户端选择器依赖此结构（pre[data-language=mermaid]）；改动输出形状会静默破坏 mermaid 预览
+assert.match(json(res).html, /data-language="mermaid"/);
+res = response();
 await preview(request("/api/preview"), res);
 assert.equal(res.statusCode, 400);
 

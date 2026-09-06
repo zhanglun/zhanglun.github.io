@@ -51,19 +51,23 @@ export default function PreviewPane({ body, postDir }: Props) {
         img.src = `${imageBase}/${postDir}/${img.getAttribute("src")!.slice(2)}`;
       }
     }
-    // mermaid 代码块客户端渲染
-    const blocks = [...container.querySelectorAll<HTMLElement>("code.language-mermaid")];
+    // mermaid 代码块客户端渲染（shiki 输出的语言标记在 pre[data-language] 上）
+    const blocks = [...container.querySelectorAll<HTMLElement>('pre[data-language="mermaid"]')];
     if (blocks.length) {
       void (async () => {
-        const mermaid = (await import("mermaid")).default;
-        mermaid.initialize({ startOnLoad: false, theme: "forest" });
-        for (const block of blocks) {
-          const { svg } = await mermaid.render(`mmd-${Math.random().toString(36).slice(2)}`, block.textContent || "");
-          const wrap = document.createElement("div");
-          wrap.className = "admin-mermaid";
-          wrap.innerHTML = svg;
-          block.parentElement!.replaceWith(wrap);
-        }
+        try {
+          const mermaid = (await import("mermaid")).default;
+          mermaid.initialize({ startOnLoad: false, theme: "default" });
+          for (const block of blocks) {
+            try {
+              const { svg } = await mermaid.render(`mmd-${Math.random().toString(36).slice(2)}`, block.textContent || "");
+              const wrap = document.createElement("div");
+              wrap.className = "admin-mermaid";
+              wrap.innerHTML = svg;
+              block.replaceWith(wrap);
+            } catch { /* 单块语法错误：保留源码展示 */ }
+          }
+        } catch { /* mermaid 加载失败：保留源码展示 */ }
       })();
     }
   }, [html, postDir]);
