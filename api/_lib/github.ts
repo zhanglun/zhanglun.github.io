@@ -52,12 +52,6 @@ export interface ContentFile {
   content?: string;
 }
 
-export interface TreeEntry {
-  path: string;
-  mode: string;
-  type: "blob" | "tree";
-  sha: string;
-}
 
 export async function getContent(path: string) {
   const encodedPath = path.split("/").map(encodeURIComponent).join("/");
@@ -86,6 +80,22 @@ export async function putContent(
     }
   );
   return result.content.sha;
+}
+
+export async function listContents(path: string) {
+  const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+  const result = await github<ContentFile | ContentFile[]>(
+    `/repos/${repo()}/contents/${encodedPath}?ref=${encodeURIComponent(branch())}`
+  );
+  return Array.isArray(result) ? result : [result];
+}
+
+export async function deleteContent(path: string, message: string, sha: string) {
+  const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+  await github(`/repos/${repo()}/contents/${encodedPath}`, {
+    method: "DELETE",
+    body: JSON.stringify({ message, sha, branch: branch() }),
+  });
 }
 
 interface BlogTree {
@@ -156,62 +166,6 @@ export async function getBlogFiles() {
     }
   }
   return files;
-}
-
-export async function getBlogTree() {
-  const ref = await github<{ object: { sha: string } }>(
-    `/repos/${repo()}/git/ref/heads/${encodeURIComponent(branch())}`
-  );
-  const result = await github<{ tree: Array<TreeEntry> }>(
-    `/repos/${repo()}/git/trees/${ref.object.sha}?recursive=1`
-  );
-  return result.tree.filter(item => item.path.startsWith("src/content/blogs/"));
-}
-
-export async function createCommit(
-  message: string,
-  changes: Array<{ path: string; content?: string; delete?: boolean }>
-) {
-  const ref = await github<{ object: { sha: string } }>(
-    `/repos/${repo()}/git/ref/heads/${encodeURIComponent(branch())}`
-  );
-  const headCommit = await github<{ tree: { sha: string } }>(
-    `/repos/${repo()}/git/commits/${ref.object.sha}`
-  );
-  const base = await github<{ tree: TreeEntry[] }>(
-    `/repos/${repo()}/git/trees/${headCommit.tree.sha}?recursive=1`
-  );
-  const blobs = await Promise.all(
-    changes.filter(change => !change.delete).map(async change => {
-      const blob = await github<{ sha: string }>(`/repos/${repo()}/git/blobs`, {
-        method: "POST",
-        body: JSON.stringify({
-          content: Buffer.from(change.content || "").toString("base64"),
-          encoding: "base64",
-        }),
-      });
-      return { path: change.path, mode: "100644", type: "blob" as const, sha: blob.sha };
-    })
-  );
-  const deleted = new Set(changes.filter(change => change.delete).map(change => change.path));
-  const changed = new Set(changes.map(change => change.path));
-  const tree = [
-    ...base.tree.filter(item => !deleted.has(item.path) && !changed.has(item.path)),
-    ...blobs,
-  ];
-  const nextTree = await github<{ sha: string }>(`/repos/${repo()}/git/trees`, {
-    method: "POST",
-    body: JSON.stringify({ base_tree: headCommit.tree.sha, tree }),
-  });
-  const newCommit = await github<{ sha: string }>(`/repos/${repo()}/git/commits`, {
-    method: "POST",
-    body: JSON.stringify({ message, tree: nextTree.sha, parents: [ref.object.sha] }),
-  });
-  await github(`/repos/${repo()}/git/refs/heads/${encodeURIComponent(branch())}`, {
-    method: "PATCH",
-    body: JSON.stringify({ sha: newCommit.sha, force: false }),
-  });
-  return blobs[0]?.sha || newCommit.sha;
 }
 
 export async function getUser(code: string) {

@@ -5,7 +5,7 @@ import type {
   PostFrontmatter,
   PostSummary,
 } from "../../src/components/admin/types.js";
-import { createCommit, getBlogFiles, getBlogTree, getContent, putContent } from "./github.js";
+import { deleteContent, getBlogFiles, getContent, listContents, putContent } from "./github.js";
 
 const root = "src/content/blogs/";
 
@@ -106,14 +106,10 @@ export async function removePost(path: string) {
   const safe = safePath(path);
   if (!safe) throw new Error("Invalid post path");
   const directory = root + safe.replace(/\/index\.md$/, "");
-  const files = (await getBlogTree()).filter(file => (
-    file.path === root + safe || file.path.startsWith(directory + "/")
-  ));
+  const files = await listContents(directory);
   if (!files.length) throw new Error("Post not found");
-  await createCommit(
-    `content: delete ${safe.replace(/\/index\.md$/, "")}`,
-    files.map(file => ({ path: file.path, delete: true }))
-  );
+  const message = `content: delete ${safe.replace(/\/index\.md$/, "")}`;
+  for (const file of files) await deleteContent(file.path, message, file.sha);
 }
 
 export const slugifyTitle = (title: string) => pinyin(title, {
