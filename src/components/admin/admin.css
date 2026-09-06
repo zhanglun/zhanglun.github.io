@@ -42,8 +42,30 @@
 .admin-checkbox { display: flex !important; grid-template-columns: auto auto; align-items: center; padding: 12px 0; }
 .admin-workspace { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr); gap: 18px; margin-top: 28px; }
 .admin-code, .admin-preview { min-height: 520px; overflow: hidden; border: 1px solid #333; border-radius: 6px; }
-.admin-preview { padding: 28px; background: #fafaf8; }
-.admin-preview h2 { margin-top: 120px; font-size: 28px; }
+.admin-preview { padding: 28px; background: #fafaf8; overflow-y: auto; }
+.admin-button.disabled { cursor: not-allowed; opacity: .5; pointer-events: none; }
+.admin-preview-body { line-height: 1.7; font-size: 15px; word-break: break-word; }
+.admin-preview-body h1, .admin-preview-body h2, .admin-preview-body h3 { margin: 1.2em 0 .5em; letter-spacing: -.02em; line-height: 1.25; }
+.admin-preview-body h1 { font-size: 1.7em; border-bottom: 1px solid #ddd; padding-bottom: .3em; }
+.admin-preview-body h2 { font-size: 1.35em; }
+.admin-preview-body h3 { font-size: 1.15em; }
+.admin-preview-body p { margin: .8em 0; }
+.admin-preview-body ul, .admin-preview-body ol { margin: .8em 0; padding-left: 1.5em; }
+.admin-preview-body ul { list-style: disc; }
+.admin-preview-body ol { list-style: decimal; }
+.admin-preview-body li { margin: .25em 0; }
+.admin-preview-body a { color: #6b5cff; }
+.admin-preview-body blockquote { margin: 1em 0; padding: .2em 1em; border-left: 4px solid #d5d5d0; color: #737373; }
+.admin-preview-body code { padding: .15em .4em; border-radius: 4px; background: #ecece7; font-size: .9em; }
+.admin-preview-body pre { margin: 1em 0; padding: 14px; border-radius: 6px; overflow-x: auto; }
+.admin-preview-body pre code { padding: 0; background: transparent; }
+.admin-preview-body img { max-width: 100%; border-radius: 6px; }
+.admin-preview-body table { margin: 1em 0; border-collapse: collapse; }
+.admin-preview-body th, .admin-preview-body td { padding: 8px 12px; border: 1px solid #ddd; }
+.admin-preview-body hr { margin: 2em 0; border: 0; border-top: 1px solid #ddd; }
+.admin-mermaid { margin: 1em 0; text-align: center; }
+.admin-mermaid svg { max-width: 100%; height: auto; }
+@media (prefers-color-scheme: dark) { .admin-preview-body blockquote { border-color: #444; } .admin-preview-body code { background: #282828; } .admin-preview-body h1 { border-color: #333; } .admin-preview-body th, .admin-preview-body td { border-color: #333; } .admin-preview-body hr { border-top-color: #333; } }
 .admin-statusbar { display: flex; flex-wrap: wrap; gap: 18px; padding: 14px 0; color: #777; font-size: 12px; }
 .admin-error { color: #b42318; }
 .admin-notice { display: flex; align-items: center; gap: 18px; padding-bottom: 0; }

@@ -63,7 +63,7 @@ export async function getContent(path: string) {
 export async function putContent(
   path: string,
   message: string,
-  content: string,
+  content: string | Uint8Array,
   sha?: string
 ) {
   const encodedPath = path.split("/").map(encodeURIComponent).join("/");

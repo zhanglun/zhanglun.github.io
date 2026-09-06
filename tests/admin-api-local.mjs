@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import { createHmac } from "node:crypto";
 import { existsSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
+import { pathToFileURL } from "node:url";
 
 const root = new URL("..", import.meta.url).pathname;
 const pnpmDir = `${root}/node_modules/.pnpm`;
@@ -59,7 +60,7 @@ globalThis.fetch = async (url, init = {}) => {
     if (file) return Response.json({ type: "file", path, sha: file.sha, content: file.content });
     const listing = Object.entries(files)
       .filter(([key]) => key.startsWith(path + "/"))
-      .map(([key, value]) => ({ type: "file", path: key, sha: value.sha }));
+      .map(([key, value]) => ({ type: "file", path: key, name: key.split("/").pop(), sha: value.sha }));
     return listing.length ? Response.json(listing) : Response.json({ message: "Not Found" }, { status: 404 });
   }
   throw new Error(`unexpected fetch: ${url} ${JSON.stringify(body)}`);
@@ -137,5 +138,42 @@ assert.equal(res.statusCode, 409);
 res = response();
 await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "DELETE"), res);
 assert.equal(res.statusCode, 204);
+
+const bundleEsm = (source, name) => {
+  const output = `/tmp/${name}-${process.pid}.mjs`;
+  execFileSync(esbuild, [source, "--bundle", "--platform=node", "--format=esm", "--banner:js=import { createRequire as __nodeCreateRequire } from 'node:module'; const require = __nodeCreateRequire(import.meta.url);", `--outfile=${output}`]);
+  return output;
+};
+
+const preview = (await import(pathToFileURL(bundleEsm(`${root}/api/preview.ts`, "preview")).href)).default;
+res = response();
+await preview(request("/api/preview", "POST", { body: "# hi\n\n*em*" }), res);
+assert.equal(res.statusCode, 200);
+assert.match(json(res).html, /<h1/);
+assert.match(json(res).html, /<em>em<\/em>/);
+res = response();
+await preview(request("/api/preview"), res);
+assert.equal(res.statusCode, 400);
+
+const upload = require(bundle(`${root}/api/images/upload.ts`, "upload")).default;
+const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 1, 2, 3]);
+res = response();
+await upload({ ...request("/api/images/upload?post=2026-09-02-3-3", "POST", png), headers: { host: "localhost", cookie, "content-type": "image/png" } }, res);
+assert.equal(res.statusCode, 200);
+assert.match(json(res).markdown, /\.\/images\/img-\d{8}-[0-9a-f]{6}\.png/);
+const putCalls = fetchCalls.filter(call => call.init.method === "PUT");
+assert.ok(putCalls.some(call => call.url.includes("/contents/src/content/blogs/2026-09-02-3-3/images/")));
+
+res = response();
+await upload({ ...request("/api/images/upload?post=2026-09-02-3-3", "POST", png), headers: { host: "localhost", cookie, "content-type": "image/gif" } }, res);
+assert.equal(res.statusCode, 415);
+
+res = response();
+await upload({ ...request("/api/images/upload?post=2026-09-02-3-3", "POST", Buffer.from([0xff, 0xd8, 0xff, 0xe0])), headers: { host: "localhost", cookie, "content-type": "image/png" } }, res);
+assert.equal(res.statusCode, 415);
+
+res = response();
+await upload({ ...request("/api/images/upload?post=..%2F..%2Fetc", "POST", png), headers: { host: "localhost", cookie, "content-type": "image/png" } }, res);
+assert.ok([400, 404].includes(res.statusCode));
 
 console.log("admin API local self-check ok");
