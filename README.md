@@ -85,7 +85,7 @@ draft: false
 
 博客文章和文章图片都保存在 `src/content/blogs/`，由 Git 管理。图片应放在文章目录的 `images/` 子目录，并使用相对路径引用。
 
-## 环境变量
+### 环境变量
 
 可在项目根目录创建 `.env`：
 
@@ -94,6 +94,19 @@ PUBLIC_GOOGLE_SITE_VERIFICATION=your-verification-code
 ```
 
 `PUBLIC_` 前缀的变量会暴露给客户端代码。
+
+生产环境（Vercel）另有一组服务端变量，供 `/api` 函数使用：
+
+```env
+GITHUB_CLIENT_ID=          # OAuth App
+GITHUB_CLIENT_SECRET=
+SESSION_SECRET=            # openssl rand -hex 32
+ADMIN_GITHUB_USER_ID=      # GitHub 数字用户 ID（非用户名）
+GITHUB_REPO=zhanglun/zhanglun.github.io
+GITHUB_BRANCH=master
+GITHUB_CONTENT_TOKEN=      # Fine-grained PAT，仅限本仓库 Contents 读写
+PUBLIC_ADMIN_ORIGIN=https://<生产域名>   # 无尾部斜杠
+```
 
 ## 构建与部署
 
@@ -106,6 +119,8 @@ pnpm build
 ```bash
 pnpm preview
 ```
+
+站点部署在 Vercel（master 分支 push 自动部署）。
 
 ## 许可
 

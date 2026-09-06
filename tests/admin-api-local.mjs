@@ -104,6 +104,8 @@ await list(request("/api/posts", "POST", {
 } ), res);
 assert.equal(res.statusCode, 200);
 assert.equal(json(res).path, "2026-09-02-3-3/index.md");
+const createCall = fetchCalls.filter(call => call.init.method === "PUT").at(-1);
+assert.match(JSON.parse(createCall.init.body).message, /create [\w\-.]+ \[skip ci\]$/);
 const blobCall = fetchCalls.find(call => call.url.includes("/contents/") && call.init.method === "PUT");
 const serialized = Buffer.from(JSON.parse(blobCall.init.body).content, "base64").toString();
 assert.match(serialized, /title: "33"/);
@@ -117,15 +119,16 @@ await list(request("/api/posts?path=2026-09-02-3-3%2Findex.md", "PUT", {
 }), res);
 assert.equal(res.statusCode, 200);
 assert.equal(json(res).frontmatter.draft, false);
+assert.match(JSON.parse(fetchCalls.filter(call => call.init.method === "PUT").at(-1).init.body).message, /publish [\w\-.]+$/);
 
 res = response();
 await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "PUT", {
-  frontmatter: { title: "Updated", date: "2026-09-02", tags: [], categories: [], draft: false },
+  frontmatter: { title: "Updated", date: "2026-09-02", tags: [], categories: [], draft: true },
   body: "Updated body",
   sha: "blob-local",
 }), res);
 assert.equal(res.statusCode, 200);
-assert.equal(json(res).frontmatter.title, "Updated");
+assert.match(JSON.parse(fetchCalls.filter(call => call.init.method === "PUT").at(-1).init.body).message, /update [\w\-.]+ \[skip ci\]$/);
 
 res = response();
 await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "PUT", {
@@ -168,6 +171,8 @@ assert.equal(res.statusCode, 200);
 assert.match(json(res).markdown, /\.\/images\/img-\d{8}-[0-9a-f]{6}\.png/);
 const putCalls = fetchCalls.filter(call => call.init.method === "PUT");
 assert.ok(putCalls.some(call => call.url.includes("/contents/src/content/blogs/2026-09-02-3-3/images/")));
+const imageCall = putCalls.find(call => call.url.includes("/images/"));
+assert.match(JSON.parse(imageCall.init.body).message, /image add [\w\-.]+ → [\w\-.]+\/ \[skip ci\]$/);
 
 res = response();
 await upload({ ...request("/api/images/upload?post=2026-09-02-3-3", "POST", png), headers: { host: "localhost", cookie, "content-type": "image/gif" } }, res);

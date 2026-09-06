@@ -64,7 +64,8 @@ export async function putContent(
   path: string,
   message: string,
   content: string | Uint8Array,
-  sha?: string
+  sha?: string,
+  skipCi = false
 ) {
   const encodedPath = path.split("/").map(encodeURIComponent).join("/");
   const result = await github<{ content: { sha: string }; commit: { sha: string } }>(
@@ -72,7 +73,7 @@ export async function putContent(
     {
       method: "PUT",
       body: JSON.stringify({
-        message,
+        message: skipCi ? `${message} [skip ci]` : message,
         content: Buffer.from(content).toString("base64"),
         branch: branch(),
         ...(sha ? { sha } : {}),
