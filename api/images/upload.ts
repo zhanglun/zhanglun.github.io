@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
-import { putContent, listContents } from "../_lib/github.js";
+import matter from "gray-matter";
+import { putContent, getContent } from "../_lib/github.js";
 import { requireSession, unauthorized } from "../_lib/auth.js";
 import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
@@ -41,12 +42,12 @@ async function handle(request: Request, raw: VercelRequest) {
   if (!type.magic.every((byte, index) => body[index] === byte)) {
     return Response.json({ error: "Content does not match image type" }, { status: 415 });
   }
+  let postIsDraft = false;
   try {
-    // 目录必须真实存在（防路径穿越 + 防孤儿图片）
-    const entries = await listContents(root + post);
-    if (!entries.some(entry => entry.name === "index.md")) {
-      return Response.json({ error: "Post directory not found" }, { status: 404 });
-    }
+    // index.md 必须真实存在（防路径穿越 + 防孤儿图片），顺便取 draft 状态定 [skip ci]
+    const index = await getContent(`${root}${post}/index.md`);
+    const { data } = matter(Buffer.from(index.content || "", "base64").toString("utf8"));
+    postIsDraft = data.draft === true || data.draft === "true";
   } catch {
     return Response.json({ error: "Post directory not found" }, { status: 404 });
   }
@@ -54,7 +55,7 @@ async function handle(request: Request, raw: VercelRequest) {
   const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const filename = `img-${date}-${hash}.${type.ext}`;
   const path = `${root}${post}/images/${filename}`;
-  await putContent(path, `content: image add ${filename} → ${post}/`, body);
+  await putContent(path, `content: image add ${filename} → ${post}/`, body, undefined, postIsDraft);
   return Response.json({ markdown: `![image](./images/${filename})` });
 }
 

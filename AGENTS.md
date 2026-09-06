@@ -314,6 +314,7 @@ try {
 ```
 /
 ├── public/              # Static assets
+├── api/                 # Vercel Functions（后台 API：OAuth、文章读写、预览、图片上传）
 ├── scripts/             # Maintenance scripts and migration records
 ├── src/
 │   ├── assets/          # Asset references
@@ -351,6 +352,16 @@ Posts with `draft: true` in frontmatter are filtered out in production builds.
 
 Blog posts and their local images are managed in Git under `src/content/blogs/`.
 Images should live in an article's `images/` directory and use relative paths.
+
+### Admin 后台（Vercel Functions）
+
+- 后台地址：`https://<生产域名>/admin/`，GitHub OAuth 登录，仅限 `ADMIN_GITHUB_USER_ID`
+- 前台不加后台链接，靠书签直达
+- `api/` 为 Vercel Node Functions，路由：`/api/auth/*`、`/api/posts`（path 用 query 参数，不用 catch-all）、`/api/preview`、`/api/images/upload`
+- GitHub 写入统一用 Contents API（勿引回 Git Data API，会超 Vercel 10s 限制）
+- commit 规则：草稿写操作（create / draft 保存 / draft 文章传图）带 `[skip ci]`；发布、取消发布、删除、已发布文章的改动正常触发部署
+- 图片上传限制：≤4MB，仅 PNG/JPEG/WebP，双端（前端 + 魔数）校验；文件名 `img-YYYYMMDD-<sha256前6位>.<ext>`，同图重传自然去重
+- 本地验证命令（改 `api/` 后必跑）：`node tests/admin-api-local.mjs && pnpm build`
 
 ### Styling
 

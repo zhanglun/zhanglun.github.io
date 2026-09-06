@@ -94,7 +94,10 @@ export async function writePost(
     root + target,
     `content: ${action} ${target.replace(/\/index\.md$/, "")}`,
     next,
-    path === "new" ? undefined : input.sha
+    path === "new" ? undefined : input.sha,
+    // 草稿写操作跳过 CI（GitHub Actions 与 Vercel 均识别 [skip ci]）；
+    // 发布/取消发布/更新已发布文章改变线上产物，正常触发部署
+    action === "create" || (action === "update" && input.frontmatter.draft)
   );
   return {
     conflict: false,
