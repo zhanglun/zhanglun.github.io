@@ -50,19 +50,18 @@ globalThis.fetch = async (url, init = {}) => {
   }
   if (String(url).includes("/contents/")) {
     const path = decodeURIComponent(String(url).split("/contents/")[1].split("?")[0]);
-    const file = files[path];
     if (init.method === "PUT") return Response.json({ content: { sha: "blob-updated" }, commit: { sha: "commit-created" } });
-    return file ? Response.json({ type: "file", path, sha: file.sha, content: file.content }) : Response.json({ message: "Not Found" }, { status: 404 });
+    if (init.method === "DELETE") {
+      for (const key of Object.keys(files)) if (key === path || key.startsWith(path + "/")) delete files[key];
+      return Response.json({});
+    }
+    const file = files[path];
+    if (file) return Response.json({ type: "file", path, sha: file.sha, content: file.content });
+    const listing = Object.entries(files)
+      .filter(([key]) => key.startsWith(path + "/"))
+      .map(([key, value]) => ({ type: "file", path: key, sha: value.sha }));
+    return listing.length ? Response.json(listing) : Response.json({ message: "Not Found" }, { status: 404 });
   }
-  if (String(url).includes("/git/ref/heads/")) return Response.json({ object: { sha: "head-sha" } });
-  if (String(url).includes("/git/commits/head-sha")) return Response.json({ tree: { sha: "tree-sha" } });
-  if (String(url).endsWith("/git/trees")) return Response.json({ sha: "tree-created" });
-  if (String(url).includes("/git/trees/")) return Response.json({
-    tree: Object.keys(files).map(path => ({ path, mode: "100644", type: "blob", sha: files[path].sha })),
-  });
-  if (String(url).endsWith("/git/blobs")) return Response.json({ sha: "blob-created" });
-  if (String(url).endsWith("/git/commits")) return Response.json({ sha: "commit-created" });
-  if (String(url).includes("/git/refs/heads/")) return Response.json({});
   throw new Error(`unexpected fetch: ${url} ${JSON.stringify(body)}`);
 };
 
