@@ -32,7 +32,6 @@ pnpm dev
 | `pnpm preview` | 本地预览生产构建 |
 | `pnpm format:check` | 检查 Prettier 格式 |
 | `pnpm format` | 格式化代码 |
-| `pnpm storybook` | 启动 Storybook |
 | `pnpm cz` | 使用 Commitizen 提交 |
 
 ## 项目结构

@@ -1,9 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Tag from "@components/Tag.astro";
-import Datetime from "@components/Datetime";
 import BlogDetail from "@components/BlogDetail";
-import getPageNumbers from "@utils/getPageNumbers";
 import { getCollection, render } from "astro:content";
 import type {
   InferGetStaticParamsType,
@@ -72,27 +69,4 @@ const { Content, remarkPluginFrontmatter } = await render(entry);
     <Content />
   </BlogDetail>
 
-  <!-- <SectionContainer>
-    <div class="mt-5 mb-12 mx-auto pt-10 py-8 max-w-6xl">
-      <h1 class="leading-tight text-2xl text-center text-[var(--color-accent)] font-bold mb-6">{title}</h1>
-      <div class="flex gap-3 items-center justify-center my-3">
-      <Datetime datetime={date} size="sm" />
-      <span class="text-sm">{remarkPluginFrontmatter.minutesRead}</span>
-      </div>
-        <ul class="gap-x-1.5 gap-y-1 flex items-center justify-center">
-          {categories.map(category => (
-            <span class="px-2.5 py-1 rounded-lg text-xs bg-zinc-50">{category}</span>
-          ))}
-          
-          {tags.map(tag => (
-            <Tag name={tag} hideCount />
-          ))}
-        </ul>
-    </div>
-    <main id="main-content">
-      <article id="article" role="article" class="mx-auto max-w-3xl mt-8 prose">
-       <Content />
-      </article>
-    </main>
-  </SectionContainer> -->
 </Layout>

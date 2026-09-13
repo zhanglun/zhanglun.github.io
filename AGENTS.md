@@ -35,7 +35,6 @@ pnpm format       # Auto-format with Prettier
 ### Other
 ```bash
 pnpm cz           # Commit with commitizen (conventional commits)
-pnpm storybook    # Run Storybook for component development
 ```
 
 ### Testing
@@ -88,17 +87,10 @@ Environment variables prefixed with `PUBLIC_` are exposed to client-side code.
 
 ### ESLint Rules (Key Ones)
 
-- Extends: `airbnb`, `plugin:react/recommended`, `plugin:storybook/recommended`
 - `react/prop-types`: off (using TypeScript)
 - `import/extensions`: off
 - `import/no-unresolved`: off
 - `@typescript-eslint/no-use-before-define`: error
-
-### Rome (Secondary Linter)
-
-- `noExplicitAny`: off (allowed)
-- `noDangerouslySetInnerHtml`: off (allowed)
-- `useKeyWithClickEvents`: off
 
 ---
 
