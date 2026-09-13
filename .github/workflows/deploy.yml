@@ -43,11 +43,8 @@ jobs:
         with:
           node-version: "22.14.0"
           package-manager: pnpm@10.22.0
-      - name: Build storybook and copy some files
-        run: |
-          # pnpm run build-storybook
-          # cp ./CNAME ./dist/CNAME
-          cp ./ads.txt ./dist/ads.txt
+      - name: Copy static files
+        run: cp ./ads.txt ./dist/ads.txt
   deploy:
     needs: build
     runs-on: ubuntu-latest
