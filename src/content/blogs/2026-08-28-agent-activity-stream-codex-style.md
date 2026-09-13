@@ -31,9 +31,9 @@ draft: false
 生成回答
 ```
 
-如果这些过程全部隐藏，用户只能看到一个“正在生成”。等待时间一长，用户很难判断 Agent 是否仍在工作、已经完成了什么，以及失败后是否还会继续。
+如果这些过程全部隐藏，用户往往只会看到一个笼统的“正在生成”。等待时间一长，用户很难判断 Agent 是否仍在工作、已经完成了什么，以及失败后是否还会继续。
 
-因此，一类接近 Codex 的界面会把一次 Agent Run 展示成一条活动链路：
+在这类场景中，一种接近 Codex 的界面会把一次 Agent Run 展示成一条活动链路：
 
 ```text
 ✓ 已准备项目上下文
@@ -42,9 +42,9 @@ draft: false
 ● 正在验证修改结果
 ```
 
-这条链路不是模型思维的逐字转录，而是 Runtime 确认发生后、经过筛选的工作活动。工具、外部服务、浏览器、子 Agent 或工作流都可能成为活动来源，但它们需要分别定义事件映射和安全边界；Activity Stream 本身不会自动解决这些问题。
+这条链路记录的是 Runtime 确认过、并经过筛选的工作活动，不记录模型思维的逐字内容。工具、外部服务、浏览器、子 Agent 或工作流都可能成为活动来源，但它们需要分别定义事件映射和安全边界；Activity Stream 本身不会自动解决这些问题。“已开始”具体表示 Runtime 已调度、外部服务已接收，还是操作已经产生副作用，也需要由事件协议明确约定。
 
-本文讨论三个问题：
+后文从三个实际设计问题展开：
 
 1. 如何区分模型内部推理、Agent 执行和用户可见活动？
 2. 如何把不同来源的执行事件归一化为稳定的 Activity Stream？
@@ -60,7 +60,7 @@ draft: false
 
 模型可能产生 reasoning token、thinking block 或 reasoning summary，用来判断下一步行动、选择执行方式和修正中间错误。
 
-这些内容不是客观执行记录，也不是稳定的产品协议。它们可能包含内部规则、权限判断、私有上下文或尚未验证的猜测，因此默认留在 Runtime 内部。
+Reasoning 可能包含中间判断、私有上下文和未验证的猜测，不能直接当作客观执行记录，也不适合未经处理地作为产品协议。在本文的设计中，这类内容默认留在 Runtime 内部；如果产品需要展示摘要，也应经过单独的生成、审核和脱敏流程。
 
 ### 2. Agent 执行活动
 
@@ -91,7 +91,7 @@ Activity 的来源可能是工具、外部服务、浏览器、子 Agent、工�
 正式回答正文……
 ```
 
-这条视图可以包含简短说明、当前状态、结果摘要、失败提示、来源和终态，但不应暴露原始 reasoning、Prompt 或未经脱敏的工具载荷。
+这条视图可以包含简短说明、当前状态、结果摘要、失败提示、来源和终态，但公开内容需要经过脱敏和权限判断，不能直接带出原始 reasoning、Prompt 或未经处理的工具载荷。
 
 ```mermaid
 flowchart TD
@@ -103,16 +103,29 @@ flowchart TD
     T --> U
 ```
 
-三者的关系可以概括为：
+上图强调的是“内部推理经过 Runtime 过滤后才进入公开视图”。下面这张分层图进一步说明：在产品层面，活动事件与正式交付承担两条不同的输出职责：
+
+```mermaid
+flowchart TD
+    P[模型与 Provider] --> R[Agent Runtime]
+    R --> E[公开事件]
+    R --> A[正式交付]
+    E --> V[Activity 视图]
+    A --> U[回答或其他结果]
+    V --> UI[用户界面]
+    U --> UI
+```
+
+这张图中的两条输出路径不代表 Runtime 一定要拆成两个独立服务。它强调的是职责边界：活动事件描述执行过程，正式交付承载用户最终消费的结果。
 
 | 内容 | 主要作用 | 默认是否展示给用户 |
 |---|---|---:|
 | 模型内部推理 | 支撑模型决策 | 否 |
 | Agent 执行活动 | 描述已确认的工作过程 | 可以 |
 | 用户可见过程视图 | 将活动整理成可理解的界面 | 可以 |
-| 正式回答或其他交付 | 面向用户的主要输出 | 如果本次 Run 产生，则应与过程分离 |
+| 正式回答或其他交付 | 面向用户的主要输出 | 如果本次 Run 产生，通常应在界面职责上与过程区域分开呈现 |
 
-本文主要讨论后两层：如何从 Agent 的执行活动生成稳定的公开视图，以及如何把它与正式交付分开；重点不是转录模型的思维链。
+本文主要讨论后两层：如何从 Agent 的执行活动生成稳定的公开视图，以及如何把它与正式交付分开。重点在于执行状态和用户交付，不在于转录模型的思维链。
 
 ---
 
@@ -144,7 +157,7 @@ Agent 的真实运行过程通常更复杂：
 生成正式回答
 ```
 
-这些工作可能由工具、外部服务、浏览器、子 Agent、工作流或其他机制完成。Activity Stream 不必为每种机制设计一套独立的 UI，而可以把它们映射成用户能够理解的工作活动；具体机制仍需要各自处理权限、错误和取消。
+这些工作可能由工具、外部服务、浏览器、子 Agent、工作流或其他机制完成。“Activity Stream”在本文中作为产品和协议设计概念使用，不代表某个统一的行业标准接口。它不必为每种机制设计一套独立的 UI，而可以把它们映射成用户能够理解的工作活动；具体机制仍需要各自处理权限、错误和取消。
 
 例如，Runtime 可能产生：
 
@@ -156,7 +169,7 @@ answer.delta(...)
 run.completed
 ```
 
-用户最终看到的不是原始事件，而是：
+用户最终看到的是经过归并后的视图，而非原始事件：
 
 ```text
 ✓ 已准备项目上下文
@@ -166,9 +179,74 @@ run.completed
 这里是正式回答正文……
 ```
 
-如果把这些内容直接展示给用户，Activity Stream 很容易退化成模型日志窗口：协议字段不稳定，敏感载荷可能泄露，用户也难以判断哪些内容已经真正发生。因此，本文把 Activity Stream 定义为：
+如果把这些内容原样展示，Activity Stream 可能逐渐变成模型日志窗口：协议字段不稳定，敏感载荷可能泄露，用户也难以判断哪些内容已经真正发生。本文把 Activity Stream 定义为：
 
 > **Activity Stream 是一次 Agent Run 的公开工作视图。它由 Runtime 产生的、经过筛选的事件驱动，并在前端归并为当前活动、已完成活动、失败活动、正式交付和终态。**
+
+### 术语速查
+
+| 术语 | 含义 |
+|---|---|
+| `Run` | 一次 Agent 执行实例 |
+| `Activity` | 可以向用户公开的工作单元 |
+| `Event` | 描述状态变化并用于传输的记录 |
+| `Interaction` | 暂停执行并等待外部输入的请求 |
+| `Answer` | 面向用户的正式交付文本或结果 |
+| `Terminal` | `completed`、`cancelled`、`failed` 等终态 |
+
+### 一个贯穿全文的最小例子
+
+假设用户提出请求：
+
+```text
+请根据当前资料，总结主要角色之间的关系。
+```
+
+下面只保留主链路，省略 `answer_completed`、`sources` 和阶段事件。这里的 `activity_started` 表示 Runtime 已开始调度查询活动；如果要表示外部服务已经接收请求或副作用已经发生，应使用更具体的事件或字段。一个最小的 Agent Run 可以经历：
+
+```text
+accepted
+  → activity_started：查询角色资料
+  → activity_completed：找到 3 条相关资料
+  → answer_chunk：角色 A 与角色 B 的关系是……
+  → run_completed
+```
+
+在这个例子中，查询资料属于 Activity，回答文本属于 Answer，`run_completed` 表示 Runtime 已完成本轮收尾并写入终态。它们分别承担不同职责，前端可以据此决定哪些内容进入过程区域，哪些内容进入正文。
+
+| 收到事件 | Run 状态 | Activity 区域 | 正文 |
+|---|---|---|---|
+| `accepted` | `accepted` | 请求已接收 | 空 |
+| `activity_started` | `running` | 正在查询资料 | 空 |
+| `activity_completed` | `running` | 已找到 3 条资料 | 空 |
+| `answer_chunk` | `running` | 已完成查询 | 增量正文 |
+| `run_completed` | `completed` | 折叠活动摘要 | 完整正文 |
+
+```mermaid
+sequenceDiagram
+    participant User as 用户
+    participant UI as 前端
+    participant API as 应用服务
+    participant Runtime as Agent Runtime
+    participant Tool as 资料查询工具
+    participant Model as 模型
+
+    User->>UI: 发送总结请求
+    UI->>API: 创建或启动 Run
+    API-->>UI: accepted
+    API->>Runtime: 执行 Agent
+    Runtime-->>UI: activity_started
+    Runtime->>Tool: 查询角色资料
+    Tool-->>Runtime: 返回受控结果
+    Runtime-->>UI: activity_completed
+    Runtime->>Model: 生成正式回答
+    Model-->>Runtime: 文本增量
+    Runtime-->>UI: answer_chunk
+    Runtime-->>UI: run_completed
+    UI-->>User: 展示活动、正文和终态
+```
+
+这张图只展示一条成功路径。真实系统还需要处理工具失败、用户取消、重复投递和客户端断线；后面的章节会分别展开这些问题。
 
 ---
 
@@ -289,9 +367,9 @@ Activity 文案不宜承诺模型“正在思考某个具体结论”，更适�
 
 如果前端直接依赖这些字段，产品协议就会被 Provider 绑死。
 
-### 4. 思维链不等于执行记录
+### 4. 思维链与执行记录属于不同层次
 
-模型说“我准备搜索资料”，不代表工具真的已经执行。
+模型说“我准备搜索资料”，并不能证明工具已经执行。
 
 对于描述具体外部操作的 Activity，最好等 Runtime 确认操作已经开始或完成后再发布。请求已接收、等待输入和生命周期状态则可以使用独立的产品事件表达：
 
@@ -318,9 +396,9 @@ Runtime：负责识别、过滤和编排
 
 ## 五、设计 Activity Stream 的基本原则
 
-前面的讨论解决了“为什么要展示过程”，这里进一步把它落到设计约束上。下面这些原则不是一套必须完整照搬的协议，而是用来判断某条活动是否适合公开的检查标准。
+下面给出判断活动是否适合公开的检查标准；它们不是一套需要完整照搬的协议。
 
-### 原则一：公开事实，不公开猜测
+### 原则一：公开事实，隐藏猜测
 
 Activity 最好对应 Runtime 已经确认发生的事实：
 
@@ -339,7 +417,7 @@ Activity 最好对应 Runtime 已经确认发生的事实：
 
 ### 原则二：活动和正文分离
 
-在本文的文本流示例中，只有正式回答增量进入 `answer`：
+在本文的文本流示例中，只有正式回答增量进入 `answer`。文件、patch 或结构化结果应通过独立的交付字段或事件承载：
 
 ```text
 answer += event.payload.text
@@ -365,7 +443,7 @@ answer += event.payload.text
 
 这些是运行过程，不是正式回答。
 
-### 原则三：当前活动突出，历史活动收敛
+### 原则三：让当前活动可见，让历史活动收敛
 
 运行中的界面通常需要突出当前活动：
 
@@ -381,7 +459,7 @@ answer += event.payload.text
 ⌄ 查看处理过程
 ```
 
-是否显示活动数量，要看这个数量对用户有没有帮助；如果只是调试统计，就不必放在默认摘要里。Activity Stream 的重点也不是记录更多，而是让过程随着运行逐渐变得清晰。
+是否显示活动数量，要看这个数量对用户有没有帮助；如果只是调试统计，就不必放在默认摘要里。Activity Stream 的价值在于让过程随着运行逐渐变得清晰，而不在于记录尽可能多的细节。
 
 ### 原则四：失败保留，成功折叠
 
@@ -430,6 +508,12 @@ answer += event.payload.text
 
 Activity Stream 通常需要围绕一次明确的 Run 建模，而不是只围绕一个全局 loading 状态建模。Run 描述一次完整执行；Activity 描述其中值得公开的工作单元；Interaction 则描述执行暂停并等待外部输入的控制流边界。
 
+| 对象 | 关注的问题 | 典型状态 |
+|---|---|---|
+| `Run` | 整体是否继续执行 | `running` / `waiting_for_input` / `completed` |
+| `Activity` | 某项工作做到哪里 | `queued` / `running` / `completed` |
+| `Interaction` | 外部问题是否已处理 | `pending` / `responded` / `expired` |
+
 ```ts
 type RunStatus =
   | 'accepted'
@@ -441,6 +525,8 @@ type RunStatus =
   | 'cancelled'
   | 'failed';
 ```
+
+下面只列出主要路径，不是完整的状态转换表；实际协议还需要明确取消、过期、失败和竞态下的合法转换。
 
 一次 Run 可以经历：
 
@@ -474,13 +560,13 @@ running
   → running
 ```
 
-`waiting_for_input` 不只可以表示审批，也可以表示 Agent 正在等待澄清、方案选择或失败恢复决策。人工接管属于更复杂的协作场景，需要额外定义权限和交接语义。
+`waiting_for_input` 表示整个 Run 已暂停，正在等待澄清、方案选择或失败恢复决策。人工接管属于更复杂的协作场景，需要额外定义权限和交接语义。实际实现还应补充 `waiting_for_input`、`cancelling` 与失败、过期、取消之间的合法转换，以及取消和完成同时到达时的裁决规则。
 
 ### Human-in-the-loop：Agent 如何暂停并等待外部决策？
 
 Agent 并不总能，也不总应该自主完成任务。当操作具有破坏性、信息不足、权限不足，或者存在多个合理方案时，Runtime 可以暂停 Run，并提出结构化的交互请求。是否暂停以及暂停到什么粒度，要由具体业务的风险和交互成本决定。
 
-这不是普通的工作活动，而是一次控制流转移：
+Interaction 会改变 Run 的控制流：执行暂停，等待外部输入后再恢复、分支或结束。
 
 ```text
 Agent 执行
@@ -499,7 +585,7 @@ Activity：Agent 正在做什么
 Interaction：Agent 为什么停下来，需要人类做什么
 ```
 
-Human-in-the-loop 的具体形式可以不同，但不必改变 Activity Stream 的核心模型：
+Human-in-the-loop 可以有不同形式。它们共享“暂停并等待外部输入”的控制流，但具体的权限、过期和恢复规则仍需单独设计：
 
 ```text
 approval       确认是否执行
@@ -509,7 +595,7 @@ recovery       选择重试、回滚或停止
 handoff        转交给人工处理
 ```
 
-如果交互需要独立过期、鉴权和恢复，通常值得把它单独建模，并关联到触发它的 Activity：
+如果交互需要独立的过期、鉴权和恢复逻辑，可以把它单独建模，并关联到触发它的 Activity：
 
 ```ts
 type Interaction = {
@@ -546,13 +632,13 @@ type Interaction = {
 
 用户提交的响应必须关联到具体的 `interactionId`。服务端需要再次校验用户权限、Run 状态、交互是否过期，以及待执行资源是否仍是原来的版本；不能只信任前端传来的 `approve`。
 
-如果交互属于原 Run 的暂停点，提交响应后可以恢复原 Run；也有系统会为这次响应创建新的 attempt，具体取决于任务和审计模型：
+如果交互属于原 Run 的暂停点，提交响应后可以恢复原 Run；也有系统会为这次响应创建新的 attempt，具体取决于任务和审计模型。用户提交新问题时，则可以创建新的 Run，原 Run 保持等待状态。
 
 ```text
 resume(runId, interactionId, response)
 ```
 
-用户提出的新问题则可以创建新的 Run，原 Run 保持等待状态。这样“回答审批”和“开始一个新任务”不会混在同一条控制流里。
+这样“回答审批”和“开始一个新任务”不会混在同一条控制流里。
 
 ### 推荐的 Run 状态
 
@@ -572,7 +658,17 @@ type RunViewState = {
 };
 ```
 
-如果需要处理活动更新、重试或重放，可以为每个活动实例分配稳定的 `activityId`：
+如果需要处理活动更新、重试或重放，可以为每个活动实例分配稳定的 `activityId`。不必一开始实现所有字段，可以按需求分层增加：
+
+```text
+最小活动：activityId、title、status
+展示结果：operation、target、resultSummary
+复杂执行：attempt、source、parentActivityId、retryable
+```
+
+下面展示的是完整形态，实际 MVP 可以只实现上面列出的最小字段。
+
+对应类型可以写成：
 
 ```ts
 type ActivityItem = {
@@ -583,7 +679,6 @@ type ActivityItem = {
   status:
     | 'queued'
     | 'running'
-    | 'waiting_for_input'
     | 'retrying'
     | 'completed'
     | 'failed'
@@ -598,7 +693,7 @@ type ActivityItem = {
 };
 ```
 
-这里固定的是活动的稳定维度，而不是一份封闭的机制清单：
+这些字段描述活动的稳定语义维度，底层机制仍可以继续增加：
 
 - `operation` 表达 Agent 做了什么；
 - `target` 表达它作用于什么对象；
@@ -607,7 +702,7 @@ type ActivityItem = {
 
 未来增加新的执行机制时，可以优先尝试把它映射到这些维度；如果新的交互方式改变了状态模型，仍可能需要扩展协议。
 
-在需要处理重复执行、并行活动或事件重放时，使用 `Record<string, ActivityItem>` 会比较方便：
+如果需要处理重复执行、并行活动或事件重放，使用 `Record<string, ActivityItem>` 会比较方便：
 
 - 同一个工作活动可能重复执行；
 - 并行活动可以交错返回；
@@ -648,15 +743,17 @@ running
   → cancelled
 ```
 
-需要外部决策时，活动本身保持可追踪，Run 进入等待状态：
+需要外部决策时，Run 进入等待状态；Interaction 记录“在等什么、谁能回答、何时过期”；Activity 则保留触发等待的工作上下文。三者不要混为同一个状态对象：
 
-```text
-running
-  → waiting_for_input
-  → running
+```mermaid
+flowchart TD
+    R[Run: waiting_for_input] --> I[Interaction: pending]
+    A[Activity: 已触发等待的工作] --> I
+    I -->|用户响应| R2[Run: running]
+    I -->|拒绝或过期| T[终态或恢复分支]
 ```
 
-如果交互被拒绝、过期或转交人工，Run 可以根据业务规则进入相应分支，而不是强行伪装成成功。
+如果交互被拒绝、过期或转交人工，Run 可以根据业务规则进入相应分支。此时应保留真实结果，不要把未完成的执行标记成成功。
 
 ---
 
@@ -685,7 +782,7 @@ type StreamEvent<T> = {
 | `eventId` | 事件的稳定身份 |
 | `runId` | 区分不同运行 |
 | `assistantMessageId` | 关联助手消息 |
-| `seq` | 排序、去重和重放游标 |
+| `seq` | 排序与重放游标；可配合 `eventId` 完成幂等归并 |
 | `type` | 事件类型 |
 | `occurredAt` | 事件发生时间 |
 | `payload` | 该事件的具体内容 |
@@ -717,19 +814,33 @@ run_completed
 run_failed
 ```
 
-不必一开始实现全部事件。验证基本交互时，可以先支持：
+不必一开始实现全部事件。验证基本交互时，可以先支持下面这组 MVP 事件：
 
 ```text
 accepted
-stage_started
 activity_started
 activity_completed
 answer_chunk
 run_completed
 run_failed
+run_cancelled
+```
+
+按需求再增加：
+
+```text
+stage_started / stage_completed
+answer_completed
+sources
+snapshot
+interaction_requested / run_resumed
+heartbeat
+journal 与重连恢复
 ```
 
 ### 事件职责
+
+在下面的概念协议中，`answer_chunk` 代表正式回答的文本增量；如果实际实现采用 `chunk`、`message_delta` 或结构化结果，职责仍然相同。`answer_completed` 只表示正文增量结束；`run_completed` 还需要等待来源、持久化和其他收尾工作完成。具体事件顺序应写进协议，而不能只依赖前端收到事件的先后。
 
 | 事件 | 是否进入正式正文 | 作用 |
 |---|---:|---|
@@ -741,6 +852,7 @@ run_failed
 | `interaction_responded` | 否 | 收到与交互请求关联的响应 |
 | `run_resumed` | 否 | Run 根据响应继续执行 |
 | `answer_chunk` | 是 | 正式回答增量 |
+| `answer_completed` | 否 | 正式回答文本流结束 |
 | `sources` | 否 | 回答引用来源 |
 | `heartbeat` | 否 | 保持连接，不渲染 |
 | `run_completed` | 否 | 成功终态 |
@@ -748,6 +860,8 @@ run_failed
 | `run_failed` | 否 | 失败终态 |
 
 ### 一个概念示例
+
+> **假设示例**：下面用一次需要用户确认的操作说明事件结构，不代表具体产品一定采用 approval，也不要求把所有交互都建模成同一种形式。
 
 ```json
 {
@@ -762,8 +876,8 @@ run_failed
     "interactionId": "interaction_3",
     "requiredByActivityId": "activity_12",
     "kind": "approval",
-    "title": "确认修改生产配置",
-    "prompt": "即将修改 production.yaml，是否继续？",
+    "title": "确认执行操作",
+    "prompt": "这项操作可能影响已有资源，是否继续？",
     "options": [
       { "value": "approve", "label": "继续" },
       { "value": "reject", "label": "停止" }
@@ -787,7 +901,7 @@ type TerminalState = {
 };
 ```
 
-一个 Run 可以先用下面这些不变量进行检查。它们属于业务状态和公共协议层面的约束，具体实现还需要数据库条件更新、执行所有权和客户端归并逻辑共同保证：
+一个 Run 可以先用下面这些不变量进行检查。它们属于业务状态和公共协议层面的约束，具体实现还需要数据库条件更新、执行所有权和客户端归并逻辑共同保证。下面的约束是设计目标，不能替代实际的并发控制和故障测试：
 
 1. 在业务状态上，一个 Run 只收敛到一个终态；网络层仍可能重复投递终态事件；
 2. 对用户可见的 Run 事件，终态后不再产生新的业务状态变化；
@@ -795,22 +909,24 @@ type TerminalState = {
 4. 客户端能够幂等处理重复事件；
 5. 迟到的 `answer_chunk` 不会污染已经收敛的回答；
 6. `run_cancelled` 不会被后续异步任务覆盖为 `run_completed`；
-7. 在文本流模型中，只有正式回答增量进入正文；
+7. 在本文的文本流模型中，只有正式回答增量进入文本正文；文件、patch 或结构化结果应通过独立的交付字段或事件承载；
 8. `reasoning`、Prompt 和原始工具数据不进入公共事件。
 
 ---
 
 ## 八、`seq`、幂等和至少一次投递
 
-网络系统很难单靠传输层保证事件严格 exactly-once 投递。更常见的做法是：
+网络系统很难单靠传输层保证事件严格 exactly-once 投递。一种常见的组合是：
 
 ```text
-服务端至少一次投递
+服务端允许重试投递
   +
 客户端按 eventId / seq 幂等归并
   +
 正文按事件序号或 chunkId 去重
 ```
+
+也可以选择最多一次投递，再用最终状态或 snapshot 兜底。关键是先确定投递语义，再设计客户端的归并方式。
 
 ### Run 级序号还是会话级序号？
 
@@ -835,54 +951,32 @@ conversation_1: 101, 102, 103, 104
 
 如果当前只需要单次 Run 的恢复，MVP 可以先使用：
 
+> **实现假设**：下面的 reducer 假定事件按 `seq` 顺序到达，并不检测缺号、缓存乱序事件或执行快照恢复。生产实现需要根据协议补充这部分逻辑。
+
 ```text
 runId + run-level seq
 ```
 
-只有在需要跨 Run 排序、会话级回放或统一订阅时，才有必要进一步引入 conversation-level cursor。
+当系统需要跨 Run 排序、会话级回放或统一订阅时，再考虑引入 conversation-level cursor；单次 Run 的恢复通常不需要它。
 
 ### 客户端归并逻辑
 
+客户端至少需要先确认事件属于当前 Run，并根据约定的 `seq` 判断是否已经处理过。下面的版本假定服务端保证连续、按序投递；重复事件还需要通过 `eventId` 记录表处理：
+
 ```ts
-function reduceRunState(
-  state: RunViewState,
-  event: StreamEvent<unknown>,
-): RunViewState {
-  if (event.runId !== state.runId) return state;
-  if (event.seq <= state.lastSeq) return state;
-
-  switch (event.type) {
-    case 'activity_started':
-      // 根据 activityId 创建或更新活动
-      break;
-
-    case 'activity_completed':
-      // 更新同一个 activityId
-      break;
-
-    case 'answer_chunk':
-      // 只有正式回答增量可以追加
-      break;
-
-    case 'run_completed':
-      // 收敛为 completed
-      break;
-  }
-
-  return {
-    ...state,
-    lastSeq: event.seq,
-  };
+function acceptEvent(state: RunViewState, event: StreamEvent<unknown>) {
+  if (event.runId !== state.runId) return false;
+  return event.seq === state.lastSeq + 1;
 }
 ```
 
-实际实现还可以记录已经处理过的 `eventId`，以应对重复投递或异常重试。下面的简化 reducer 只演示“按序处理”的情况；如果允许事件乱序，不能只依赖 `lastSeq`，还需要缓存缺失事件，或者通过 snapshot 重新建立状态。`seq` 和 `eventId` 如何配合，应根据服务端的重试和排序语义确定。
+Activity、Interaction、正文和终态的完整归并示例见第十二章。这里的函数只检查事件是否紧接上一个序号；缺号时应等待补发或请求 snapshot，重复事件则由 `eventId` 去重。如果协议允许乱序，需要缓存缺失事件，不能只依赖 `lastSeq`。`seq` 和 `eventId` 如何配合，应根据服务端的重试和排序语义确定。
 
 ---
 
 ## 九、如何选择流式传输方式
 
-传输方式没有脱离场景的唯一答案。需要同时考虑请求体、鉴权、双向通信、断线恢复、后台执行和实现成本。
+传输方式很难脱离场景单独判断。实际选择通常要同时考虑请求体、鉴权、双向通信、断线恢复、后台执行和实现成本。
 
 ### 方案一：POST 直接返回流
 
@@ -924,7 +1018,7 @@ GET /runs/:runId/events
 - API 数量更多；
 - 需要持久化 Run 状态和事件。
 
-如果 Agent 需要后台执行、独立重连或过程回放，第二种模式通常更合适；如果只是一次简单的同步对话，第一种模式的实现成本更低。
+如果 Agent 需要后台执行、独立重连或过程回放，第二种模式可以作为起点；如果只是一次简单的同步对话，第一种模式的实现成本通常更低。鉴权方式、后台任务基础设施和已有连接模型，也可能改变这个选择。
 
 ### 方案三：WebSocket
 
@@ -937,7 +1031,7 @@ WebSocket 适合：
 
 但普通 Agent 进度推送未必需要 WebSocket。SSE 或 HTTP streaming 通常更简单。
 
-### 一个实用的选择
+### 可以作为初始判断的组合
 
 ```text
 简单原型：POST + fetch streaming
@@ -945,11 +1039,13 @@ WebSocket 适合：
 复杂双向协作：WebSocket
 ```
 
+鉴权方式、后台任务基础设施和已有连接模型，可能改变这个选择。
+
 ---
 
 ## 十、SSE 的一种实现方式
 
-如果希望利用原生 SSE 的游标机制，除了在 JSON 中保留 `eventId`，还可以使用 SSE 协议的 `id:` 字段：
+如果客户端采用原生 `EventSource` 的自动重连机制，可以利用 SSE 的 `id:` 字段保存游标；如果客户端使用 `fetch()` 自己管理流，也可以直接在应用层传递 `lastSeq`。下面展示前一种写法：
 
 ```text
 id: run_123:7
@@ -977,11 +1073,11 @@ Last-Event-ID: run_123:7
   ↓
 使用同一个 runId 重新订阅
   ↓
-服务端重放 lastSeq 之后的事件
+服务端返回仍可用的后续事件
   ↓
-客户端幂等归并
+客户端按协议处理重复、缺号或快照
   ↓
-继续接收后续事件
+继续接收事件，或收敛到当前状态
 ```
 
 ### 原生 EventSource 的限制
@@ -1064,7 +1160,8 @@ flowchart LR
 真实阶段开始       → stage_started
 真实阶段结束       → stage_completed
 模型 reasoning     → 默认隐藏
-模型完成           → run_completed
+回答文本流结束     → answer_completed
+Runtime 完成收尾并写入终态 → run_completed
 ```
 
 同一个公共事件可以承载不同的底层来源：
@@ -1078,11 +1175,11 @@ flowchart LR
                   → activity.completed(operation="verify")
 ```
 
-底层机制可以记录在可选的 `source` 字段中，但不宜成为前端核心分支的唯一依据。
+底层机制可以记录在可选的 `source` 字段中，前端核心分支仍应围绕用户可理解的工作语义组织。
 
 ### 原始执行事件不能直接转发
 
-底层执行事件通常包含完整参数：
+底层执行事件往往包含比用户界面所需更多的参数：
 
 ```json
 {
@@ -1094,7 +1191,7 @@ flowchart LR
 }
 ```
 
-这些数据不应该直接发到浏览器。
+这类数据不宜直接发到浏览器；即使当前页面暂时不展示，浏览器开发者工具、缓存和重放接口也可能让它们暴露。
 
 Runtime 应先把底层事件转换成稳定的工作语义，再生成安全摘要：
 
@@ -1126,12 +1223,12 @@ Runtime 应先把底层事件转换成稳定的工作语义，再生成安全摘
 
 ### 以 Agent 框架事件为例
 
-下面的代码是接近实际框架事件的伪代码，字段名称和事件类型需要以具体 SDK 版本为准：
+下面使用框架无关的伪代码表达事件转换过程；事件名称和字段仅用于说明职责，不对应某个固定 SDK 的完整 API。接入具体框架时，字段名称和事件类型需要以对应 SDK 版本为准：
 
 ```ts
 const stream = await agent.stream(input);
 
-for await (const part of stream.fullStream) {
+for await (const part of stream) {
   switch (part.type) {
     case 'text-delta':
       publish({
@@ -1153,13 +1250,14 @@ for await (const part of stream.fullStream) {
       break;
 
     case 'finish':
-      publishRunCompleted(part);
+      // 模型输出结束不等于整个 Run 已完成。
+      publishAnswerCompleted(part);
       break;
   }
 }
 ```
 
-这里的 `fullStream` 只是 Runtime 的输入，不宜直接当成前端协议。
+这里的 `stream` 只是 Runtime 的输入，不宜直接当成前端协议。不同 SDK 版本的事件名称和字段可能不同，接入时应以具体版本的文档为准。
 
 原因包括：
 
@@ -1169,7 +1267,7 @@ for await (const part of stream.fullStream) {
 - reasoning 事件不一定应该公开；
 - `accepted`、`sources`、`cancelled` 等业务事件通常需要应用层补充。
 
-因此应当保持：
+可以保持下面这条处理链：
 
 ```text
 Provider Event
@@ -1178,17 +1276,17 @@ Provider Event
   → UI State
 ```
 
-而不是：
+浏览器只接收应用层已经筛选过的事件：
 
 ```text
-Provider Event → Browser
+Application Event → Browser
 ```
 
 ---
 
 ## 十二、前端如何把事件变成体验
 
-当事件数量、状态类型或连接生命周期开始变复杂时，前端不宜把每条事件直接 append 到 DOM，而应该维护一个 Run 状态。简单原型也可以先采用更直接的渲染方式，之后再根据重复事件、重连和局部更新的需求演进。
+当事件需要重连、重放或局部更新时，前端维护 Run 状态会比直接 append 到 DOM 更容易控制；简单的一次性回答则可以先采用更直接的渲染方式。
 
 ### 运行中
 
@@ -1217,9 +1315,13 @@ Provider Event → Browser
 
 ### 一个简单的归并过程
 
+> **教学示例**：下面只演示按序事件的基本归并。它没有实现 eventId 去重、缺号缓存和快照恢复，不能直接作为完整的生产 reducer。示例同时假定状态已经初始化，且终态事件的 payload 符合 `TerminalState`。
+
 ```ts
 function applyEvent(state: RunViewState, event: StreamEvent<any>) {
+  if (event.runId !== state.runId) return state;
   if (event.seq <= state.lastSeq) return state;
+  if (['completed', 'cancelled', 'failed'].includes(state.status)) return state;
 
   if (event.type === 'activity_started') {
     const item = event.payload;
@@ -1286,6 +1388,16 @@ function applyEvent(state: RunViewState, event: StreamEvent<any>) {
     };
   }
 
+  if (event.type === 'run_cancelled' || event.type === 'run_failed') {
+    return {
+      ...state,
+      lastSeq: event.seq,
+      status: event.type === 'run_cancelled' ? 'cancelled' : 'failed',
+      partial: event.payload.partial ?? state.answer.length > 0,
+      terminal: event.payload,
+    };
+  }
+
   return {
     ...state,
     lastSeq: event.seq,
@@ -1308,7 +1420,7 @@ AgentActivityStream
 
 ### UI 层级
 
-Activity 应该服务于正文，而不是抢走正文的视觉权重：
+Activity 的视觉层级通常低于正文，作用是帮助用户理解等待和结果。对于等待确认、取消或失败恢复等需要用户操作的 Activity，则应根据任务风险提高它的可见性：
 
 ```text
 消息头
@@ -1354,18 +1466,21 @@ Activity Stream 的价值不只在于“让等待更好看”，还在于让用�
 
 前端停止读取流，不代表 Agent 已经停止执行。
 
-一种更容易明确责任边界的链路是：
+可以把责任边界拆成下面几步：
 
 ```text
 用户点击停止
   → cancel(runId)
   → Run 标记 cancelling
   → AbortSignal 传给模型和工具
-  → Runtime 停止启动新的工作
+  → Runtime 尽量停止后续工作
+  → 服务端确认最终状态
   → 发布 run_cancelled
 ```
 
-取消接口通常需要具备幂等语义：
+取消请求表示用户希望停止；`cancelled` 表示服务端已经确认 Run 不再继续调度新的用户可见工作。外部工具或模型未必能瞬间响应取消，已经启动的外部副作用能否停止或回滚，也取决于具体工具的取消与补偿语义。两者不应混为同一个状态。
+
+取消接口最好具备幂等语义：
 
 ```text
 第一次取消：accepted
@@ -1388,7 +1503,7 @@ Activity Stream 的价值不只在于“让等待更好看”，还在于让用�
 已停止，以下回答可能不完整
 ```
 
-对应状态：
+对应状态（假设已经产生部分正文）：
 
 ```ts
 {
@@ -1398,11 +1513,13 @@ Activity Stream 的价值不只在于“让等待更好看”，还在于让用�
 }
 ```
 
-不要把部分回答呈现成完整答案。
+如果在生成正文前就失败或取消，`partial` 应为 `false`；它应根据已经产生并持久化的正文判断，不能因为进入异常分支就固定为 `true`。
 
-### 失败不是只有“再试一次”
+界面需要明确区分部分回答和完整答案。
 
-应该区分：
+### 失败后的动作不止一种
+
+需要区分：
 
 ```text
 传输层重试
@@ -1447,7 +1564,7 @@ assistant message
 
 如果事件只保存在进程内内存中，服务重启或客户端断线后通常无法恢复完整的过程信息；是否需要持久化过程，要看产品是否要求断线恢复、审计或后台执行。
 
-如果产品要求在断线后恢复过程，或允许 Run 在后台继续执行，就需要某种持久化的事件或状态来源。事件 journal 是一种常见选择：
+如果产品要求在断线后恢复过程，或允许 Run 在后台继续执行，就需要某种持久化的事件或状态来源。事件 journal 是一种常见选择，但它与消息表、缓存或日志系统在持久性、查询能力和保留策略上并不等价：
 
 ```text
 Run
@@ -1468,6 +1585,8 @@ Run
 - PostgreSQL event table；
 - Redis Streams；
 - 具备游标和保留策略的其他事件存储。
+
+这些方案在持久性、保留策略、查询能力、成本和故障恢复语义上并不等价，不能仅因为它们都支持游标就直接互换。
 
 ### 重连
 
@@ -1527,7 +1646,7 @@ type RunSnapshot = {
 
 ## 十五、安全设计：公共活动也需要权限控制
 
-Activity Stream 不是“无害日志”。它可能暴露：
+Activity Stream 也可能暴露运行相关的信息，例如：
 
 - 用户正在访问的项目；
 - 工具名称；
@@ -1547,16 +1666,18 @@ run ownership
 resource permission
 ```
 
-### 可以公开
+### 在风险可控时可以公开
 
 ```text
 工具展示名
 活动状态
 结果数量
-耗时
+经过处理的耗时
 安全错误码
 是否可以重试
 ```
+
+耗时和结果数量有时也会暴露数据规模、资源是否存在或权限分支。对这类场景，可以只展示粗粒度信息，或者干脆不展示。
 
 ### 不应公开
 
@@ -1585,13 +1706,13 @@ internal error
 stack trace
 ```
 
-用户只需要看到：
+用户侧可以只展示：
 
 ```text
 资料查询失败，稍后可以重试。
 ```
 
-内部日志记录的是实现细节，Activity Stream 表达的是用户需要理解的工作状态。两者不能混为一谈。
+内部日志记录实现细节，Activity Stream 表达用户需要理解的工作状态。两者面向不同读者，字段和保留策略也应分别设计。
 
 ### Journal 也要脱敏
 
@@ -1603,7 +1724,7 @@ stack trace
 - 测试环境复制；
 - 长期存储。
 
-因此，脱敏最好发生在事件写入 journal 之前，而不是只在前端隐藏。这样可以减少重放接口、运维查询或日志链路重新暴露敏感内容的风险。
+脱敏最好发生在事件写入 journal 之前。只在前端隐藏并不足以覆盖重放接口、运维查询或日志链路重新暴露敏感内容的风险。
 
 ---
 
@@ -1628,6 +1749,15 @@ Activity 是用户值得知道的一个工作单元，例如：
 ### 组织关系：Stage 与 Parent
 
 在更复杂的任务中，多个 Activity 可以组成一个阶段，也可以嵌套在另一个 Activity 下面：
+
+```mermaid
+flowchart TD
+    S[验证修改结果] --> C1[执行检查]
+    S --> C2[读取失败信息]
+    S --> C3[重新验证]
+```
+
+这类关系适合需要展示阶段内并行、重试或嵌套的场景。
 
 ```text
 验证修改结果
@@ -1681,7 +1811,7 @@ Activity 更新也不应该导致整个消息列表跳动。
 
 ### 2. 无障碍
 
-建议：
+活动状态通常是低频变化，正文 token 则可能高频到达。如果两者共用同一个 `aria-live` 区域，屏幕阅读器可能被连续增量反复打断。可以将状态摘要和正文采用不同的播报策略：
 
 - 活动区域使用 `aria-live="polite"`；
 - 不要让每个 token 都触发屏幕阅读器播报；
@@ -1694,18 +1824,18 @@ Activity 更新也不应该导致整个消息列表跳动。
 
 ### 3. 动画
 
-动画只用来表达状态变化：
+动画可以用来表达状态变化：
 
 ```text
 queued → running
 running → completed
 ```
 
-不要使用无意义的循环动画制造“系统正在忙”的错觉。
+如果动画没有对应的状态变化，就容易变成“系统正在忙”的装饰；这类循环动画应谨慎使用。
 
 ### 4. 性能
 
-长回答和长活动列表可能产生大量更新。建议：
+长回答和长活动列表可能产生大量更新。可以从下面几项开始：
 
 - token 增量批量刷新；
 - 活动按 `activityId` 局部更新；
@@ -1717,6 +1847,8 @@ running → completed
 ---
 
 ## 十八、一个最小可行实现
+
+本节给出的是最小实现骨架，不是可直接运行的完整服务。鉴权、事件持久化、异常恢复和具体 SDK 接入仍需由应用补齐。下面的 MVP 事件集合是最小示意；`sources`、`answer_completed`、snapshot、Interaction、stage 和 journal 都可以按产品需求增加。
 
 如果只想先做出第一版体验，不必一次实现所有生产能力。更实际的方式，是先建立一条最小闭环，再按真实需求逐步增加能力：
 
@@ -1737,26 +1869,43 @@ GET /runs/:runId/events
 publish('accepted');
 publish('stage_started', { label: '正在准备上下文' });
 
-const stream = await agent.stream(input);
+let answer = '';
 
-for await (const part of stream.fullStream) {
-  if (part.type === 'text-delta') {
-    publish('answer_chunk', { text: part.text });
+try {
+  const stream = await agent.stream(input);
+
+  for await (const part of stream) {
+    if (part.type === 'text-delta') {
+      answer += part.text;
+      publish('answer_chunk', { text: part.text });
+    }
+
+    if (isObservableWork(part)) {
+      publishActivity(part); // 归一化 operation、target、status、summary
+    }
+
+    if (part.type === 'reasoning-delta') {
+      // 不把内部推理直接转换为公开 Activity
+    }
   }
 
-  if (isObservableWork(part)) {
-    publishActivity(part); // 归一化 operation、target、status、summary
-  }
-
-  if (part.type === 'reasoning-delta') {
-    // 不把内部推理直接转换为公开 Activity
+  publish('answer_completed');
+  await persistFinalState({ status: 'completed', answer, partial: false });
+  // 仅在正常完成、未取消且终态写入成功后发布。
+  publish('run_completed', { partial: false });
+} catch (error) {
+  // 实际系统应以已经持久化的正文判断；这里用内存变量简化。
+  const partial = answer.length > 0;
+  if (isCancellation(error)) {
+    publish('run_cancelled', { partial });
+  } else {
+    publish('run_failed', { partial });
   }
 }
 
-publish('run_completed', { partial: false });
 ```
 
-这里的关键不是识别某一种具体机制，而是把底层事件归一化为稳定的工作语义：
+底层事件需要先归一化为稳定的工作语义：
 
 ```text
 底层事件
@@ -1793,6 +1942,21 @@ publish('run_completed', { partial: false });
 第七步：再考虑 Interaction、并行活动和活动树
 ```
 
+也可以把这条路径理解成从“能展示结果”逐步走向“能解释、能恢复、能协作”：
+
+```mermaid
+flowchart TD
+    L1[最小闭环<br/>answer_chunk + terminal]
+    L2[可观察性<br/>Activity + error + cancel]
+    L3[可靠性<br/>eventId + seq + snapshot]
+    L4[长任务能力<br/>journal + reconnect + background run]
+    L5[复杂协作<br/>Interaction + parallel activity + activity tree]
+
+    L1 --> L2 --> L3 --> L4 --> L5
+```
+
+这不是所有产品都必须走完的路线。简单聊天可能停留在第一层或第二层；只有当任务时长、数据风险、并发关系或恢复要求增加时，后面的能力才值得投入。
+
 如果当前只是验证交互，第一版可以先支持：
 
 ```text
@@ -1813,7 +1977,7 @@ run_failed
 - 多版本回答；
 - 完整来源抽屉。
 
-是否加入 durable journal，要看产品是否真的要求断线后的过程恢复、审计或后台执行。延后的能力应明确记录为后续工作，而不是用静态 loading 文案冒充完整的 Activity Stream。
+是否加入 durable journal，要看产品是否真的要求断线后的过程恢复、审计或后台执行。延后的能力应明确记录为后续工作；只有在实际接入后端任务、事件持久化和恢复接口时，才可以把它作为完整的 Activity Stream 能力对外承诺。
 
 ---
 
@@ -1866,7 +2030,7 @@ Activity Stream 的测试不能只检查“页面上出现了一行文字”。�
 - 已完成 Run 重新订阅；
 - journal 过期后返回 snapshot；
 - 重连不重复拼接正文；
-- 重连不重新执行 Agent。
+- 重新订阅事件不会创建新的执行任务；服务端通过 `runId`、执行所有权或幂等键确认已有 Run 的状态。
 
 ### 浏览器体验测试
 
@@ -1918,13 +2082,13 @@ UI 不依赖 Provider 原始事件。
 断线后可以恢复同一个 Run。
 ```
 
-如果目前只能做到：
+如果目前只做到：
 
 ```text
 页面上显示“正在思考”
 ```
 
-这仍然只是 loading 文案；只有当它与可识别的 Run、活动和终态建立联系后，才开始具备 Activity Stream 的性质。
+这仍然只是 loading 文案；当它与可识别的 Run、活动和终态建立联系后，才开始具备 Activity Stream 的性质。
 
 如果能够做到：
 
@@ -1936,11 +2100,11 @@ Run 身份明确
 终态可以取消并得到明确结果
 ```
 
-就具备了接近 Codex 类产品交互基础的几个重要条件。至于是否需要完整事件重放、后台续跑或活动树，还要结合产品的任务时长和可靠性要求判断。
+就具备了接近 Codex 类产品交互基础的一些重要条件。完整事件重放、后台续跑或活动树是否值得加入，还要结合任务时长和可靠性要求判断。
 
 ---
 
-## 结语：展示的不是思维链，而是可理解的执行过程
+## 结语：从思维链转向可理解的执行过程
 
 与其追问“如何把 AI 的思考过程全部展示出来”，不如先问：
 
@@ -1964,36 +2128,15 @@ Run 身份明确
 完成、取消或失败
 ```
 
-接近 Codex 的体验，并不等于把页面变成模型日志窗口，也不等于让模型不断输出“我正在思考”。更重要的是把执行过程整理成用户能够理解和操作的界面：
+接近 Codex 的体验，不需要把页面变成模型日志窗口，也不需要让模型不断输出“我正在思考”。过程展示的价值在于让用户确认请求有没有开始、系统当前在做什么、答案是否完整，以及失败后还能采取什么动作。
 
-```text
-Agent Run
-  +
-安全 Activity Stream
-  +
-流式正式回答
-  +
-清晰终态
-  +
-可恢复的事件协议
-```
+原始 reasoning 可以帮助模型完成任务，但不一定适合作为产品界面。产品需要公开的，通常是经过 Runtime 确认、过滤和编排后的活动。
 
-原始 reasoning 可以帮助模型完成任务，但不一定适合作为产品界面。产品真正需要公开的是经过 Runtime 确认、过滤和编排后的活动。
-
-因此，Activity Stream 的目标不是让用户看到更多内部细节，而是让一次复杂的 Agent 运行更容易被理解和处理：
-
-```text
-及时
-可观察
-可理解
-可中断
-可恢复
-可验证
-```
-
-这也是过程展示值得投入工程成本的原因。
+用户至少应该知道请求有没有开始、系统当前在做什么、答案是否完整，以及失败后还能采取什么动作。达到这些条件后，过程展示才不只是一个 loading 状态。
 
 ## 参考资料
+
+以下资料用于说明流式输出、reasoning、SSE 和 Agent 事件等相关机制；Run、Activity、Interaction 及公共事件模型是本文的设计整理，不是这些资料共同定义的标准。
 
 - [Mastra Agent Streaming](https://mastra.ai/reference/streaming/agents/stream)
 - [Mastra Streaming Chunk Types](https://mastra.ai/reference/streaming/ChunkType)
