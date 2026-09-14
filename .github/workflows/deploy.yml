@@ -22,27 +22,12 @@ jobs:
           git config --global user.name "zhanglun"
           git config --global user.email "zhanglun1410@gmail.com"
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Sync Pnpm version
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.22.0
-      - name: Sync node version and setup cache
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22.14.0"
-          cache: 'pnpm'
-
-      - name: Install app dependencies and build web
-        # Remove `&& yarn build` if you build your frontend in `beforeBuildCommand`
-        run: pnpm install
+        uses: actions/checkout@v5
 
       - name: Install, build, and upload your site
-        uses: withastro/action@v3
+        uses: withastro/action@v6
         with:
-          node-version: "22.14.0"
-          package-manager: pnpm@10.22.0
+          node-version: "24"
       - name: Copy static files
         run: cp ./ads.txt ./dist/ads.txt
   deploy:
