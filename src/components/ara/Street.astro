@@ -1,0 +1,74 @@
+---
+import formatDotDate from "@utils/formatDotDate";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  posts: CollectionEntry<"blogs">[];
+}
+
+const { posts } = Astro.props;
+const sprites = [
+  ["house-r", 90, 60],
+  ["tree", 70, 60],
+  ["house-n", 90, 60],
+  ["person-r", 70, 80],
+  ["house-b", 90, 60],
+  ["person-b", 70, 80],
+  ["house-t", 90, 60],
+  ["tree", 70, 60],
+  ["cat", 50, 50],
+  ["house-m", 90, 60],
+  ["train", 100, 60],
+  ["tree", 70, 60],
+  ["lh", 110, 120],
+  ["bee", 70, 50],
+  ["person-g", 70, 80],
+] as const;
+const live = posts.slice(0, 8);
+const deco = /^(tree|cat|bee)$/;
+let pi = 0;
+const cells = sprites.map(([name, w, h]) => {
+  const clickable = !deco.test(name) && pi < live.length;
+  const post = clickable ? live[pi++] : null;
+  return { name, w, h, post };
+});
+---
+
+<div class="ara-street">
+  <span class="ara-street-hint px">点房子或人 · 进最新几篇</span>
+  <div class="ara-ground">
+    {
+      cells.map(({ name, w, h, post }) =>
+        post ? (
+          <a
+            class="spr"
+            href={`/blog/${post.id}`}
+            title={post.data.title}
+          >
+            <img
+              class="px"
+              src={`/ara/sprites/${name}.png`}
+              alt=""
+              width={w}
+              height={h}
+            />
+            <span class="tip px">
+              {formatDotDate(post.data.date).slice(2)} · {post.data.title}
+            </span>
+            <span class="dot" aria-hidden="true" />
+          </a>
+        ) : (
+          <span class="spr deco" aria-hidden="true">
+            <img
+              class="px"
+              src={`/ara/sprites/${name}.png`}
+              alt=""
+              width={w}
+              height={h}
+            />
+          </span>
+        )
+      )
+    }
+  </div>
+</div>

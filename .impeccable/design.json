@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-14T13:40:00+08:00",
+  "title": "Design System: 张小伦的网络日志",
+  "extensions": {
+    "colorMeta": {
+      "stamp": {
+        "role": "primary",
+        "displayName": "Postmark Red",
+        "canonical": "#d0122a",
+        "tonalRamp": [
+          "#3a050c",
+          "#6b0a16",
+          "#9c0d20",
+          "#d0122a",
+          "#e04558",
+          "#ea7a87",
+          "#f3b0b7",
+          "#fbe6e8"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Catalog White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#1a1a1a",
+          "#444444",
+          "#6e6e6e",
+          "#989898",
+          "#c2c2c2",
+          "#dddddd",
+          "#f3f3f3",
+          "#ffffff"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Directory Grey",
+        "canonical": "#f3f3f3",
+        "tonalRamp": [
+          "#2a2a2a",
+          "#4a4a4a",
+          "#6a6a6a",
+          "#8a8a8a",
+          "#aaaaaa",
+          "#c8c8c8",
+          "#e8e8e8",
+          "#f3f3f3"
+        ]
+      },
+      "street": {
+        "role": "neutral",
+        "displayName": "Pavement",
+        "canonical": "#e8e8e8",
+        "tonalRamp": [
+          "#2e2e2e",
+          "#4e4e4e",
+          "#6e6e6e",
+          "#8e8e8e",
+          "#aeaeae",
+          "#c8c8c8",
+          "#e0e0e0",
+          "#e8e8e8"
+        ]
+      },
+      "curb": {
+        "role": "neutral",
+        "displayName": "Curb",
+        "canonical": "#c8c8c8",
+        "tonalRamp": [
+          "#2c2c2c",
+          "#4c4c4c",
+          "#6c6c6c",
+          "#8c8c8c",
+          "#acacac",
+          "#c8c8c8",
+          "#e0e0e0",
+          "#f0f0f0"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Log Ink",
+        "canonical": "#111111",
+        "tonalRamp": [
+          "#111111",
+          "#2a2a2a",
+          "#444444",
+          "#6a6a6a",
+          "#909090",
+          "#b6b6b6",
+          "#dddddd",
+          "#f3f3f3"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Pencil Grey",
+        "canonical": "#444444",
+        "tonalRamp": [
+          "#1a1a1a",
+          "#2c2c2c",
+          "#444444",
+          "#666666",
+          "#888888",
+          "#aaaaaa",
+          "#cccccc",
+          "#eeeeee"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#dddddd",
+        "tonalRamp": [
+          "#333333",
+          "#555555",
+          "#777777",
+          "#999999",
+          "#bbbbbb",
+          "#dddddd",
+          "#eeeeee",
+          "#f7f7f7"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "站名。Fusion Pixel，只此一次。"
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "左栏分类/目录、右栏栏目名。"
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "文章标题与页面 h1。衬线，可折行。"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "正文、摘要、关于页。永远衬线 18px。"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "导航、日期、徽章、页脚、街景提示、搜索框。"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "sprite-lift",
+        "value": "transform: translateY(-6px)",
+        "purpose": "可点精灵 hover / focus-visible 上移。prefers-reduced-motion 时取消。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "860px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Stamp Badge",
+      "kind": "chip",
+      "refersTo": "badge-stamp",
+      "description": "顶栏「中文日志」邮戳。直角红底白字。",
+      "html": "<span class=\"ds-badge-stamp\">中文日志</span>",
+      "css": ".ds-badge-stamp { display: inline-block; background: var(--ara-stamp, #d0122a); color: #fff; font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 12px; font-weight: 400; padding: 4px 8px; border-radius: 0; -webkit-font-smoothing: none; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "顶栏点阵导航。当前项与 hover 变邮戳红。",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">首页</a><a href=\"#\">文章</a><a href=\"#\">搜索</a><a class=\"ds-nav-ghost\" href=\"#\">归档</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 18px; font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 12px; } .ds-nav a { color: var(--ara-ink, #111); text-decoration: none; } .ds-nav a[aria-current=\"page\"], .ds-nav a:hover { color: var(--ara-stamp, #d0122a); } .ds-nav a:focus-visible { outline: 2px solid var(--ara-stamp, #d0122a); outline-offset: 2px; } .ds-nav-ghost { color: var(--ara-muted, #444) !important; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "白底 3px 墨框的点阵搜索框。",
+      "html": "<input class=\"ds-search\" type=\"search\" placeholder=\"搜标题或标签\" />",
+      "css": ".ds-search { width: 100%; max-width: 36rem; border: 3px solid var(--ara-ink, #111); background: var(--ara-paper, #fff); padding: 10px 14px; font: 12px \"Fusion Pixel\", monospace; color: var(--ara-ink, #111); border-radius: 0; } .ds-search:focus, .ds-search:focus-visible { outline: 2px solid var(--ara-stamp, #d0122a); outline-offset: 2px; }"
+    },
+    {
+      "name": "News Card",
+      "kind": "card",
+      "refersTo": "news-card",
+      "description": "首页最新一篇：白纸上的日期、衬线标题、摘要。",
+      "html": "<article class=\"ds-news\"><div class=\"ds-news-date\">2026.08.28</div><h3><a href=\"#\">Codex 风格 Agent Activity Stream</a></h3><p>从 Runtime 事件到用户界面，展示 Agent 的可观察工作过程。</p><p><a class=\"ds-news-more\" href=\"#\">读这篇 →</a></p></article>",
+      "css": ".ds-news { background: var(--ara-paper, #fff); padding: 22px 24px 26px; max-width: 42rem; } .ds-news-date { font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 12px; color: var(--ara-stamp, #d0122a); } .ds-news h3 { margin: 8px 0 10px; font-size: 28px; line-height: 1.3; font-weight: 600; font-family: \"Noto Serif SC\", \"Songti SC\", Georgia, serif; } .ds-news h3 a { color: inherit; text-decoration: none; } .ds-news p { margin: 0 0 1em; font-size: 18px; line-height: 1.7; font-family: \"Noto Serif SC\", \"Songti SC\", Georgia, serif; } .ds-news-more { color: var(--ara-stamp, #d0122a); } .ds-news-more:hover { background: var(--ara-stamp, #d0122a); color: #fff; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "项目列表：像素房子 + 名称说明 + 源码链。",
+      "html": "<div class=\"ds-project\"><div class=\"ds-project-mark\" aria-hidden=\"true\"></div><div><b>Lettura</b><p>基于 Tauri 构建的跨平台 RSS 桌面阅读器。</p><a href=\"#\">源码 / 站点</a></div></div>",
+      "css": ".ds-project { background: var(--ara-paper, #fff); padding: 14px 16px; display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: start; } .ds-project-mark { width: 48px; height: 48px; background: #111; } .ds-project b { font-family: \"Noto Serif SC\", Georgia, serif; } .ds-project p { margin: 6px 0 10px; font-size: 16px; line-height: 1.5; } .ds-project a { color: var(--ara-stamp, #d0122a); } .ds-project a:hover { background: var(--ara-stamp, #d0122a); color: #fff; }"
+    },
+    {
+      "name": "Category Rail",
+      "kind": "nav",
+      "refersTo": "nav-link-current",
+      "description": "左栏分类：24px 像素图标 + 点阵短标签。",
+      "html": "<aside class=\"ds-cat\"><h2>分类</h2><a class=\"ds-cat-current\" href=\"#\">最新</a><a href=\"#\">全部文章</a><a href=\"#\">搜索</a><a class=\"ds-cat-ghost\" href=\"#\">归档（未建）</a></aside>",
+      "css": ".ds-cat h2 { font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 24px; font-weight: 400; margin: 0 0 16px; } .ds-cat a { display: block; padding: 6px 0; font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 16px; color: var(--ara-ink, #111); text-decoration: none; } .ds-cat-current, .ds-cat a:hover { color: var(--ara-stamp, #d0122a); } .ds-cat-ghost { color: var(--ara-muted, #444) !important; } .ds-cat a:focus-visible { outline: 2px solid var(--ara-stamp, #d0122a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Quote",
+      "kind": "custom",
+      "refersTo": "news-card",
+      "description": "正文引用：1px 墨线侧条，不超过 1px，不用邮戳红。",
+      "html": "<blockquote class=\"ds-quote\">从 Runtime 事件到用户界面，展示 Agent 的工作过程，而不暴露模型的私有思维链。</blockquote>",
+      "css": ".ds-quote { margin: 0; padding: 0 0 0 14px; border-left: 1px solid var(--ara-ink, #111); color: var(--ara-muted, #444); font-family: \"Noto Serif SC\", Georgia, serif; font-size: 18px; line-height: 1.7; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "目录小镇",
+    "overview": "这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见灯塔和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页街景上；一旦开始读正文，世界换成衬线墨水。\n\n密度克制。顶栏一条墨线，街景一条路缘，栏目两条栏。颜色几乎全是纸和灰，邮戳红只用来标「你在哪」和「这是日期」。没有阴影、没有圆角、没有玻璃。Admin 不借用这套皮。",
+    "keyCharacteristics": [
+      "白底目录 + 全宽街景只留首页",
+      "Fusion Pixel 管站名、导航、日期、分类；正文永远是衬线 18px",
+      "原创像素房子/人/灯塔当物件，不拿整页当游戏皮",
+      "邮戳红是稀缺色，不是装饰铺底",
+      "直角、墨线、无阴影"
+    ],
+    "rules": [
+      {
+        "name": "The Stamp Rule",
+        "body": "邮戳红只做当前态、日期和正文链。不要拿它铺底、做渐变或画大块面板。",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper/Ground Rule",
+        "body": "顶栏和文章页是纸；目录、搜索、项目、关于站在灰地上。不要把整站刷成白，也不要把正文刷成灰。",
+        "section": "colors"
+      },
+      {
+        "name": "The Object-Only Pixel Rule",
+        "body": "Fusion Pixel 只用于站名、导航、日期、分类短标签、街景提示。正文、文章标题、目录长标题、项目描述一律衬线。禁止整页点阵，禁止长文点阵。",
+        "section": "typography"
+      },
+      {
+        "name": "The Street-Only-Home Rule",
+        "body": "街景水平占满且只留首页。内页用两栏读字，不要把房子排进文章页。",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Ink Rule",
+        "body": "表面是平的。边用墨线，不用阴影、不用 0-blur 色块描边、不用玻璃。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 把像素留在物件、分类图标、点阵标题和首页街景。",
+      "Do 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。",
+      "Do 归档在菜单里可见，并做成诚实的幽灵页，不要假装已有栏目。",
+      "Do 精灵只用 public/ara/ 里由 make-worlds.mjs 画出的图。"
+    ],
+    "donts": [
+      "Don't 把整页做成游戏 HUD、生命条、背包或长文点阵。",
+      "Don't 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands、Kenney 的素材。",
+      "Don't 在前台放 Admin 入口，也不要让 Admin 套这套 Layout。",
+      "Don't 编读者数、奖项、客户或未上线能力。",
+      "Don't 给卡片或引用加超过 1px 的彩色侧条，或给这个世界加圆角和阴影。"
+    ]
+  }
+}

@@ -1,33 +1,36 @@
 ---
-import { SITE } from "@config";
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
 import Layout from "@layouts/Layout.astro";
+import CatNav from "@components/ara/CatNav.astro";
+import PostList from "@components/ara/PostList.astro";
+import formatDotDate from "@utils/formatDotDate";
 
-import HomeHero from "@components/HomeHero";
-import ProjectSection from "@components/ProjectSection";
-import BlogSection from "@components/BlogSection";
-import { PROJECTS } from "@data/projects";
-import getUniqueTags from "@utils/getUniqueTags";
-import getUniqueCategories from "@utils/getUniqueCategories";
-
-const posts = await getCollection("blogs");
-const sortedPosts = getSortedPosts(posts);
-const prefix = import.meta.env.BASE_URL.slice(0, -1);
-
-let tags = getUniqueTags(sortedPosts);
-let categories = getUniqueCategories(sortedPosts);
+const posts = getSortedPosts(await getCollection("blogs"));
+const latest = posts[0];
 ---
 
-<Layout>
-  <HomeHero site={SITE} client:load/>
-  <ProjectSection prefix={prefix} projects={PROJECTS} client:load/>
-  <BlogSection
-    prefix={prefix}
-    posts={sortedPosts}
-    tags={tags}
-    categories={categories}
-    mode="mini"
-    client:load
-  />
+<Layout streetPosts={posts} active="home">
+  <div class="ara-body">
+    <CatNav active="home" />
+    <div class="ara-main">
+      <h2 class="px">最新</h2>
+      {
+        latest && (
+          <div class="news">
+            <div class="date px">{formatDotDate(latest.data.date)}</div>
+            <h3>
+              <a href={`/blog/${latest.id}`}>{latest.data.title}</a>
+            </h3>
+            <p class="read">{latest.data.description}</p>
+            <p>
+              <a href={`/blog/${latest.id}`}>读这篇 →</a>
+            </p>
+          </div>
+        )
+      }
+      <h2 class="px">全部文章</h2>
+      <PostList posts={posts.slice(0, 10)} />
+    </div>
+  </div>
 </Layout>

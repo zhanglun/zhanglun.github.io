@@ -1,9 +1,8 @@
 ---
 import { SITE } from "src/config";
-import NavMenu from "../components/nav-menu/index";
+import Street from "@components/ara/Street.astro";
 import "../styles/index.css";
-
-// setMode("dark");
+import type { CollectionEntry } from "astro:content";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -12,6 +11,9 @@ export interface Props {
   author?: string;
   description?: string;
   ogImage?: string;
+  active?: string;
+  streetPosts?: CollectionEntry<"blogs">[];
+  posting?: boolean;
 }
 
 const {
@@ -19,40 +21,50 @@ const {
   author = SITE.author,
   description = SITE.description,
   ogImage = SITE.ogImage,
+  active = "home",
+  streetPosts,
+  posting = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
 const socialImageURL = new URL(
   ogImage ? ogImage : SITE.ogImage,
   Astro.url.origin
 ).href;
-
 const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
+
+const nav = [
+  ["home", "首页", "/"],
+  ["blogs", "文章", "/blog"],
+  ["search", "搜索", "/search"],
+  ["archive", "归档", "/archive"],
+  ["projects", "项目", "/projects"],
+  ["about", "关于", "/about"],
+] as const;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hans">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/ico" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
-
-    <!-- General Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
-
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
@@ -63,12 +75,6 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
         ? fallbackImageURL
         : socialImageURL}
     />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet"> -->
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NV80H5X8DD"
     ></script>
     <script>
@@ -77,13 +83,9 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-NV80H5X8DD");
     </script>
     {
-      // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
-      // include google-site-verification tag in the heading
-      // Learn more: https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag
       googleSiteVerification && (
         <meta
           name="google-site-verification"
@@ -91,115 +93,48 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
         />
       )
     }
-    <!-- <script>
-      let base = 0;
-      let timestamp = 0;
-
-      function animate(time: number) {
-        if (time - timestamp >= 240) {
-          base += 6;
-          let t: string = ((0.5 * base + 120) % 360) + "";
-          let o: string = ((0.5 * base + 240) % 360) + "";
-          let n: string = ((0.5 * base + 360) % 360) + "";
-          let l = "hsl("
-            .concat(t, "deg, ")
-            .concat("40", "%, ")
-            .concat("96", "%)");
-          let i = "hsl("
-            .concat(o, "deg, ")
-            .concat("40", "%, ")
-            .concat("96", "%)");
-          let c = "hsl("
-            .concat(n, "deg, ")
-            .concat("40", "%, ")
-            .concat("96", "%)");
-          let s = "linear-gradient(20deg, "
-            .concat(l, ", ")
-            .concat(i, ", ")
-            .concat(c, ")");
-          let u = "hsl(".concat(o, "deg, 80%, 70%)");
-          let d = "hsl(".concat(o, "deg, 30%, 10%)");
-
-          let body = document.body;
-          body.style.backgroundImage = s;
-          body.style.setProperty("--fontColor", d);
-          body.style.setProperty("--artForeground", i);
-          body.style.setProperty("--highlightColor", u);
-
-          timestamp = time;
-        }
-
-        window.requestAnimationFrame(animate);
-      }
-
-      window.requestAnimationFrame(animate);
-
-    </script> -->
-    <script>
-      function setupAnimationOptimized() {
-        let base = 0;
-        let timestamp = 0;
-        const body = document.body;
-        const UPDATE_INTERVAL = 240;
-
-        // 预先计算 HSL 颜色缓存
-        const colorCache = new Map();
-
-        function getColors(baseValue) {
-          const cacheKey = Math.floor(baseValue / 6) * 6; // 缓存每 6 单位的计算
-
-          if (!colorCache.has(cacheKey)) {
-            const t = (0.5 * baseValue + 120) % 360;
-            const o = (0.5 * baseValue + 240) % 360;
-            const n = (0.5 * baseValue + 360) % 360;
-
-            colorCache.set(cacheKey, [
-              `hsl(${t}deg, 40%, 96%)`,
-              `hsl(${o}deg, 40%, 96%)`,
-              `hsl(${n}deg, 40%, 96%)`,
-              `hsl(${o}deg, 30%, 10%)`,
-              `hsl(${o}deg, 80%, 70%)`,
-            ]);
-
-            // 保持缓存大小在合理范围内
-            if (colorCache.size > 100) {
-              const firstKey = colorCache.keys().next().value;
-              colorCache.delete(firstKey);
-            }
-          }
-
-          return colorCache.get(cacheKey);
-        }
-
-        function animate(time) {
-          if (time - timestamp >= UPDATE_INTERVAL) {
-            base += 6;
-            const [c1, c2, c3, fontColor, highlightColor] = getColors(base);
-
-            const gradient = `linear-gradient(20deg, ${c1}, ${c2}, ${c3})`;
-
-            body.style.backgroundImage = gradient;
-            body.style.setProperty("--fontColor", fontColor);
-            body.style.setProperty("--artForeground", c2);
-            body.style.setProperty("--highlightColor", highlightColor);
-
-            timestamp = time;
-          }
-          window.requestAnimationFrame(animate);
-        }
-
-        window.requestAnimationFrame(animate);
-      }
-
-      setupAnimationOptimized();
-    </script>
   </head>
-  <body class="antialiased">
-    <div class="main-wrapper max-w-[1728px] w-full mx-auto">
-      <div class="gridLayout">
-        <slot />
-      </div>
+  <body>
+    <!--
+THESIS: 白底目录站。街景只在首页全宽可点；内页两栏读字。拒绝整页游戏皮和长文点阵。
+OWN-WORLD: #fff/#f3f3f3 纸地，#111 墨线，#d0122a 邮戳。Fusion Pixel 只做标题和标签；正文衬线 18px。原创像素房子/人/灯塔当物件。
+STORY: 读者看见一份中文技术日志，点街景或目录就能读到真文章。
+FIRST VIEWPORT: 顶栏灯塔+站名+中文导航；其下一排可点街景；下为左分类右最新一篇。
+FORM: Ara Town，seed 67556832。
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+    <div class:list={["ara-site", { "is-posting": posting }]}>
+      <header class="ara-head">
+        <a class="ara-brand" href="/">
+          <img class="px" src="/ara/lh.png" alt="" width="48" height="48" />
+          <span>
+            <strong class="px">{SITE.title}</strong>
+            <em class="px">像素只做物件 · 正文可读</em>
+          </span>
+          <span class="ara-badge px">中文日志</span>
+        </a>
+        <div></div>
+        <nav class="ara-nav px" aria-label="站点">
+          {
+            nav.map(([id, label, href]) => (
+              <a
+                href={href}
+                class={id === "archive" ? "is-ghost" : undefined}
+                aria-current={active === id ? "page" : undefined}
+              >
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+      </header>
+      {streetPosts && <Street posts={streetPosts} />}
+      <slot />
+      <footer class="ara-foot px">
+        <span>© {new Date().getFullYear()} {SITE.author}</span>
+        <a href="https://github.com/zhanglun">GitHub</a>
+        <a href="mailto:zhanglun1410@gmail.com">邮箱</a>
+      </footer>
     </div>
-    <NavMenu client:load />
   </body>
 </html>

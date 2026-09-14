@@ -1,0 +1,40 @@
+---
+import formatDotDate from "@utils/formatDotDate";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  posts: CollectionEntry<"blogs">[];
+}
+
+const { posts } = Astro.props;
+const icons = [
+  "ico-log",
+  "ico-news",
+  "ico-home",
+  "ico-crate",
+  "ico-face",
+  "ico-search",
+  "ico-404",
+  "lh",
+];
+---
+
+<div class="item-list">
+  {
+    posts.map((post, i) => (
+      <a href={`/blog/${post.id}`}>
+        <img
+          class="px"
+          src={`/ara/${icons[i % icons.length]}.png`}
+          alt=""
+          width="32"
+          height="32"
+        />
+        <time class="px" datetime={post.data.date.toISOString()}>
+          {formatDotDate(post.data.date)}
+        </time>
+        <span>{post.data.title}</span>
+      </a>
+    ))
+  }
+</div>

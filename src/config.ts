@@ -13,31 +13,12 @@ export const SITE = {
   },
 };
 export const MENU = [
-  {
-    id: "home",
-    name: "Home",
-    url: "/",
-  },
-  {
-    id: "blogs",
-    name: "Blogs",
-    url: "/blogs",
-  },
-  {
-    id: "archive",
-    name: "Archive",
-    url: "/archive",
-  },
-  {
-    id: "projects",
-    name: "Projects",
-    url: "/projects",
-  },
-  {
-    id: "about",
-    name: "About",
-    url: "/about",
-  },
+  { id: "home", name: "首页", url: "/" },
+  { id: "blogs", name: "文章", url: "/blog" },
+  { id: "search", name: "搜索", url: "/search" },
+  { id: "archive", name: "归档", url: "/archive" },
+  { id: "projects", name: "项目", url: "/projects" },
+  { id: "about", name: "关于", url: "/about" },
 ];
 
 export const LOGO_IMAGE = {
