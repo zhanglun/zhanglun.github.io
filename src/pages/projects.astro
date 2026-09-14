@@ -2,8 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import CatNav from "@components/ara/CatNav.astro";
 import { PROJECTS } from "src/data/projects";
-
-const houses = ["house-r", "house-n", "house-b", "house-t"];
 ---
 
 <Layout title={`项目 | 张小伦的网络日志`} active="projects">
@@ -11,25 +9,35 @@ const houses = ["house-r", "house-n", "house-b", "house-t"];
     <CatNav active="projects" />
     <div class="ara-main">
       <h1 class="px">项目</h1>
-      <div class="projects">
+      <p class="lots-lead px">镇上的工作坊</p>
+      <div class="lots">
         {
-          PROJECTS.map((project, i) => (
-            <div class="card">
-              <img
-                class="px"
-                src={`/ara/sprites/${houses[i % houses.length]}.png`}
-                alt=""
-                width="48"
-                height="48"
-              />
-              <div>
-                <b>{project.name}</b>
-                <p>{project.description}</p>
-                <a href={project.url} target="_blank" rel="noreferrer">
-                  源码 / 站点
-                </a>
+          PROJECTS.map(project => (
+            <article class="lot">
+              <div class="lot-yard">
+                <img
+                  class="px"
+                  src={project.sprite}
+                  alt=""
+                  width="64"
+                  height="64"
+                />
               </div>
-            </div>
+              <h2>{project.shortName}</h2>
+              <p class="lot-copy">{project.description}</p>
+              <div class="chips">
+                {project.technologies.slice(0, 2).map(tech => (
+                  <span class="chip px">{tech}</span>
+                ))}
+              </div>
+              <p class="lot-go px">
+                {project.links.map(link => (
+                  <a href={link.href} target="_blank" rel="noreferrer">
+                    {link.type === "Website" ? "站点" : "源码"}
+                  </a>
+                ))}
+              </p>
+            </article>
           ))
         }
       </div>

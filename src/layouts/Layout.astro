@@ -99,19 +99,18 @@ const nav = [
 THESIS: 白底目录站。街景只在首页全宽可点；内页两栏读字。拒绝整页游戏皮和长文点阵。
 OWN-WORLD: #fff/#f3f3f3 纸地，#111 墨线，#d0122a 邮戳。Fusion Pixel 只做标题和标签；正文衬线 18px。原创像素房子/人/灯塔当物件。
 STORY: 读者看见一份中文技术日志，点街景或目录就能读到真文章。
-FIRST VIEWPORT: 顶栏灯塔+站名+中文导航；其下一排可点街景；下为左分类右最新一篇。
+FIRST VIEWPORT: 顶栏小人+站名+中文导航；其下一排可点街景；下为左分类右最新一篇。
 FORM: Ara Town，seed 67556832。
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->
     <div class:list={["ara-site", { "is-posting": posting }]}>
-      <header class="ara-head">
+      <header class="ara-head" id="top">
         <a class="ara-brand" href="/">
-          <img class="px" src="/ara/lh.png" alt="" width="48" height="48" />
+          <img class="px" src="/ara/sprites/person-b.png" alt="" height="48" />
           <span>
             <strong class="px">{SITE.title}</strong>
-            <em class="px">像素只做物件 · 正文可读</em>
+            <em class="px">写给以后翻看</em>
           </span>
-          <span class="ara-badge px">中文日志</span>
         </a>
         <div></div>
         <nav class="ara-nav px" aria-label="站点">

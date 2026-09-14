@@ -24,6 +24,8 @@ const icons = [
   "ico-search",
   "ico-404",
   "lh",
+  "ico-tree",
+  "ico-train",
 ];
 
 export default function SearchBar({ searchList }: Props) {
