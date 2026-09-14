@@ -1,0 +1,49 @@
+---
+export interface Props {
+  active?: string;
+  mark?: string;
+  title?: string;
+}
+
+const {
+  active = "home",
+  mark,
+  title = "分类",
+} = Astro.props;
+
+const items = [
+  ["ico-news", "最新", "/", "home"],
+  ["ico-log", "全部文章", "/blog", "blogs"],
+  ["ico-search", "搜索", "/search", "search"],
+  ["ico-crate", "项目", "/projects", "projects"],
+  ["ico-face", "关于", "/about", "about"],
+  ["ico-404", "归档（未建）", "/archive", "archive"],
+] as const;
+---
+
+<aside class="ara-cat">
+  {
+    mark && (
+      <img class="px toc-mark" src={mark} alt="" width="90" height="64" />
+    )
+  }
+  <h2 class="px">{title}</h2>
+  {
+    items.map(([icon, label, href, id]) => (
+      <a
+        href={href}
+        class={id === "archive" ? "is-ghost" : undefined}
+        aria-current={active === id ? "page" : undefined}
+      >
+        <img
+          class="px"
+          src={`/ara/${icon}.png`}
+          alt=""
+          width="24"
+          height="24"
+        />
+        <span class="px">{label}</span>
+      </a>
+    ))
+  }
+</aside>

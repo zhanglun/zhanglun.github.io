@@ -1,72 +1,110 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import BlogDetail from "@components/BlogDetail";
+import PostList from "@components/ara/PostList.astro";
+import formatDotDate from "@utils/formatDotDate";
+import getSortedPosts from "@utils/getSortedPosts";
 import { getCollection, render } from "astro:content";
-import type {
-  InferGetStaticParamsType,
-  InferGetStaticPropsType,
-  GetStaticPaths,
-} from "astro";
-
-type PostResult = {
-  params: {
-    slug: string | number;
-  };
-  props?: {
-    entry: any;
-  };
-}[];
-
-type PagePaths = {
-  params: {
-    slug: string;
-  };
-}[];
+import type { GetStaticPaths } from "astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blogs");
-  const filteredPosts = posts.filter(({ data }) => !data.draft);
-
-  let postResult: PostResult = filteredPosts.map(entry => {
-    return {
-      params: {
-        slug: entry.id,
-      },
-      props: {
-        entry,
-      },
-    };
-  });
-
-  return [...postResult];
+  return posts
+    .filter(({ data }) => !data.draft)
+    .map(entry => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
 }
 
 getStaticPaths satisfies GetStaticPaths;
 
-export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
-export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { entry } = Astro.props as Props;
-const { title, author, description, cover, ogImage, date, tags, categories } =
-  entry.data;
+const { entry } = Astro.props;
+const { title, author, description, cover, ogImage, date } = entry.data;
 const ogUrl = new URL(
   cover?.src || ogImage || `${title}.svg`,
   Astro.url.origin
 ).href;
 
-const { Content, remarkPluginFrontmatter } = await render(entry);
+const { Content, headings } = await render(entry);
+const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
+const more = getSortedPosts(await getCollection("blogs"))
+  .filter(p => p.id !== entry.id)
+  .slice(0, 6);
 ---
 
-<Layout title={title} author={author} description={description} ogImage={ogUrl}>
-  <BlogDetail
-    title={title}
-    pubDate={date}
-    tags={tags}
-    categories={categories}
-    readingTime={remarkPluginFrontmatter.minutesRead}
-    client:load
-  >
-    <Content />
-  </BlogDetail>
-
+<Layout
+  title={title}
+  author={author}
+  description={description}
+  ogImage={ogUrl}
+  active="blogs"
+  posting
+>
+  <div class="ara-body is-post">
+    <aside class="ara-cat post-toc">
+      <input id="toc-fold" class="toc-toggle" type="checkbox" />
+      <label class="toc-fold-label px" for="toc-fold">目录</label>
+      <div class="toc-body">
+        <img
+          class="px toc-mark"
+          src="/ara/sprites/house-r.png"
+          alt=""
+          width="90"
+          height="64"
+        />
+        <h2 class="px toc-title">目录</h2>
+        {
+          toc.length ? (
+            toc.map(h => (
+              <a
+                class={h.depth === 3 ? "is-h3" : undefined}
+                href={`#${h.slug}`}
+              >
+                {h.text}
+              </a>
+            ))
+          ) : (
+            <p class="muted">这篇没有小标题。</p>
+          )
+        }
+        <a class="toc-back" href="/blog">
+          <img
+            class="px"
+            src="/ara/ico-log.png"
+            alt=""
+            width="24"
+            height="24"
+          />
+          <span>全部文章</span>
+        </a>
+        <img
+          class="px toc-deco"
+          src="/ara/sprites/cat.png"
+          alt=""
+          width="50"
+          height="40"
+        />
+      </div>
+    </aside>
+    <div class="paper">
+      <div class="post-head">
+        <img class="px" src="/ara/sprites/lh.png" alt="" height="80" />
+        <div>
+          <div class="date px">{formatDotDate(date)}</div>
+          <h1>{title}</h1>
+        </div>
+      </div>
+      <article class="articleBody">
+        <Content />
+      </article>
+      {
+        more.length > 0 && (
+          <div class="more">
+            <h2 class="px">其他文章</h2>
+            <PostList posts={more} />
+          </div>
+        )
+      }
+    </div>
+  </div>
 </Layout>

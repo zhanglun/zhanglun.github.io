@@ -1,110 +1,102 @@
 import Fuse from "fuse.js";
-import React, { useEffect, useRef, useState } from "react";
-import slugify from "@utils/slugify";
-import type { Frontmatter } from "src/types";
-import { Search } from "lucide-react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import formatDotDate from "@utils/formatDotDate";
 
 type SearchItem = {
+  id: string;
   title: string;
   description: string;
+  date: string;
   headings: string[];
-  frontmatter: Frontmatter;
-  compiledContent: string;
+  tags: string[];
 };
 
 interface Props {
   searchList: SearchItem[];
 }
 
-interface SearchResult {
-  item: SearchItem;
-  refIndex: number;
-}
+const icons = [
+  "ico-log",
+  "ico-news",
+  "ico-home",
+  "ico-crate",
+  "ico-face",
+  "ico-search",
+  "ico-404",
+  "lh",
+];
 
 export default function SearchBar({ searchList }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputVal, setInputVal] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
-    null,
+  const fuse = useMemo(
+    () =>
+      new Fuse(searchList, {
+        keys: ["title", "description", "tags"],
+        minMatchCharLength: 2,
+        threshold: 0.4,
+      }),
+    [searchList]
   );
 
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setInputVal(e.currentTarget.value);
-  };
-
-  const fuse = new Fuse(searchList, {
-    keys: ["title", "description", "headings"],
-    includeMatches: true,
-    minMatchCharLength: 2,
-    threshold: 0.5,
-  });
-
   useEffect(() => {
-    // if URL has search query,
-    // insert that search query in input field
-    const searchUrl = new URLSearchParams(window.location.search);
-    const searchStr = searchUrl.get("q");
-    if (searchStr) setInputVal(searchStr);
-
-    // put focus cursor at the end of the string
-    setTimeout(function () {
-      inputRef.current!.selectionStart = inputRef.current!.selectionEnd =
-        searchStr?.length || 0;
-    }, 50);
+    const q = new URLSearchParams(window.location.search).get("q");
+    if (q) setInputVal(q);
   }, []);
 
   useEffect(() => {
-    // Add search result only if
-    // input value is more than one character
-    let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
-
-    setSearchResults(inputResult);
-
-    // Update search string in URL
-    if (inputVal.length > 0) {
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.set("q", inputVal);
-      const newRelativePathQuery =
-        window.location.pathname + "?" + searchParams.toString();
-      history.pushState(null, "", newRelativePathQuery);
-    } else {
-      history.pushState(null, "", window.location.pathname);
-    }
+    const url = new URL(window.location.href);
+    if (inputVal) url.searchParams.set("q", inputVal);
+    else url.searchParams.delete("q");
+    history.replaceState(null, "", url.pathname + url.search);
   }, [inputVal]);
 
-  return (
-    <div className="max-w-5xl m-auto">
-      <label className="relative block">
-        <span className="absolute inset-y-0 left-0 flex items-center pl-2 opacity-75">
-          <Search />
-        </span>
-        <input
-          className="placeholder:italic placeholder:text-opacity-75 py-3 pl-10 pr-3 
-        block bg-skin-fill w-full rounded
-        border border-skin-fill border-opacity-40 
-        focus:outline-none focus:border-skin-accent"
-          placeholder="Search for anything..."
-          type="text"
-          name="search"
-          defaultValue={inputVal}
-          onChange={handleChange}
-          autoComplete="off"
-          autoFocus
-          ref={inputRef}
-        />
-      </label>
+  const hits =
+    inputVal.trim().length > 1
+      ? fuse.search(inputVal).map(r => r.item)
+      : searchList.slice(0, 8);
 
-      {inputVal.length > 1 && (
-        <div className="mt-8">
-          Found {searchResults?.length}
-          {searchResults?.length && searchResults?.length === 1
-            ? " result"
-            : " results"}{" "}
-          for '{inputVal}'
+  return (
+    <>
+      <label className="sr" htmlFor="q">
+        搜索
+      </label>
+      <input
+        id="q"
+        ref={inputRef}
+        className="search-box"
+        value={inputVal}
+        placeholder="搜标题或标签"
+        onChange={e => setInputVal(e.currentTarget.value)}
+        autoComplete="off"
+        autoFocus
+      />
+      {inputVal.trim().length > 1 && (
+        <p className="muted px">
+          {hits.length} 条结果 · {inputVal}
+        </p>
+      )}
+      {hits.length === 0 ? (
+        <p className="muted">没有命中。</p>
+      ) : (
+        <div className="item-list">
+          {hits.map((post, i) => (
+            <a key={post.id} href={`/blog/${post.id}`}>
+              <img
+                className="px"
+                src={`/ara/${icons[i % icons.length]}.png`}
+                alt=""
+                width={32}
+                height={32}
+              />
+              <time className="px" dateTime={post.date}>
+                {formatDotDate(post.date)}
+              </time>
+              <span>{post.title}</span>
+            </a>
+          ))}
         </div>
       )}
-
-      <ul></ul>
-    </div>
+    </>
   );
 }

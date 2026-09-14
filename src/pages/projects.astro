@@ -1,9 +1,38 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import CatNav from "@components/ara/CatNav.astro";
 import { PROJECTS } from "src/data/projects";
-import ProjectSection from '@/components/ProjectSection';
+
+const houses = ["house-r", "house-n", "house-b", "house-t"];
 ---
 
-<Layout>
-  <ProjectSection projects={PROJECTS} client:load />
+<Layout title={`项目 | 张小伦的网络日志`} active="projects">
+  <div class="ara-body">
+    <CatNav active="projects" />
+    <div class="ara-main">
+      <h1 class="px">项目</h1>
+      <div class="projects">
+        {
+          PROJECTS.map((project, i) => (
+            <div class="card">
+              <img
+                class="px"
+                src={`/ara/sprites/${houses[i % houses.length]}.png`}
+                alt=""
+                width="48"
+                height="48"
+              />
+              <div>
+                <b>{project.name}</b>
+                <p>{project.description}</p>
+                <a href={project.url} target="_blank" rel="noreferrer">
+                  源码 / 站点
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
 </Layout>

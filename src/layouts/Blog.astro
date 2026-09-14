@@ -1,28 +1,37 @@
 ---
-import getUniqueTags from "@utils/getUniqueTags";
 import Layout from "./Layout.astro";
-import BlogSection from "@components/BlogSection";
+import CatNav from "@components/ara/CatNav.astro";
+import PostList from "@components/ara/PostList.astro";
 import type { CollectionEntry } from "astro:content";
-import getUniqueCategories from "@utils/getUniqueCategories";
 
 export interface Props {
-  pageNum: number;
-  totalPages: number;
-  posts: CollectionEntry<"blogs">[];
   allPosts: CollectionEntry<"blogs">[];
 }
 
 const { allPosts } = Astro.props;
-
-let tags = getUniqueTags(allPosts);
-let categories = getUniqueCategories(allPosts);
+const years: { year: string; posts: CollectionEntry<"blogs">[] }[] = [];
+for (const post of allPosts) {
+  const year = String(post.data.date.getFullYear());
+  if (!years.length || years[years.length - 1].year !== year) {
+    years.push({ year, posts: [] });
+  }
+  years[years.length - 1].posts.push(post);
+}
 ---
 
-<Layout>
-  <BlogSection
-    posts={allPosts}
-    tags={tags}
-    categories={categories}
-    client:load
-  />
+<Layout title={`文章 | 张小伦的网络日志`} active="blogs">
+  <div class="ara-body">
+    <CatNav active="blogs" />
+    <div class="ara-main">
+      <h2 class="px">全部文章</h2>
+      {
+        years.map(group => (
+          <div>
+            <div class="year px">{group.year}</div>
+            <PostList posts={group.posts} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
 </Layout>
