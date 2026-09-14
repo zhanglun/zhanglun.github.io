@@ -1,3 +1,5 @@
-Original pixel sprites for Ara Town. Drawn in
+Street, lighthouse, and category icons are original sprites from
 `.impeccable/mocks/decision/preview/make-worlds.mjs`.
-Not DOTOWN, not Stardew, not Kenney.
+
+`projects/` objects are Kenney Tiny Town / Tiny Farm / Tiny Dungeon (CC0).
+See `projects/README.md`.

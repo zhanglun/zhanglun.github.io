@@ -3,6 +3,8 @@ import { Globe, CodeXml } from "lucide-react";
 export const PROJECTS = [
   {
     name: "amber: your personal web shelf",
+    shortName: "Amber",
+    sprite: "/ara/projects/chest.png",
     description:
       "把网页保存成可长期阅读的个人档案：新内容先进入收件箱，安顿后上架；可按标签浏览，并从标题、正文、来源和标签中找回旧内容。",
     url: "https://github.com/zhanglun/amber",
@@ -21,6 +23,8 @@ export const PROJECTS = [
   },
   {
     name: "Lettura: Follow your favorite content and never miss a story",
+    shortName: "Lettura",
+    sprite: "/ara/projects/crate.png",
     description:
       "基于 Tauri 框架构建的跨平台 RSS 桌面阅读器，简洁美观的界面、便捷的键盘快捷键。",
     url: "https://github.com/zhanglun/lettura",
@@ -51,6 +55,8 @@ export const PROJECTS = [
   },
   {
     name: "Pavo: Easily customize and change your desktop background",
+    shortName: "Pavo",
+    sprite: "/ara/projects/flower.png",
     description:
       "一款跨平台桌面壁纸程序，使用Bing每日一图，基于Rust Tauri开发，支持自动和手动切换壁纸。",
     url: "https://github.com/zhanglun/pavo",
@@ -69,6 +75,8 @@ export const PROJECTS = [
   },
   {
     name: "BookWise: book wise read wise",
+    shortName: "BookWise",
+    sprite: "/ara/projects/shelf.png",
     description:
       "一款正在开发的阅读软件，目标是为用户提供更好的阅读、学习和笔记体验。",
     url: "https://github.com/zhanglun/bookwise",
@@ -100,6 +108,8 @@ export const PROJECTS = [
   },
   {
     name: "Gatsby blog theme",
+    shortName: "Facile",
+    sprite: "/ara/projects/book.png",
     description: "为 Gatsby.js 创建的个人博客主题",
     url: "https://github.com/zhanglun/gatsby-theme-facile",
     thumbnail: "",
@@ -117,6 +127,8 @@ export const PROJECTS = [
   },
   {
     name: "notify",
+    shortName: "Notify",
+    sprite: "/ara/projects/sign.png",
     description: "Notify Component",
     url: "https://github.com/zhanglun/notify",
     thumbnail: "",
@@ -134,6 +146,8 @@ export const PROJECTS = [
   },
   {
     name: "hexo-theme-Tinny",
+    shortName: "Tinny",
+    sprite: "/ara/projects/well.png",
     description: "A theme for Hexo",
     url: "https://github.com/zhanglun/hexo-theme-Tinny",
     thumbnail: "",
@@ -151,6 +165,8 @@ export const PROJECTS = [
   },
   {
     name: "bluerobin",
+    shortName: "BlueRobin",
+    sprite: "/ara/projects/sack.png",
     description: "online todo list based on Vue ecosystem",
     url: "https://github.com/zhanglun/bluerobin",
     thumbnail: "",

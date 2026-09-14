@@ -97,7 +97,7 @@ components:
 
 **Creative North Star: "目录小镇"**
 
-这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见灯塔和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页街景上；一旦开始读正文，世界换成衬线墨水。
+这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见小人和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页街景上；一旦开始读正文，世界换成衬线墨水。
 
 密度克制。顶栏一条墨线，街景一条路缘，栏目两条栏。颜色几乎全是纸和灰，邮戳红只用来标「你在哪」和「这是日期」。没有阴影、没有圆角、没有玻璃。Admin 不借用这套皮。
 
@@ -113,7 +113,7 @@ components:
 纸地加一枚邮戳。主色不是红，红只是邮戳。
 
 ### Primary
-- **Postmark Red** (`{colors.stamp}`): 当前导航、分类当前项、「中文日志」徽章、日期、正文链接。出现即表示「这里可点或这里是现在」。
+- **Postmark Red** (`{colors.stamp}`): 当前导航、分类当前项、日期、正文链接。出现即表示「这里可点或这里是现在」。
 
 ### Neutral
 - **Catalog White** (`{colors.paper}`): 顶栏、最新一篇卡片、文章页纸面、搜索框。
@@ -121,7 +121,7 @@ components:
 - **Pavement** (`{colors.street}`): 仅首页街景路面。
 - **Curb** (`{colors.curb}`): 街景路缘的那条硬边。
 - **Log Ink** (`{colors.ink}`): 正文、标题、2px 顶栏底边、街景底边、引用左侧 1px 线。
-- **Pencil Grey** (`{colors.muted}`): 辅助说明、引用正文、页脚、未建的归档项。
+- **Pencil Grey** (`{colors.muted}`): 辅助说明、引用正文、页脚、幽灵归档项。
 - **Hairline** (`{colors.line}`): 列表行分割。
 
 ### Named Rules
@@ -142,7 +142,7 @@ components:
 - **Headline** (400, 24px): 左栏「分类 / 目录」、右栏「最新 / 全部文章 / 搜索」等栏目名。
 - **Title** (600, clamp 26–34px, 1.28): 文章标题、页面 h1。衬线，可折行。
 - **Body** (400, 18px / 1.7, max 42rem): 正文、最新一篇摘要、关于页。永远衬线。
-- **Label** (400, 12px): 导航、日期、徽章、页脚、街景提示、搜索框。
+- **Label** (400, 12px): 导航、日期、副标题、页脚、街景提示、搜索框。
 
 ### Named Rules
 **The Object-Only Pixel Rule.** Fusion Pixel 只用于站名、导航、日期、分类短标签、街景提示。正文、文章标题、目录长标题、项目描述一律衬线。禁止整页点阵，禁止长文点阵。
@@ -167,7 +167,7 @@ components:
 
 ## Shapes
 
-直角。徽章、搜索框、卡片、代码块全部 `0`。像素图 `image-rendering: pixelated`。引用左侧 1px 墨线，不超过 1px，不用邮戳红做侧条。
+直角。徽章、搜索框、卡片、代码块全部 `0`。像素图 `image-rendering: pixelated`。引用左侧 1px 墨线，不超过 1px，不用邮戳红做侧条。滚动条 12px 直角墨块，灰槽；代码块反色。
 
 ## Components
 
@@ -176,16 +176,17 @@ components:
 
 ### Cards / Containers
 - **News card:** 白纸，内边 `22px 24px 26px`，无描边无圆角。日期点阵红，标题衬线，摘要 18px。
-- **Project card:** 白纸，`48px` 像素房子 + 名称/说明/「源码 / 站点」。
+- **Project lots:** 桌面两列工坊地块。每个项目一块白纸院子：Kenney Tiny 物件站在路缘上，短名当门牌，技术栈当墨签。物件各不相同，不轮换房子。
 - **Code block:** 墨底灰字，13px 等宽，横向滚动，`max-width: 100%`。
 
 ### Inputs / Fields
 - **Search:** 白底、3px 墨框、点阵 12px、内边 `10px 14px`。Focus：2px 邮戳红 outline，offset 2px。占位「搜标题或标签」。
 
 ### Navigation
-- **Masthead:** 灯塔 48px + 点阵站名 + 红徽章「中文日志」；右侧点阵导航。当前项与 hover 为邮戳红。归档是幽灵项，用 Pencil Grey，链到诚实的「未建」页。
-- **Category rail:** 24px 像素图标 + 点阵短标签。当前项邮戳红。
+- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航。当前项与 hover 为邮戳红。归档是幽灵项，用 Pencil Grey，链到诚实的未建页。
+- **Category rail:** 32px 像素图标 + 点阵短标签，桌面 sticky。当前项邮戳红。
 - **Post TOC:** 桌面 sticky，`max-height: calc(100dvh - 9rem)` 内滚动（扣掉顶栏后的剩余视口），条目衬线无像素图标；手机收折成「目录」。
+- **Back to top:** 仅文章页。右下角固定，像素向上箭头 +「顶部」，链到 `#top`。白纸 2px 墨框，不是 HUD。
 
 ### Street
 首页签名。15 个原创精灵沿路缘站成一排：可点的房子/人带红点和 hover 提示，树/猫/蜂及未映射的灯塔/绿衣人为 deco。点击进最新几篇真文章。`prefers-reduced-motion` 时取消上移。
@@ -196,11 +197,11 @@ components:
 - **Do** 把像素留在物件、分类图标、点阵标题和首页街景。
 - **Do** 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。
 - **Do** 归档在菜单里可见，并做成诚实的幽灵页，不要假装已有栏目。
-- **Do** 精灵只用 `public/ara/` 里由 `make-worlds.mjs` 画出的图。
+- **Do** 街景、顶栏小人、分类图标用 `public/ara/` 里由 `make-worlds.mjs` 画出的原创图。项目页物件用 `public/ara/projects/` 的 Kenney Tiny（CC0）。
 
 ### Don't:
 - **Don't** 把整页做成游戏 HUD、生命条、背包或长文点阵。
-- **Don't** 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands、Kenney 的素材。
+- **Don't** 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands。Kenney 只许出现在项目页物件，不要铺进街景或正文。
 - **Don't** 在前台放 Admin 入口，也不要让 Admin 套这套 Layout。
 - **Don't** 编读者数、奖项、客户或未上线能力。
 - **Don't** 给卡片或引用加超过 1px 的彩色侧条，或给这个世界加圆角和阴影。

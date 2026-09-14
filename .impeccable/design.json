@@ -144,7 +144,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "导航、日期、徽章、页脚、街景提示、搜索框。"
+        "purpose": "导航、日期、副标题、页脚、街景提示、搜索框。"
       }
     },
     "shadows": [],
@@ -163,14 +163,6 @@
     ]
   },
   "components": [
-    {
-      "name": "Stamp Badge",
-      "kind": "chip",
-      "refersTo": "badge-stamp",
-      "description": "顶栏「中文日志」邮戳。直角红底白字。",
-      "html": "<span class=\"ds-badge-stamp\">中文日志</span>",
-      "css": ".ds-badge-stamp { display: inline-block; background: var(--ara-stamp, #d0122a); color: #fff; font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 12px; font-weight: 400; padding: 4px 8px; border-radius: 0; -webkit-font-smoothing: none; }"
-    },
     {
       "name": "Nav Link",
       "kind": "nav",
@@ -199,16 +191,16 @@
       "name": "Project Card",
       "kind": "card",
       "refersTo": "project-card",
-      "description": "项目列表：像素房子 + 名称说明 + 源码链。",
-      "html": "<div class=\"ds-project\"><div class=\"ds-project-mark\" aria-hidden=\"true\"></div><div><b>Lettura</b><p>基于 Tauri 构建的跨平台 RSS 桌面阅读器。</p><a href=\"#\">源码 / 站点</a></div></div>",
-      "css": ".ds-project { background: var(--ara-paper, #fff); padding: 14px 16px; display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: start; } .ds-project-mark { width: 48px; height: 48px; background: #111; } .ds-project b { font-family: \"Noto Serif SC\", Georgia, serif; } .ds-project p { margin: 6px 0 10px; font-size: 16px; line-height: 1.5; } .ds-project a { color: var(--ara-stamp, #d0122a); } .ds-project a:hover { background: var(--ara-stamp, #d0122a); color: #fff; }"
+      "description": "项目工坊地块：路缘上的 Kenney 物件 + 短名 + 说明 + 墨签。",
+      "html": "<article class=\"ds-lot\"><div class=\"ds-lot-yard\"></div><h2>Lettura</h2><p>基于 Tauri 构建的跨平台 RSS 桌面阅读器。</p><span class=\"ds-chip\">rust</span> <a href=\"#\">源码 →</a></article>",
+      "css": ".ds-lot { background: var(--ara-paper, #fff); } .ds-lot-yard { height: 88px; background: var(--ara-street, #e8e8e8); border-bottom: 4px solid var(--ara-ink, #111); } .ds-lot h2 { margin: 12px 14px 4px; font-size: 20px; font-family: \"Noto Serif SC\", Georgia, serif; } .ds-lot p { margin: 0 14px 10px; font-size: 16px; color: var(--ara-muted, #444); } .ds-chip { font-family: \"Fusion Pixel\", monospace; font-size: 12px; border: 1px solid #111; padding: 2px 6px; } .ds-lot a { color: var(--ara-stamp, #d0122a); }"
     },
     {
       "name": "Category Rail",
       "kind": "nav",
       "refersTo": "nav-link-current",
       "description": "左栏分类：24px 像素图标 + 点阵短标签。",
-      "html": "<aside class=\"ds-cat\"><h2>分类</h2><a class=\"ds-cat-current\" href=\"#\">最新</a><a href=\"#\">全部文章</a><a href=\"#\">搜索</a><a class=\"ds-cat-ghost\" href=\"#\">归档（未建）</a></aside>",
+      "html": "<aside class=\"ds-cat\"><h2>分类</h2><a class=\"ds-cat-current\" href=\"#\">最新</a><a href=\"#\">全部文章</a><a href=\"#\">搜索</a><a class=\"ds-cat-ghost\" href=\"#\">归档</a></aside>",
       "css": ".ds-cat h2 { font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 24px; font-weight: 400; margin: 0 0 16px; } .ds-cat a { display: block; padding: 6px 0; font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 16px; color: var(--ara-ink, #111); text-decoration: none; } .ds-cat-current, .ds-cat a:hover { color: var(--ara-stamp, #d0122a); } .ds-cat-ghost { color: var(--ara-muted, #444) !important; } .ds-cat a:focus-visible { outline: 2px solid var(--ara-stamp, #d0122a); outline-offset: 2px; }"
     },
     {
@@ -222,7 +214,7 @@
   ],
   "narrative": {
     "northStar": "目录小镇",
-    "overview": "这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见灯塔和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页街景上；一旦开始读正文，世界换成衬线墨水。\n\n密度克制。顶栏一条墨线，街景一条路缘，栏目两条栏。颜色几乎全是纸和灰，邮戳红只用来标「你在哪」和「这是日期」。没有阴影、没有圆角、没有玻璃。Admin 不借用这套皮。",
+    "overview": "这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见小人和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页街景上；一旦开始读正文，世界换成衬线墨水。\n\n密度克制。顶栏一条墨线，街景一条路缘，栏目两条栏。颜色几乎全是纸和灰，邮戳红只用来标「你在哪」和「这是日期」。没有阴影、没有圆角、没有玻璃。Admin 不借用这套皮。",
     "keyCharacteristics": [
       "白底目录 + 全宽街景只留首页",
       "Fusion Pixel 管站名、导航、日期、分类；正文永远是衬线 18px",
@@ -261,11 +253,11 @@
       "Do 把像素留在物件、分类图标、点阵标题和首页街景。",
       "Do 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。",
       "Do 归档在菜单里可见，并做成诚实的幽灵页，不要假装已有栏目。",
-      "Do 精灵只用 public/ara/ 里由 make-worlds.mjs 画出的图。"
+      "Do 街景和分类图标用 make-worlds.mjs 原创图；项目页物件用 public/ara/projects/ 的 Kenney Tiny（CC0）。"
     ],
     "donts": [
       "Don't 把整页做成游戏 HUD、生命条、背包或长文点阵。",
-      "Don't 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands、Kenney 的素材。",
+      "Don't 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands。Kenney 只许出现在项目页物件。",
       "Don't 在前台放 Admin 入口，也不要让 Admin 套这套 Layout。",
       "Don't 编读者数、奖项、客户或未上线能力。",
       "Don't 给卡片或引用加超过 1px 的彩色侧条，或给这个世界加圆角和阴影。"
