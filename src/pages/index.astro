@@ -31,6 +31,13 @@ const latest = posts[0];
       }
       <h2 class="px">全部文章</h2>
       <PostList posts={posts.slice(0, 10)} />
+      {
+        posts.length > 10 && (
+          <p class="more-all px">
+            <a href="/blog">更多文章</a>
+          </p>
+        )
+      }
     </div>
   </div>
 </Layout>
