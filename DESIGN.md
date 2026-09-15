@@ -89,6 +89,12 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.none}"
     padding: "14px 16px"
+  ink-chip:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "2px 6px"
 ---
 
 # Design System: 张小伦的网络日志
@@ -147,6 +153,8 @@ components:
 ### Named Rules
 **The Object-Only Pixel Rule.** Fusion Pixel 只用于站名、导航、日期、分类短标签、街景提示。正文、文章标题、目录长标题、项目描述一律衬线。禁止整页点阵，禁止长文点阵。
 
+**The Diagram Measure Rule.** 正文 18px 不得漏进 Mermaid。节点 `<p>` 锁 16px / 1.3，与量框一致；`overflow-wrap` 用 normal，不用 anywhere。
+
 ## Layout
 
 首页：顶栏全宽 → 街景全宽 → 主体 `1080px` 居中，两栏 `240px | 1fr`，槽 `40px`，内边 `36px 28px 72px`。街景只在首页出现。
@@ -178,18 +186,22 @@ components:
 - **News card:** 白纸，内边 `22px 24px 26px`，无描边无圆角。日期点阵红，标题衬线，摘要 18px。
 - **Project lots:** 桌面两列工坊地块。每个项目一块白纸院子：Kenney Tiny 物件站在路缘上，短名当门牌，技术栈当墨签。物件各不相同，不轮换房子。
 - **Code block:** 墨底灰字，13px 等宽，横向滚动，`max-width: 100%`。
+- **Mermaid:** 正文栏内流程图，节点 16px / 1.3，不继承正文 18px。Admin 预览走自己的 `mermaid.initialize`，不套这套皮。
+
+### Chips
+- **Ink chip:** 1px 墨框、白底、点阵 12px、内边 `2px 6px`。只出现在工坊地块技术栈，最多两枚。
 
 ### Inputs / Fields
 - **Search:** 白底、3px 墨框、点阵 12px、内边 `10px 14px`。Focus：2px 邮戳红 outline，offset 2px。占位「搜标题或标签」。
 
 ### Navigation
-- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航。当前项与 hover 为邮戳红。归档是幽灵项，用 Pencil Grey，链到诚实的未建页。
-- **Category rail:** 32px 像素图标 + 点阵短标签，桌面 sticky。当前项邮戳红。
+- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航。当前项与 hover 为邮戳红。归档平时是幽灵灰，人在 `/archive` 时仍用邮戳红标「你在这」。
+- **Category rail:** 32px 像素图标 + 点阵短标签，桌面 sticky。当前项邮戳红。归档平时幽灵灰，人在 `/archive` 时仍用邮戳红。
 - **Post TOC:** 桌面 sticky，`max-height: calc(100dvh - 9rem)` 内滚动（扣掉顶栏后的剩余视口），条目衬线无像素图标；手机收折成「目录」。
 - **Back to top:** 仅文章页。右下角固定，像素向上箭头 +「顶部」，链到 `#top`。白纸 2px 墨框，不是 HUD。
 
 ### Street
-首页签名。15 个原创精灵沿路缘站成一排：可点的房子/人带红点和 hover 提示，树/猫/蜂及未映射的灯塔/绿衣人为 deco。点击进最新几篇真文章。`prefers-reduced-motion` 时取消上移。
+首页签名。15 个原创精灵沿路缘站成一排：可点的房子/人带红点、hover 提示和文章名 `alt`，树/猫/蜂及未映射的灯塔/绿衣人为 deco。街上不铺可见标题。点击进最新几篇真文章。`prefers-reduced-motion` 时取消上移。
 
 ## Do's and Don'ts
 

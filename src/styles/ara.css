@@ -104,6 +104,28 @@ img.px,
   clip: rect(0 0 0 0);
 }
 
+.skip {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 30;
+  background: var(--ara-paper);
+  color: var(--ara-ink);
+  border: 2px solid var(--ara-ink);
+  padding: 8px 12px;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.skip:not(:focus) {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  left: 0;
+  top: 0;
+}
+
 .ara-site {
   min-height: 100vh;
   max-width: 100%;
@@ -171,6 +193,11 @@ img.px,
 
 .ara-nav a.is-ghost {
   color: var(--ara-muted);
+}
+
+.ara-nav a.is-ghost[aria-current="page"],
+.ara-nav a.is-ghost:hover {
+  color: var(--ara-stamp);
 }
 
 .ara-street {
@@ -315,6 +342,12 @@ img.px,
 .ara-cat a.is-ghost {
   color: var(--ara-muted);
 }
+
+.ara-cat a.is-ghost[aria-current="page"],
+.ara-cat a.is-ghost:hover {
+  color: var(--ara-stamp);
+}
+
 
 .post-toc {
   position: sticky;
@@ -713,6 +746,16 @@ img.px,
 
 .year:first-child {
   margin-top: 0;
+}
+
+.more-all {
+  margin: 16px 0 0;
+  font-size: 12px;
+}
+
+.more-all a {
+  color: var(--ara-stamp);
+  text-decoration: none;
 }
 
 .more {

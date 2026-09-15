@@ -103,6 +103,7 @@ FIRST VIEWPORT: 顶栏小人+站名+中文导航；其下一排可点街景；�
 FORM: Ara Town，seed 67556832。
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->
+    <a class="skip px" href="#main-content">跳到主要内容</a>
     <div class:list={["ara-site", { "is-posting": posting }]}>
       <header class="ara-head" id="top">
         <a class="ara-brand" href="/">
@@ -128,7 +129,9 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </nav>
       </header>
       {streetPosts && <Street posts={streetPosts} />}
-      <slot />
+      <main id="main-content">
+        <slot />
+      </main>
       <footer class="ara-foot px">
         <span>© {new Date().getFullYear()} {SITE.author}</span>
         <a href="https://github.com/zhanglun">GitHub</a>

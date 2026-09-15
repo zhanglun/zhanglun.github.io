@@ -40,19 +40,15 @@ const cells = sprites.map(([name, w, h]) => {
     {
       cells.map(({ name, w, h, post }) =>
         post ? (
-          <a
-            class="spr"
-            href={`/blog/${post.id}`}
-            title={post.data.title}
-          >
+          <a class="spr" href={`/blog/${post.id}`}>
             <img
               class="px"
               src={`/ara/sprites/${name}.png`}
-              alt=""
+              alt={post.data.title}
               width={w}
               height={h}
             />
-            <span class="tip px">
+            <span class="tip px" aria-hidden="true">
               {formatDotDate(post.data.date).slice(2)} · {post.data.title}
             </span>
             <span class="dot" aria-hidden="true" />

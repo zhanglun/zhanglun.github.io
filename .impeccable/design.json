@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-04-14T13:40:00+08:00",
+  "generatedAt": "2026-09-15T11:36:01+08:00",
   "title": "Design System: 张小伦的网络日志",
   "extensions": {
     "colorMeta": {
@@ -199,9 +199,17 @@
       "name": "Category Rail",
       "kind": "nav",
       "refersTo": "nav-link-current",
-      "description": "左栏分类：24px 像素图标 + 点阵短标签。",
+      "description": "左栏分类：32px 像素图标 + 点阵短标签。",
       "html": "<aside class=\"ds-cat\"><h2>分类</h2><a class=\"ds-cat-current\" href=\"#\">最新</a><a href=\"#\">全部文章</a><a href=\"#\">搜索</a><a class=\"ds-cat-ghost\" href=\"#\">归档</a></aside>",
       "css": ".ds-cat h2 { font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 24px; font-weight: 400; margin: 0 0 16px; } .ds-cat a { display: block; padding: 6px 0; font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 16px; color: var(--ara-ink, #111); text-decoration: none; } .ds-cat-current, .ds-cat a:hover { color: var(--ara-stamp, #d0122a); } .ds-cat-ghost { color: var(--ara-muted, #444) !important; } .ds-cat a:focus-visible { outline: 2px solid var(--ara-stamp, #d0122a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ink Chip",
+      "kind": "chip",
+      "refersTo": "ink-chip",
+      "description": "工坊地块技术栈墨签。1px 墨框，点阵 12px，最多两枚。",
+      "html": "<span class=\"ds-chip\">rust</span>",
+      "css": ".ds-chip { font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 12px; border: 1px solid var(--ara-ink, #111); padding: 2px 6px; background: var(--ara-paper, #fff); color: var(--ara-ink, #111); border-radius: 0; }"
     },
     {
       "name": "Quote",
@@ -236,6 +244,11 @@
       {
         "name": "The Object-Only Pixel Rule",
         "body": "Fusion Pixel 只用于站名、导航、日期、分类短标签、街景提示。正文、文章标题、目录长标题、项目描述一律衬线。禁止整页点阵，禁止长文点阵。",
+        "section": "typography"
+      },
+      {
+        "name": "The Diagram Measure Rule",
+        "body": "正文 18px 不得漏进 Mermaid。节点 <p> 锁 16px / 1.3，与量框一致；overflow-wrap 用 normal，不用 anywhere。",
         "section": "typography"
       },
       {
