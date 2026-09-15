@@ -513,6 +513,12 @@ img.px,
   font-weight: 600;
 }
 
+.ara-main > h1.px {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 400;
+}
+
 .articleBody,
 .read,
 .ara-main .read {
@@ -661,6 +667,15 @@ img.px,
   color: var(--ara-muted);
 }
 
+.lots-group {
+  margin: 0 0 36px;
+}
+
+.lots-group > h2 {
+  font-size: 24px;
+  margin: 0 0 16px;
+}
+
 .lots {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -697,19 +712,20 @@ img.px,
   transform: translateY(-6px);
 }
 
-.lot h2 {
+.lot h3 {
   margin: 12px 14px 4px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.3;
   font-weight: 600;
   font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+  overflow-wrap: anywhere;
 }
 
 .lot-copy {
   margin: 0 14px 10px;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--ara-muted);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ara-ink);
 }
 
 .chips {
@@ -737,6 +753,14 @@ img.px,
 .lot-go a {
   color: var(--ara-stamp);
   text-decoration: none;
+  font-size: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ara-stamp);
 }
 
 .lot-go a:hover {

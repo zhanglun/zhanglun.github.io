@@ -12,6 +12,7 @@ export const PROJECTS = [
     logo: "/assets/icon.png",
     image: "/assets/icon.png",
     dates: "",
+    open: true,
     technologies: ["typescript", "hono", "prisma", "postgresql"],
     links: [
       {
@@ -32,6 +33,7 @@ export const PROJECTS = [
     logo: "/assets/lettura-icon.png",
     image: "/assets/lettura-icon.png",
     dates: "",
+    open: true,
     technologies: [
       "tauri",
       "rust",
@@ -64,6 +66,7 @@ export const PROJECTS = [
     logo: "/assets/icon.png",
     image: "/assets/pavo.jpeg",
     dates: "",
+    open: true,
     technologies: ["tauri", "svelte", "tailwindcss"],
     links: [
       {
@@ -96,6 +99,7 @@ export const PROJECTS = [
       },
     ],
     dates: "",
+    open: true,
     technologies: [
       "electron",
       "postgreSQL",
@@ -110,12 +114,14 @@ export const PROJECTS = [
     name: "Gatsby blog theme",
     shortName: "Facile",
     sprite: "/ara/projects/book.png",
-    description: "为 Gatsby.js 创建的个人博客主题",
+    description:
+      "给 Gatsby 用的博客主题。列表、标签和正文排版先在这一套里定下来；这份日志后来也从它长出来。",
     url: "https://github.com/zhanglun/gatsby-theme-facile",
     thumbnail: "",
     logo: "/assets/icon.png",
     video: "/assets/2.webm",
     dates: "",
+    open: false,
     technologies: ["gatsby", "react", "tailwindcss", "typescript"],
     links: [
       {
@@ -129,12 +135,14 @@ export const PROJECTS = [
     name: "notify",
     shortName: "Notify",
     sprite: "/ara/projects/sign.png",
-    description: "Notify Component",
+    description:
+      "给网页加一条会自己出现、停一会儿再走开的通知。当时用来提示操作结果，铺已经收了，源码还在。",
     url: "https://github.com/zhanglun/notify",
     thumbnail: "",
     logo: "/assets/icon.png",
     image: "/assets/icon.png",
     dates: "",
+    open: false,
     technologies: ["javascript", "css", "html"],
     links: [
       {
@@ -148,12 +156,14 @@ export const PROJECTS = [
     name: "hexo-theme-Tinny",
     shortName: "Tinny",
     sprite: "/ara/projects/well.png",
-    description: "A theme for Hexo",
+    description:
+      "给 Hexo 用的极简主题，管列表和文章页。静态博客还靠生成器的时候开的铺，现在只留源码。",
     url: "https://github.com/zhanglun/hexo-theme-Tinny",
     thumbnail: "",
     logo: "/assets/icon.png",
     image: "/assets/icon.png",
     dates: "",
+    open: false,
     technologies: ["hexo", "css", "html"],
     links: [
       {
@@ -167,12 +177,14 @@ export const PROJECTS = [
     name: "bluerobin",
     shortName: "BlueRobin",
     sprite: "/ara/projects/sack.png",
-    description: "online todo list based on Vue ecosystem",
+    description:
+      "浏览器里的待办清单，用 Vue 把事项记在线上。练手铺，开过一阵，现在不当日常工具了。",
     url: "https://github.com/zhanglun/bluerobin",
     thumbnail: "",
     logo: "/assets/icon.png",
     image: "/assets/bluerobin.png",
     dates: "",
+    open: false,
     technologies: ["vue", "css", "html"],
     links: [
       {
