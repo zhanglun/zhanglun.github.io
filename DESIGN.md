@@ -184,7 +184,7 @@ components:
 
 ### Cards / Containers
 - **News card:** 白纸，内边 `22px 24px 26px`，无描边无圆角。日期点阵红，标题衬线，摘要 18px。
-- **Project lots:** 桌面两列工坊地块。每个项目一块白纸院子：Kenney Tiny 物件站在路缘上，短名当门牌，技术栈当墨签。物件各不相同，不轮换房子。
+- **Project lots:** 桌面两列工坊地块。每个项目一块白纸院子：和街景同一套点阵物件站在路缘上，短名当门牌，技术栈当墨签。物件各不相同，不轮换房子。
 - **Code block:** 墨底灰字，13px 等宽，横向滚动，`max-width: 100%`。
 - **Mermaid:** 正文栏内流程图，节点 16px / 1.3，不继承正文 18px。Admin 预览走自己的 `mermaid.initialize`，不套这套皮。
 
@@ -209,11 +209,11 @@ components:
 - **Do** 把像素留在物件、分类图标、点阵标题和首页街景。
 - **Do** 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。
 - **Do** 归档在菜单里可见，并做成诚实的幽灵页，不要假装已有栏目。
-- **Do** 街景、顶栏小人、分类图标用 `public/ara/` 里由 `make-worlds.mjs` 画出的原创图。项目页物件用 `public/ara/projects/` 的 Kenney Tiny（CC0）。
+- **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`。
 
 ### Don't:
 - **Don't** 把整页做成游戏 HUD、生命条、背包或长文点阵。
-- **Don't** 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands。Kenney 只许出现在项目页物件，不要铺进街景或正文。
+- **Don't** 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands、Kenney。姿势可参考，原图不进仓库。
 - **Don't** 在前台放 Admin 入口，也不要让 Admin 套这套 Layout。
 - **Don't** 编读者数、奖项、客户或未上线能力。
 - **Don't** 给卡片或引用加超过 1px 的彩色侧条，或给这个世界加圆角和阴影。
