@@ -25,6 +25,7 @@
 html {
   color-scheme: light;
   overflow-x: clip;
+  caret-color: var(--ara-ink);
   scrollbar-width: thin;
   scrollbar-color: var(--ara-ink) var(--ara-ground);
 }
@@ -223,7 +224,7 @@ img.px,
   width: 100%;
   min-width: 0;
   min-height: 160px;
-  padding: 18px 16px 0;
+  padding: 36px 16px 0;
   overflow-x: auto;
   border-bottom: 4px solid var(--ara-ink);
   background:
@@ -462,6 +463,10 @@ img.px,
 
 .news h3 a {
   text-decoration: none;
+}
+
+.news h3 a:hover {
+  color: var(--ara-stamp);
 }
 
 .news p {
@@ -758,6 +763,13 @@ img.px,
   text-decoration: none;
 }
 
+.more-all a:hover,
+.news p a:hover,
+.ara-main > p a:hover {
+  background: var(--ara-stamp);
+  color: #fff;
+}
+
 .more {
   margin-top: 36px;
   padding-top: 18px;
@@ -783,6 +795,11 @@ img.px,
 .search-box:focus {
   outline: 2px solid var(--ara-stamp);
   outline-offset: 2px;
+}
+
+.search-box::placeholder {
+  color: var(--ara-muted);
+  opacity: 1;
 }
 
 .ara-foot {
@@ -851,10 +868,15 @@ img.px,
 @media (max-width: 860px) {
   .ara-head {
     grid-template-columns: 1fr;
+    padding: 14px 16px 12px;
   }
 
   .ara-nav {
     justify-content: flex-start;
+  }
+
+  .ara-foot {
+    padding: 0 16px 40px;
   }
 
   .ara-body,
