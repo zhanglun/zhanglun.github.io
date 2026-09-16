@@ -66,5 +66,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss(), viteEnvPlugin],
+    optimizeDeps: {
+      include: ["fuse.js"],
+    },
   },
 });
