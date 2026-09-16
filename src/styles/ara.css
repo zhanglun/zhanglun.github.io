@@ -192,15 +192,6 @@ img.px,
   color: var(--ara-stamp);
 }
 
-.ara-nav a.is-ghost {
-  color: var(--ara-muted);
-}
-
-.ara-nav a.is-ghost[aria-current="page"],
-.ara-nav a.is-ghost:hover {
-  color: var(--ara-stamp);
-}
-
 .ara-street {
   width: 100%;
   background: var(--ara-street);
@@ -337,15 +328,6 @@ img.px,
 
 .ara-cat a:hover,
 .ara-cat a[aria-current="page"] {
-  color: var(--ara-stamp);
-}
-
-.ara-cat a.is-ghost {
-  color: var(--ara-muted);
-}
-
-.ara-cat a.is-ghost[aria-current="page"],
-.ara-cat a.is-ghost:hover {
   color: var(--ara-stamp);
 }
 

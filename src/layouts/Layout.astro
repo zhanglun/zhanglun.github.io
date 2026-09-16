@@ -37,7 +37,6 @@ const nav = [
   ["home", "首页", "/"],
   ["blogs", "文章", "/blog"],
   ["search", "搜索", "/search"],
-  ["archive", "归档", "/archive"],
   ["projects", "项目", "/projects"],
   ["about", "关于", "/about"],
 ] as const;
@@ -119,7 +118,6 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             nav.map(([id, label, href]) => (
               <a
                 href={href}
-                class={id === "archive" ? "is-ghost" : undefined}
                 aria-current={active === id ? "page" : undefined}
               >
                 {label}
