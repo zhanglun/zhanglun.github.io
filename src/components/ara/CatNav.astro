@@ -17,7 +17,6 @@ const items = [
   ["ico-search", "搜索", "/search", "search"],
   ["ico-crate", "项目", "/projects", "projects"],
   ["ico-face", "关于", "/about", "about"],
-  ["ico-404", "归档", "/archive", "archive"],
 ] as const;
 ---
 
@@ -32,7 +31,6 @@ const items = [
     items.map(([icon, label, href, id]) => (
       <a
         href={href}
-        class={id === "archive" ? "is-ghost" : undefined}
         aria-current={active === id ? "page" : undefined}
       >
         <img

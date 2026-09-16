@@ -127,7 +127,7 @@ components:
 - **Pavement** (`{colors.street}`): 仅首页街景路面。
 - **Curb** (`{colors.curb}`): 街景路缘的那条硬边。
 - **Log Ink** (`{colors.ink}`): 正文、标题、2px 顶栏底边、街景底边、引用左侧 1px 线。
-- **Pencil Grey** (`{colors.muted}`): 辅助说明、引用正文、页脚、幽灵归档项。
+- **Pencil Grey** (`{colors.muted}`): 辅助说明、引用正文、页脚。
 - **Hairline** (`{colors.line}`): 列表行分割。
 
 ### Named Rules
@@ -195,8 +195,8 @@ components:
 - **Search:** 白底、3px 墨框、点阵 12px、内边 `10px 14px`。Focus：2px 邮戳红 outline，offset 2px。占位「搜标题或标签」。
 
 ### Navigation
-- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航。当前项与 hover 为邮戳红。归档平时是幽灵灰，人在 `/archive` 时仍用邮戳红标「你在这」。
-- **Category rail:** 32px 像素图标 + 点阵短标签，桌面 sticky。当前项邮戳红。归档平时幽灵灰，人在 `/archive` 时仍用邮戳红。
+- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航（首页 / 文章 / 搜索 / 项目 / 关于）。当前项与 hover 为邮戳红。无归档入口。
+- **Category rail:** 32px 像素图标 + 点阵短标签，桌面 sticky。当前项邮戳红。无归档入口。
 - **Post TOC:** 桌面 sticky，`max-height: calc(100dvh - 9rem)` 内滚动（扣掉顶栏后的剩余视口），条目衬线无像素图标；手机收折成「目录」。
 - **Back to top:** 仅文章页。右下角固定，像素向上箭头 +「顶部」，链到 `#top`。白纸 2px 墨框，不是 HUD。
 
@@ -208,7 +208,7 @@ components:
 ### Do:
 - **Do** 把像素留在物件、分类图标、点阵标题和首页街景。
 - **Do** 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。
-- **Do** 归档在菜单里可见，并做成诚实的幽灵页，不要假装已有栏目。
+- **Do** 导航不放归档。旧 `/archive` 链接落到诚实占位页，指向文章列表。
 - **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`。
 
 ### Don't:

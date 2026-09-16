@@ -40,7 +40,7 @@ Confirmed:
 - 公开站：文章列表/详情、标签与分类、全文搜索（Fuse.js）、项目页、关于页、RSS、OG 图。
 - Admin：列表、标题搜索、草稿/已发布筛选、新建、CodeMirror Markdown 编辑、预览（含 Mermaid）、保存草稿、发布、取消发布、删除、粘贴/拖拽/选择上传图片。
 - API：`/api/auth/*`、`/api/posts`（path 用 query，不用 catch-all）、`/api/preview`、`/api/images/upload`。GitHub 写入只用 Contents API（Git Data API 会超 Vercel 10s）。
-- 导航菜单含 Archive，仓库里没有对应页面。未决定要不要做，不要假装已有。
+- 导航不含归档。`/archive` 只留占位页给旧链接，不做按年按月目录。
 
 Constraints:
 
@@ -48,7 +48,7 @@ Constraints:
 - 不要编造读者数、评测、客户名、竞品对比。
 - 中文第一人称技术笔记；不要改成品牌站或英文营销口吻。
 
-Undecided: 无障碍标准、Archive 是否交付。
+Undecided: 无障碍标准。
 
 ## Brand Commitments
 
