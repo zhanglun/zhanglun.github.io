@@ -478,6 +478,30 @@ img.px,
   overflow-wrap: anywhere;
 }
 
+.item-list a small {
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.item-list.search-hits a {
+  grid-template-columns: 6.4rem minmax(0, 1fr);
+}
+
+.search-clear {
+  margin-left: 0.5em;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ara-stamp);
+  cursor: pointer;
+}
+
+.search-clear:hover {
+  background: var(--ara-stamp);
+  color: #fff;
+}
+
 .item-list a:hover {
   background: var(--ara-paper);
 }
@@ -939,6 +963,13 @@ img.px,
 
   .item-list a span {
     grid-area: title;
+  }
+
+  .item-list.search-hits a {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "date"
+      "title";
   }
 
   .post-head {
