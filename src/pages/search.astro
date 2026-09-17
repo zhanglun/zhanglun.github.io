@@ -5,6 +5,7 @@ import Layout from "@layouts/Layout.astro";
 import CatNav from "@components/ara/CatNav.astro";
 import Search from "@components/Search";
 import getSortedPosts from "@utils/getSortedPosts";
+import formatDotDate from "@utils/formatDotDate";
 
 const posts = getSortedPosts(await getCollection("blogs"));
 const searchList = posts.map(post => ({
@@ -15,6 +16,7 @@ const searchList = posts.map(post => ({
   headings: [] as string[],
   tags: post.data.tags || [],
 }));
+const recent = searchList.slice(0, 8);
 ---
 
 <Layout title={`搜索 | ${SITE.title}`} active="search">
@@ -22,6 +24,43 @@ const searchList = posts.map(post => ({
     <CatNav active="search" />
     <div class="ara-main">
       <h2 class="px">搜索</h2>
+      <script is:inline>
+        (function () {
+          var q = (new URLSearchParams(location.search).get("q") || "").trim();
+          if (!q) return;
+          var s = document.createElement("style");
+          s.textContent = "#search-ssr{display:none}";
+          document.head.appendChild(s);
+        })();
+      </script>
+      <div id="search-ssr">
+        <label class="sr" for="q-ssr">搜索</label>
+        <input
+          id="q-ssr"
+          class="search-box"
+          placeholder="搜标题或标签"
+          autocomplete="off"
+        />
+        <p class="muted px">
+          <span role="status">最近八篇</span>
+        </p>
+        <div
+          class="item-list search-hits"
+          role="region"
+          aria-label="最近文章"
+        >
+          {
+            recent.map(post => (
+              <a href={`/blog/${post.id}`}>
+                <time class="px" datetime={post.date}>
+                  {formatDotDate(post.date)}
+                </time>
+                <span>{post.title}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
       <Search client:only="react" searchList={searchList} />
     </div>
   </div>
