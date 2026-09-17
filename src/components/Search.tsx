@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import formatDotDate from "@utils/formatDotDate";
 
 type SearchItem = {
@@ -29,8 +29,15 @@ function readQuery(search?: string) {
   return new URLSearchParams(src).get("q") ?? "";
 }
 
+function initialQuery() {
+  if (typeof window === "undefined") return "";
+  const el = document.getElementById("q-ssr");
+  const typed = el instanceof HTMLInputElement ? el.value : "";
+  return typed || readQuery();
+}
+
 export default function SearchBar({ searchList }: Props) {
-  const [inputVal, setInputVal] = useState(readQuery);
+  const [inputVal, setInputVal] = useState(initialQuery);
   const fuse = useMemo(
     () =>
       new Fuse(searchList, {
@@ -40,6 +47,21 @@ export default function SearchBar({ searchList }: Props) {
       }),
     [searchList]
   );
+
+  useLayoutEffect(() => {
+    const ssr = document.getElementById("search-ssr");
+    const prev = document.getElementById("q-ssr");
+    const typed = prev instanceof HTMLInputElement ? prev.value : "";
+    const hadFocus = document.activeElement === prev;
+    ssr?.remove();
+    if (typed) setInputVal(typed);
+    if (!hadFocus) return;
+    const next = document.getElementById("q");
+    if (!(next instanceof HTMLInputElement)) return;
+    next.focus();
+    const pos = next.value.length;
+    next.setSelectionRange(pos, pos);
+  }, []);
 
   useEffect(() => {
     const onPop = () => setInputVal(readQuery());
@@ -88,7 +110,7 @@ export default function SearchBar({ searchList }: Props) {
         autoFocus
       />
       <p className="muted px">
-        {status}
+        <span role="status">{status}</span>
         {q && !(searching && hits.length === 0) ? (
           <>
             {" "}
@@ -114,7 +136,11 @@ export default function SearchBar({ searchList }: Props) {
           </button>
         </p>
       ) : tooShort ? null : (
-        <div className="item-list search-hits">
+        <div
+          className="item-list search-hits"
+          role="region"
+          aria-label={searching ? "搜索结果" : "最近文章"}
+        >
           {hits.map(post => {
             const tags = searching ? matchingTags(post.tags, q) : [];
             return (
