@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import matter from "gray-matter";
 import { putContent, getContent } from "../_lib/github.js";
+import { isSafePostDir } from "../_lib/posts.js";
 import { requireSession, unauthorized } from "../_lib/auth.js";
 import { sendResponse, toRequest, type VercelRequest, type VercelResponse } from "../_lib/vercel.js";
 
@@ -30,7 +31,7 @@ async function readBody(request: VercelRequest): Promise<Buffer> {
 async function handle(request: Request, raw: VercelRequest) {
   if (!requireSession(request)) return unauthorized();
   const post = new URL(request.url).searchParams.get("post") || "";
-  if (!/^(?:\d{4}-\d{2}-\d{2}-)?[\w\u0080-\uffff .+，。！？：、（）《》【】—–_\-]+$/.test(post)) {
+  if (!isSafePostDir(post)) {
     return Response.json({ error: "Invalid post" }, { status: 400 });
   }
   const type = TYPES[request.headers.get("content-type") || ""];

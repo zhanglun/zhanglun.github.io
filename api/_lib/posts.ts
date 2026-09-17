@@ -59,14 +59,25 @@ export async function listPosts(): Promise<PostSummary[]> {
   return posts.map(post => ({ ...post.frontmatter, path: post.path }));
 }
 
-export async function readPost(path: string) {
-  const file = await getContent(root + path);
-  return parse(path, decode(file.content || ""), file.sha);
-}
+export const isSafePostDir = (value: string) =>
+  Boolean(value)
+  && !value.includes("..")
+  && !value.includes("/")
+  && !value.includes("\\")
+  && !/\s/.test(value);
 
-const safePath = (value: string) => value.match(
-  /^(?:\d{4}-\d{2}-\d{2}-)?[\w\u0080-\uffff .+，。！？：、（）《》【】—–_\-]+(?:\/index\.md|\.md)$/u
-) ? value : null;
+const safePath = (value: string) => {
+  if (!value.endsWith("/index.md")) return null;
+  const dir = value.slice(0, -"/index.md".length);
+  return isSafePostDir(dir) ? value : null;
+};
+
+export async function readPost(path: string) {
+  const safe = safePath(path);
+  if (!safe) throw new Error("Invalid post path");
+  const file = await getContent(root + safe);
+  return parse(safe, decode(file.content || ""), file.sha);
+}
 
 export async function writePost(
   path: string,
