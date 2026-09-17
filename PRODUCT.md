@@ -37,7 +37,7 @@ Git 是内容真源，不是外挂 CMS。文章和图住在 `src/content/blogs/`
 
 Confirmed:
 
-- 公开站：文章列表/详情、标签与分类、全文搜索（Fuse.js）、项目页、关于页、RSS、OG 图。
+- 公开站：文章列表/详情、标签与分类、标题和标签搜索（Fuse.js）、项目页、关于页、RSS、OG 图。
 - Admin：列表、标题搜索、草稿/已发布筛选、新建、CodeMirror Markdown 编辑、预览（含 Mermaid）、保存草稿、发布、取消发布、删除、粘贴/拖拽/选择上传图片。
 - API：`/api/auth/*`、`/api/posts`（path 用 query，不用 catch-all）、`/api/preview`、`/api/images/upload`。GitHub 写入只用 Contents API（Git Data API 会超 Vercel 10s）。
 - 导航不含归档。`/archive` 只留占位页给旧链接，不做按年按月目录。
