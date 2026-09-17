@@ -23,16 +23,18 @@ function matchingTags(tags: string[], q: string) {
   );
 }
 
-function readQuery(search: string) {
-  return new URLSearchParams(search).get("q") ?? "";
+function readQuery(search?: string) {
+  const src =
+    search ?? (typeof window === "undefined" ? "" : window.location.search);
+  return new URLSearchParams(src).get("q") ?? "";
 }
 
 export default function SearchBar({ searchList }: Props) {
-  const [inputVal, setInputVal] = useState("");
+  const [inputVal, setInputVal] = useState(readQuery);
   const fuse = useMemo(
     () =>
       new Fuse(searchList, {
-        keys: ["title", "description", "tags"],
+        keys: ["title", "tags"],
         minMatchCharLength: 2,
         threshold: 0.4,
       }),
@@ -40,14 +42,16 @@ export default function SearchBar({ searchList }: Props) {
   );
 
   useEffect(() => {
-    const q = readQuery(window.location.search);
-    if (q) setInputVal(q);
+    const onPop = () => setInputVal(readQuery());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   function setQuery(next: string) {
     setInputVal(next);
     const url = new URL(window.location.href);
-    if (next) url.searchParams.set("q", next);
+    const trimmed = next.trim();
+    if (trimmed) url.searchParams.set("q", trimmed);
     else url.searchParams.delete("q");
     const href = url.pathname + url.search;
     if (href !== window.location.pathname + window.location.search) {
@@ -83,7 +87,21 @@ export default function SearchBar({ searchList }: Props) {
         autoComplete="off"
         autoFocus
       />
-      <p className="muted px">{status}</p>
+      <p className="muted px">
+        {status}
+        {q && !(searching && hits.length === 0) ? (
+          <>
+            {" "}
+            <button
+              type="button"
+              className="search-clear"
+              onClick={() => setQuery("")}
+            >
+              清空
+            </button>
+          </>
+        ) : null}
+      </p>
       {searching && hits.length === 0 ? (
         <p className="muted">
           没有命中。

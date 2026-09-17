@@ -22,7 +22,7 @@ const searchList = posts.map(post => ({
     <CatNav active="search" />
     <div class="ara-main">
       <h2 class="px">搜索</h2>
-      <Search client:load searchList={searchList} />
+      <Search client:only="react" searchList={searchList} />
     </div>
   </div>
 </Layout>
