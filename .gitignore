@@ -78,3 +78,11 @@ dist
 .cache
 .astro
 .sisyphus
+
+# Impeccable process output (keep design.json + surfaces/ tracked)
+.impeccable/live/
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/critique/
+.impeccable/questions/
+.impeccable/config.local.json
