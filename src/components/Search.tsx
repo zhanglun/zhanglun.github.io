@@ -85,12 +85,12 @@ export default function SearchBar({ searchList }: Props) {
   const searching = q.length > 1;
   const tooShort = q.length === 1;
   const hits = searching
-    ? fuse.search(inputVal).map(r => r.item)
+    ? fuse.search(q).map(r => r.item)
     : tooShort
       ? []
       : searchList.slice(0, 8);
   const status = searching
-    ? `${hits.length} 条结果 · ${inputVal}`
+    ? `${hits.length} 条结果 · ${q}`
     : tooShort
       ? "再输入一个字"
       : "最近八篇";
