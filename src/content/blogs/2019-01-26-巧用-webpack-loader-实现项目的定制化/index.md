@@ -129,12 +129,12 @@ module.exports = {
 
 上述配置在执行过程中，less文件的编译会按照如下顺序 ([Webpack Loader 执行顺序](https://webpack.docschina.org/contribute/writing-a-loader/#%E5%A4%8D%E6%9D%82%E7%94%A8%E6%B3%95))：
 
-![IMAGE](./1.png)
+![IMAGE](./images/1.png)
 
 
 在整个编译过程中，我们可以在每一个loader的开始前和结束后合并我们自定义样式，如下图所示：
 
-![IMAGE](./2.png)
+![IMAGE](./images/2.png)
 
 在less-loader之前加入自定义的CSS样式是最好的时机，为什么呢？有两点：
 
@@ -144,7 +144,7 @@ module.exports = {
 
 编译过程修改为如下图所示：
 
-![IMAGE](./3.png)
+![IMAGE](./images/3.png)
 
 
 ## 开发一个 merge-loader

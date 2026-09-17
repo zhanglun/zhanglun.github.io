@@ -139,6 +139,20 @@ await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "PUT", {
 assert.equal(res.statusCode, 409);
 
 res = response();
+await list(request("/api/posts?path=2026-09-02%20spaced%2Findex.md"), res);
+assert.equal(res.statusCode, 502);
+assert.match(json(res).error, /Invalid post path/);
+
+res = response();
+await list(request("/api/posts?path=2026-09-02%20spaced%2Findex.md", "PUT", {
+  frontmatter: { title: "Spaced", date: "2026-09-02", tags: [], categories: [], draft: true },
+  body: "no",
+  sha: "blob-local",
+}), res);
+assert.equal(res.statusCode, 502);
+assert.match(json(res).error, /Invalid post path/);
+
+res = response();
 await list(request("/api/posts?path=2026-09-02-local%2Findex.md", "DELETE"), res);
 assert.equal(res.statusCode, 204);
 
@@ -185,5 +199,9 @@ assert.equal(res.statusCode, 415);
 res = response();
 await upload({ ...request("/api/images/upload?post=..%2F..%2Fetc", "POST", png), headers: { host: "localhost", cookie, "content-type": "image/png" } }, res);
 assert.ok([400, 404].includes(res.statusCode));
+
+res = response();
+await upload({ ...request("/api/images/upload?post=2026-09-02%20spaced", "POST", png), headers: { host: "localhost", cookie, "content-type": "image/png" } }, res);
+assert.equal(res.statusCode, 400);
 
 console.log("admin API local self-check ok");
