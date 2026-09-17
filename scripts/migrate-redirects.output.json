@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-09-01T03:56:10.604Z",
+  "generatedAt": "2026-09-17T08:45:59.196Z",
   "stats": {
     "notionArticles": 83,
     "renamedBlogArticles": 43,
-    "redirectCount": 252,
+    "redirectCount": 258,
     "slugOverrideCount": 0,
     "notionReferencedImages": 222,
     "notionOrphanImages": 1777
   },
   "redirects": {
-    "/blog/-图片缓存失效问题排查": "/blog/2025-09-24--图片缓存失效问题排查",
-    "/blogs/-图片缓存失效问题排查": "/blog/2025-09-24--图片缓存失效问题排查",
+    "/blog/-图片缓存失效问题排查": "/blog/2025-09-24-图片缓存失效问题排查",
+    "/blogs/-图片缓存失效问题排查": "/blog/2025-09-24-图片缓存失效问题排查",
     "/blog/javascript深拷贝的新方法-structureclone": "/blog/2021-12-18-javascript深拷贝的新方法-structureclone",
     "/blogs/javascript深拷贝的新方法-structureclone": "/blog/2021-12-18-javascript深拷贝的新方法-structureclone",
     "/blog/lettura-开发日志sqlite-数据库迁移实践": "/blog/2024-11-16-lettura-开发日志sqlite-数据库迁移实践",
@@ -179,8 +179,8 @@
     "/blogs/译nodejs-的-eventemitter-教程": "/blog/2014-05-05-译nodejs-的-eventemitter-教程",
     "/blog/译nodejs的全局变量": "/blog/2014-04-28-译nodejs的全局变量",
     "/blogs/译nodejs的全局变量": "/blog/2014-04-28-译nodejs的全局变量",
-    "/blog/译nodejs的模块--exports-和-moduleexports": "/blog/2014-04-26-译nodejs的模块--exports-和-moduleexports",
-    "/blogs/译nodejs的模块--exports-和-moduleexports": "/blog/2014-04-26-译nodejs的模块--exports-和-moduleexports",
+    "/blog/译nodejs的模块--exports-和-moduleexports": "/blog/2014-04-26-译nodejs的模块-exports-和-moduleexports",
+    "/blogs/译nodejs的模块--exports-和-moduleexports": "/blog/2014-04-26-译nodejs的模块-exports-和-moduleexports",
     "/blog/译取消事件冒泡的危害": "/blog/2014-05-28-译取消事件冒泡的危害",
     "/blogs/译取消事件冒泡的危害": "/blog/2014-05-28-译取消事件冒泡的危害",
     "/blog/javascript中不使用new的构造函数": "/blog/2015-01-28-javascript中不使用new的构造函数",
@@ -245,8 +245,8 @@
     "/blogs/规范之路-css中的定位简介": "/blog/2014-09-12-规范之路-css中的定位简介",
     "/blog/规范之路-normal-flow": "/blog/2014-10-02-规范之路-normal-flow",
     "/blogs/规范之路-normal-flow": "/blog/2014-10-02-规范之路-normal-flow",
-    "/blog/规范之路-visual-formatting-model概述-": "/blog/2014-08-21-规范之路-visual-formatting-model概述-",
-    "/blogs/规范之路-visual-formatting-model概述-": "/blog/2014-08-21-规范之路-visual-formatting-model概述-",
+    "/blog/规范之路-visual-formatting-model概述-": "/blog/2014-08-21-规范之路-visual-formatting-model概述",
+    "/blogs/规范之路-visual-formatting-model概述-": "/blog/2014-08-21-规范之路-visual-formatting-model概述",
     "/blog/规范之路-行高的工作原理": "/blog/2014-11-20-规范之路-行高的工作原理",
     "/blogs/规范之路-行高的工作原理": "/blog/2014-11-20-规范之路-行高的工作原理",
     "/blog/规范之路-重新认识了float": "/blog/2014-10-15-规范之路-重新认识了float",
@@ -260,7 +260,13 @@
     "/blog/高性能网站优化-整合异步脚本": "/blog/2014-04-10-高性能网站优化-整合异步脚本",
     "/blogs/高性能网站优化-整合异步脚本": "/blog/2014-04-10-高性能网站优化-整合异步脚本",
     "/blog/高性能网站优化-无阻塞加载脚本": "/blog/2014-03-30-高性能网站优化-无阻塞加载脚本",
-    "/blogs/高性能网站优化-无阻塞加载脚本": "/blog/2014-03-30-高性能网站优化-无阻塞加载脚本"
+    "/blogs/高性能网站优化-无阻塞加载脚本": "/blog/2014-03-30-高性能网站优化-无阻塞加载脚本",
+    "/blog/2014-04-26-译nodejs的模块--exports-和-moduleexports": "/blog/2014-04-26-译nodejs的模块-exports-和-moduleexports",
+    "/blogs/2014-04-26-译nodejs的模块--exports-和-moduleexports": "/blog/2014-04-26-译nodejs的模块-exports-和-moduleexports",
+    "/blog/2014-08-21-规范之路-visual-formatting-model概述-": "/blog/2014-08-21-规范之路-visual-formatting-model概述",
+    "/blogs/2014-08-21-规范之路-visual-formatting-model概述-": "/blog/2014-08-21-规范之路-visual-formatting-model概述",
+    "/blog/2025-09-24--图片缓存失效问题排查": "/blog/2025-09-24-图片缓存失效问题排查",
+    "/blogs/2025-09-24--图片缓存失效问题排查": "/blog/2025-09-24-图片缓存失效问题排查"
   },
   "slugOverrides": [],
   "missingImages": []
