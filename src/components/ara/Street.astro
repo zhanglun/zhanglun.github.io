@@ -9,24 +9,24 @@ export interface Props {
 const { posts } = Astro.props;
 const sprites = [
   ["house-r", 90, 60],
-  ["tree", 70, 60],
+  ["tree", 80, 80],
   ["house-n", 90, 60],
   ["person-r", 90, 90],
   ["house-b", 90, 60],
   ["person-b", 70, 80],
   ["house-t", 90, 60],
-  ["tree", 70, 60],
+  ["tulip", 70, 110],
   ["cat", 50, 50],
   ["person-bike", 90, 90],
   ["house-m", 90, 60],
   ["train", 100, 60],
-  ["tree", 70, 60],
+  ["dandelion", 50, 70],
   ["lh", 110, 120],
   ["bee", 70, 50],
   ["person-g", 70, 80],
 ] as const;
 const live = posts.slice(0, 8);
-const deco = /^(tree|cat|bee|person-bike)$/;
+const deco = /^(tree|cat|bee|tulip|dandelion)$/;
 let pi = 0;
 const cells = sprites.map(([name, w, h]) => {
   const clickable = !deco.test(name) && pi < live.length;
