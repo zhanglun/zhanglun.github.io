@@ -110,6 +110,9 @@ img.px,
   left: 8px;
   top: 8px;
   z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   background: var(--ara-paper);
   color: var(--ara-ink);
   border: 2px solid var(--ara-ink);
@@ -182,6 +185,10 @@ img.px,
 }
 
 .ara-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 6px;
   text-decoration: none;
   color: var(--ara-ink);
   font-size: 12px;
@@ -239,6 +246,7 @@ img.px,
 .spr img {
   width: auto;
   height: auto;
+  transition: transform 120ms linear;
 }
 
 .spr.deco {
@@ -366,6 +374,7 @@ img.px,
 .post-toc .toc-back {
   display: flex;
   align-items: center;
+  min-height: 44px;
   gap: 10px;
   margin-top: 18px;
   padding-top: 12px;
@@ -488,11 +497,15 @@ img.px,
 }
 
 .search-clear {
-  margin-left: 0.5em;
-  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 10px;
+  margin: -14px -10px;
   border: 0;
   background: none;
-  font: inherit;
+  font-family: "Fusion Pixel", ui-monospace, monospace;
+  font-size: 12px;
   color: var(--ara-stamp);
   cursor: pointer;
 }
@@ -523,6 +536,7 @@ img.px,
   font-size: 24px;
   line-height: 1;
   font-weight: 400;
+  margin: 0 0 16px;
 }
 
 .articleBody,
@@ -789,6 +803,10 @@ img.px,
 }
 
 .more-all a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 6px;
   color: var(--ara-stamp);
   text-decoration: none;
 }
@@ -814,7 +832,7 @@ img.px,
 .search-box {
   width: 100%;
   max-width: 36rem;
-  border: 3px solid var(--ara-ink);
+  border: 2px solid var(--ara-ink);
   background: var(--ara-paper);
   padding: 10px 14px;
   font: 12px "Fusion Pixel", monospace;
@@ -844,6 +862,10 @@ img.px,
 }
 
 .ara-foot a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 6px;
   color: var(--ara-ink);
   text-decoration: none;
 }
@@ -889,6 +911,12 @@ img.px,
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
+  visibility: hidden;
+}
+
+.toc-toggle:focus-visible + .toc-fold-label {
+  outline: 2px solid var(--ara-stamp);
+  outline-offset: 2px;
 }
 
 .toc-fold-label {
@@ -896,6 +924,35 @@ img.px,
 }
 
 @media (max-width: 860px) {
+  /* Street trim: cells 1–7 carry the 6 newest links (the tree deco is
+     then hidden by the .spr.deco rule); keep sprite order in sync with
+     Street.astro. Imgs capped to fit 390px. */
+  .ara-ground {
+    gap: 6px;
+    padding: 24px 12px 0;
+    min-height: 120px;
+  }
+
+  .ara-ground > :nth-child(n + 8) {
+    display: none;
+  }
+
+  .spr.deco {
+    display: none;
+  }
+
+  .spr {
+    height: 96px;
+  }
+
+  .spr img {
+    max-width: 56px;
+  }
+
+  .toc-toggle {
+    visibility: visible;
+  }
+
   .ara-head {
     grid-template-columns: 1fr;
     padding: 14px 16px 12px;
@@ -929,9 +986,11 @@ img.px,
   }
 
   .toc-fold-label {
-    display: block;
     cursor: pointer;
     font-size: 16px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
     padding: 8px 0;
   }
 
