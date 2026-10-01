@@ -196,6 +196,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           if (T <= 0) return;
           const catW = catImg.getBoundingClientRect().width || 36;
           const cruise = (2 * T) / 15000; // px/ms：行走预算约 15s
+          const burst = cruise * 1.8; // 起跳扑跳加速（猫 physical burst）
           const creep = cruise * 0.5;
           const pad = 6; // 猫剪影（耳/尾）超出碰撞盒的经验余量
 
@@ -208,11 +209,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             .filter(o => o.c > 0 && o.c < T)
             .sort((a, b) => a.c - b.c);
 
-          // 单次跳跃：顶点 = 障碍高 + 16px；重叠边缘净空 6px 反推窗口半宽
+          // 单次跳跃：弧形按目标宽高比反推——重叠边缘落在抛物线 u=0.62 处、
+          // 边缘净空 5px，滞空时间 = 窗宽/扑跳速（约 0.45–0.55s，游戏手感而非气球滑翔）
           function jumpFor(ob) {
             const overlapHalf = (catW + ob.w) / 2 + pad;
-            const H = ob.h + 16;
-            const u = Math.sqrt(Math.max(0.04, 1 - (ob.h + 6) / H));
+            const u = 0.62;
+            const H = (ob.h + 5) / (1 - u * u);
             return { passX: ob.c - catW / 2, halfPx: overlapHalf / u, H };
           }
 
@@ -234,7 +236,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             const sX = j.passX + j.halfPx;
             const eX = j.passX - j.halfPx;
             push((x - sX) / cruise, sX);
-            const dt = (sX - eX) / cruise;
+            const dt = (sX - eX) / burst;
             hops.push({ t0: t, t1: t + dt, H: j.H });
             push(dt, eX);
           }
@@ -251,7 +253,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
             const sX = j.passX - j.halfPx;
             const eX = j.passX + j.halfPx;
             push((sX - x) / cruise, sX);
-            const dt = (eX - sX) / cruise;
+            const dt = (eX - sX) / burst;
             hops.push({ t0: t, t1: t + dt, H: j.H });
             push(dt, eX);
           }
@@ -272,16 +274,22 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           // Y：抛物线——升段减速 / 降段加速，顶点速度为零
           const RISE = "cubic-bezier(0.33, 0.67, 0.67, 1)";
           const FALL = "cubic-bezier(0.33, 0, 0.67, 0.33)";
-          const ky = [{ transform: "translateY(0)", offset: 0, easing: RISE }];
+          const ky = [{ transform: "translateY(0)", offset: 0 }];
           for (const h of hops) {
+            const t0o = h.t0 / total;
             const mid = (h.t0 + (h.t1 - h.t0) / 2) / total;
-            if (mid <= ky[ky.length - 1].offset) continue;
+            const t1o = h.t1 / total;
+            // 起跳地面帧：没有它，上升段会从上一个关键帧（上一个落点或 offset 0）
+            // 开始缓动，猫会在障碍前老远开始飘升——实测滞空 2.5s 的真凶
+            if (t0o > ky[ky.length - 1].offset) {
+              ky.push({ transform: "translateY(0)", offset: t0o, easing: RISE });
+            }
             ky.push({
               transform: `translateY(-${h.H.toFixed(1)}px)`,
               offset: mid,
               easing: FALL,
             });
-            ky.push({ transform: "translateY(0)", offset: h.t1 / total, easing: RISE });
+            ky.push({ transform: "translateY(0)", offset: t1o, easing: RISE });
           }
           ky.push({ transform: "translateY(0)", offset: 1 });
 
