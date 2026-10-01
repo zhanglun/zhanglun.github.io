@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { SITE } from "@config";
 import getSortedPosts from "@utils/getSortedPosts";
 import Layout from "@layouts/Layout.astro";
 import CatNav from "@components/ara/CatNav.astro";
@@ -14,6 +15,7 @@ const latest = posts[0];
   <div class="ara-body">
     <CatNav active="home" />
     <div class="ara-main">
+      <h1 class="sr">{SITE.title}</h1>
       <h2 class="px">最新</h2>
       {
         latest && (
