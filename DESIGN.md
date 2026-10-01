@@ -63,13 +63,15 @@ components:
     textColor: "{colors.ink}"
     typography: "{typography.label}"
     rounded: "{rounded.none}"
-    padding: "0px"
+    padding: "0 6px"
+    height: "44px"
   nav-link-current:
     backgroundColor: "transparent"
     textColor: "{colors.stamp}"
     typography: "{typography.label}"
     rounded: "{rounded.none}"
-    padding: "0px"
+    padding: "0 6px"
+    height: "44px"
   search-input:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
@@ -193,7 +195,7 @@ components:
 ## Components
 
 ### Buttons
-没有独立按钮。动作是衬线或点阵文字链。正文链默认邮戳红底边，hover 反相成红底白字。工坊外链是唯一带框的动作：2px 邮戳红框、点阵 12px、最小点击面 44×44。
+没有独立按钮。动作是衬线或点阵文字链。正文链默认邮戳红底边，hover 反相成红底白字。工坊外链是唯一带框的动作：2px 邮戳红框、点阵 12px。点击面是全站地板：导航、页脚、清空、返回、工坊外链一律 ≥44px 高。
 
 ### Cards / Containers
 - **News card:** 白纸，内边 `22px 24px 26px`，无描边无圆角。日期点阵红，标题衬线 clamp 22–28px，摘要 18px。
