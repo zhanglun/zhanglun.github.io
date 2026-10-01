@@ -131,10 +131,26 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <slot />
       </main>
       <footer class="ara-foot px">
-        <span>© {new Date().getFullYear()} {SITE.author}</span>
-        <a href="https://github.com/zhanglun">GitHub</a>
-        <a href="mailto:zhanglun1410@gmail.com">邮箱</a>
+        <span>© <span data-year>{new Date().getFullYear()}</span> {SITE.author}</span>
+        <nav class="foot-links" aria-label="页脚">
+          <a href="https://github.com/zhanglun">GitHub</a>
+          <a href="mailto:zhanglun1410@gmail.com">邮箱</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+        <img
+          class="px foot-cat"
+          src="/ara/sprites/cat.png"
+          alt=""
+          width="50"
+          height="40"
+        />
       </footer>
     </div>
+    <script>
+      // 年份随客户端刷新，静态缓存的页面不会停在旧年
+      document
+        .querySelectorAll("[data-year]")
+        .forEach(el => (el.textContent = String(new Date().getFullYear())));
+    </script>
   </body>
 </html>
