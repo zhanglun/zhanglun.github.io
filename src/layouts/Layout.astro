@@ -175,15 +175,147 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       document
         .querySelectorAll("[data-year]")
         .forEach(el => (el.textContent = String(new Date().getFullYear())));
-      // 页脚出视口时暂停猫的巡逻，节能
+
+      // 邮差猫巡线：运行时实测几何 → WAAPI 动态关键帧（闭合回路，任意视口宽度都准确）。
+      // ponytail: 不引物理库——装饰编排需要的是实测几何，不是刚体响应；WAAPI 原生够用。
       const foot = document.querySelector(".ara-foot");
-      if (foot && "IntersectionObserver" in window) {
-        new IntersectionObserver(entries => {
-          const on = entries[entries.length - 1].isIntersecting;
-          foot
-            .querySelectorAll(".cat-walk, .cat-hop, .cat-flip, .foot-cat")
-            .forEach(el => (el.style.animationPlayState = on ? "" : "paused"));
+      const track = foot && foot.querySelector(".cat-track");
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+      if (foot && track && !reduced.matches && Element.prototype.animate) {
+        const walkEl = track.querySelector(".cat-walk");
+        const hopEl = track.querySelector(".cat-hop");
+        const flipEl = track.querySelector(".cat-flip");
+        const catImg = track.querySelector(".foot-cat");
+        let anims = [];
+
+        function build() {
+          anims.forEach(a => a.cancel());
+          anims = [];
+          const trackRect = track.getBoundingClientRect();
+          const T = trackRect.width;
+          if (T <= 0) return;
+          const catW = catImg.getBoundingClientRect().width || 36;
+          const cruise = (2 * T) / 15000; // px/ms：行走预算约 15s
+          const creep = cruise * 0.5;
+          const pad = 6; // 猫剪影（耳/尾）超出碰撞盒的经验余量
+
+          // 实测障碍：中心 / 宽 / 高（资产已裁为实心满幅，重排/改尺寸自动跟随）
+          const obstacles = [...foot.querySelectorAll(".foot-obstacle")]
+            .map(o => {
+              const r = o.getBoundingClientRect();
+              return { c: r.left + r.width / 2 - trackRect.left, w: r.width, h: r.height };
+            })
+            .filter(o => o.c > 0 && o.c < T)
+            .sort((a, b) => a.c - b.c);
+
+          // 单次跳跃：顶点 = 障碍高 + 16px；重叠边缘净空 6px 反推窗口半宽
+          function jumpFor(ob) {
+            const overlapHalf = (catW + ob.w) / 2 + pad;
+            const H = ob.h + 16;
+            const u = Math.sqrt(Math.max(0.04, 1 - (ob.h + 6) / H));
+            return { passX: ob.c - catW / 2, halfPx: overlapHalf / u, H };
+          }
+
+          const xPins = [];
+          const hops = [];
+          let t = 0;
+          let x = T;
+          const push = (dt, nx) => {
+            t += Math.max(0, dt);
+            x = nx;
+            xPins.push({ t, x });
+          };
+          xPins.push({ t: 0, x });
+
+          // 右 → 左：爬行起步 → 巡行，逐障碍起跳
+          push((T - 0.94 * T) / creep, 0.94 * T);
+          for (const ob of [...obstacles].reverse()) {
+            const j = jumpFor(ob);
+            const sX = j.passX + j.halfPx;
+            const eX = j.passX - j.halfPx;
+            push((x - sX) / cruise, sX);
+            const dt = (sX - eX) / cruise;
+            hops.push({ t0: t, t1: t + dt, H: j.H });
+            push(dt, eX);
+          }
+          push((x - 0.054 * T) / cruise, 0.054 * T);
+          push((0.054 * T) / creep, 0);
+          const flipA = t + 420;
+          t = flipA;
+          xPins.push({ t, x });
+
+          // 左 → 右：镜像
+          push((0.06 * T) / creep, 0.06 * T);
+          for (const ob of obstacles) {
+            const j = jumpFor(ob);
+            const sX = j.passX - j.halfPx;
+            const eX = j.passX + j.halfPx;
+            push((sX - x) / cruise, sX);
+            const dt = (eX - sX) / cruise;
+            hops.push({ t0: t, t1: t + dt, H: j.H });
+            push(dt, eX);
+          }
+          push((0.946 * T - x) / cruise, 0.946 * T);
+          push((T - 0.946 * T) / creep, T);
+          const flipB = t + 420;
+          t = flipB + 480; // 转身后小驻，接缝自然
+          xPins.push({ t, x: T });
+          const total = t;
+
+          // X：线性分段（分段速度即步态节奏）
+          const kx = xPins.map(p => ({
+            transform: `translate(${p.x.toFixed(1)}px, 0)`,
+            offset: p.t / total,
+            easing: "linear",
+          }));
+
+          // Y：抛物线——升段减速 / 降段加速，顶点速度为零
+          const RISE = "cubic-bezier(0.33, 0.67, 0.67, 1)";
+          const FALL = "cubic-bezier(0.33, 0, 0.67, 0.33)";
+          const ky = [{ transform: "translateY(0)", offset: 0, easing: RISE }];
+          for (const h of hops) {
+            const mid = (h.t0 + (h.t1 - h.t0) / 2) / total;
+            if (mid <= ky[ky.length - 1].offset) continue;
+            ky.push({
+              transform: `translateY(-${h.H.toFixed(1)}px)`,
+              offset: mid,
+              easing: FALL,
+            });
+            ky.push({ transform: "translateY(0)", offset: h.t1 / total, easing: RISE });
+          }
+          ky.push({ transform: "translateY(0)", offset: 1 });
+
+          // 折返翻转（瞬时）
+          const a = flipA / total;
+          const b = flipB / total;
+          const kf = [
+            { transform: "scaleX(1)", offset: 0 },
+            { transform: "scaleX(1)", offset: Math.max(0, a - 0.0005) },
+            { transform: "scaleX(-1)", offset: Math.min(1, a + 0.0005) },
+            { transform: "scaleX(-1)", offset: Math.max(0, b - 0.0005) },
+            { transform: "scaleX(1)", offset: Math.min(1, b + 0.0005) },
+            { transform: "scaleX(1)", offset: 1 },
+          ];
+
+          anims = [
+            walkEl.animate(kx, { duration: total, iterations: Infinity }),
+            hopEl.animate(ky, { duration: total, iterations: Infinity }),
+            flipEl.animate(kf, { duration: total, iterations: Infinity }),
+          ];
+        }
+
+        build();
+        let raf = 0;
+        new ResizeObserver(() => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(build);
         }).observe(foot);
+        if ("IntersectionObserver" in window) {
+          new IntersectionObserver(entries => {
+            const on = entries[entries.length - 1].isIntersecting;
+            anims.forEach(a => (on ? a.play() : a.pause()));
+          }).observe(foot);
+        }
       }
     </script>
   </body>

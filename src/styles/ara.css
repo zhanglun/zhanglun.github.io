@@ -879,8 +879,8 @@ img.px,
   animation: cat-step 0.24s steps(1, end) infinite alternate;
 }
 
-/* 邮差猫巡线：cqw 计程的 transform 巡逻，不碰布局属性。
-   四层分工：X 巡逻 / Y 抛物线（cat-hop，升段减速降段加速）/
+/* 邮差猫巡线：运行时实测几何 → WAAPI 动态关键帧（Layout.astro 内联脚本生成），
+   任意视口宽度下碰撞窗口都按实测计算。四层分工：X 巡逻 / Y 抛物线（升段减速降段加速）/
    折返翻转 / 步伐踏点。双向四跳：每趟遇郁金香（p=0.3）与木箱（p=0.72）
    各跳一次；步速全部显式锚点化（爬行起步→巡行，跳窗与巡行同速，
    零速度突变），跳窗顶点 = 猫身中心过障碍中心的时刻。 */
@@ -899,15 +899,12 @@ img.px,
   left: 0;
   bottom: 0;
   transform: translate(calc(100cqw - 92px), 0);
-  animation: cat-patrol 16s linear infinite;
 }
 
 .cat-hop {
-  animation: cat-hop 16s linear infinite;
 }
 
 .cat-flip {
-  animation: cat-flip 16s linear infinite;
 }
 
 .foot-obstacle {
@@ -923,114 +920,6 @@ img.px,
 
 .foot-obstacle-b {
   left: calc(28px + (100% - 92px) * 0.72);
-}
-
-@keyframes cat-patrol {
-  0% {
-    transform: translate(calc(100cqw - 92px), 0);
-  }
-  5% {
-    transform: translate(calc((100cqw - 92px) * 0.94), 0);
-  }
-  12.7% {
-    transform: translate(calc((100cqw - 92px) * 0.7546), 0);
-  }
-  17.1% {
-    transform: translate(calc((100cqw - 92px) * 0.649), 0);
-  }
-  30.2% {
-    transform: translate(calc((100cqw - 92px) * 0.3346), 0);
-  }
-  34.6% {
-    transform: translate(calc((100cqw - 92px) * 0.229), 0);
-  }
-  41.9% {
-    transform: translate(calc((100cqw - 92px) * 0.054), 0);
-  }
-  46.4%,
-  49% {
-    transform: translate(0, 0);
-  }
-  54% {
-    transform: translate(calc((100cqw - 92px) * 0.06), 0);
-  }
-  61% {
-    transform: translate(calc((100cqw - 92px) * 0.229), 0);
-  }
-  65.4% {
-    transform: translate(calc((100cqw - 92px) * 0.3346), 0);
-  }
-  78.5% {
-    transform: translate(calc((100cqw - 92px) * 0.649), 0);
-  }
-  82.9% {
-    transform: translate(calc((100cqw - 92px) * 0.7546), 0);
-  }
-  90.9% {
-    transform: translate(calc((100cqw - 92px) * 0.946), 0);
-  }
-  95.4%,
-  100% {
-    transform: translate(calc(100cqw - 92px), 0);
-  }
-}
-
-@keyframes cat-hop {
-  0%,
-  12.7% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.33, 0.67, 0.67, 1);
-  }
-  14.9% {
-    transform: translateY(-52px);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0.33);
-  }
-  17.1%,
-  30.2% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.33, 0.67, 0.67, 1);
-  }
-  32.4% {
-    transform: translateY(-52px);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0.33);
-  }
-  34.6%,
-  61% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.33, 0.67, 0.67, 1);
-  }
-  63.2% {
-    transform: translateY(-52px);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0.33);
-  }
-  65.4%,
-  78.5% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.33, 0.67, 0.67, 1);
-  }
-  80.7% {
-    transform: translateY(-52px);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0.33);
-  }
-  82.9%,
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes cat-flip {
-  0%,
-  49% {
-    transform: scaleX(1);
-  }
-  49.1%,
-  98% {
-    transform: scaleX(-1);
-  }
-  98.1%,
-  100% {
-    transform: scaleX(1);
-  }
 }
 
 @keyframes cat-step {
