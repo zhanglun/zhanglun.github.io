@@ -888,7 +888,7 @@ img.px,
   position: absolute;
   left: 28px;
   right: 64px;
-  bottom: calc(100% - 6px);
+  bottom: calc(100% + 1px);
   height: 92px;
   pointer-events: none;
   z-index: 2;
@@ -909,7 +909,7 @@ img.px,
 
 .foot-obstacle {
   position: absolute;
-  bottom: calc(100% - 4px);
+  bottom: calc(100% + 1px);
   transform: translateX(-50%);
   z-index: 1;
 }
