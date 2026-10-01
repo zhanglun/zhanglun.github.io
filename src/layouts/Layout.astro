@@ -153,16 +153,16 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           height="24"
           loading="lazy"
         />
-        <div class="cat-track">
-          <div class="cat-walk">
-            <div class="cat-hop">
-              <div class="cat-flip">
+        <div class="crab-track">
+          <div class="crab-walk">
+            <div class="crab-hop">
+              <div class="crab-flip">
                 <img
-                  class="px foot-cat"
-                  src="/ara/sprites/cat.png"
+                  class="px foot-crab"
+                  src="/ara/sprites/crab.png"
                   alt=""
                   width="36"
-                  height="36"
+                  height="24"
                 />
               </div>
             </div>
@@ -176,16 +176,16 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         .querySelectorAll("[data-year]")
         .forEach(el => (el.textContent = String(new Date().getFullYear())));
 
-      // 邮差猫巡线：运行时实测几何 → WAAPI 动态关键帧（闭合回路，任意视口宽度都准确）。
+      // 巡逻蟹巡线：运行时实测几何 → WAAPI 动态关键帧（闭合回路，任意视口宽度都准确）。
       // ponytail: 不引物理库——装饰编排需要的是实测几何，不是刚体响应；WAAPI 原生够用。
       const foot = document.querySelector(".ara-foot");
-      const track = foot && foot.querySelector(".cat-track");
+      const track = foot && foot.querySelector(".crab-track");
       const reduced = matchMedia("(prefers-reduced-motion: reduce)");
       if (foot && track && !reduced.matches && Element.prototype.animate) {
-        const walkEl = track.querySelector(".cat-walk");
-        const hopEl = track.querySelector(".cat-hop");
-        const flipEl = track.querySelector(".cat-flip");
-        const catImg = track.querySelector(".foot-cat");
+        const walkEl = track.querySelector(".crab-walk");
+        const hopEl = track.querySelector(".crab-hop");
+        const flipEl = track.querySelector(".crab-flip");
+        const crabImg = track.querySelector(".foot-crab");
         let anims = [];
 
         function build() {
@@ -194,7 +194,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           const trackRect = track.getBoundingClientRect();
           const T = trackRect.width;
           if (T <= 0) return;
-          const catW = catImg.getBoundingClientRect().width || 36;
+          const crabW = crabImg.getBoundingClientRect().width || 36;
           const cruise = (2 * T) / 15000; // px/ms：行走预算约 15s
           const burst = cruise * 1.8; // 起跳扑跳加速（猫 physical burst）
           const creep = cruise * 0.5;
@@ -212,10 +212,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           // 单次跳跃：弧形按目标宽高比反推——重叠边缘落在抛物线 u=0.62 处、
           // 边缘净空 5px，滞空时间 = 窗宽/扑跳速（约 0.45–0.55s，游戏手感而非气球滑翔）
           function jumpFor(ob) {
-            const overlapHalf = (catW + ob.w) / 2 + pad;
+            const overlapHalf = (crabW + ob.w) / 2 + pad;
             const u = 0.62;
             const H = (ob.h + 5) / (1 - u * u);
-            return { passX: ob.c - catW / 2, halfPx: overlapHalf / u, H };
+            return { passX: ob.c - crabW / 2, halfPx: overlapHalf / u, H };
           }
 
           const xPins = [];

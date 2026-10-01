@@ -214,7 +214,7 @@ components:
 - **Category rail:** 32px 像素图标 + 点阵短标签 16px，桌面 sticky。五项与顶栏同岗：最新 / 全部文章 / 搜索 / 项目 / 关于。当前项邮戳红。无归档入口。
 - **Post TOC:** 桌面 sticky，`max-height: calc(100dvh - 9rem)` 内滚动（扣掉顶栏后的剩余视口），条目衬线 14px，无像素图标；手机收折成「目录」。
 - **Back to top:** 仅文章页。右下角固定，像素向上箭头 +「顶部」，链到 `#top`。白纸 2px 墨框，不是 HUD。
-- **Footer:** 2px 墨线收尾，与顶栏开镇的墨线首尾呼应。左：© 年份（客户端刷新）；右：GitHub / 邮箱 / RSS 点阵链接。邮差猫（36px，不变形）沿墨线巡逻：16s 一个来回，cqw 计程的 transform 动画，步态带加速/减速/中途驻足；郁金香与木箱当障碍物，抛物线跳跃（水平匀速 + 垂直贝塞尔抛物线，游戏人物式物理；双向四跳，每趟遇两障碍各跳一次）。关键帧由 Layout.astro 内联脚本在运行时实测几何生成（WAAPI）：障碍位置/宽高/轨道宽全部 getBoundingClientRect 实测，resize 自动重排，任意视口宽度下碰撞窗口按实测计算，无第三方库；窄屏隐藏。出视口自动暂停，`prefers-reduced-motion` 时坐回右端岗位。
+- **Footer:** 2px 墨线收尾，与顶栏开镇的墨线首尾呼应。左：© 年份（客户端刷新）；右：GitHub / 邮箱 / RSS 点阵链接。巡逻蟹（36×24，用户提供素材 thing_crab_01 等值复刻，scripts/make-crab.mjs）沿墨线巡逻：16s 一个来回，cqw 计程的 transform 动画，步态带加速/减速/中途驻足；郁金香与木箱当障碍物，抛物线跳跃（水平匀速 + 垂直贝塞尔抛物线，游戏人物式物理；双向四跳，每趟遇两障碍各跳一次）。关键帧由 Layout.astro 内联脚本在运行时实测几何生成（WAAPI）：障碍位置/宽高/轨道宽全部 getBoundingClientRect 实测，resize 自动重排，任意视口宽度下碰撞窗口按实测计算，无第三方库；窄屏隐藏。出视口自动暂停，`prefers-reduced-motion` 时坐回右端岗位。
 
 ### Street
 首页签名。15 个原创精灵沿路缘站成一排：可点的房子/人带红点、hover 提示和文章名 `alt`，树/猫/蜂及未映射的灯塔/绿衣人为 deco。街上不铺可见标题。提示停在精灵上方，路面上留空不裁切。点击进最新几篇真文章。`prefers-reduced-motion` 时取消上移。
@@ -225,7 +225,7 @@ components:
 - **Do** 把像素留在物件、分类图标、点阵标题和首页街景。
 - **Do** 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。
 - **Do** 导航不放归档。旧 `/archive` 链接落到诚实占位页，指向文章列表。
-- **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`，邮差猫来自 `scripts/make-cat.mjs`（12×12 网格侧视，原生 36×36）。
+- **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`，巡逻蟹来自 `scripts/make-crab.mjs`（9×6 网格，用户提供素材等值复刻）。
 
 ### Don't:
 - **Don't** 把整页做成游戏 HUD、生命条、背包或长文点阵。
