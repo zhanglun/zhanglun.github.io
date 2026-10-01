@@ -880,14 +880,15 @@ img.px,
 }
 
 /* 邮差猫巡线：cqw 计程的 transform 巡逻，不碰布局属性。
-   步态带加速/减速/中途驻足；障碍物在 p=0.3（郁金香）与 p=0.72（木箱），
-   梯形平顶跳保证腾空段整段高于障碍（碰撞对齐猫身与障碍的实际重叠区）。 */
+   四层分工：X 巡逻（跳窗内 linear 匀速，符合抛体水平方向无受力）/
+   Y 抛物线（cat-hop，贝塞尔逼近：升段减速、降段加速，顶点速度为零）/
+   折返翻转 / 步伐踏点。障碍物在 p=0.3（郁金香）与 p=0.72（木箱）。 */
 .cat-track {
   position: absolute;
   left: 28px;
   right: 64px;
   bottom: calc(100% - 6px);
-  height: 80px;
+  height: 92px;
   pointer-events: none;
   z-index: 2;
 }
@@ -897,7 +898,11 @@ img.px,
   left: 0;
   bottom: 0;
   transform: translate(calc(100cqw - 92px), 0);
-  animation: cat-patrol 16s infinite;
+  animation: cat-patrol 16s linear infinite;
+}
+
+.cat-hop {
+  animation: cat-hop 16s linear infinite;
 }
 
 .cat-flip {
@@ -927,12 +932,6 @@ img.px,
   24.6% {
     transform: translate(calc((100cqw - 92px) * 0.35), 0);
   }
-  25.5% {
-    transform: translate(calc((100cqw - 92px) * 0.323), -44px);
-  }
-  27.7% {
-    transform: translate(calc((100cqw - 92px) * 0.239), -44px);
-  }
   28.6% {
     transform: translate(calc((100cqw - 92px) * 0.212), 0);
     animation-timing-function: ease-out;
@@ -952,12 +951,6 @@ img.px,
   68.4% {
     transform: translate(calc((100cqw - 92px) * 0.67), 0);
   }
-  69.3% {
-    transform: translate(calc((100cqw - 92px) * 0.701), -44px);
-  }
-  71.5% {
-    transform: translate(calc((100cqw - 92px) * 0.786), -44px);
-  }
   72.4% {
     transform: translate(calc((100cqw - 92px) * 0.817), 0);
     animation-timing-function: ease-out;
@@ -972,6 +965,31 @@ img.px,
   81%,
   100% {
     transform: translate(calc(100cqw - 92px), 0);
+  }
+}
+
+@keyframes cat-hop {
+  0%,
+  24.6% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.33, 0.67, 0.67, 1);
+  }
+  26.6% {
+    transform: translateY(-52px);
+    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0.33);
+  }
+  28.6%,
+  68.4% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.33, 0.67, 0.67, 1);
+  }
+  70.4% {
+    transform: translateY(-52px);
+    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0.33);
+  }
+  72.4%,
+  100% {
+    transform: translateY(0);
   }
 }
 
@@ -1197,6 +1215,7 @@ img.px,
   }
 
   .cat-walk,
+  .cat-hop,
   .cat-flip,
   .foot-cat {
     animation: none !important;

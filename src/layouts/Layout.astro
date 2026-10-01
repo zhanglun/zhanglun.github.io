@@ -155,14 +155,16 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         />
         <div class="cat-track">
           <div class="cat-walk">
-            <div class="cat-flip">
-              <img
-                class="px foot-cat"
-                src="/ara/sprites/cat.png"
-                alt=""
-                width="36"
-                height="36"
-              />
+            <div class="cat-hop">
+              <div class="cat-flip">
+                <img
+                  class="px foot-cat"
+                  src="/ara/sprites/cat.png"
+                  alt=""
+                  width="36"
+                  height="36"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -179,7 +181,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         new IntersectionObserver(entries => {
           const on = entries[entries.length - 1].isIntersecting;
           foot
-            .querySelectorAll(".cat-walk, .cat-flip, .foot-cat")
+            .querySelectorAll(".cat-walk, .cat-hop, .cat-flip, .foot-cat")
             .forEach(el => (el.style.animationPlayState = on ? "" : "paused"));
         }).observe(foot);
       }
