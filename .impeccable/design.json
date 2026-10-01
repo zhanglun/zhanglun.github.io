@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T03:51:09.572Z",
+  "generatedAt": "2026-10-01T04:04:39.208Z",
   "title": "Design System: 张小伦的网络日志",
   "extensions": {
     "colorMeta": {
@@ -161,8 +161,8 @@
       },
       {
         "name": "cat-patrol",
-        "value": "16s linear infinite · translate(calc(100cqw - 106px), 0)",
-        "purpose": "页脚邮差猫巡线：一个来回，cqw 计程不碰布局属性；出视口暂停，reduced-motion 时坐回右端。"
+        "value": "WAAPI 动态关键帧（运行时实测几何生成）",
+        "purpose": "闭合回路：轨道宽/障碍位置宽高全部实测，跳窗与顶点按实测计算；ResizeObserver 重排、IO 出视口暂停。500–1400px 全带宽验证每跳净空 ≥5px。"
       },
       {
         "name": "cat-jump",
