@@ -6,10 +6,11 @@ allowBuilds:
 overrides:
   '@babel/core': 7.29.6
   baseline-browser-mapping: 2.11.0
-  brace-expansion: 1.1.18
+  brace-expansion: 1.1.21
   browserslist: 4.28.7
-  dompurify: 3.4.13
-  fast-uri: 3.1.6
+  devalue: 5.9.1
+  dompurify: 3.4.16
+  fast-uri: 3.1.8
   fflate: 0.7.5
   immutable: 5.1.8
   'js-yaml@^4.0.0': 4.3.2
