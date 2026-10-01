@@ -284,7 +284,8 @@ img.px,
 }
 
 .spr:hover .tip,
-.spr:focus-visible .tip {
+.spr:focus-visible .tip,
+.spr[data-armed] .tip {
   display: block;
 }
 
@@ -501,7 +502,6 @@ img.px,
   align-items: center;
   min-height: 44px;
   padding: 0 10px;
-  margin: -14px -10px;
   border: 0;
   background: none;
   font-family: "Fusion Pixel", ui-monospace, monospace;
@@ -924,16 +924,15 @@ img.px,
 }
 
 @media (max-width: 860px) {
-  /* Street trim: cells 1–7 carry the 6 newest links (the tree deco is
-     then hidden by the .spr.deco rule); keep sprite order in sync with
-     Street.astro. Imgs capped to fit 390px. */
+  /* Street trim: 只保留前 6 个可点精灵（按最新排序），.spr-extra 由
+     Street.astro 标记，与精灵排布顺序解耦；deco 隐藏，img 上限 56px 放平 390px。 */
   .ara-ground {
     gap: 6px;
-    padding: 24px 12px 0;
-    min-height: 120px;
+    padding: 36px 12px 0;
+    min-height: 132px;
   }
 
-  .ara-ground > :nth-child(n + 8) {
+  .spr-extra {
     display: none;
   }
 

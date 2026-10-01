@@ -29,9 +29,8 @@ const live = posts.slice(0, 8);
 const deco = /^(tree|cat|bee|tulip|dandelion)$/;
 let pi = 0;
 const cells = sprites.map(([name, w, h]) => {
-  const clickable = !deco.test(name) && pi < live.length;
-  const post = clickable ? live[pi++] : null;
-  return { name, w, h, post };
+  const idx = !deco.test(name) && pi < live.length ? pi++ : -1;
+  return { name, w, h, post: idx >= 0 ? live[idx] : null, extra: idx >= 6 };
 });
 ---
 
@@ -39,9 +38,9 @@ const cells = sprites.map(([name, w, h]) => {
   <span class="ara-street-hint px">点房子或人 · 进最新几篇</span>
   <div class="ara-ground">
     {
-      cells.map(({ name, w, h, post }) =>
+      cells.map(({ name, w, h, post, extra }) =>
         post ? (
-          <a class="spr" href={`/blog/${post.id}`}>
+          <a class:list={["spr", { "spr-extra": extra }]} href={`/blog/${post.id}`}>
             <img
               class="px"
               src={`/ara/sprites/${name}.png`}
@@ -69,3 +68,19 @@ const cells = sprites.map(([name, w, h]) => {
     }
   </div>
 </div>
+
+<script>
+  // 触屏两段式：第一次点房子只显示标题，再点同一座才进文章；有 hover 的设备不受影响
+  const ground = document.querySelector(".ara-ground");
+  if (ground && matchMedia("(hover: none), (pointer: coarse)").matches) {
+    ground.addEventListener("click", e => {
+      const a = e.target.closest("a.spr");
+      if (!a || a.dataset.armed) return;
+      e.preventDefault();
+      ground
+        .querySelectorAll("a.spr[data-armed]")
+        .forEach(s => delete s.dataset.armed);
+      a.dataset.armed = "1";
+    });
+  }
+</script>
