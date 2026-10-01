@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T03:19:45.024Z",
+  "generatedAt": "2026-10-01T03:31:56.255Z",
   "title": "Design System: 张小伦的网络日志",
   "extensions": {
     "colorMeta": {
@@ -167,7 +167,7 @@
       {
         "name": "cat-jump",
         "value": "translateY(-52px) 抛物线（cubic-bezier(.33,.67,.67,1) / (.33,0,.67,.33)）",
-        "purpose": "水平匀速 + 垂直抛物线的游戏式跳跃；重叠窗口内猫脚 44.7–52px，对 30px 郁金香全程净空 ≥14.7px。"
+        "purpose": "水平匀速 + 垂直抛物线的游戏式跳跃；双向四跳（每趟遇郁金香与木箱各一次），重叠窗内净空 7.9–9.1px。"
       }
     ],
     "breakpoints": [
