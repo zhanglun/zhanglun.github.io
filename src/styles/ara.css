@@ -852,6 +852,7 @@ img.px,
 
 .ara-foot {
   position: relative;
+  container-type: inline-size;
   max-width: 1080px;
   margin: 0 auto;
   padding: 14px 28px 36px;
@@ -872,11 +873,105 @@ img.px,
 }
 
 .foot-cat {
-  position: absolute;
-  right: 28px;
-  bottom: calc(100% - 4px);
+  display: block;
   height: 40px;
   width: auto;
+  animation: cat-step 0.32s steps(1, end) infinite alternate;
+}
+
+/* 邮差猫巡线：cqw 计程的 transform 巡逻，不碰布局属性。
+   障碍物落在 p=0.3（郁金香）与 p=0.72（木箱），跳起为 V 形折线（8-bit 跳感）。 */
+.cat-track {
+  position: absolute;
+  left: 28px;
+  right: 78px;
+  bottom: calc(100% - 6px);
+  height: 74px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cat-walk {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translate(calc(100cqw - 106px), 0);
+  animation: cat-patrol 16s linear infinite;
+}
+
+.cat-flip {
+  animation: cat-flip 16s linear infinite;
+}
+
+.foot-obstacle {
+  position: absolute;
+  bottom: calc(100% - 4px);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.foot-obstacle-a {
+  left: calc(28px + (100% - 106px) * 0.3);
+}
+
+.foot-obstacle-b {
+  left: calc(28px + (100% - 106px) * 0.72);
+}
+
+@keyframes cat-patrol {
+  0% {
+    transform: translate(calc(100cqw - 106px), 0);
+  }
+  27% {
+    transform: translate(calc((100cqw - 106px) * 0.325), 0);
+  }
+  28.5% {
+    transform: translate(calc((100cqw - 106px) * 0.2875), -34px);
+  }
+  30% {
+    transform: translate(calc((100cqw - 106px) * 0.25), 0);
+  }
+  40%,
+  46% {
+    transform: translate(0, 0);
+  }
+  73.8% {
+    transform: translate(calc((100cqw - 106px) * 0.695), 0);
+  }
+  75.3% {
+    transform: translate(calc((100cqw - 106px) * 0.7325), -34px);
+  }
+  76.8% {
+    transform: translate(calc((100cqw - 106px) * 0.77), 0);
+  }
+  86%,
+  100% {
+    transform: translate(calc(100cqw - 106px), 0);
+  }
+}
+
+@keyframes cat-flip {
+  0%,
+  46% {
+    transform: scaleX(1);
+  }
+  46.1%,
+  92% {
+    transform: scaleX(-1);
+  }
+  92.1%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes cat-step {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
+  }
 }
 
 .ara-foot a {
@@ -987,6 +1082,11 @@ img.px,
     display: none;
   }
 
+  .cat-track,
+  .foot-obstacle {
+    display: none;
+  }
+
   .ara-body,
   .ara-body.is-post {
     grid-template-columns: 1fr;
@@ -1069,5 +1169,11 @@ img.px,
   .spr img,
   .lot img {
     transform: none !important;
+  }
+
+  .cat-walk,
+  .cat-flip,
+  .foot-cat {
+    animation: none !important;
   }
 }

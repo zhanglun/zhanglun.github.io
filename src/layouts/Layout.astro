@@ -138,12 +138,34 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           <a href="/rss.xml">RSS</a>
         </nav>
         <img
-          class="px foot-cat"
-          src="/ara/sprites/cat.png"
+          class="px foot-obstacle foot-obstacle-a"
+          src="/ara/sprites/tulip.png"
           alt=""
-          width="50"
-          height="40"
+          width="18"
+          height="28"
+          loading="lazy"
         />
+        <img
+          class="px foot-obstacle foot-obstacle-b"
+          src="/ara/ico-crate.png"
+          alt=""
+          width="26"
+          height="26"
+          loading="lazy"
+        />
+        <div class="cat-track">
+          <div class="cat-walk">
+            <div class="cat-flip">
+              <img
+                class="px foot-cat"
+                src="/ara/sprites/cat.png"
+                alt=""
+                width="50"
+                height="40"
+              />
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
     <script>
@@ -151,6 +173,16 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       document
         .querySelectorAll("[data-year]")
         .forEach(el => (el.textContent = String(new Date().getFullYear())));
+      // 页脚出视口时暂停猫的巡逻，节能
+      const foot = document.querySelector(".ara-foot");
+      if (foot && "IntersectionObserver" in window) {
+        new IntersectionObserver(entries => {
+          const on = entries[entries.length - 1].isIntersecting;
+          foot
+            .querySelectorAll(".cat-walk, .cat-flip, .foot-cat")
+            .forEach(el => (el.style.animationPlayState = on ? "" : "paused"));
+        }).observe(foot);
+      }
     </script>
   </body>
 </html>
