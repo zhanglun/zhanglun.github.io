@@ -225,7 +225,7 @@ components:
 - **Do** 把像素留在物件、分类图标、点阵标题和首页街景。
 - **Do** 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。
 - **Do** 导航不放归档。旧 `/archive` 链接落到诚实占位页，指向文章列表。
-- **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`。
+- **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`，邮差猫来自 `scripts/make-cat.mjs`（12×12 网格侧视，原生 36×36）。
 
 ### Don't:
 - **Don't** 把整页做成游戏 HUD、生命条、背包或长文点阵。
