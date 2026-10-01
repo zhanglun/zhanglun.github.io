@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T01:50:00.105Z",
+  "generatedAt": "2026-10-01T03:02:04.320Z",
   "title": "Design System: 张小伦的网络日志",
   "extensions": {
     "colorMeta": {
@@ -237,6 +237,13 @@
       "description": "代码块。墨底灰字 13px 等宽，横向滚动，配同色滚动条。",
       "html": "<pre class=\"ds-code\"><code>const town = \"Ara\";</code></pre>",
       "css": ".ds-code { background: var(--ara-ink, #111); color: var(--ara-ground, #f3f3f3); max-width: 100%; overflow-x: auto; padding: 12px 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.45; margin: 0; }"
+    },
+    {
+      "name": "Footer Sign-off",
+      "kind": "custom",
+      "description": "镇子的收尾。2px 墨线与顶栏首尾呼应；左 © 年份（客户端刷新），右 GitHub / 邮箱 / RSS；猫精灵立于线上。",
+      "html": "<footer class=\"ds-foot\"><span>© <span>2026</span> zhanglun</span><nav class=\"ds-foot-links\"><a href=\"#\">GitHub</a><a href=\"#\">邮箱</a><a href=\"#\">RSS</a></nav><svg class=\"ds-foot-cat\" width=\"50\" height=\"40\" viewBox=\"0 0 10 8\" aria-hidden=\"true\"><rect x=\"3\" y=\"1\" width=\"4\" height=\"3\" fill=\"#111\"/><rect x=\"2\" y=\"4\" width=\"6\" height=\"2\" fill=\"#111\"/><rect x=\"3\" y=\"6\" width=\"1\" height=\"2\" fill=\"#111\"/><rect x=\"6\" y=\"6\" width=\"1\" height=\"2\" fill=\"#111\"/></svg></footer>",
+      "css": ".ds-foot { position: relative; max-width: 640px; margin: 0 auto; padding: 14px 16px 36px; border-top: 2px solid var(--ara-ink, #111); font-family: \"Fusion Pixel\", ui-monospace, monospace; font-size: 12px; color: var(--ara-muted, #444); display: flex; align-items: center; gap: 24px; flex-wrap: wrap; } .ds-foot-links { margin-left: auto; display: flex; gap: 4px; } .ds-foot a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; color: var(--ara-ink, #111); text-decoration: none; } .ds-foot a:hover { color: var(--ara-stamp, #d0122a); } .ds-foot a:focus-visible { outline: 2px solid var(--ara-stamp, #d0122a); outline-offset: 2px; } .ds-foot-cat { position: absolute; right: 16px; bottom: calc(100% - 4px); }"
     }
   ],
   "narrative": {

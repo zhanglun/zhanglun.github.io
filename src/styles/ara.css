@@ -851,14 +851,32 @@ img.px,
 }
 
 .ara-foot {
+  position: relative;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 0 28px 40px;
+  padding: 14px 28px 36px;
+  border-top: 2px solid var(--ara-ink);
   font-size: 12px;
   color: var(--ara-muted);
   display: flex;
-  gap: 16px;
+  align-items: center;
+  gap: 24px;
   flex-wrap: wrap;
+}
+
+.foot-links {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.foot-cat {
+  position: absolute;
+  right: 28px;
+  bottom: calc(100% - 4px);
+  height: 40px;
+  width: auto;
 }
 
 .ara-foot a {
@@ -962,7 +980,11 @@ img.px,
   }
 
   .ara-foot {
-    padding: 0 16px 40px;
+    padding: 14px 16px 36px;
+  }
+
+  .foot-cat {
+    display: none;
   }
 
   .ara-body,
