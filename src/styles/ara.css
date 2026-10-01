@@ -221,8 +221,8 @@ img.px,
   gap: 8px;
   width: 100%;
   min-width: 0;
-  min-height: 160px;
-  padding: 36px 16px 0;
+  min-height: clamp(96px, 10vw, 132px);
+  padding: clamp(24px, 2.25vw, 30px) 16px 0;
   overflow-x: auto;
   border-bottom: 4px solid var(--ara-ink);
   background:
@@ -240,11 +240,16 @@ img.px,
   justify-content: flex-end;
   text-decoration: none;
   color: inherit;
-  height: 148px;
+  height: clamp(89px, 9.25vw, 122px);
 }
 
 .spr img {
-  width: auto;
+  /* 街景随视口缩放：约 1440px 以上 0.82×，1000px 左右 0.63×，下限 0.6× */
+  width: clamp(
+    calc(var(--sw) * 0.6px),
+    calc(var(--sw) * 100vw / 1600),
+    calc(var(--sw) * 0.82px)
+  );
   height: auto;
   transition: transform 120ms linear;
 }

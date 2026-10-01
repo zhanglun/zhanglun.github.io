@@ -46,6 +46,7 @@ const cells = sprites.map(([name, w, h]) => {
               alt={post.data.title}
               width={w}
               height={h}
+              style={`--sw: ${w}`}
             />
             <span class="tip px" aria-hidden="true">
               {formatDotDate(post.data.date).slice(2)} · {post.data.title}
@@ -60,6 +61,7 @@ const cells = sprites.map(([name, w, h]) => {
               alt=""
               width={w}
               height={h}
+              style={`--sw: ${w}`}
             />
           </span>
         )
