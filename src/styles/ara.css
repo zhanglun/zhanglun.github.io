@@ -874,19 +874,20 @@ img.px,
 
 .foot-cat {
   display: block;
-  height: 40px;
+  height: 36px;
   width: auto;
-  animation: cat-step 0.32s steps(1, end) infinite alternate;
+  animation: cat-step 0.24s steps(1, end) infinite alternate;
 }
 
 /* 邮差猫巡线：cqw 计程的 transform 巡逻，不碰布局属性。
-   障碍物落在 p=0.3（郁金香）与 p=0.72（木箱），跳起为 V 形折线（8-bit 跳感）。 */
+   步态带加速/减速/中途驻足；障碍物在 p=0.3（郁金香）与 p=0.72（木箱），
+   梯形平顶跳保证腾空段整段高于障碍（碰撞对齐猫身与障碍的实际重叠区）。 */
 .cat-track {
   position: absolute;
   left: 28px;
-  right: 78px;
+  right: 64px;
   bottom: calc(100% - 6px);
-  height: 74px;
+  height: 80px;
   pointer-events: none;
   z-index: 2;
 }
@@ -895,8 +896,8 @@ img.px,
   position: absolute;
   left: 0;
   bottom: 0;
-  transform: translate(calc(100cqw - 106px), 0);
-  animation: cat-patrol 16s linear infinite;
+  transform: translate(calc(100cqw - 92px), 0);
+  animation: cat-patrol 16s infinite;
 }
 
 .cat-flip {
@@ -911,55 +912,79 @@ img.px,
 }
 
 .foot-obstacle-a {
-  left: calc(28px + (100% - 106px) * 0.3);
+  left: calc(28px + (100% - 92px) * 0.3);
 }
 
 .foot-obstacle-b {
-  left: calc(28px + (100% - 106px) * 0.72);
+  left: calc(28px + (100% - 92px) * 0.72);
 }
 
 @keyframes cat-patrol {
   0% {
-    transform: translate(calc(100cqw - 106px), 0);
+    transform: translate(calc(100cqw - 92px), 0);
+    animation-timing-function: ease-in;
   }
-  27% {
-    transform: translate(calc((100cqw - 106px) * 0.325), 0);
+  24.6% {
+    transform: translate(calc((100cqw - 92px) * 0.35), 0);
   }
-  28.5% {
-    transform: translate(calc((100cqw - 106px) * 0.2875), -34px);
+  25.5% {
+    transform: translate(calc((100cqw - 92px) * 0.323), -44px);
   }
-  30% {
-    transform: translate(calc((100cqw - 106px) * 0.25), 0);
+  27.7% {
+    transform: translate(calc((100cqw - 92px) * 0.239), -44px);
   }
-  40%,
-  46% {
+  28.6% {
+    transform: translate(calc((100cqw - 92px) * 0.212), 0);
+    animation-timing-function: ease-out;
+  }
+  31% {
+    transform: translate(calc((100cqw - 92px) * 0.12), 0);
+  }
+  32.4% {
+    transform: translate(calc((100cqw - 92px) * 0.12), 0);
+    animation-timing-function: ease-in;
+  }
+  38%,
+  43% {
     transform: translate(0, 0);
+    animation-timing-function: ease-in;
   }
-  73.8% {
-    transform: translate(calc((100cqw - 106px) * 0.695), 0);
+  68.4% {
+    transform: translate(calc((100cqw - 92px) * 0.67), 0);
   }
-  75.3% {
-    transform: translate(calc((100cqw - 106px) * 0.7325), -34px);
+  69.3% {
+    transform: translate(calc((100cqw - 92px) * 0.701), -44px);
   }
-  76.8% {
-    transform: translate(calc((100cqw - 106px) * 0.77), 0);
+  71.5% {
+    transform: translate(calc((100cqw - 92px) * 0.786), -44px);
   }
-  86%,
+  72.4% {
+    transform: translate(calc((100cqw - 92px) * 0.817), 0);
+    animation-timing-function: ease-out;
+  }
+  76% {
+    transform: translate(calc((100cqw - 92px) * 0.88), 0);
+  }
+  77.4% {
+    transform: translate(calc((100cqw - 92px) * 0.88), 0);
+    animation-timing-function: ease-in;
+  }
+  81%,
   100% {
-    transform: translate(calc(100cqw - 106px), 0);
+    transform: translate(calc(100cqw - 92px), 0);
   }
 }
 
 @keyframes cat-flip {
   0%,
-  46% {
+  43% {
     transform: scaleX(1);
   }
-  46.1%,
-  92% {
+  43.1%,
+  96% {
     transform: scaleX(-1);
   }
-  92.1%,
+  96.1%,
   100% {
     transform: scaleX(1);
   }

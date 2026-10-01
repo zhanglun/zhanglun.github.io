@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T03:12:27.703Z",
+  "generatedAt": "2026-10-01T03:17:30.908Z",
   "title": "Design System: 张小伦的网络日志",
   "extensions": {
     "colorMeta": {
@@ -166,8 +166,8 @@
       },
       {
         "name": "cat-jump",
-        "value": "translateY(-34px) V 形折线",
-        "purpose": "越过郁金香（p=0.3）与木箱（p=0.72）时的 8-bit 跳起，不用缓动曲线。"
+        "value": "translateY(-44px) 梯形平顶跳",
+        "purpose": "腾空段整段高于障碍（郁金香 30px / 木箱 26px），碰撞窗口与猫身重叠区对齐；猫 36px 不变形。"
       }
     ],
     "breakpoints": [
