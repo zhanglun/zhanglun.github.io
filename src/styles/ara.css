@@ -708,34 +708,47 @@ img.px,
   flex-direction: column;
   zoom: 1;
 }
-/* 街道随视口缩放：场景 1536px 恒完整可见，杜绝滚轮误触横向平移 */
+/* 街道随视口缩放：任何宽度都精确装下当前视口，不存在横向滚动 */
 @media (max-width: 1535px) {
   .ara-street.is-shops {
-    zoom: 0.85;
-    width: calc(100% / 0.85);
+    zoom: 0.8;
+    width: calc(100% / 0.8);
   }
 }
-@media (max-width: 1399px) {
+@media (max-width: 1279px) {
   .ara-street.is-shops {
-    zoom: 0.7;
-    width: calc(100% / 0.7);
+    zoom: 0.65;
+    width: calc(100% / 0.65);
   }
 }
-@media (max-width: 1099px) {
-  .ara-street.is-shops {
-    zoom: 0.55;
-    width: calc(100% / 0.55);
-  }
-}
-@media (max-width: 859px) {
+@media (max-width: 1069px) {
   .ara-street.is-shops {
     zoom: 0.5;
     width: calc(100% / 0.5);
   }
 }
+@media (max-width: 879px) {
+  .ara-street.is-shops {
+    zoom: 0.4;
+    width: calc(100% / 0.4);
+  }
+}
+@media (max-width: 719px) {
+  .ara-street.is-shops {
+    zoom: 0.3;
+    width: calc(100% / 0.3);
+  }
+}
+@media (max-width: 559px) {
+  .ara-street.is-shops {
+    zoom: 0.22;
+    width: calc(100% / 0.22);
+  }
+}
 
 .ara-street.is-shops .ara-ground {
   flex: 1 0 auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
