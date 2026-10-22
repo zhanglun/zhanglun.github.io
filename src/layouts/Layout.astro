@@ -95,7 +95,7 @@ const nav = [
   </head>
   <body>
     <!--
-THESIS: 白底目录站。街景只在首页全宽可点；内页两栏读字。拒绝整页游戏皮和长文点阵。
+THESIS: 白底目录站。街景只在首页与项目页（项目页整页成街）；内页两栏读字。拒绝整页游戏皮和长文点阵。
 OWN-WORLD: #fff/#f3f3f3 纸地，#111 墨线，#d0122a 邮戳。Fusion Pixel 只做标题和标签；正文衬线 18px。原创像素房子/人/灯塔当物件。
 STORY: 读者看见一份中文技术日志，点街景或目录就能读到真文章。
 FIRST VIEWPORT: 顶栏小人+站名+中文导航；其下一排可点街景；下为左分类右最新一篇。
@@ -127,6 +127,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </nav>
       </header>
       {streetPosts && <Street posts={streetPosts} />}
+      <slot name="street" />
       <main id="main-content">
         <slot />
       </main>

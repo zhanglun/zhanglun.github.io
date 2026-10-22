@@ -5,6 +5,7 @@ export const PROJECTS = [
     name: "amber: your personal web shelf",
     shortName: "Amber",
     sprite: "/ara/projects/chest.png",
+    shop: "/ara/shops/awning.png",
     description:
       "把网页保存成可长期阅读的个人档案：新内容先进入收件箱，安顿后上架；可按标签浏览，并从标题、正文、来源和标签中找回旧内容。",
     url: "https://github.com/zhanglun/amber",
@@ -26,6 +27,7 @@ export const PROJECTS = [
     name: "Lettura: Follow your favorite content and never miss a story",
     shortName: "Lettura",
     sprite: "/ara/projects/crate.png",
+    shop: "/ara/shops/chimney.png",
     description:
       "基于 Tauri 框架构建的跨平台 RSS 桌面阅读器，简洁美观的界面、便捷的键盘快捷键。",
     url: "https://github.com/zhanglun/lettura",
@@ -59,6 +61,7 @@ export const PROJECTS = [
     name: "Pavo: Easily customize and change your desktop background",
     shortName: "Pavo",
     sprite: "/ara/projects/flower.png",
+    shop: "/ara/shops/stall.png",
     description:
       "一款跨平台桌面壁纸程序，使用Bing每日一图，基于Rust Tauri开发，支持自动和手动切换壁纸。",
     url: "https://github.com/zhanglun/pavo",
@@ -80,6 +83,7 @@ export const PROJECTS = [
     name: "BookWise: book wise read wise",
     shortName: "BookWise",
     sprite: "/ara/projects/shelf.png",
+    shop: "/ara/shops/flat.png",
     description:
       "一款正在开发的阅读软件，目标是为用户提供更好的阅读、学习和笔记体验。",
     url: "https://github.com/zhanglun/bookwise",
@@ -114,6 +118,7 @@ export const PROJECTS = [
     name: "Gatsby blog theme",
     shortName: "Facile",
     sprite: "/ara/projects/book.png",
+    shop: "/ara/shops/shutter.png",
     description:
       "给 Gatsby 用的博客主题。列表、标签和正文排版先在这一套里定下来；这份日志后来也从它长出来。",
     url: "https://github.com/zhanglun/gatsby-theme-facile",
@@ -135,6 +140,7 @@ export const PROJECTS = [
     name: "notify",
     shortName: "Notify",
     sprite: "/ara/projects/sign.png",
+    shop: "/ara/shops/shutter-b.png",
     description:
       "给网页加一条会自己出现、停一会儿再走开的通知。当时用来提示操作结果，铺已经收了，源码还在。",
     url: "https://github.com/zhanglun/notify",
@@ -156,6 +162,7 @@ export const PROJECTS = [
     name: "hexo-theme-Tinny",
     shortName: "Tinny",
     sprite: "/ara/projects/well.png",
+    shop: "/ara/shops/well.png",
     description:
       "给 Hexo 用的极简主题，管列表和文章页。静态博客还靠生成器的时候开的铺，现在只留源码。",
     url: "https://github.com/zhanglun/hexo-theme-Tinny",
@@ -177,6 +184,7 @@ export const PROJECTS = [
     name: "bluerobin",
     shortName: "BlueRobin",
     sprite: "/ara/projects/sack.png",
+    shop: "/ara/shops/sack.png",
     description:
       "浏览器里的待办清单，用 Vue 把事项记在线上。练手铺，开过一阵，现在不当日常工具了。",
     url: "https://github.com/zhanglun/bluerobin",

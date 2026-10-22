@@ -1,0 +1,151 @@
+---
+import { PROJECTS } from "src/data/projects";
+
+type Deco = {
+  kind: "deco";
+  sprite: string;
+  w: number;
+  h: number;
+  x: number;
+  top: number;
+};
+type Prop = {
+  kind: "prop";
+  src: string;
+  w: number;
+  h: number;
+  x: number;
+  top: number;
+};
+type Shop = {
+  kind: "shop";
+  name: string;
+  desc: string;
+  shop: string;
+  href: string;
+  open: boolean;
+  x: number;
+  top: number;
+};
+type Cell = Deco | Prop | Shop;
+
+const deco = (sprite: string, w: number, h: number, x: number, top: number): Deco => ({
+  kind: "deco",
+  sprite,
+  w,
+  h,
+  x,
+  top,
+});
+
+const prop = (src: string, w: number, h: number, x: number, top: number): Prop => ({
+  kind: "prop",
+  src,
+  w,
+  h,
+  x,
+  top,
+});
+
+const shop = (i: number, x: number, top: number): Shop => {
+  const p = PROJECTS[i];
+  const link = p.links.find(l => l.type === "Website") ?? p.links[0];
+  return {
+    kind: "shop",
+    name: p.shortName,
+    desc: p.description,
+    shop: p.shop,
+    href: link.href,
+    open: p.open,
+    x,
+    top,
+  };
+};
+
+// 俯视小镇：1536x640 场景，64px 网格。
+// 后街（y192-320）一排打烊铺——「以前的铺子」；主街（y448-576）一排亮堂铺
+// ——「还在做」，连接巷与市场广场把两条路缝起来；绿心花坛与水塘填块。
+// 建筑立在路上缘，行人猫树散在绿地与街头。
+const cells: Cell[] = [
+  // 后街：以前的铺子
+  deco("tree", 80, 80, 60, 112),
+  deco("tree", 80, 80, 1060, 112),
+  deco("tree", 80, 80, 1400, 112),
+  shop(4, 192, 0),
+  shop(5, 448, 0),
+  shop(6, 704, 0),
+  shop(7, 1184, 0),
+  deco("person-g", 70, 80, 600, 210),
+  // 绿心
+  deco("tree", 80, 80, 224, 336),
+  deco("tree", 80, 80, 480, 336),
+  deco("tulip", 35, 55, 620, 385),
+  deco("person-r", 90, 90, 300, 346),
+  deco("tree", 80, 80, 544, 296),
+  // 主街：还在做
+  shop(0, 128, 256),
+  shop(1, 384, 256),
+  shop(2, 640, 256),
+  shop(3, 1152, 256),
+  prop("/ara/shops/lamp.png", 48, 96, 356, 404),
+  prop("/ara/shops/lamp.png", 48, 96, 1096, 404),
+  prop("/ara/shops/lamp.png", 48, 96, 880, 194),
+  prop("/ara/shops/barrel.png", 40, 48, 700, 240),
+  prop("/ara/shops/barrel.png", 40, 48, 760, 532),
+  deco("person-bike", 90, 90, 1310, 464),
+  deco("person-b", 70, 80, 260, 560),
+  deco("cat", 50, 50, 1430, 578),
+  deco("dandelion", 50, 70, 70, 560),
+];
+---
+
+<div class="ara-street is-shops">
+  <span class="ara-street-hint px">镇上的工作坊 · 点铺子直达</span>
+  <div class="ara-ground">
+    <div class="ara-scene">
+      {
+        cells.map(cell =>
+          cell.kind === "shop" ? (
+            <a
+              class="spr shop"
+              style={`left:${cell.x}px;top:${cell.top}px`}
+              href={cell.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${cell.name}：${cell.desc}`}
+            >
+              <img
+                class="px facade"
+                src={cell.shop}
+                alt=""
+                width="176"
+                height="148"
+              />
+              <span class="tip px" aria-hidden="true">
+                {cell.name} · {cell.desc}
+              </span>
+              <span class="plate px" aria-hidden="true">
+                {cell.open && <i class="dot" />}
+                {cell.name}
+              </span>
+            </a>
+          ) : (
+            <span
+              class="spr deco"
+              style={`left:${cell.x}px;top:${cell.top}px`}
+              aria-hidden="true"
+            >
+              <img
+                class="px"
+                src={cell.kind === "prop" ? cell.src : `/ara/sprites/${cell.sprite}.png`}
+                alt=""
+                width={cell.w}
+                height={cell.h}
+              />
+            </span>
+          )
+        )
+      }
+    </div>
+  </div>
+</div>

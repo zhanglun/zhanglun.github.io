@@ -1,56 +1,11 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import CatNav from "@components/ara/CatNav.astro";
-import { PROJECTS } from "src/data/projects";
-
-const groups = [
-  { title: "还在做", items: PROJECTS.filter(p => p.open) },
-  { title: "以前的铺子", items: PROJECTS.filter(p => !p.open) },
-];
+import WorkshopStreet from "@components/ara/WorkshopStreet.astro";
 ---
 
 <Layout title={`项目 | 张小伦的网络日志`} active="projects">
-  <div class="ara-body">
-    <CatNav active="projects" />
-    <div class="ara-main">
-      <h1 class="px">项目</h1>
-      <p class="lots-lead px">镇上的工作坊</p>
-      {
-        groups.map(group => (
-          <section class="lots-group">
-            <h2 class="px">{group.title}</h2>
-            <div class="lots">
-              {group.items.map(project => (
-                <article class="lot">
-                  <div class="lot-yard">
-                    <img
-                      class="px"
-                      src={project.sprite}
-                      alt=""
-                      width="64"
-                      height="64"
-                    />
-                  </div>
-                  <h3>{project.shortName}</h3>
-                  <p class="lot-copy">{project.description}</p>
-                  <div class="chips">
-                    {project.technologies.slice(0, 2).map(tech => (
-                      <span class="chip px">{tech}</span>
-                    ))}
-                  </div>
-                  <p class="lot-go px">
-                    {project.links.map(link => (
-                      <a href={link.href} target="_blank" rel="noreferrer">
-                        {link.type === "Website" ? "站点" : "源码"}
-                      </a>
-                    ))}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))
-      }
-    </div>
-  </div>
+  <Fragment slot="street">
+    <WorkshopStreet />
+  </Fragment>
+  <h1 class="sr-only">项目 · 镇上的工作坊</h1>
 </Layout>
