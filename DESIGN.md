@@ -85,25 +85,13 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.none}"
     padding: "22px 24px 26px"
-  project-card:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body}"
-    rounded: "{rounded.none}"
-    padding: "0px 0px 14px"
-  ink-chip:
+  shop-plate:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
     typography: "{typography.label}"
     rounded: "{rounded.none}"
-    padding: "2px 6px"
-  lot-go:
-    backgroundColor: "transparent"
-    textColor: "{colors.stamp}"
-    typography: "{typography.label}"
-    rounded: "{rounded.none}"
-    padding: "0px 12px"
-    height: "44px"
+    padding: "3px 6px"
+    border: "1px solid {colors.ink}"
 ---
 
 # Design System: 张小伦的网络日志
@@ -112,14 +100,14 @@ components:
 
 **Creative North Star: "目录小镇"**
 
-这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见小人和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页街景上；一旦开始读正文，世界换成衬线墨水。
+这是一份中文技术日志的公开阅读面：白纸目录，不是游戏，也不是品牌站。读者先看见小人和站名，再看见一排可点的房子和人，点进去就是真文章。像素只出现在物件、分类图标、点阵标题和首页、项目页的街景上；一旦开始读正文，世界换成衬线墨水。
 
 密度克制。顶栏一条墨线，街景一条路缘，栏目两条栏。颜色几乎全是纸和灰，邮戳红只用来标「你在哪」和「这是日期」。没有阴影、没有圆角、没有玻璃。Admin 不借用这套皮。
 
 **Key Characteristics:**
-- 白底目录 + 全宽街景只留首页
+- 白底目录 + 全宽街景只留首页与项目页
 - Fusion Pixel 管站名、导航、日期、分类；正文永远是衬线 18px
-- 原创像素房子/人/灯塔当物件，不拿整页当游戏皮
+- 原创像素房子/人/灯塔/铺面当物件，不拿整页当游戏皮
 - 邮戳红是稀缺色，不是装饰铺底
 - 直角、墨线、无阴影
 
@@ -156,7 +144,7 @@ components:
 
 ### Hierarchy
 - **Display** (400, 24px, 1): 站名。内页点阵页题（项目 / 关于 / 404 / 归档占位）共用这一档。
-- **Headline** (400, 24px): 左栏「分类 / 目录」、右栏「最新 / 全部文章 / 搜索」等栏目名。工坊分组「还在做 / 以前的铺子」也是这一档。
+- **Headline** (400, 24px): 左栏「分类 / 目录」、右栏「最新 / 全部文章 / 搜索」等栏目名。
 - **Title** (600, clamp 26–34px, 1.28): 文章标题。衬线，可折行。首页最新一篇标题略小：clamp 22–28px。
 - **Body** (400, 18px / 1.7, max 42rem): 正文、最新一篇摘要、关于页、工坊说明。永远衬线。
 - **Label** (400, 12px): 导航、日期、副标题、页脚、街景提示、搜索框。分类轨条目是点阵 16px，不另开一档。
@@ -172,18 +160,22 @@ components:
 
 每页顶栏前一条 skip「跳到主要内容」，链到 `main#main-content`。白纸、2px 墨框、点阵 12px；未聚焦时裁掉。
 
-首页：顶栏全宽 → 街景全宽 → 主体 `1080px` 居中，两栏 `240px | 1fr`，槽 `40px`，内边 `36px 28px 72px`。街景只在首页出现。
+首页：顶栏全宽 → 街景全宽 → 主体 `1080px` 居中，两栏 `240px | 1fr`，槽 `40px`，内边 `36px 28px 72px`。街景只在首页与项目页出现。
+
+项目页：顶栏 → 工作坊小镇全宽整页成镇，无两栏主体。还在做的铺子在主街，以前的铺子退居后街，连接巷与市场广场把两条路缝起来；点铺子直达项目外链。
 
 内页同一顶栏，无街景。文章页纸面加宽到 `1120px`，左栏改 TOC `220px`，栏槽 `48px`。其余内页左栏仍是分类。
 
 `860px` 以下：顶栏改单列，导航左齐；两栏叠成一列，内边 `24px 16px 56px`；TOC 收成可展开的「目录」；文章头图缩到 56px 并允许折行；列表日期叠到标题上方。页面 `overflow-x: clip`，标题 `overflow-wrap: anywhere`。街景在窄屏上可横向滑，不撑开文档。
 
 ### Named Rules
-**The Street-Only-Home Rule.** 街景水平占满且只留首页。内页用两栏读字，不要把房子排进文章页。
+**The Street-Only-Home Rule.** 街景水平占满，只出现在首页与项目页。首页街景用两栏读字承接，项目页整页成街；文章页与目录、搜索、关于不排房子。
 
 ## Elevation & Depth
 
-没有阴影。深度靠分层：白纸压在灰地上；街景用路面色加 4px 墨色路缘；顶栏 2px 墨线把「牌子」和「镇子」切开。精灵 hover 上移 6px，是唯一的位移，不是投影。
+UI 表面没有阴影：卡片、引用、按钮全靠分层和墨线。深度靠分层：白纸压在灰地上；顶栏 2px 墨线把「牌子」和「镇子」切开。精灵 hover 上移 6px，是唯一的位移，不是投影。
+
+项目页的像素小镇是唯一例外：建筑与路灯脚下画**硬边像素接触阴影**（主色块 + 一圈棋盘抖动边，两阶透明度，不用模糊），让物件落地；街道层次为 地面 → 建筑立面 → 货物/道具 → 行人。
 
 ### Named Rules
 **The Flat Ink Rule.** 表面是平的。边用墨线，不用阴影、不用 0-blur 色块描边、不用玻璃。
@@ -195,16 +187,16 @@ components:
 ## Components
 
 ### Buttons
-没有独立按钮。动作是衬线或点阵文字链。正文链默认邮戳红底边，hover 反相成红底白字。工坊外链是唯一带框的动作：2px 邮戳红框、点阵 12px。点击面是全站地板：导航、页脚、清空、返回、工坊外链一律 ≥44px 高。
+没有独立按钮。动作是衬线或点阵文字链。正文链默认邮戳红底边，hover 反相成红底白字。街上铺子是可点精灵：hover 上浮加黑底提示，无框无底色。点击面是全站地板：导航、页脚、清空、返回、工坊外链一律 ≥44px 高。
 
 ### Cards / Containers
 - **News card:** 白纸，内边 `22px 24px 26px`，无描边无圆角。日期点阵红，标题衬线 clamp 22–28px，摘要 18px。
-- **Project lots:** 桌面两列，分组「还在做 / 以前的铺子」。每个项目一块白纸院子：和街景同一套原创点阵物件站在路缘上，短名当门牌，技术栈当墨签。物件各不相同，不轮换房子。院子 88px 高，64px 物件。
+- **Workshop street (项目页):** 整页一座 2.5D 俯视像素小镇，无卡片。场景 `1536×640`，64px 网格绝对定位。地面按全站 4× 粗像素密度程序化生成：路网为不规则游走路线（后街/主街摆动横路 + 弯曲连接巷 + 路口膨大的市场空地 + 每家门前的碎石空地），石板 8px 一块并带逐块明暗抖动；草地细斑/灌木/水塘/圆花坛同密度。8 个项目 = 8 间「Medieval town」组件包（CC-BY 3.0，见 `public/ara/shops/ATTRIBUTION.md`）拼装的 3/4 视角建筑，**屋形与配色各自不同**：红瓦坡顶客栈（阳台花箱 + 烟囱炊烟）、蓝灰山墙小屋、市场摊位、深蓝尖顶图书馆塔（红旗地标）、棕色山墙、深绿坡顶、钢蓝坡顶、红棕坡顶；错落分布在后街（打烊四间，钉木板窗）与主街（营业四间）两条摆动路旁，行人与猫沿用全站粗像素小人。技术栈与多外链不上街：信息只存 hover 提示与 `aria-label`，点击直达首要外链。窄屏整景 zoom 0.5，场景横向滑，页面本身不横向溢出。
 - **Code block:** 墨底灰字，13px 等宽，横向滚动，`max-width: 100%`。
 - **Mermaid:** 正文栏内流程图，节点 16px / 1.3，不继承正文 18px。Admin 预览走自己的 `mermaid.initialize`，不套这套皮。
 
 ### Chips
-- **Ink chip:** 1px 墨框、白底、点阵 12px、内边 `2px 6px`。只出现在工坊地块技术栈，最多两枚。
+- **Shop plate:** 1px 墨框、白底、点阵 12px、内边 `3px 6px`，立在项目街路缘上当门牌；营业铺位在名前加 6px 邮戳红点。项目街独有。
 
 ### Inputs / Fields
 - **Search:** 白底、3px 墨框、点阵 12px、内边 `10px 14px`，最宽 `36rem`。Focus：2px 邮戳红 outline，offset 2px。占位「搜标题或标签」。输入框不加 `type="search"`。只搜 title 和 tags；trim 后超过 1 个字才查。无 JS 只保证 idle 壳（`#search-ssr` / `#q-ssr`）和最近八篇，不假装 SSR `?q=`。
@@ -219,16 +211,19 @@ components:
 ### Street
 首页签名。15 个原创精灵沿路缘站成一排：可点的房子/人带红点、hover 提示和文章名 `alt`，树/猫/蜂及未映射的灯塔/绿衣人为 deco。街上不铺可见标题。提示停在精灵上方，路面上留空不裁切。点击进最新几篇真文章。`prefers-reduced-motion` 时取消上移。
 
+项目页的**工作坊街**同源不同视角：首页是侧视一排，项目页是俯视 tile 街区（可见地面、带屋顶面的建筑立面、直立的物件与行人）。共用的语法：可点精灵带红点与 hover 提示、上浮 6px、`prefers-reduced-motion` 取消上移。差异：项目街有点阵门牌（街上有字，仅此一处）；打烊铺是木门封窗立面且两段之间隔一棵树；点击直达项目外链而非站内文章。
+
 ## Do's and Don'ts
 
 ### Do:
 - **Do** 把像素留在物件、分类图标、点阵标题和首页街景。
 - **Do** 正文用 Noto Serif SC 18px / 1.7，栏宽不超过 42rem。
 - **Do** 导航不放归档。旧 `/archive` 链接落到诚实占位页，指向文章列表。
-- **Do** 街景、顶栏小人、分类图标、项目物件都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`，巡逻蟹来自 `scripts/make-crab.mjs`（9×6 网格，用户提供素材等值复刻）。
+- **Do** 街景、顶栏小人、分类图标、项目物件和项目铺面都用同一套点阵：街景来自 `make-worlds.mjs`，项目物件来自 `scripts/make-projects.mjs`，巡逻蟹来自 `scripts/make-crab.mjs`（9×6 网格，用户提供素材等值复刻），铺面立面与俯视地面来自 `scripts/make-shops.mjs`（物件用 12 色板；地面另用低饱和灰绿/石灰的地色系，不进物件调色板）。
 
 ### Don't:
 - **Don't** 把整页做成游戏 HUD、生命条、背包或长文点阵。
+- **Don't** 在首页街景上铺可见文字；门牌只属于项目街。
 - **Don't** 使用 DOTOWN、官方星露谷、pixels.xyz、Sprout Lands、Kenney。姿势可参考，原图不进仓库。
 - **Don't** 在前台放 Admin 入口，也不要让 Admin 套这套 Layout。
 - **Don't** 编读者数、奖项、客户或未上线能力。
