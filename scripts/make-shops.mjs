@@ -602,6 +602,51 @@ function R_brown_light() {
   return [178, 122, 76];
 }
 
+// ---------- drifting clouds (top-down overlay, site 4x density) ----------
+function cloudSprite(w, h, seed) {
+  const c = canvas(w, h);
+  const rnd = lcg(seed);
+  const body = [255, 255, 255];
+  const shade = [222, 230, 218];
+  // 圆簇：底平顶圆，簇心沿横向均布
+  const n = 3 + Math.floor(rnd() * 2);
+  const blobs = [];
+  for (let i = 0; i < n; i++) {
+    blobs.push({
+      x: w * (0.22 + (0.56 * i) / (n - 1)) + (rnd() - 0.5) * 2,
+      y: h * 0.42 + (rnd() - 0.5) * 2,
+      r: h * (0.3 + rnd() * 0.12),
+    });
+  }
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      let hit = -1;
+      for (let i = 0; i < blobs.length; i++) {
+        const dx = (x - blobs[i].x) / 1.35;
+        const dy = y - blobs[i].y;
+        if (dx * dx + dy * dy <= blobs[i].r * blobs[i].r) { hit = i; break; }
+      }
+      if (hit < 0) continue;
+      const bottom = y >= h - 3;
+      set(c, x, y, bottom ? shade : body, bottom ? 200 : 238);
+    }
+  }
+  // 底缘 1px 抖动阴影，制造一点厚度
+  for (let x = 2; x < w - 2; x += 2) {
+    for (let y = h - 1; y >= h - 3; y--) {
+      const i = (y * w + x) * 4;
+      if (c.d[i + 3] > 0) { c.d[i + 3] = 150; break; }
+    }
+  }
+  return c;
+}
+
+const CLOUDS = [
+  { name: "cloud-a.png", w: 34, h: 13, seed: 11 },
+  { name: "cloud-b.png", w: 26, h: 10, seed: 23 },
+  { name: "cloud-c.png", w: 42, h: 15, seed: 37 },
+];
+
 // ---------- street lamp ----------
 const LW = 12;
 const LH = 24;
@@ -628,5 +673,6 @@ for (let i = 0; i < HOUSE_FILES.length; i++) {
   await save(c, HOUSE_FILES[i], 1);
 }
 await save(lamp(), "lamp.png", 4);
+for (const cl of CLOUDS) await save(cloudSprite(cl.w, cl.h, cl.seed), cl.name, 4);
 await save(barrel(), "barrel.png", 4);
 console.log("wrote", out);
