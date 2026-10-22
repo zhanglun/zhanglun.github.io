@@ -762,6 +762,33 @@ img.px,
   .ara-street.is-shops { --tz: 0.24; }
 }
 
+/* 漂云：固定背景层最上层，缓慢横移，不同速度成视差 */
+.ara-street.is-shops .clouds {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ara-street.is-shops .cloud {
+  position: absolute;
+  left: 0;
+  animation: town-cloud-drift linear infinite;
+}
+@keyframes town-cloud-drift {
+  from {
+    transform: translateX(-300px);
+  }
+  to {
+    transform: translateX(calc(100vw + 300px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ara-street.is-shops .cloud {
+    animation: none;
+    left: 20%;
+  }
+}
+
 .ara-street.is-shops .spr {
   position: absolute;
   height: auto;
