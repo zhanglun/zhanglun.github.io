@@ -732,6 +732,7 @@ html:has(.ara-street.is-shops) {
   left: 50%;
   top: 50%;
   width: 1536px;
+  overflow: hidden;
   height: 640px;
   transform: translate(-50%, -50%) scale(var(--tz, 1));
   background: url("/ara/shops/ground.png") repeat left top / 768px 320px;
