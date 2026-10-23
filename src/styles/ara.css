@@ -687,6 +687,11 @@ img.px,
 }
 
 /* --- 项目页：工作坊街（俯视 tile 小镇，固定背景层） --- */
+/* 小镇铺满视口、无内容可滚：显式禁滚动与弹性过滚，滚动输入零反应 */
+html:has(.ara-street.is-shops) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 /* 小镇是固定全屏背景层：页面上下滚动时它纹丝不动，页眉页脚浮在其上 */
 .ara-site:has(.ara-street.is-shops) {
   display: flex;
