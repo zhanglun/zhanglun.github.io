@@ -686,23 +686,24 @@ img.px,
   border-bottom: 1px solid var(--ara-line);
 }
 
-/* --- 项目页：工作坊街（俯视 tile 小镇，固定背景层） --- */
-/* 小镇铺满视口、无内容可滚：显式禁滚动与弹性过滚，滚动输入零反应 */
+/* --- 项目页：工作坊街（俯视 tile 小镇，游戏画面式） --- */
+/* 整页是不可滚动的游戏画面：顶栏 + 小镇画布 + 页脚钉满一屏，
+   小镇画布按可视区等比 contain-fit 缩放（JS 实时驱动 --tz），永不溢出 */
 html:has(.ara-street.is-shops) {
   overflow: hidden;
   overscroll-behavior: none;
 }
-/* 小镇是固定全屏背景层：页面上下滚动时它纹丝不动，页眉页脚浮在其上 */
 .ara-site:has(.ara-street.is-shops) {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  height: 100dvh;
   background: transparent;
 }
 .ara-site:has(.ara-street.is-shops) .ara-head,
 .ara-site:has(.ara-street.is-shops) main,
 .ara-site:has(.ara-street.is-shops) .ara-foot {
   position: relative;
+  flex: 0 0 auto;
   z-index: 1;
 }
 .ara-site:has(.ara-street.is-shops) .ara-foot {
@@ -712,31 +713,27 @@ html:has(.ara-street.is-shops) {
 }
 
 .ara-street.is-shops {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
   overflow: hidden;
   background: #ced6c3;
-  --tz: 1;
-  width: calc(100vw / var(--tz));
-  height: calc(100dvh / var(--tz));
-  zoom: var(--tz);
 }
 .ara-street.is-shops .ara-street-hint {
   position: absolute;
-  top: 88px;
+  top: 10px;
   left: 0;
   right: 0;
+  z-index: 2;
 }
 .ara-street.is-shops .ara-ground {
-  position: relative;
-  flex: 0 0 auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1536px;
   height: 640px;
-  padding: 0;
-  background: url("/ara/shops/ground.png") repeat-x left bottom / 1536px 640px;
+  transform: translate(-50%, -50%) scale(var(--tz, 1));
+  background: url("/ara/shops/ground.png") repeat left top / 768px 320px;
 }
 .ara-scene {
   position: absolute;
@@ -747,27 +744,6 @@ html:has(.ara-street.is-shops) {
   height: 640px;
 }
 
-/* 街道随视口等比缩放：任何宽度都完整装下（背景层固定，永不平移） */
-@media (max-width: 1535px) {
-  .ara-street.is-shops { --tz: 0.82; }
-}
-@media (max-width: 1279px) {
-  .ara-street.is-shops { --tz: 0.65; }
-}
-@media (max-width: 1023px) {
-  .ara-street.is-shops { --tz: 0.52; }
-}
-@media (max-width: 819px) {
-  .ara-street.is-shops { --tz: 0.42; }
-}
-@media (max-width: 679px) {
-  .ara-street.is-shops { --tz: 0.34; }
-}
-@media (max-width: 559px) {
-  .ara-street.is-shops { --tz: 0.24; }
-}
-
-/* 漂云：固定背景层最上层，缓慢横移，不同速度成视差 */
 .ara-street.is-shops .clouds {
   position: absolute;
   inset: 0;
