@@ -100,6 +100,11 @@ const cells: Cell[] = [
 ---
 
 <div class="ara-street is-shops">
+  <script is:inline>
+    // 游戏画面式页面：禁滚动 + 禁弹性过滚（内联即时生效，不受 CSS 缓存影响）
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.overscrollBehavior = "none";
+  </script>
   <span class="ara-street-hint px">镇上的工作坊 · 点铺子直达</span>
   <div class="ara-ground">
     <div class="clouds" aria-hidden="true">
