@@ -694,9 +694,10 @@ html:has(.ara-street.is-shops) {
   overscroll-behavior: none;
 }
 .ara-site:has(.ara-street.is-shops) {
+  position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  height: 100dvh;
   background: transparent;
 }
 .ara-site:has(.ara-street.is-shops) .ara-head,
