@@ -1,0 +1,132 @@
+{
+  "ground-grass": [
+    512,
+    568
+  ],
+  "ground-grass_file": "ground-grass.png",
+  "ground-dirt": [
+    512,
+    512
+  ],
+  "ground-dirt_file": "ground-dirt.png",
+  "road-h": [
+    440,
+    240
+  ],
+  "road-h_file": "road-h.png",
+  "road-v": [
+    240,
+    448
+  ],
+  "road-v_file": "road-v.png",
+  "cross": [
+    3300,
+    7174
+  ],
+  "cross_file": "cross.webp",
+  "house-blue": [
+    191,
+    190
+  ],
+  "house-blue_file": "house-blue.png",
+  "tower-red": [
+    135,
+    238
+  ],
+  "tower-red_file": "tower-red.png",
+  "barn-green": [
+    301,
+    196
+  ],
+  "barn-green_file": "barn-green.png",
+  "shop-stone": [
+    253,
+    196
+  ],
+  "shop-stone_file": "shop-stone.png",
+  "market": [
+    393,
+    258
+  ],
+  "market_file": "market.png",
+  "house-red": [
+    192,
+    190
+  ],
+  "house-red_file": "house-red.png",
+  "tree": [
+    112,
+    140
+  ],
+  "tree_file": "tree.png",
+  "bush": [
+    68,
+    46
+  ],
+  "bush_file": "bush.png",
+  "rock": [
+    45,
+    38
+  ],
+  "rock_file": "rock.png",
+  "grass-tuft": [
+    47,
+    34
+  ],
+  "grass-tuft_file": "grass-tuft.png",
+  "lamp": [
+    22,
+    118
+  ],
+  "lamp_file": "lamp.png",
+  "sign-board": [
+    139,
+    118
+  ],
+  "sign-board_file": "sign-board.png",
+  "fence": [
+    181,
+    62
+  ],
+  "fence_file": "fence.png",
+  "sign-road": [
+    51,
+    92
+  ],
+  "sign-road_file": "sign-road.png",
+  "barrel": [
+    40,
+    46
+  ],
+  "barrel_file": "barrel.png",
+  "crate": [
+    46,
+    48
+  ],
+  "crate_file": "crate.png",
+  "person-stand": [
+    26,
+    62
+  ],
+  "person-stand_file": "person-stand.png",
+  "person-walk-side": [
+    31,
+    58
+  ],
+  "person-walk-side_file": "person-walk-side.png",
+  "person-walk-a": [
+    32,
+    60
+  ],
+  "person-walk-a_file": "person-walk-a.png",
+  "person-walk-front": [
+    32,
+    62
+  ],
+  "person-walk-front_file": "person-walk-front.png",
+  "person-walk-back": [
+    36,
+    62
+  ],
+  "person-walk-back_file": "person-walk-back.png"
+}

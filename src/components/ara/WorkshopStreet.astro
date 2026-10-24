@@ -1,101 +1,174 @@
 ---
 import { PROJECTS } from "src/data/projects";
+import DIM from "src/data/town-assets.json";
 
-type Deco = {
-  kind: "deco";
-  sprite: string;
-  w: number;
-  h: number;
-  x: number;
-  top: number;
+// 俯视小镇（参考手绘小镇地图）：2300x1200 舞台 + 满屏草地。
+// 加长加宽的十字路网（3300x3726，top:-1255）横臂贯穿视口、竖臂上下出画，
+// 路带对齐画布 y 470-730；四个草地象限里 8 家铺子 + 7 栋空闲房（缩小/镜像，
+// 无链接无牌匾，纯镇景）错行布置，远排房子更小、被前排屋角半遮，拉出层次；
+// 栅栏沿北缘圈镇界、其余做院前短栏，树/灌木/石/草丛/路灯填空，
+// 行人沿两侧人行道与竖街穿行；云层在小镇上方飘（半透明，不再被围栏遮住）。
+const png = (n: string) => {
+  const file = (DIM as Record<string, unknown>)[`${n}_file`];
+  return `/ara/town/${typeof file === "string" ? file : `${n}.png`}`;
 };
-type Prop = {
-  kind: "prop";
+const dim = (n: string): [number, number] => DIM[n] as [number, number];
+
+type Shop = {
+  name: string;
+  desc: string;
+  href: string;
+  open: boolean;
   src: string;
   w: number;
   h: number;
   x: number;
-  top: number;
+  y: number;
+  flip?: boolean;
 };
-type Shop = {
-  kind: "shop";
-  name: string;
-  desc: string;
-  shop: string;
-  href: string;
-  open: boolean;
+type Deco = {
+  src: string;
+  w: number;
+  h: number;
   x: number;
-  top: number;
+  y: number;
+  flip?: boolean;
+  back?: boolean;
 };
-type Cell = Deco | Prop | Shop;
 
-const deco = (sprite: string, w: number, h: number, x: number, top: number): Deco => ({
-  kind: "deco",
-  sprite,
-  w,
-  h,
-  x,
-  top,
-});
-
-const prop = (src: string, w: number, h: number, x: number, top: number): Prop => ({
-  kind: "prop",
-  src,
-  w,
-  h,
-  x,
-  top,
-});
-
-const shop = (i: number, x: number, top: number): Shop => {
+const shop = (i: number, img: string, x: number, y: number, flip = false): Shop => {
   const p = PROJECTS[i];
   const link = p.links.find(l => l.type === "Website") ?? p.links[0];
+  const [w, h] = dim(img);
   return {
-    kind: "shop",
     name: p.shortName,
     desc: p.description,
-    shop: p.shop,
     href: link.href,
     open: p.open,
+    src: png(img),
+    w,
+    h,
     x,
-    top,
+    y,
+    flip,
   };
 };
 
-// 俯视小镇：1536x640 场景，64px 网格。
-// 后街（y192-320）一排打烊铺——「以前的铺子」；主街（y448-576）一排亮堂铺
-// ——「还在做」，连接巷与市场广场把两条路缝起来；绿心花坛与水塘填块。
-// 建筑立在路上缘，行人猫树散在绿地与街头。
-const cells: Cell[] = [
-  // 后街：以前的铺子
-  deco("tree", 80, 80, 60, 112),
-  deco("tree", 80, 80, 1060, 112),
-  deco("tree", 80, 80, 1400, 112),
-  shop(4, 192, 0),
-  shop(5, 448, 0),
-  shop(6, 704, 0),
-  shop(7, 1184, 0),
-  deco("person-g", 70, 80, 600, 210),
-  // 绿心
-  deco("tree", 80, 80, 224, 336),
-  deco("tree", 80, 80, 480, 336),
-  deco("tulip", 35, 55, 620, 385),
-  deco("person-r", 90, 90, 300, 346),
-  deco("tree", 80, 80, 544, 296),
-  // 主街：还在做
-  shop(0, 128, 256),
-  shop(1, 384, 256),
-  shop(2, 640, 256),
-  shop(3, 1152, 256),
-  prop("/ara/shops/lamp.png", 48, 96, 356, 404),
-  prop("/ara/shops/lamp.png", 48, 96, 1096, 404),
-  prop("/ara/shops/lamp.png", 48, 96, 880, 194),
-  prop("/ara/shops/barrel.png", 40, 48, 700, 240),
-  prop("/ara/shops/barrel.png", 40, 48, 760, 532),
-  deco("person-bike", 90, 90, 1310, 464),
-  deco("person-b", 70, 80, 260, 560),
-  deco("cat", 50, 50, 1430, 578),
-  deco("dandelion", 50, 70, 70, 560),
+const deco = (
+  img: string,
+  x: number,
+  y: number,
+  scale = 1,
+  flip = false,
+  back = false
+): Deco => {
+  const [w0, h0] = dim(img);
+  return {
+    src: png(img),
+    w: Math.round(w0 * scale),
+    h: Math.round(h0 * scale),
+    x,
+    y,
+    flip,
+    back,
+  };
+};
+
+const shops: Shop[] = [
+  // 北排：以前的铺子
+  shop(4, "barn-green", 80, 120), // Facile
+  shop(5, "house-red", 440, 126), // Notify
+  shop(7, "house-red", 1400, 126, true), // BlueRobin
+  shop(6, "barn-green", 1660, 120, true), // Tinny
+  // 南排：还在做
+  shop(0, "market", 90, 800), // Amber
+  shop(3, "tower-red", 560, 800), // BookWise
+  shop(1, "shop-stone", 1420, 810), // Lettura
+  shop(2, "house-blue", 1740, 816), // Pavo
+];
+
+// 空闲房在最前（远排、被前排半遮），其余点缀随后
+const props: Deco[] = [
+  // 远排空闲房：更小、贴着镇缘，读作「更远一排」（back = 画在铺子后面）
+  deco("market", 660, 18, 0.62, false, true),
+  deco("tower-red", 760, 190, 0.7, false, true),
+  deco("shop-stone", 1965, 55, 0.72, false, true),
+  deco("barn-green", 2110, 200, 0.6, true, true),
+  deco("house-red", 2260, 330, 0.66, true),
+  deco("house-blue", 800, 880, 0.78),
+  deco("barn-green", 1990, 880, 0.75),
+  // 镇界栅栏（北缘两段）+ 院前短栏
+  deco("fence", 60, 12),
+  deco("fence", 241, 12),
+  deco("fence", 422, 12),
+  deco("fence", 1400, 12),
+  deco("fence", 1581, 12),
+  deco("fence", 1762, 12),
+  deco("fence", 760, 1050),
+  deco("fence", 2170, 1030),
+  // 树（两缘探出画外，镇子继续长）
+  deco("tree", -30, 300),
+  deco("tree", 640, 255),
+  deco("tree", 920, 40),
+  deco("tree", 1350, 322),
+  deco("tree", 2250, 60),
+  deco("tree", -25, 1130),
+  deco("tree", 500, 1150),
+  deco("tree", 760, 1140),
+  deco("tree", 1350, 1150),
+  deco("tree", 2255, 900),
+  deco("tree", 880, 1150),
+  // 灌木 / 石 / 草丛
+  deco("bush", 390, 346),
+  deco("bush", 1560, 345),
+  deco("bush", 920, 1120),
+  deco("bush", 2050, 748),
+  deco("bush", 240, 748),
+  deco("rock", 30, 340),
+  deco("rock", 1985, 688),
+  deco("rock", 1660, 1140),
+  deco("rock", 250, 1130),
+  deco("grass-tuft", 660, 180),
+  deco("grass-tuft", 2200, 300),
+  deco("grass-tuft", 160, 745),
+  deco("grass-tuft", 700, 745),
+  deco("grass-tuft", 1930, 760),
+  deco("grass-tuft", 120, 1180),
+  deco("grass-tuft", 930, 1180),
+  // 路灯：北四、南三、路口两角
+  deco("lamp", 240, 382),
+  deco("lamp", 690, 382),
+  deco("lamp", 1450, 382),
+  deco("lamp", 1900, 382),
+  deco("lamp", 480, 582),
+  deco("lamp", 1600, 582),
+  deco("lamp", 2060, 582),
+  deco("lamp", 975, 382),
+  deco("lamp", 1330, 582),
+  // 路口告示牌 + 街角路牌
+  deco("sign-board", 200, 322),
+  deco("sign-road", 940, 648),
+  // 铺子门口的木桶木箱
+  deco("barrel", 492, 1000),
+  deco("barrel", 505, 952),
+  deco("crate", 15, 1015),
+  deco("crate", 700, 1020),
+  deco("barrel", 1938, 960),
+  deco("crate", 1682, 1000),
+  // 镇民
+  deco("person-stand", 330, 1015),
+  deco("person-walk-a", 1560, 635),
+];
+
+// 行人：北人行道向左、南人行道向右、竖街向下穿过路口
+const walker = (img: string, x: number, y: number, dir: string) => {
+  const [w, h] = dim(img);
+  return { src: png(img), w, h, x, y, dir };
+};
+const walkers = [
+  walker("person-walk-side", 0, 447, "rtl"),
+  walker("person-walk-back", 0, 633, "ltr"),
+  walker("person-walk-front", 1070, 0, "down"),
 ];
 ---
 
@@ -107,74 +180,110 @@ const cells: Cell[] = [
   </script>
   <span class="ara-street-hint px">镇上的工作坊 · 点铺子直达</span>
   <div class="ara-ground">
-    <div class="clouds" aria-hidden="true">
-      <img class="px cloud" src="/ara/shops/cloud-a.png" alt="" width="136" height="52" style="top: 9%; animation-duration: 170s; animation-delay: -40s" />
-      <img class="px cloud" src="/ara/shops/cloud-b.png" alt="" width="104" height="40" style="top: 17%; animation-duration: 125s; animation-delay: -95s" />
-      <img class="px cloud" src="/ara/shops/cloud-c.png" alt="" width="168" height="60" style="top: 25%; animation-duration: 215s; animation-delay: -150s" />
-      <img class="px cloud" src="/ara/shops/cloud-b.png" alt="" width="104" height="40" style="top: 32%; animation-duration: 145s; animation-delay: -20s" />
-    </div>
     <div class="ara-scene">
+      <img class="road px" src={png("cross")} alt="" width={DIM.cross[0]} height={DIM.cross[1]} />
       {
-        cells.map(cell =>
-          cell.kind === "shop" ? (
-            <a
-              class="spr shop"
-              style={`left:${cell.x}px;top:${cell.top}px`}
-              href={cell.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${cell.name}：${cell.desc}`}
-            >
-              <img
-                class="px facade"
-                src={cell.shop}
-                alt=""
-                width="176"
-                height="148"
-              />
-              <span class="tip px" aria-hidden="true">
-                {cell.name} · {cell.desc}
-              </span>
-              <span class="plate px" aria-hidden="true">
-                {cell.open && <i class="dot" />}
-                {cell.name}
-              </span>
-            </a>
-          ) : (
+        props
+          .filter(p => p.back)
+          .map(p => (
             <span
               class="spr deco"
-              style={`left:${cell.x}px;top:${cell.top}px`}
+              style={`left:${p.x}px;top:${p.y}px`}
               aria-hidden="true"
             >
               <img
                 class="px"
-                src={cell.kind === "prop" ? cell.src : `/ara/sprites/${cell.sprite}.png`}
+                src={p.src}
                 alt=""
-                width={cell.w}
-                height={cell.h}
+                width={p.w}
+                height={p.h}
+                style={p.flip ? "transform:scaleX(-1)" : undefined}
               />
             </span>
-          )
-        )
+          ))
+      }
+      {
+        shops.map(s => (
+          <a
+            class:list={["spr", "shop", { flip: s.flip }]}
+            style={`left:${s.x}px;top:${s.y}px;width:${s.w}px;height:${s.h}px`}
+            href={s.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${s.name}：${s.desc}`}
+          >
+            <img class="px facade" src={s.src} alt="" width={s.w} height={s.h} />
+            <span class="tip px" aria-hidden="true">
+              {s.name} · {s.desc}
+            </span>
+            <span class="plate px" aria-hidden="true">
+              {s.open && <i class="dot" />}
+              {s.name}
+            </span>
+          </a>
+        ))
+      }
+      {
+        props
+          .filter(p => !p.back)
+          .map(p => (
+            <span
+              class="spr deco"
+              style={`left:${p.x}px;top:${p.y}px`}
+              aria-hidden="true"
+            >
+              <img
+                class="px"
+                src={p.src}
+                alt=""
+                width={p.w}
+                height={p.h}
+                style={p.flip ? "transform:scaleX(-1)" : undefined}
+              />
+            </span>
+          ))
+      }
+      {
+        walkers.map(w => (
+          <span
+            class:list={["town-walker", `walk-${w.dir}`]}
+            style={`left:${w.x}px;top:${w.y}px`}
+            aria-hidden="true"
+          >
+            <img class="px" src={w.src} alt="" width={w.w} height={w.h} />
+          </span>
+        ))
       }
     </div>
+  </div>
+  <div class="clouds" aria-hidden="true">
+    <img class="px cloud" src="/ara/shops/cloud-a.png" alt="" width="136" height="52" style="top: 8%; animation-duration: 170s; animation-delay: -40s" />
+    <img class="px cloud" src="/ara/shops/cloud-b.png" alt="" width="104" height="40" style="top: 20%; animation-duration: 125s; animation-delay: -95s" />
+    <img class="px cloud" src="/ara/shops/cloud-c.png" alt="" width="168" height="60" style="top: 34%; animation-duration: 215s; animation-delay: -150s" />
+    <img class="px cloud" src="/ara/shops/cloud-b.png" alt="" width="104" height="40" style="top: 66%; animation-duration: 145s; animation-delay: -20s" />
+    <img class="px cloud" src="/ara/shops/cloud-a.png" alt="" width="136" height="52" style="top: 82%; animation-duration: 190s; animation-delay: -120s" />
   </div>
 </div>
 
 <script>
-  // 游戏画面式 contain-fit：小镇画布 1536x640 等比缩放到正好填满可视区
-  // （宽、高取更约束的一边），任何窗口尺寸都不产生滚动或裁切。
+  // 游戏画面式 contain-fit：小镇 2300x1200 等比缩放到正好填满可视区（宽、高取
+  // 更约束的一边）；草地与加长路网自带满屏覆盖，画布外不留边。下限保证路网
+  // 横向始终盖满（2310 为路网显示宽），大屏允许放大（上限 1.6，pixelated 依旧锐利）。
   const street = document.querySelector(".ara-street.is-shops");
   const ground = street?.querySelector(".ara-ground");
   const fit = () => {
     if (!street || !ground) return;
     const z = Math.max(
-      0.2,
-      Math.min(street.clientWidth / 1560, street.clientHeight / 660, 1)
+      0.15,
+      Math.max(
+        street.clientWidth / 2310,
+        Math.min(street.clientWidth / 2360, street.clientHeight / 1260, 1.6)
+      )
     );
     ground.style.setProperty("--tz", String(z));
   };
   fit();
   if ("ResizeObserver" in window && street) new ResizeObserver(fit).observe(street);
   addEventListener("resize", fit);
+  visualViewport?.addEventListener("resize", fit);
 </script>

@@ -345,7 +345,6 @@ img.px,
   color: var(--ara-stamp);
 }
 
-
 .post-toc {
   position: sticky;
   top: 16px;
@@ -364,8 +363,7 @@ img.px,
 
 .post-toc a {
   display: block;
-  font-family: "Noto Serif SC", "Songti SC", "Iowan Old Style", Georgia,
-    serif;
+  font-family: "Noto Serif SC", "Songti SC", "Iowan Old Style", Georgia, serif;
   font-size: 14px;
   line-height: 1.4;
   padding: 5px 0;
@@ -686,18 +684,20 @@ img.px,
   border-bottom: 1px solid var(--ara-line);
 }
 
-/* --- 项目页：工作坊街（俯视 tile 小镇，游戏画面式） --- */
-/* 整页是不可滚动的游戏画面：顶栏 + 小镇画布 + 页脚钉满一屏，
+/* --- 项目页：工作坊街（俯视 tile 小镇，游戏画面） --- */
+/* 整页是不可滚动的游戏画面：顶栏/小镇画布/页脚钉满一屏，
    小镇画布按可视区等比 contain-fit 缩放（JS 实时驱动 --tz），永不溢出 */
-html:has(.ara-street.is-shops) {
+html:has(.ara-street.is-shops),
+body:has(.ara-street.is-shops) {
   overflow: hidden;
   overscroll-behavior: none;
+  height: 100%;
 }
 .ara-site:has(.ara-street.is-shops) {
-  position: fixed;
-  inset: 0;
   display: flex;
   flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
   background: transparent;
 }
 .ara-site:has(.ara-street.is-shops) .ara-head,
@@ -707,10 +707,12 @@ html:has(.ara-street.is-shops) {
   flex: 0 0 auto;
   z-index: 1;
 }
+.ara-site:has(.ara-street.is-shops) main {
+  flex: 0 0 0;
+}
+/* 项目页整屏是小镇，页脚不参与 */
 .ara-site:has(.ara-street.is-shops) .ara-foot {
-  flex: 0 0 auto;
-  width: 100%;
-  margin-top: auto;
+  display: none;
 }
 
 .ara-street.is-shops {
@@ -718,39 +720,73 @@ html:has(.ara-street.is-shops) {
   flex: 1 1 0;
   min-height: 0;
   overflow: hidden;
-  background: #ced6c3;
+  /* 草地铺满整个视口：小镇画布之外也是草地，无画框 */
+  background: url("/ara/town/ground-grass.png") repeat left top / 384px auto;
 }
+/* 地图上方的纸片提示，浮在画布之上 */
 .ara-street.is-shops .ara-street-hint {
   position: absolute;
   top: 10px;
-  left: 0;
-  right: 0;
-  z-index: 2;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: fit-content;
+  margin: 0;
+  padding: 3px 8px;
+  color: var(--ara-ink);
+  background: var(--ara-paper);
+  border: 1px solid var(--ara-ink);
+  z-index: 6;
+  pointer-events: none;
 }
 .ara-street.is-shops .ara-ground {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 1536px;
-  overflow: hidden;
-  height: 640px;
+  width: 2300px;
+  height: 1200px;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  /* 盖掉基础 .ara-ground 的街道渐变底色，透出满屏草地 */
+  background: none;
   transform: translate(-50%, -50%) scale(var(--tz, 1));
-  background: url("/ara/shops/ground.png") repeat left top / 768px 320px;
 }
 .ara-scene {
   position: absolute;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: 1536px;
-  height: 640px;
+  width: 2300px;
+  height: 1200px;
+}
+/* 加长加宽的十字路网（源图 3300x7174，按 0.7 显示收窄路带）：
+   四周镜像延展、横臂贯穿视口、竖臂上下出画，任意宽高比不露断头；
+   路带中心在图内 y=3579，0.7 后对齐画布 y=600 */
+.ara-street.is-shops .road {
+  position: absolute;
+  left: 50%;
+  top: -1906px;
+  width: 2310px;
+  height: 5022px;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
+/* 云层飘在小镇上方（半透明），不被任何镇景遮挡 */
 .ara-street.is-shops .clouds {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
+  z-index: 3;
+  opacity: 0.55;
+}
+/* 气泡出现期间暂时隐去云层，保证提示可见层级最高 */
+.ara-street.is-shops:has(.spr.shop:hover) .clouds,
+.ara-street.is-shops:has(.spr.shop:focus-visible) .clouds {
+  opacity: 0;
+  transition: opacity 200ms linear;
 }
 .ara-street.is-shops .cloud {
   position: absolute;
@@ -775,24 +811,41 @@ html:has(.ara-street.is-shops) {
 .ara-street.is-shops .spr {
   position: absolute;
   height: auto;
+  z-index: 2;
 }
 
-.ara-street.is-shops .spr.shop {
-  width: 128px;
-  height: 640px;
-}
-
+/* 铺子锚框由行内 width/height 撑开，立面撑满锚框 */
 .ara-street.is-shops .facade {
   position: absolute;
-  top: 70px;
-  left: -24px;
-  width: 176px;
-  height: 148px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.ara-street.is-shops .shop.flip .facade {
+  transform: scaleX(-1);
+}
+/* hover 只弹气泡，房子不上浮；锚点抬到最高层，
+   保证气泡不被后绘的栅栏/草丛/行人盖住 */
+.ara-street.is-shops .spr:hover img,
+.ara-street.is-shops .spr:focus-visible img {
+  transform: none;
+}
+.ara-street.is-shops .spr.shop:hover,
+.ara-street.is-shops .spr.shop:focus-visible {
+  z-index: 10;
+}
+.ara-street.is-shops .shop.flip:hover .facade,
+.ara-street.is-shops .shop.flip:focus-visible .facade {
+  transform: scaleX(-1);
 }
 
 .ara-street.is-shops .tip {
-  bottom: auto;
-  top: 44px;
+  top: auto;
+  bottom: calc(100% + 10px);
+  z-index: 5;
+  /* 反向缩放：牌匾/气泡字号锁定屏幕像素，不随小镇缩放变小 */
+  transform: translateX(-50%) scale(min(1.8, max(1, calc(1 / var(--tz, 1)))));
+  transform-origin: center bottom;
 }
 
 .shop .plate {
@@ -810,10 +863,12 @@ html:has(.ara-street.is-shops) {
 
 .ara-street.is-shops .plate {
   position: absolute;
-  top: 195px;
+  top: calc(100% + 6px);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(min(1.8, max(1, calc(1 / var(--tz, 1)))));
+  transform-origin: center top;
   margin-top: 0;
+  z-index: 3;
 }
 
 .shop .plate .dot {
@@ -824,6 +879,55 @@ html:has(.ara-street.is-shops) {
 
 .ara-street.is-shops .spr img {
   transition: transform 120ms linear;
+}
+
+/* 行人：沿人行道 / 竖街匀速穿行，走出画外后从另一端回来 */
+.ara-street.is-shops .town-walker {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  animation: town-walk-ltr 85s linear infinite;
+}
+.ara-street.is-shops .walk-rtl {
+  animation-name: town-walk-rtl;
+  animation-duration: 72s;
+}
+.ara-street.is-shops .walk-down {
+  animation-name: town-walk-down;
+  animation-duration: 58s;
+}
+@keyframes town-walk-ltr {
+  from {
+    transform: translateX(-120px);
+  }
+  to {
+    transform: translateX(2420px);
+  }
+}
+@keyframes town-walk-rtl {
+  from {
+    transform: translateX(2420px);
+  }
+  to {
+    transform: translateX(-120px);
+  }
+}
+@keyframes town-walk-down {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(1320px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ara-street.is-shops .town-walker {
+    animation: none;
+    transform: translateX(400px);
+  }
+  .ara-street.is-shops .walk-down {
+    transform: translateY(700px);
+  }
 }
 
 .sr-only {
@@ -885,7 +989,9 @@ html:has(.ara-street.is-shops) {
   border: 2px solid var(--ara-ink);
   background: var(--ara-paper);
   padding: 10px 14px;
-  font: 12px "Fusion Pixel", monospace;
+  font:
+    12px "Fusion Pixel",
+    monospace;
   color: var(--ara-ink);
   margin-bottom: 18px;
 }
@@ -1066,6 +1172,17 @@ html:has(.ara-street.is-shops) {
 
   .spr img {
     max-width: 56px;
+  }
+
+  /* 项目页小镇是整体缩放的游戏画布，不走首页街景的移动端裁剪 */
+  .ara-street.is-shops .spr.deco {
+    display: block;
+  }
+  .ara-street.is-shops .spr {
+    height: auto;
+  }
+  .ara-street.is-shops .spr img {
+    max-width: none;
   }
 
   .toc-toggle {
