@@ -1,9 +1,38 @@
-// 素材规格与索引表 —— 小镇统一使用 Mystic Woods 免费版（itch.io，Game Endeavor）
-// 许可：非商业项目可用、可修改、禁止再分发（非商业学习用途，声明见 public/town/ASSETS.md）
-// 缺失的内容（房子/作物/道具/特效）由运行时程序化生成补齐，色调与 Mystic 对齐。
+// 素材规格与索引表 —— /town v5:Serene Village revamped (LimeZu, CC-BY 4.0)
+// 世界图块/建筑/物件来自 SV;村民来自 Modern Interiors Free(LimeZu,仅非商业);
+// 史莱姆(玩家/宠物)与室内墙面程序化生成,本站原创,无授权限制。
+// 出处与许可详见 public/town/ASSETS.md,裁切脚本 scripts/extract-town-sv.mjs。
 
 export const TILE = 16;
 
+// 独立 PNG(public/town/sv/、public/town/gen/),键 = 纹理键
+export const IMAGES = [
+  "sv-house-blog",
+  "sv-house-projects",
+  "sv-house-about",
+  "sv-house-cafe",
+  "sv-house-home",
+  "sv-tree-teal",
+  "sv-tree-dark",
+  "sv-tree-round",
+  "sv-rock-small",
+  "sv-rock-big",
+  "sv-grove",
+  "sv-flower-pink",
+  "sv-flower-yellow",
+  "sv-flower-white",
+  "sv-sign-board",
+  "sv-sign-arrow",
+  "sv-sign-post",
+  "sv-grass",
+  "sv-dirt",
+  "sv-door",
+  "gen-crate",
+  "gen-barrel",
+] as const;
+
+// 精灵表(public/town/):村民 idle 呼吸动画 16x32 × 24 帧 = 6f × [下/上/左/右];
+// 史莱姆 16x16 × 4 帧;篝火 16x16 × 4 帧
 export interface SheetDef {
   key: string;
   file: string;
@@ -12,68 +41,51 @@ export interface SheetDef {
 }
 
 export const SHEETS: SheetDef[] = [
-  { key: "mystic-grass", file: "mystic/grass.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-plains", file: "mystic/plains.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-decor", file: "mystic/decor.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-fences", file: "mystic/fences.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-wooden", file: "mystic/wooden_floor.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-walls", file: "mystic/walls.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-door", file: "mystic/door.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-player", file: "mystic/player.png", frameWidth: 48, frameHeight: 48 },
-  { key: "mystic-slime", file: "mystic/slime.png", frameWidth: 16, frameHeight: 16 },
-  { key: "mystic-dust", file: "mystic/dust.png", frameWidth: 16, frameHeight: 12 },
+  { key: "gen-slime", file: "gen/slime.png", frameWidth: 16, frameHeight: 16 },
+  {
+    key: "char-amelia",
+    file: "char/amelia_idle.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "char-bob",
+    file: "char/bob_idle.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "char-adam",
+    file: "char/adam_idle.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "char-alex",
+    file: "char/alex_idle.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "sv-campfire",
+    file: "sv/campfire.png",
+    frameWidth: 16,
+    frameHeight: 16,
+  },
 ];
 
-// plains.png 6 列。悬崖区（row5-8）用于程序化拼装小屋，泥补丁中心（row2 col2）为纯泥。
-export const GROUND = {
-  grassFrame: 0, // mystic-grass 单格（程序化变体叠加）
-  dirtFrame: 14, // plains (col2,row2) 大泥补丁中心纯泥
-} as const;
+// 村民(室外 NPC 与室内老板共用;待机用朝下前 6 帧)
+export const VILLAGERS = ["amelia", "bob", "adam", "alex"] as const;
+export type VillagerKey = (typeof VILLAGERS)[number];
 
-// 悬崖格（plains）：拼装 Mystic 风格小屋的墙体/屋顶
-export const CLIFF = {
-  topRun: [31, 32, 33, 34], // row5 col1-4：草顶
-  wallRun: [37, 38, 39, 40], // row6 col1-4：土壁
-} as const;
+export const IDLE_FRAMES = 6; // 每方向帧数
+export const CAMPFIRE_FRAMES = 4;
 
-// Mystic decor row4 = 透明小草丛（4 变体）
-export const DECOR = [24, 25, 26, 27] as const;
+// 史莱姆(gen/slime.png 64x16 = 4 帧静息呼吸,玩家/宠物共用)
+export const SLIME_FRAMES = 4;
 
-// Mystic fences（4 列）
-export const FENCE = {
-  post: 1, // (col0,row1) 竖向栅栏
-  rail: 5, // (col1,row1) 横排栅栏
-} as const;
-
-// ---- Mystic player.png（6 列 48px 单元）----
-// 行 0-2 = 三向待机（4 帧），行 3-5 = 三向行走（6 帧），行 6-8 = 三向挥斧（4 帧）
-export const PLAYER48 = {
-  sheet: "mystic-player",
-  idle: {
-    down: [0, 1, 2, 3],
-    side: [6, 7, 8, 9],
-    up: [12, 13, 14, 15],
-  },
-  walk: {
-    down: [18, 19, 20, 21, 22, 23],
-    side: [24, 25, 26, 27, 28, 29],
-    up: [30, 31, 32, 33, 34, 35],
-  },
-  axe: {
-    down: [36, 37, 38, 39],
-    side: [42, 43, 44, 45],
-    up: [48, 49, 50, 51],
-  },
-} as const;
-
-// ---- Mystic slime.png（14 列 16px），行 0 = 待机 4 帧 ----
-export const SLIME = {
-  sheet: "mystic-slime",
-  idle: [0, 1, 2, 3],
-} as const;
-
-// ---- 地面纹理变体（运行时程序化生成）----
-// baseColor 取自 grass/plains 的基准色；kind 决定噪点形态（草叶/犁纹）
+// ---- 地面纹理变体(运行时程序化生成)----
+// baseColor 取自 sv-grass / sv-dirt 的基准色;kind 决定噪点形态
 export function buildGroundVariants(
   baseColor: [number, number, number],
   kind: "grass" | "dirt"
@@ -99,9 +111,19 @@ export function buildGroundVariants(
     for (let i = 0; i < count; i++) {
       ctx.fillStyle = i % 2 === 0 ? dark : light;
       if (kind === "dirt") {
-        ctx.fillRect((v * 11 + i * 5) % 14, (v * 19 + i * 7) % 15, 2 + (i % 2), 1);
+        ctx.fillRect(
+          (v * 11 + i * 5) % 14,
+          (v * 19 + i * 7) % 15,
+          2 + (i % 2),
+          1
+        );
       } else {
-        ctx.fillRect((v * 37 + i * 13) % 16, (v * 23 + i * 7) % 16, 1, i % 3 === 0 ? 2 : 1);
+        ctx.fillRect(
+          (v * 37 + i * 13) % 16,
+          (v * 23 + i * 7) % 16,
+          1,
+          i % 3 === 0 ? 2 : 1
+        );
       }
     }
     out.push(cv);
@@ -109,26 +131,42 @@ export function buildGroundVariants(
   return out;
 }
 
-// ---- 程序化纹理（构建期生成静态 PNG，见 scripts 内 gen 注释）----
-export const GEN_IMAGES = [
-  "gen-tree",
-  "gen-grass-tuft",
-  "gen-rock",
-  "gen-sign-board",
-  "gen-house-blog",
-  "gen-house-projects",
-  "gen-house-about",
-  "gen-house-cafe",
-  "gen-house-home",
-  "gen-crate",
-  "gen-barrel",
-  "gen-crop-0",
-  "gen-crop-1",
-  "gen-crop-2",
-  "gen-tilled",
-  "gen-star",
-] as const;
-
-// ---- 作物（程序化生成，Mystic 色板）----
-export const CROP_STAGES = 3;
-export const CROP_KEYS = ["carrot"] as const;
+// ---- 室内墙面/木地板(程序化生成,本站原创)----
+// wall: 米色灰泥 + 顶部檐口线;floor: 暖木色横板缝。各 2 变体。
+export function buildIndoorVariants(): {
+  wall: HTMLCanvasElement[];
+  floor: HTMLCanvasElement[];
+} {
+  const wall = (v: number): HTMLCanvasElement => {
+    const cv = document.createElement("canvas");
+    cv.width = 16;
+    cv.height = 16;
+    const ctx = cv.getContext("2d")!;
+    ctx.fillStyle = "#e8c795";
+    ctx.fillRect(0, 0, 16, 16);
+    ctx.fillStyle = "#c69a63"; // 顶部檐口
+    ctx.fillRect(0, 0, 16, 3);
+    ctx.fillStyle = "#d4ab74"; // 石膏噪点
+    for (let i = 0; i < 6 + v * 2; i++)
+      ctx.fillRect((v * 7 + i * 5) % 15, 4 + ((v * 3 + i * 7) % 11), 2, 1);
+    ctx.fillStyle = "#a87d4e"; // 底部阴影线
+    ctx.fillRect(0, 15, 16, 1);
+    return cv;
+  };
+  const floor = (v: number): HTMLCanvasElement => {
+    const cv = document.createElement("canvas");
+    cv.width = 16;
+    cv.height = 16;
+    const ctx = cv.getContext("2d")!;
+    ctx.fillStyle = "#b98a58";
+    ctx.fillRect(0, 0, 16, 16);
+    ctx.fillStyle = "#9c7145"; // 横板缝
+    ctx.fillRect(0, 7, 16, 1);
+    ctx.fillRect(0, 15, 16, 1);
+    ctx.fillStyle = "#a87d4e"; // 竖板端
+    ctx.fillRect((v * 5 + 3) % 14, 0, 1, 7);
+    ctx.fillRect((v * 11 + 8) % 14, 8, 1, 7);
+    return cv;
+  };
+  return { wall: [wall(0), wall(1)], floor: [floor(0), floor(1)] };
+}

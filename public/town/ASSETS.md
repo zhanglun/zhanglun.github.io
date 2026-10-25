@@ -1,20 +1,25 @@
 # /town 素材来源
 
-- `mystic/` — **Mystic Woods** 免费版 by Game Endeavor（itch.io），16x16 像素素材。
-  许可：仅限**非商业**项目使用、可修改、**禁止再分发**（即使修改后）。
-  来源：https://game-endeavor.itch.io/mystic-woods （署名非必需，本文件自愿注明）
-  ⚠️ 本仓库为公开仓库，mystic/ 目录的图片文件随仓库公开。若需严格符合许可，
-  可购买 $3.99 商业授权版，或将仓库转为私有/部署时排除该目录。
-- `gen/` — **构建期程序化生成**的纹理（树/草丛/岩石/木牌/小屋/作物/耕地/星星），
-  色板取自 Mystic Woods，本站原创绘制，无授权限制。
-  生成脚本逻辑见 `src/components/town/game/` 内注释。
+- `sv/` — **Serene Village revamped** by LimeZu（itch.io），16x16 像素素材。
+  由 `scripts/extract-town-sv.mjs` 从原始 tileset（Serene_Village_16x16.png）
+  按包围盒裁切；门/篝火来自包内 Animated stuff。
+  许可：**CC-BY 4.0**（https://creativecommons.org/licenses/by/4.0/ ）——
+  可自由使用、修改、再分发，须署名。来源：https://limezu.itch.io/serenevillagerevamped
+- `char/` — 村民待机动画，来自 **Modern Interiors Free** by LimeZu
+  （https://limezu.itch.io/moderninteriors ，Characters_free/ 目录原样复制）。
+  ⚠️ 免费版 LICENSE 为**仅非商业**使用；本站为个人非商业博客。若站点引入
+  广告等商业行为，需购买完整版或移除该目录。
+- `gen/` — **程序化生成**纹理（`scripts/make-slime.mjs` 的史莱姆、
+  木箱/木桶），本站原创绘制，无授权限制。
 
-已移除：Kenney Tiny 系列（farm/town/indoor）、Tiny 16 Basic 角色、Ara 站内素材、
-Pixels AGPL 角色（v4 起小镇统一 Mystic Woods 单一来源）。
+已移除：Mystic Woods 免费版（非商业 + 禁再分发，公开仓库属灰色地带，
+2026-10-25 起被 SV/MI 方案替换）；更早的 Kenney Tiny 系列、Tiny 16 Basic、
+Ara 站内素材、Pixels AGPL 角色一并移除。
 
 游戏代码原创；架构模式受 Pixels 开源客户端启发，未复制其代码。
 
 ## 许可说明
 
-- Mystic Woods 免费版：非商业、禁止再分发（来源已注明；商业用途请购买作者的商业授权）。
-- `gen/` 程序化纹理：本站原创，无授权限制。
+- `sv/`：CC-BY 4.0，署名 LimeZu 即可（本文件即署名）。
+- `char/`：Modern Interiors 免费版，仅非商业，来源已注明。
+- `gen/`：本站原创，无授权限制。

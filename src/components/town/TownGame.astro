@@ -1,27 +1,16 @@
 ---
 // 像素小镇：全屏 Phaser 画布 + DOM HUD。
 // HUD 与游戏经事件总线单向通行（架构对齐 Pixels 客户端，单机简化）。
-// 物品栏图标直接从 farm-tiles.png（12 列、16px 格）以 CSS 精灵裁切，放大 3 倍。
-const tools = [
-  { name: "开垦", icon: "⛏", hint: "对草地按「用」开垦出耕地" },
-  { name: "播种", icon: "🌱", hint: "对耕地按「用」种下胡萝卜" },
-  { name: "浇水", icon: "💧", hint: "对作物按「用」浇水，长得更快" },
-];
 ---
 
-<div class="town-stage" aria-label="像素小镇小游戏">
+<div class="town-stage" aria-label="像素小镇">
   <div class="town-canvas" id="town-canvas"></div>
 
   <div class="town-hud">
     <a class="town-back px" href="/">‹ 回博客</a>
-    <div class="town-stats px">
-      <span class="stat">⚡ <b id="town-energy">0</b></span>
-      <span class="stat quest" id="town-quest">🥕 0/3</span>
-    </div>
   </div>
 
   <div class="town-prompt px" id="town-prompt" hidden></div>
-  <div class="town-toast px" id="town-toast" hidden></div>
 
   <div class="town-dialog px" id="town-dialog" hidden>
     <b class="who"></b>
@@ -40,24 +29,6 @@ const tools = [
     </div>
   </div>
 
-  <p class="town-tools-hint px" id="town-tools-hint" hidden></p>
-  <div class="town-tools" id="town-tools">
-    {
-      tools.map((t, i) => (
-        <button
-          class="tool"
-          type="button"
-          data-tool={i}
-          aria-label={t.name}
-          title={`${t.name}（${i + 1}）`}
-        >
-          <span class="tool-icon">{t.icon}</span>
-          <span class="tool-name px">{t.name}</span>
-        </button>
-      ))
-    }
-  </div>
-
   <div class="town-touch">
     <div class="dpad" id="town-dpad">
       <button class="du" data-dir="up" type="button" aria-label="上">▲</button>
@@ -66,7 +37,6 @@ const tools = [
       <button class="dd" data-dir="down" type="button" aria-label="下">▼</button>
     </div>
     <div class="acts">
-      <button class="btn use px" id="town-btn-use" type="button">用</button>
       <button class="btn act px" id="town-btn-act" type="button">A</button>
     </div>
   </div>
@@ -74,9 +44,8 @@ const tools = [
   <div class="town-intro px" id="town-intro">
     <div class="intro-card">
       <h2>小圆镇</h2>
-      <p>方向键 / WASD 走动 · E 进门、说话、收获</p>
-      <p>1/2/3 换工具 · 空格开垦、播种、浇水</p>
-      <p class="dim">进度自动存档 · 手机用屏幕按键</p>
+      <p>方向键 / WASD 走动 · E 进门、说话</p>
+      <p class="dim">这就是博客的小镇形态 · 手机用屏幕按键</p>
       <button class="px start" id="town-start" type="button">进入小镇</button>
     </div>
   </div>
@@ -121,19 +90,11 @@ const tools = [
     text-decoration: none;
     color: #17120e;
   }
-  .town-stats {
-    display: flex;
-    gap: 8px;
-    background: #fffdf5;
-    border: 2px solid #17120e;
-    box-shadow: 3px 3px 0 rgb(23 18 14 / 0.7);
-    padding: 4px 10px;
-  }
-  .town-prompt,
-  .town-toast {
+  .town-prompt {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    bottom: 108px;
     background: #fffdf5;
     border: 2px solid #17120e;
     box-shadow: 3px 3px 0 rgb(23 18 14 / 0.7);
@@ -141,8 +102,6 @@ const tools = [
     z-index: 5;
     white-space: nowrap;
   }
-  .town-prompt { bottom: 108px; }
-  .town-toast { bottom: 146px; border-color: #d0122a; color: #d0122a; }
   .town-dialog {
     position: absolute;
     left: 50%;
@@ -162,59 +121,6 @@ const tools = [
   .town-dialog .text {
     display: inline;
     margin: 0;
-  }
-  .town-tools-hint {
-    position: absolute;
-    right: 12px;
-    bottom: 66px;
-    z-index: 6;
-    color: #fffdf5;
-    text-shadow: 1px 1px 0 #17120e;
-    white-space: nowrap;
-  }
-  .town-tools-hint[hidden] { display: none; }
-  .town-tools {
-    position: absolute;
-    right: 10px;
-    bottom: 14px;
-    display: flex;
-    gap: 6px;
-    z-index: 6;
-  }
-  .town-tools .tool {
-    width: 46px;
-    height: 46px;
-    background: #fffdf5;
-    border: 2px solid #17120e;
-    box-shadow: 3px 3px 0 rgb(23 18 14 / 0.7);
-    display: grid;
-    place-items: center;
-    padding: 0;
-    cursor: pointer;
-  }
-  .town-tools .tool.on {
-    outline: 3px solid #d0122a;
-    outline-offset: -1px;
-  }
-  .town-tools .tool-name {
-    position: absolute;
-    left: 50%;
-    bottom: 1px;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: #17120e;
-    background: #fffdf5;
-    padding: 0 2px;
-    line-height: 1.1;
-  }
-  .town-tools .tool {
-    position: relative;
-  }
-  .town-tools .tool-icon {
-    font-size: 22px;
-    line-height: 1;
-    display: block;
-    margin-bottom: 10px;
   }
   .town-touch {
     position: absolute;
@@ -254,14 +160,11 @@ const tools = [
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #fffdf5cc;
+    background: #ffd2d2cc;
     border: 2px solid #17120e;
   }
-  .acts .use { background: #ffe9b8cc; }
-  .acts .act { background: #ffd2d2cc; }
   @media (pointer: coarse) {
     .town-touch { display: flex; }
-    .town-tools { bottom: auto; top: 52px; }
   }
   .town-panel {
     position: absolute;
@@ -336,8 +239,7 @@ const tools = [
   .town-intro[hidden] { display: none; }
   .town-panel[hidden] { display: none; }
   .town-dialog[hidden] { display: none; }
-  .town-prompt[hidden],
-  .town-toast[hidden] { display: none; }
+  .town-prompt[hidden] { display: none; }
 </style>
 
 <script>
@@ -360,12 +262,9 @@ const tools = [
 
   const $ = (id: string) => document.getElementById(id);
   const promptEl = $("town-prompt")!;
-  const toastEl = $("town-toast")!;
   const dialogEl = $("town-dialog")!;
   const panelEl = $("town-panel")!;
   const introEl = $("town-intro")!;
-  const energyEl = $("town-energy")!;
-  const questEl = $("town-quest")!;
 
   bus.on(EV.ready, () => introEl.querySelector("button")?.removeAttribute("disabled"));
   bus.on(EV.prompt, (text: string | null) => {
@@ -375,10 +274,6 @@ const tools = [
     }
     promptEl.textContent = text;
     promptEl.hidden = false;
-  });
-  bus.on(EV.energy, (n: number) => (energyEl.textContent = String(n)));
-  bus.on(EV.quest, (q: { delivered: number; need: number; done: boolean }) => {
-    questEl.textContent = q.done ? "🥕 任务完成 ✓" : `🥕 ${q.delivered}/${q.need}`;
   });
   let dialogTimer = 0;
   bus.on(EV.dialog, (d: { name: string; text: string } | null) => {
@@ -391,14 +286,6 @@ const tools = [
     dialogEl.hidden = false;
     window.clearTimeout(dialogTimer);
     dialogTimer = window.setTimeout(() => (dialogEl.hidden = true), 4200);
-  });
-  let toastTimer = 0;
-  bus.on(EV.toast, (text: string) => {
-    // toast 独立元素，不污染场景正在显示的交互提示
-    toastEl.textContent = text;
-    toastEl.hidden = false;
-    window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => (toastEl.hidden = true), 1800);
   });
   bus.on(
     EV.panel,
@@ -425,29 +312,6 @@ const tools = [
     panelEl.hidden = true;
     bus.emit(EV.panel, null);
   });
-
-  // 工具选择：HUD 高亮与场景状态分离，避免 emit 自环
-  const toolBtns = [...document.querySelectorAll<HTMLButtonElement>("#town-tools .tool")];
-  const toolHintEl = $("town-tools-hint")!;
-  const TOOL_HINTS = [
-    "对草地按「用」开垦出耕地",
-    "对耕地按「用」种下胡萝卜",
-    "对作物按「用」浇水，长得更快",
-  ];
-  const markTool = (i: number) => {
-    toolBtns.forEach((b, j) => b.classList.toggle("on", i === j));
-    toolHintEl.textContent = TOOL_HINTS[i] ?? "";
-    toolHintEl.hidden = false;
-  };
-  toolBtns.forEach(b =>
-    b.addEventListener("click", () => {
-      const i = Number(b.dataset.tool);
-      markTool(i);
-      bus.emit(EV.tool, i);
-    })
-  );
-  bus.on(EV.tool, (i: number) => markTool(i));
-  markTool(0);
 
   // 虚拟方向键（pointer 事件，支持按住）
   const dpad = $("town-dpad")!;
@@ -489,7 +353,6 @@ const tools = [
     b.addEventListener("pointerleave", off);
   });
   $("town-btn-act")!.addEventListener("click", () => bus.emit(EV.touchAct));
-  $("town-btn-use")!.addEventListener("click", () => bus.emit(EV.touchUse));
 
   // 启动：点「进入小镇」时才拉起 Phaser（按需加载，键盘锁定前先显示说明）
   let started = false;
@@ -502,7 +365,4 @@ const tools = [
       $("town-canvas")!
     );
   });
-
-  // 存档由游戏内 8s 心跳与关键动作驱动；不做 pagehide 持久化，
-  // 避免页面卸载时用过期的内存态覆盖较新的存档。
 </script>

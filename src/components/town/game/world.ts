@@ -1,8 +1,7 @@
 // 小镇世界数据：程序化生成地面与碰撞，建筑/装饰/NPC 全部数据驱动。
 // 坐标一律为 tile 格；像素坐标在场景里 × TILE。
-// 小屋为程序化拼装（Mystic 悬崖/木门 tile），decor 为 Mystic 透明草丛。
-
-import { FENCE, CLIFF } from "./assets";
+// 建筑为 Serene Village 成品房屋 sprite（scripts/extract-town-sv.mjs 裁切），
+// 散件为 SV 图块，史莱姆与室内为程序化生成。
 
 export const WORLD_W = 64;
 export const WORLD_H = 40;
@@ -16,7 +15,7 @@ export interface BuildingDef {
   ty: number;
   w: number; // 占格（含屋顶）
   h: number;
-  roofTint?: number; // 屋顶草色微调，区分不同建筑
+  house: string; // SV 房屋纹理键
   interior: InteriorDef;
 }
 
@@ -25,26 +24,26 @@ export interface InteriorDef {
   h: number;
   furniture: { img: "crate" | "barrel"; x: number; y: number }[];
   sign: { x: number; y: number; text: string };
-  npc?: { name: string; text: string };
+  npc?: { name: string; sheet: string; text: string };
 }
 
 export interface PropDef {
-  image?: string; // 程序化生成的独立纹理 key（tree/grass-tuft/rock/sign）
-  sheet?: string; // 或 Mystic sheet key
-  frame?: number;
+  image?: string; // 独立纹理 key（sv-* / gen-*）
+  sheet?: string; // 精灵表 key（篝火）
+  anim?: string; // 挂载动画（campfire）
   tx: number;
   ty: number;
   cols?: number;
   rows?: number;
   solid?: boolean;
-  chop?: boolean; // 可砍伐（得能量）
+  center?: boolean; // 小件在格内居中
 }
 
 export interface NpcDef {
   name: string;
+  sheet: string; // 村民精灵表 key（char-<name>）
   tx: number;
   ty: number;
-  tint?: number; // 史莱姆着色，区分不同 NPC
   lines: string[];
 }
 
@@ -55,7 +54,7 @@ function mulberry32(seed: number) {
     seed = (seed + 0x6d2b79f5) | 0;
     let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    return ((t ^ (seed >>> 14)) >>> 0) / 4294967296;
   };
 }
 
@@ -69,6 +68,7 @@ export const buildings: BuildingDef[] = [
     ty: 7,
     w: 4,
     h: 3,
+    house: "sv-house-blog",
     interior: {
       w: 13,
       h: 9,
@@ -91,6 +91,7 @@ export const buildings: BuildingDef[] = [
     ty: 6,
     w: 4,
     h: 3,
+    house: "sv-house-projects",
     interior: {
       w: 13,
       h: 9,
@@ -113,6 +114,7 @@ export const buildings: BuildingDef[] = [
     ty: 27,
     w: 3,
     h: 3,
+    house: "sv-house-about",
     interior: {
       w: 13,
       h: 9,
@@ -128,11 +130,12 @@ export const buildings: BuildingDef[] = [
   {
     id: "cafe",
     name: "咖啡馆",
-    blurb: "铲子和水壶靠在门口，老板收胡萝卜，也收故事。",
+    blurb: "铲子和水壶靠在门口，老板守着炉子，也收故事。",
     tx: 44,
     ty: 26,
     w: 6,
     h: 4,
+    house: "sv-house-cafe",
     interior: {
       w: 13,
       h: 9,
@@ -145,7 +148,11 @@ export const buildings: BuildingDef[] = [
         { img: "barrel", x: 10, y: 2 },
       ],
       sign: { x: 6, y: 2, text: "「今日特供：烤胡萝卜浓汤。」" },
-      npc: { name: "老板", text: "carrot-quest" },
+      npc: {
+        name: "老板阿历克斯",
+        sheet: "alex",
+        text: "炉上煨着汤，坐一会儿再走。",
+      },
     },
   },
   {
@@ -156,6 +163,7 @@ export const buildings: BuildingDef[] = [
     ty: 27,
     w: 4,
     h: 3,
+    house: "sv-house-home",
     interior: {
       w: 11,
       h: 8,
@@ -164,7 +172,7 @@ export const buildings: BuildingDef[] = [
         { img: "crate", x: 5, y: 3 },
         { img: "barrel", x: 8, y: 2 },
       ],
-      sign: { x: 5, y: 2, text: "「欢迎回家。进度都存在这台旧柜子里。」" },
+      sign: { x: 5, y: 2, text: "「欢迎回家。炉上有热水，床随你躺。」" },
     },
   },
 ];
@@ -183,7 +191,6 @@ export function solidRowsOf(b: BuildingDef) {
 export const enum Ground {
   GRASS = 0,
   DIRT = 1,
-  TILLED = 2,
 }
 
 export function buildGround(): Uint8Array {
@@ -206,11 +213,9 @@ export function buildGround(): Uint8Array {
   // 建筑门前小径
   for (const b of buildings) {
     const d = doorOf(b);
-    for (let y = d.y + 1; y <= (b.ty < 20 ? 19 : d.y + 1); y++) set(d.x, y, Ground.DIRT);
+    for (let y = d.y + 1; y <= (b.ty < 20 ? 19 : d.y + 1); y++)
+      set(d.x, y, Ground.DIRT);
   }
-  // 农田区松土底
-  for (let y = 31; y <= 36; y++)
-    for (let x = 15; x <= 26; x++) if ((x + y) % 7 !== 0) set(x, y, Ground.DIRT);
   return g;
 }
 
@@ -234,15 +239,11 @@ export function buildProps(): PropDef[] {
   }
   for (let y = 16; y <= 25; y++)
     for (let x = 25; x <= 37; x++) taken.add(`${x},${y}`);
-  for (let y = 31; y <= 36; y++)
-    for (let x = 15; x <= 26; x++) taken.add(`${x},${y}`);
   // 通路缓冲带
   for (let y = 19; y <= 22; y++)
     for (let x = 1; x < WORLD_W - 1; x++) taken.add(`${x},${y}`);
   for (let x = 29; x <= 32; x++)
     for (let y = 2; y <= WORLD_H - 3; y++) taken.add(`${x},${y}`);
-  for (let y = 16; y <= 25; y++)
-    for (let x = 25; x <= 37; x++) taken.add(`${x},${y}`);
   for (const b of buildings) {
     const d = doorOf(b);
     for (let y = d.y + 1; y <= d.y + 5; y++)
@@ -250,97 +251,191 @@ export function buildProps(): PropDef[] {
   }
 
   const free = (x: number, y: number) =>
-    x >= 1 && y >= 1 && x < WORLD_W - 1 && y < WORLD_H - 1 && !taken.has(`${x},${y}`);
+    x >= 1 &&
+    y >= 1 &&
+    x < WORLD_W - 1 &&
+    y < WORLD_H - 1 &&
+    !taken.has(`${x},${y}`);
 
-  // 边界树（程序化树 2x3，碰撞底行）
+  // 三种树轮换(各自占格不同,见 assets/world 定义)
+  const TREES = [
+    { image: "sv-tree-teal", cols: 2, rows: 3 },
+    { image: "sv-tree-dark", cols: 2, rows: 3 },
+    { image: "sv-tree-round", cols: 2, rows: 2 },
+  ];
+  const tree = (x: number, y: number) => {
+    const t = TREES[(rnd() * TREES.length) | 0];
+    props.push({
+      image: t.image,
+      tx: x,
+      ty: y,
+      cols: t.cols,
+      rows: t.rows,
+      solid: true,
+    });
+    occupy(x, y, t.cols, t.rows);
+  };
+
+  // 边界树（碰撞底行）。树 sprite 高 38px、占 3 行：侧列行距必须 ≥3 行，
+  // 且与顶/底行（y=0 / WORLD_H-3）同列错开，否则上下树的树冠会盖住上行树干，
+  // 看起来像被截断（v5 踩坑，见 town README）。
   for (let x = 0; x < WORLD_W; x += 2) {
     for (const y of [0, WORLD_H - 3]) {
-      if (rnd() < 0.8)
-        props.push({ image: "gen-tree", tx: x, ty: y, cols: 2, rows: 3, solid: true });
+      if (rnd() < 0.8) tree(x, y);
     }
   }
-  for (let y = 1; y < WORLD_H - 3; y += 2) {
+  for (let y = 3; y <= WORLD_H - 6; y += 3) {
     for (const x of [0, WORLD_W - 2]) {
-      if (rnd() < 0.8)
-        props.push({ image: "gen-tree", tx: x, ty: y, cols: 2, rows: 3, solid: true });
+      if (rnd() < 0.8) tree(x, y);
     }
   }
-  // 内部散树/灌木/草丛
+  // 树丛(SV 设计好的四棵连体整体装饰)
+  props.push({
+    image: "sv-grove",
+    tx: 3,
+    ty: 11,
+    cols: 5,
+    rows: 3,
+    solid: true,
+  });
+  props.push({
+    image: "sv-grove",
+    tx: 52,
+    ty: 31,
+    cols: 5,
+    rows: 3,
+    solid: true,
+  });
+  // 内部散树/花/石（树占 2×3 格，检查须覆盖全部占格，否则同排树会水平重叠）
+  const FLOWERS = ["sv-flower-pink", "sv-flower-yellow", "sv-flower-white"];
+  const ROCKS = ["sv-rock-small", "sv-rock-big"];
+  const fits2x3 = (x: number, y: number) =>
+    free(x, y) &&
+    free(x + 1, y) &&
+    free(x, y + 1) &&
+    free(x + 1, y + 1) &&
+    free(x, y + 2) &&
+    free(x + 1, y + 2);
   for (let i = 0; i < 150; i++) {
-    const x = 1 + ((rnd() * (WORLD_W - 2)) | 0);
+    const x = 1 + ((rnd() * (WORLD_W - 3)) | 0);
     const y = 1 + ((rnd() * (WORLD_H - 4)) | 0);
-    if (!free(x, y) || !free(x, y + 1) || !free(x, y + 2)) continue;
+    if (!fits2x3(x, y)) continue;
     const r = rnd();
-    if (r < 0.5) {
-      props.push({ image: "gen-tree", tx: x, ty: y, cols: 2, rows: 3, solid: true, chop: true });
-      occupy(x, y, 2, 3);
+    if (r < 0.45) {
+      tree(x, y);
     } else if (r < 0.75) {
-      props.push({ image: "gen-grass-tuft", tx: x, ty: y, cols: 2, rows: 1, chop: true });
-      occupy(x, y, 2, 1);
-    } else {
-      props.push({ image: "gen-rock", tx: x, ty: y, cols: 1, rows: 1, solid: true });
+      props.push({
+        image: FLOWERS[(rnd() * 3) | 0],
+        tx: x,
+        ty: y,
+        center: true,
+      });
       occupy(x, y, 1, 1);
+    } else {
+      const key = ROCKS[(rnd() * 3) | 0];
+      const big = key !== "sv-rock-small";
+      props.push({ image: key, tx: x, ty: y, solid: true, center: true });
+      occupy(x, y, big ? 2 : 1, big ? 2 : 1);
     }
   }
-  // 农田栅栏（北面开口）
-  for (let x = 14; x <= 27; x++) {
-    if (x === 20 || x === 21) continue;
-    props.push({ sheet: "mystic-fences", frame: FENCE.rail, tx: x, ty: 30, solid: true });
-    taken.add(`${x},30`);
-  }
-  for (const y of [31, 32, 33, 34, 35, 36]) {
-    props.push({ sheet: "mystic-fences", frame: FENCE.post, tx: 14, ty: y, solid: true });
-    props.push({ sheet: "mystic-fences", frame: FENCE.post, tx: 27, ty: y, solid: true });
-    taken.add(`14,${y}`);
-    taken.add(`27,${y}`);
-  }
-  // 广场告示牌 + 点缀
-  props.push({ image: "gen-sign-board", tx: 33, ty: 17, solid: true });
-  props.push({ image: "gen-rock", tx: 27, ty: 23, solid: true });
-  props.push({ image: "gen-grass-tuft", tx: 35, ty: 23 });
+  // 广场告示牌（木牌+石堆）、路标、篝火与围栏点缀
+  props.push({
+    image: "sv-sign-board",
+    tx: 33,
+    ty: 17,
+    solid: true,
+    center: true,
+  });
+  props.push({
+    sheet: "sv-campfire",
+    anim: "campfire",
+    tx: 34,
+    ty: 23,
+    solid: true,
+  });
+  props.push({
+    image: "sv-sign-arrow",
+    tx: 27,
+    ty: 23,
+    solid: true,
+    center: true,
+  });
+  props.push({
+    image: "sv-sign-post",
+    tx: 36,
+    ty: 17,
+    solid: true,
+    center: true,
+  });
   // 广场路标
-  props.push({ image: "gen-sign-board", tx: 25, ty: 22, solid: true });
+  props.push({
+    image: "sv-sign-board",
+    tx: 25,
+    ty: 22,
+    solid: true,
+    center: true,
+  });
   // 岩石点缀
-  props.push({ image: "gen-rock", tx: 22, ty: 17, solid: true });
-  props.push({ image: "gen-rock", tx: 40, ty: 22, solid: true });
-  props.push({ image: "gen-rock", tx: 17, ty: 24, solid: true });
-  // 草丛点缀
+  props.push({
+    image: "sv-rock-big",
+    tx: 22,
+    ty: 17,
+    solid: true,
+    center: true,
+  });
+  props.push({
+    image: "sv-rock-big",
+    tx: 40,
+    ty: 22,
+    solid: true,
+    center: true,
+  });
+  props.push({
+    image: "sv-rock-small",
+    tx: 17,
+    ty: 24,
+    solid: true,
+    center: true,
+  });
+  // 花草点缀
   for (let i = 0; i < 60; i++) {
     const x = 1 + ((rnd() * (WORLD_W - 2)) | 0);
     const y = 1 + ((rnd() * (WORLD_H - 2)) | 0);
     if (!free(x, y)) continue;
-    props.push({ image: "gen-grass-tuft", tx: x, ty: y });
+    props.push({
+      image: FLOWERS[(rnd() * 3) | 0],
+      tx: x,
+      ty: y,
+      center: true,
+    });
   }
   return props;
 }
 
 export const npcDefs: NpcDef[] = [
   {
-    name: "镇长史莱姆",
+    name: "镇长艾米莉",
+    sheet: "amelia",
     tx: 33,
     ty: 22,
-    tint: 0x7ec8e3,
     lines: [
-      "欢迎来到小圆镇！靠南边的田可以随便种。",
-      "锄头开地，种子下地，等一等就有收成。",
-      "收获的胡萝卜…咖啡馆老板可稀罕了。",
+      "欢迎来到小圆镇！这镇子就是站长的博客。",
+      "书屋在东北，工坊在西北，邮局在路口。",
+      "晚上广场会点起篝火，别玩太晚呀。",
     ],
   },
   {
-    name: "花姨史莱姆",
+    name: "花匠波波",
+    sheet: "bob",
     tx: 13,
     ty: 15,
-    tint: 0xc39bd3,
-    lines: ["书屋今早刚开张，架子还热乎着。", "晚上镇子会点灯，别玩太晚呀。"],
+    lines: ["书屋今早刚开张，架子还热乎着。", "路口的野花开得正好，随便看。"],
   },
   {
-    name: "邮差史莱姆",
+    name: "邮差亚当",
+    sheet: "adam",
     tx: 44,
     ty: 13,
-    tint: 0x82e0aa,
     lines: ["工坊那小子又熬了个通宵。", "邮局的信，风里雨里都会送到。"],
   },
 ];
-
-// 咖啡馆任务：交付 3 根胡萝卜
-export const QUEST = { id: "carrot", need: 3, reward: 10 };
