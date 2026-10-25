@@ -1,0 +1,22 @@
+---
+import Layout from "@layouts/Layout.astro";
+import TownGame from "@components/town/TownGame.astro";
+---
+
+<Layout
+  title={`小圆镇 · 像素小镇 | 张小伦的网络日志`}
+  description="博客里的像素小镇：开一块田、种胡萝卜、串门逛铺子。"
+>
+  <script is:inline>
+    // 游戏画面式页面：禁滚动 + 禁弹性过滚（内联即时生效，不受 CSS 缓存影响）
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.overscrollBehavior = "none";
+  </script>
+  <h1 class="sr-only">小圆镇 · 像素小镇</h1>
+  <TownGame />
+  <p class="sr-only">
+    素材：Kenney（Tiny Town / Tiny Farm / Tiny Dungeon，CC0）；角色：Tiny 16 Basic
+    by Lanea Zimmerman（CC-BY 3.0）；农夫与小鸡：Pixels 开源客户端（AGPL-3.0，©
+    Banger Inc.，来源与许可见 /town/pixels/NOTICE.md）。
+  </p>
+</Layout>
