@@ -1,0 +1,99 @@
+---
+import PixelLayout from "@layouts/PixelLayout.astro";
+import { getCollection } from "astro:content";
+import Search from "@components/Search";
+import getSortedPosts from "@utils/getSortedPosts";
+import formatDotDate from "@utils/formatDotDate";
+
+const posts = getSortedPosts(await getCollection("blogs"));
+const searchList = posts.map(post => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description || "",
+  date: post.data.date.toISOString(),
+  headings: [] as string[],
+  tags: post.data.tags || [],
+}));
+const recent = searchList.slice(0, 8);
+---
+
+<PixelLayout title={`搜索 · PIXEL DEMO`} mode="ambient" active="search">
+  <section class="px-page-wrap">
+    <h1 class="px-heading">搜索</h1>
+    <p class="px-date" style="margin: 0 0 24px;">
+      复用原站搜索组件（Fuse.js），像素皮肤外壳 ·
+      <a href="/search" style="color: var(--px-ink);">原版搜索 →</a>
+    </p>
+
+    <div class="px-card ssr-block">
+      <label class="sr" for="q-ssr">搜索</label>
+      <input
+        id="q-ssr"
+        class="px-search-box"
+        placeholder="搜标题或标签"
+        autocomplete="off"
+      />
+      <p class="px-date">最近八篇</p>
+      <div class="recent-list">
+        {
+          recent.map(post => (
+            <a href={`/pixel-blog/${post.id}`} data-cursor="question">
+              <time class="px-date" datetime={post.date}>
+                {formatDotDate(post.date)}
+              </time>
+              <span>{post.title}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="px-card react-search">
+      <Search client:only="react" searchList={searchList} />
+    </div>
+  </section>
+</PixelLayout>
+
+<style>
+  .ssr-block {
+    margin-bottom: 24px;
+  }
+
+  .px-search-box {
+    width: 100%;
+    font-family: var(--px-pixel-font);
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    border: 2px solid var(--px-ink);
+    background: #fff;
+    color: var(--px-ink);
+    padding: 12px 14px;
+    box-shadow: 4px 4px 0 var(--px-ink);
+    outline: none;
+    margin-bottom: 16px;
+  }
+
+  .recent-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .recent-list a {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    text-decoration: none;
+    padding: 8px 4px;
+    border-bottom: 1px dashed #d9dde7;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+
+  .recent-list a:hover {
+    background: #f6f8fb;
+  }
+
+  .react-search :global(*) {
+    font-family: var(--px-body-font);
+  }
+</style>

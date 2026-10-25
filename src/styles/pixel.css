@@ -1,0 +1,425 @@
+/* yoyu 风格 demo 共享皮肤：网格纸 + 像素 UI + 分层画布 */
+
+@import "https://fonts.googleapis.com/css2?family=DotGothic16&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap";
+
+/* 站内已有的中文像素字（原 ara.css 同源文件），中文回退到它 */
+@font-face {
+  font-family: "Fusion Pixel";
+  src: url("/fonts/fusion-pixel-12px-proportional-zh_hans.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --px-ink: #111114;
+  --px-paper: #ffffff;
+  --px-red: #ff4130;
+  --px-yellow: #eeff5a;
+  --px-cyan: #63ddff;
+  --px-green: #00b995;
+  --px-gray: #858890;
+  --px-pixel-font: "DotGothic16", "Fusion Pixel", "IBM Plex Sans JP",
+    monospace;
+  --px-body-font: "IBM Plex Sans JP", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
+}
+
+.px-page * {
+  box-sizing: border-box;
+}
+
+.px-page {
+  margin: 0;
+  color: var(--px-ink);
+  font-family: var(--px-body-font);
+  background-color: var(--px-paper);
+  background-image: linear-gradient(to right, #e9ecf2 1px, transparent 1px),
+    linear-gradient(to bottom, #e9ecf2 1px, transparent 1px),
+    linear-gradient(to right, #dfe3ec 1px, transparent 1px),
+    linear-gradient(to bottom, #dfe3ec 1px, transparent 1px);
+  background-size: 8px 8px, 8px 8px, 40px 40px, 40px 40px;
+  overflow-x: hidden;
+}
+
+.px-page img {
+  image-rendering: pixelated;
+}
+
+.px-page a {
+  color: inherit;
+}
+
+/* ---------- 系统光标接管 ---------- */
+
+@media (pointer: fine) {
+  html:not(.motion-off) body[data-cursor-takeover="page"] {
+    cursor: none;
+  }
+
+  html.pixel-live:not(.motion-off) body[data-cursor-takeover="scope"] {
+    cursor: none;
+  }
+}
+
+/* ---------- 方案切换器 / 说明条 ---------- */
+
+.px-switch {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+
+.px-note-bar {
+  max-width: 880px;
+  margin: 26px auto 0;
+  padding: 0 24px;
+  font-family: var(--px-pixel-font);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: #55585f;
+}
+
+.px-note-bar a {
+  color: var(--px-ink);
+}
+
+.px-page-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.px-page-wrap > .px-heading {
+  font-size: clamp(26px, 4vw, 40px);
+  margin-bottom: 10px;
+}
+
+/* ---------- 固定图层 ---------- */
+
+.px-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+#walker-canvas { z-index: 1; }
+#idle-canvas { z-index: 50; }
+#trail-canvas { z-index: 60; }
+#explosion-canvas { z-index: 61; }
+#cursor-canvas { z-index: 62; }
+
+html.motion-off .px-layer {
+  display: none;
+}
+
+html.motion-off *,
+html.motion-off *::before,
+html.motion-off *::after {
+  animation-play-state: paused !important;
+}
+
+/* ---------- 顶栏 ---------- */
+
+.px-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom: 2px solid var(--px-ink);
+  backdrop-filter: blur(2px);
+}
+
+.px-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--px-pixel-font);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.px-header .brand img {
+  width: 28px;
+  height: 28px;
+}
+
+.px-header .right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.px-nav {
+  display: flex;
+  gap: 14px;
+  font-family: var(--px-pixel-font);
+  font-size: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.px-nav a {
+  text-decoration: none;
+  padding: 2px 0;
+}
+
+.px-nav a[aria-current="page"] {
+  border-bottom: 2px solid var(--px-ink);
+}
+
+.px-nav a:hover {
+  text-decoration: underline 2px;
+}
+
+.px-btn {
+  font-family: var(--px-pixel-font);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  border: 2px solid var(--px-ink);
+  background: var(--px-paper);
+  color: var(--px-ink);
+  padding: 5px 9px;
+  box-shadow: 3px 3px 0 var(--px-ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.px-btn[data-on="false"] {
+  background: var(--px-ink);
+  color: var(--px-paper);
+}
+
+.px-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--px-ink);
+}
+
+/* ---------- 像素卡片与按钮 ---------- */
+
+.px-card {
+  background: var(--px-paper);
+  border: 2px solid var(--px-ink);
+  box-shadow: 4px 4px 0 var(--px-ink);
+  padding: 18px 20px;
+  transition: none;
+}
+
+a.px-card {
+  text-decoration: none;
+  display: block;
+}
+
+a.px-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--px-ink);
+}
+
+.px-heading {
+  font-family: var(--px-pixel-font);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.px-tag {
+  display: inline-block;
+  font-family: var(--px-pixel-font);
+  font-size: 11px;
+  border: 2px solid var(--px-ink);
+  padding: 2px 7px;
+  margin-right: 6px;
+  background: var(--px-paper);
+}
+
+.px-date {
+  font-family: var(--px-pixel-font);
+  font-size: 12px;
+  color: var(--px-gray);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- 加载页 ---------- */
+
+#loading {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--px-paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.2s step-end;
+}
+
+#loading.is-done {
+  opacity: 0;
+}
+
+#loading .kid {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+#loading .kid::before,
+#loading .kid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+#loading .kid::before {
+  background-image: url("/pixel/img/top/icons/animation/characters/kid-01/side-turning-01.svg");
+  animation: px-kid-a 960ms step-end infinite;
+}
+
+#loading .kid::after {
+  background-image: url("/pixel/img/top/icons/animation/characters/kid-01/side-turning-02.svg");
+  opacity: 0;
+  animation: px-kid-b 960ms step-end infinite;
+}
+
+@keyframes px-kid-a {
+  0% { opacity: 1; }
+  16.6667% { opacity: 0; }
+  33.3333% { opacity: 1; }
+  66.6667% { opacity: 0; }
+  83.3333% { opacity: 1; }
+}
+
+@keyframes px-kid-b {
+  0% { opacity: 0; }
+  16.6667% { opacity: 1; }
+  33.3333% { opacity: 0; }
+  66.6667% { opacity: 1; }
+  83.3333% { opacity: 0; }
+}
+
+#loading .text {
+  font-family: var(--px-pixel-font);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+
+#loading .text span {
+  opacity: 0;
+  animation: px-dot 1600ms step-end infinite;
+}
+
+#loading .text span:nth-child(1) { animation-name: px-dot-1; }
+#loading .text span:nth-child(2) { animation-name: px-dot-2; }
+#loading .text span:nth-child(3) { animation-name: px-dot-3; }
+
+@keyframes px-dot-1 {
+  0% { opacity: 1; }
+  75% { opacity: 0; }
+}
+
+@keyframes px-dot-2 {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 0; }
+}
+
+@keyframes px-dot-3 {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  75% { opacity: 0; }
+}
+
+/* ---------- 漂浮脸 ---------- */
+
+.px-float {
+  animation: px-bob 1.7s steps(2, jump-none) infinite;
+}
+
+@keyframes px-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ---------- 文章排版（quiet 模式） ---------- */
+
+.px-article {
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.px-article h1,
+.px-article h2,
+.px-article h3 {
+  font-family: var(--px-pixel-font);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.px-article h2 {
+  border-bottom: 2px solid var(--px-ink);
+  padding-bottom: 8px;
+  margin-top: 2.2em;
+}
+
+.px-article pre {
+  border: 2px solid var(--px-ink);
+  background: #f6f8fb;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-size: 13.5px;
+}
+
+.px-article code {
+  font-size: 0.88em;
+}
+
+.px-article :not(pre) > code {
+  background: #f6f8fb;
+  border: 1px solid #d9dde7;
+  padding: 1px 5px;
+}
+
+.px-article blockquote {
+  margin: 1.4em 0;
+  border-left: 4px solid var(--px-ink);
+  padding: 4px 0 4px 16px;
+  color: #44444a;
+}
+
+.px-article img {
+  border: 2px solid var(--px-ink);
+  max-width: 100%;
+}
+
+/* ---------- 响应式 ---------- */
+
+@media (max-width: 900px) {
+  .px-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 780px) {
+  .px-switch {
+    left: 10px;
+    bottom: 10px;
+  }
+}

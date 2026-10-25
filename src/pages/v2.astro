@@ -1,0 +1,117 @@
+---
+import PixelLayout from "@layouts/PixelLayout.astro";
+import Banner from "@components/pixel/Banner.astro";
+import { getCollection } from "astro:content";
+import { SITE } from "@config";
+import getSortedPosts from "@utils/getSortedPosts";
+import formatDotDate from "@utils/formatDotDate";
+
+const posts = getSortedPosts(await getCollection("blogs")).slice(0, 6);
+const latest = getSortedPosts(await getCollection("blogs"))[0];
+
+const navItems = [
+  ["首页", "/v2", "home"],
+  ["文章", "/blog", "blog"],
+  ["搜索", "/search", "search"],
+  ["项目", "/projects", "projects"],
+  ["关于", "/about", "about"],
+  ["旧版首页", "/", "old"],
+  ["实验室", "/pixel", "lab"],
+] as const;
+---
+
+<PixelLayout
+  title={SITE.title}
+  description={SITE.description}
+  mode="full"
+  active="home"
+  brand={SITE.title}
+  brandHref="/v2"
+  navItems={navItems}
+  footerLeft={`© ${new Date().getFullYear()} ${SITE.author} · 新版首页（方案 B）`}
+>
+  <Banner
+    compact={false}
+    heading={SITE.title}
+    ctaHref={latest ? `/blog/${latest.id}` : "/blog"}
+    ctaLabel="READ THE LATEST"
+    tagline="写给以后翻看 · Take the cursor for a walk"
+  />
+
+  <div class="px-note-bar">
+    新版首页（方案 B：yoyu 风格整页重做）。导航已指向真实页面；
+    旧的 Ara 街景首页保留在 <a href="/">旧版首页</a>，随时可以对比回退。
+  </div>
+
+  <section class="home-posts">
+    <h2 class="px-heading">最新文章</h2>
+    <div class="post-grid">
+      {
+        posts.map(post => (
+          <a
+            class="px-card post-card"
+            href={`/blog/${post.id}`}
+            data-cursor="question"
+          >
+            <time class="px-date" datetime={post.data.date.toISOString()}>
+              {formatDotDate(post.data.date)}
+            </time>
+            <h3>{post.data.title}</h3>
+            <p>
+              {post.data.description?.replace(/^#+\s*/, "") || "（无摘要）"}
+            </p>
+            <span class="px-tag">{post.data.tags[0]}</span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="more-row">
+      <a class="px-btn" href="/blog">全部文章</a>
+      <a class="px-btn" href="/">旧版首页</a>
+    </p>
+  </section>
+</PixelLayout>
+
+<style>
+  .home-posts {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 10px 24px 90px;
+  }
+
+  .home-posts > .px-heading {
+    font-size: clamp(24px, 3.4vw, 34px);
+    margin: 0 0 20px;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
+  }
+
+  .post-card h3 {
+    font-family: var(--px-body-font);
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 8px 0 8px;
+    font-weight: 600;
+  }
+
+  .post-card p {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #55585f;
+    margin: 0 0 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .more-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+  }
+</style>

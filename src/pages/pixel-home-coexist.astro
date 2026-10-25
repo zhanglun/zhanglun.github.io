@@ -1,0 +1,108 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Street from "@components/ara/Street.astro";
+import CatNav from "@components/ara/CatNav.astro";
+import PostList from "@components/ara/PostList.astro";
+import Banner from "@components/pixel/Banner.astro";
+import { getCollection } from "astro:content";
+import getSortedPosts from "@utils/getSortedPosts";
+import "../styles/pixel.css";
+
+const posts = getSortedPosts(await getCollection("blogs"));
+const latest = posts[0];
+---
+
+<Layout
+  title={`首页方案 A · yoyu banner × Ara 街景 | PIXEL DEMO`}
+  active="home"
+>
+  <!--
+    方案 A：yoyu 交互 banner 在首屏，Ara 街景与目录区原样跟在下面。
+    光标接管只发生在 banner 容器内（data-pixel-scope），正文区不受影响。
+    未传入 streetPosts——Street 在 banner 之后手动嵌入，避免出现在 banner 之前。
+  -->
+  <Banner
+    compact
+    ctaHref={latest ? `/pixel-blog/${latest.id}` : "/pixel-blog"}
+    ctaLabel="READ THE LATEST"
+  />
+
+  <canvas id="trail-canvas" class="px-layer" aria-hidden="true"></canvas>
+  <canvas id="explosion-canvas" class="px-layer" aria-hidden="true"></canvas>
+  <canvas id="cursor-canvas" class="px-layer" aria-hidden="true"></canvas>
+
+  <div class="px-note-bar">
+    方案 A：yoyu banner（首屏交互）× Ara 街景（原样嵌入）共存，两种像素语言分区各司其职。
+    光标只在 banner 范围内变形，往下滚动正文不受影响。<a href="/pixel-home-yoyu">切换方案 B（整页重做）→</a>
+  </div>
+
+  <Street posts={posts} />
+
+  <div class="ara-body">
+    <CatNav active="home" />
+    <div class="ara-main">
+      <h2 class="px-heading" style="font-size: 28px; margin: 0 0 16px;">
+        最新
+      </h2>
+      <div class="ara-list-demo">
+        <PostList posts={posts.slice(0, 10)} />
+      </div>
+      <p class="more-row">
+        <a class="px-btn" href="/pixel-blog">像素版列表（demo）</a>
+        <a class="px-btn" href="/">原版首页</a>
+      </p>
+    </div>
+  </div>
+
+  <div id="loading">
+    <div class="kid"></div>
+    <div class="text">LOADING<span>.</span><span>.</span><span>.</span></div>
+  </div>
+
+  <span class="px-switch" aria-label="方案切换">
+    <a class="px-btn" data-on="true" href="/pixel-home-coexist">方案 A</a>
+    <a class="px-btn" data-on="false" href="/pixel-home-yoyu">方案 B</a>
+  </span>
+
+  <style>
+    .more-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .px-btn {
+      text-decoration: none;
+      display: inline-block;
+      font-family: var(--px-pixel-font);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      border: 2px solid var(--px-ink);
+      background: #fff;
+      color: var(--px-ink);
+      padding: 5px 9px;
+      box-shadow: 3px 3px 0 var(--px-ink);
+    }
+
+    .px-btn[data-on="false"] {
+      background: var(--px-ink);
+      color: #fff;
+    }
+  </style>
+
+  <script>
+    import { createPixelKit } from "../components/pixel/kit";
+
+    void createPixelKit({
+      layers: {
+        stage: "#stage-canvas",
+        trail: true,
+        cursor: true,
+        explosion: true,
+        gaze: true,
+      },
+      scope: "#pixel-banner",
+      loadingSelector: "#loading",
+    });
+  </script>
+</Layout>

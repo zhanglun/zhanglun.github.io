@@ -1,0 +1,22 @@
+---
+import PixelLayout from "@layouts/PixelLayout.astro";
+import AboutContent from "../content/about/index.md";
+---
+
+<PixelLayout title={`关于 · PIXEL DEMO`} mode="ambient" active="about">
+  <section class="px-page-wrap">
+    <h1 class="px-heading">关于</h1>
+    <p class="px-date" style="margin: 0 0 24px;">
+      像素版 demo · 内容与 <a href="/about" style="color: var(--px-ink);">原版关于页</a> 完全一致
+    </p>
+    <div class="px-card px-article">
+      <AboutContent />
+    </div>
+  </section>
+</PixelLayout>
+
+<style>
+  .px-article {
+    padding: 26px 30px;
+  }
+</style>

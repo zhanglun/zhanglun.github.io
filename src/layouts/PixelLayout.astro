@@ -1,0 +1,231 @@
+---
+import "../styles/pixel.css";
+import { URLS } from "../components/pixel/assets";
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** full: 全套交互层；ambient: 光标/拖尾/行人；quiet: 纯皮肤（阅读页） */
+  mode?: "full" | "ambient" | "quiet";
+  active?: string;
+  /** 光标接管范围：page = 整页，scope = 仅 data-pixel-scope 容器内 */
+  takeover?: "page" | "scope";
+  scopeSelector?: string;
+  /** 顶栏品牌文字 / 链接 */
+  brand?: string;
+  brandHref?: string;
+  /** 顶部导航项：[label, href, activeId] */
+  navItems?: readonly (readonly [string, string, string])[];
+  footerLeft?: string;
+}
+
+const demoNav = [
+  ["首页 A", "/pixel-home-coexist", "home-a"],
+  ["首页 B", "/pixel-home-yoyu", "home-b"],
+  ["文章", "/pixel-blog", "blog"],
+  ["搜索", "/pixel-search", "search"],
+  ["项目", "/pixel-projects", "projects"],
+  ["关于", "/pixel-about", "about"],
+  ["原站", "/", ""],
+  ["实验室", "/pixel", ""],
+] as const;
+
+const {
+  title,
+  description = "像素风格 demo：逆向自 en.yoyu.design，仅供学习演示。",
+  mode = "ambient",
+  active,
+  takeover = "page",
+  scopeSelector = "#pixel-banner",
+  brand = "PIXEL DEMO",
+  brandHref = "/pixel-home-yoyu",
+  navItems = demoNav,
+  footerLeft = ":ZL · PIXEL DEMO · 风格逆向自 en.yoyu.design（仅演示）",
+} = Astro.props;
+
+const nav = navItems;
+
+const showCanvas = mode !== "quiet";
+---
+
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link
+      rel="icon"
+      href="/pixel/img/common/favicon.svg"
+      type="image/svg+xml"
+    />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("pixel-demo-motion");
+          const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (stored === "off" || (stored === null && reduce)) {
+            document.documentElement.classList.add("motion-off");
+          }
+        } catch {}
+      })();
+    </script>
+  </head>
+
+  <body
+    class="px-page"
+    data-pixel-mode={mode}
+    data-pixel-scope={takeover === "scope" ? scopeSelector : undefined}
+    data-cursor-takeover={takeover}
+  >
+    <div id="loading">
+      <div class="kid"></div>
+      <div class="text">LOADING<span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <header class="px-header">
+      <a class="brand" href={brandHref} data-cursor="bunjiro">
+        <img src={URLS.mark} alt="" width="28" height="28" />
+        <span>{brand}</span>
+      </a>
+      <div class="right">
+        <nav class="px-nav" aria-label="demo 导航">
+          {
+            nav.map(([label, href, id]) => (
+              <a
+                href={href}
+                aria-current={active === id ? "page" : undefined}
+                data-cursor="question"
+              >
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+        {
+          showCanvas && (
+            <span class="px-toggles">
+              <button id="kids-toggle" class="px-btn" type="button">
+                KIDS ON
+              </button>
+              <button id="motion-toggle" class="px-btn" type="button">
+                MOTION ON
+              </button>
+            </span>
+          )
+        }
+      </div>
+    </header>
+
+    <main class="px-main">
+      <slot />
+    </main>
+
+    <footer class="px-footer">
+      <span>{footerLeft}</span>
+      <nav class="foot-links" aria-label="页脚">
+        <a href="https://github.com/zhanglun">GitHub</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/">原站</a>
+      </nav>
+    </footer>
+
+    {
+      showCanvas && (
+        <>
+          <canvas id="walker-canvas" class="px-layer" aria-hidden="true" />
+          <canvas id="idle-canvas" class="px-layer" aria-hidden="true" />
+          <canvas id="trail-canvas" class="px-layer" aria-hidden="true" />
+          <canvas
+            id="explosion-canvas"
+            class="px-layer"
+            aria-hidden="true"
+          />
+          <canvas id="cursor-canvas" class="px-layer" aria-hidden="true" />
+        </>
+      )
+    }
+
+    <script>
+      import { createPixelKit } from "../components/pixel/kit";
+
+      const body = document.body;
+      const mode = body.dataset.pixelMode || "ambient";
+      const configs: Record<string, Parameters<typeof createPixelKit>[0]> = {
+        full: {
+          layers: {
+            stage: "#stage-canvas",
+            walkers: true,
+            idle: true,
+            trail: true,
+            cursor: true,
+            explosion: true,
+            gaze: true,
+          },
+        },
+        ambient: {
+          layers: {
+            walkers: true,
+            trail: true,
+            cursor: true,
+            explosion: true,
+          },
+        },
+      };
+      const config = configs[mode];
+      if (config) {
+        void createPixelKit({
+          ...config,
+          scope: body.dataset.pixelScope || null,
+          loadingSelector: "#loading",
+        });
+      } else {
+        document.getElementById("loading")?.remove();
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .px-main {
+    position: relative;
+    z-index: 2;
+    padding-top: 58px;
+    min-height: 60vh;
+  }
+
+  .px-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 22px 24px 30px;
+    font-family: var(--px-pixel-font);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #55585f;
+  }
+
+  .px-footer .foot-links {
+    display: flex;
+    gap: 14px;
+  }
+
+  .px-footer a {
+    text-decoration: none;
+  }
+
+  .px-footer a:hover {
+    text-decoration: underline 2px;
+  }
+
+  .px-toggles {
+    display: flex;
+    gap: 8px;
+  }
+</style>

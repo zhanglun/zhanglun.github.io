@@ -1,0 +1,810 @@
+---
+import { CURSORS, FACES, ROBOT, URLS } from "../components/pixel/assets";
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>PIXEL STYLE DEMO | 张小伦的网络日志</title>
+    <meta
+      name="description"
+      content="像素风格首页 demo：逆向自 en.yoyu.design 的视觉与交互，仅供学习演示。"
+    />
+    <link
+      rel="icon"
+      href="/pixel/img/common/favicon.svg"
+      type="image/svg+xml"
+    />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("pixel-demo-motion");
+          const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (stored === "off" || (stored === null && reduce)) {
+            document.documentElement.classList.add("motion-off");
+          }
+        } catch {}
+      })();
+    </script>
+    <style is:global>
+      @import "https://fonts.googleapis.com/css2?family=DotGothic16&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap";
+
+      :root {
+        --ink: #111114;
+        --paper: #ffffff;
+        --red: #ff4130;
+        --yellow: #eeff5a;
+        --cyan: #63ddff;
+        --green: #00b995;
+        --pixel-font: "DotGothic16", "IBM Plex Sans JP", monospace;
+        --body-font: "IBM Plex Sans JP", "PingFang SC", "Hiragino Sans GB",
+          "Microsoft YaHei", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        margin: 0;
+        scrollbar-width: none;
+      }
+
+      html::-webkit-scrollbar {
+        display: none;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--body-font);
+        background-color: var(--paper);
+        background-image: linear-gradient(to right, #e9ecf2 1px, transparent 1px),
+          linear-gradient(to bottom, #e9ecf2 1px, transparent 1px),
+          linear-gradient(to right, #dfe3ec 1px, transparent 1px),
+          linear-gradient(to bottom, #dfe3ec 1px, transparent 1px);
+        background-size: 8px 8px, 8px 8px, 40px 40px, 40px 40px;
+        overflow-x: hidden;
+      }
+
+      html:not(.motion-off) body {
+        cursor: none;
+      }
+
+      @media (pointer: coarse) {
+        html:not(.motion-off) body {
+          cursor: auto;
+        }
+      }
+
+      img {
+        image-rendering: pixelated;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .layer {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        image-rendering: pixelated;
+      }
+
+      #walker-canvas {
+        z-index: 1;
+      }
+
+      #idle-canvas {
+        z-index: 50;
+      }
+
+      #trail-canvas {
+        z-index: 60;
+      }
+
+      #explosion-canvas {
+        z-index: 61;
+      }
+
+      #cursor-canvas {
+        z-index: 62;
+      }
+
+      html.motion-off #cursor-canvas,
+      html.motion-off #trail-canvas,
+      html.motion-off #explosion-canvas,
+      html.motion-off #idle-canvas {
+        display: none;
+      }
+
+      html.motion-off *,
+      html.motion-off *::before,
+      html.motion-off *::after {
+        animation-play-state: paused !important;
+      }
+
+      /* ---------- loading ---------- */
+
+      #loading {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: var(--paper);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        transition: opacity 0.2s step-end;
+      }
+
+      #loading.is-done {
+        opacity: 0;
+      }
+
+      #loading .kid {
+        position: relative;
+        width: 72px;
+        height: 72px;
+      }
+
+      #loading .kid::before,
+      #loading .kid::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+
+      #loading .kid::before {
+        background-image: url("/pixel/img/top/icons/animation/characters/kid-01/side-turning-01.svg");
+        animation: kid-a 960ms step-end infinite;
+      }
+
+      #loading .kid::after {
+        background-image: url("/pixel/img/top/icons/animation/characters/kid-01/side-turning-02.svg");
+        opacity: 0;
+        animation: kid-b 960ms step-end infinite;
+      }
+
+      @keyframes kid-a {
+        0% { opacity: 1; }
+        16.6667% { opacity: 0; }
+        33.3333% { opacity: 1; }
+        66.6667% { opacity: 0; }
+        83.3333% { opacity: 1; }
+      }
+
+      @keyframes kid-b {
+        0% { opacity: 0; }
+        16.6667% { opacity: 1; }
+        33.3333% { opacity: 0; }
+        66.6667% { opacity: 1; }
+        83.3333% { opacity: 0; }
+      }
+
+      #loading .text {
+        font-family: var(--pixel-font);
+        font-size: 16px;
+        letter-spacing: 0.08em;
+      }
+
+      #loading .text span {
+        opacity: 0;
+        animation: dot 1600ms step-end infinite;
+      }
+
+      #loading .text span:nth-child(1) { animation-name: dot-1; }
+      #loading .text span:nth-child(2) { animation-name: dot-2; }
+      #loading .text span:nth-child(3) { animation-name: dot-3; }
+
+      @keyframes dot-1 {
+        0% { opacity: 1; }
+        75% { opacity: 0; }
+      }
+
+      @keyframes dot-2 {
+        0% { opacity: 0; }
+        25% { opacity: 1; }
+        75% { opacity: 0; }
+      }
+
+      @keyframes dot-3 {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        75% { opacity: 0; }
+      }
+
+      /* ---------- header ---------- */
+
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 24px;
+      }
+
+      .site-header .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--pixel-font);
+        font-size: 14px;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+      }
+
+      .site-header .brand img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .site-header .right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .site-header nav {
+        display: flex;
+        gap: 18px;
+        font-family: var(--pixel-font);
+        font-size: 13px;
+      }
+
+      .site-header nav a {
+        text-decoration: none;
+      }
+
+      .site-header nav a:hover {
+        text-decoration: underline 2px;
+      }
+
+      .pixel-btn {
+        font-family: var(--pixel-font);
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        border: 2px solid var(--ink);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 6px 10px;
+        box-shadow: 3px 3px 0 var(--ink);
+        cursor: pointer;
+      }
+
+      .pixel-btn[data-on="false"] {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .pixel-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+
+      /* ---------- first view ---------- */
+
+      .page {
+        position: relative;
+        z-index: 2;
+      }
+
+      .first-view {
+        position: relative;
+        height: 100svh;
+        min-height: 620px;
+      }
+
+      #stage-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        image-rendering: pixelated;
+      }
+
+      .first-view__heading {
+        position: absolute;
+        top: 15vh;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 0 24px;
+      }
+
+      .first-view__logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+
+      .first-view__logo img {
+        width: 56px;
+        height: 56px;
+      }
+
+      .first-view__logo h1 {
+        margin: 0;
+        font-family: var(--pixel-font);
+        font-weight: 400;
+        font-size: clamp(34px, 5.5vw, 58px);
+        letter-spacing: 0.06em;
+      }
+
+      .first-view__tagline {
+        margin: 18px 0 0;
+        font-family: var(--pixel-font);
+        font-size: clamp(14px, 1.6vw, 18px);
+        color: #44444a;
+        letter-spacing: 0.04em;
+      }
+
+      .first-view__characters {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .first-view__characters figure {
+        position: absolute;
+        margin: 0;
+        animation: bob 1.7s steps(2, jump-none) infinite;
+      }
+
+      .first-view__characters img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .face--a {
+        left: 11%;
+        top: 47%;
+        width: 144px;
+        height: 144px;
+        pointer-events: auto;
+      }
+
+      .face--b {
+        left: calc(50% - 108px);
+        top: 35%;
+        width: 216px;
+        height: 216px;
+        animation-delay: -0.6s;
+        pointer-events: auto;
+      }
+
+      .face--c {
+        right: 9%;
+        top: 42%;
+        width: 180px;
+        height: 180px;
+        animation-delay: -1.1s;
+        pointer-events: auto;
+      }
+
+      .robot-fig {
+        width: 72px;
+        height: 72px;
+        pointer-events: auto;
+      }
+
+      .robot--1 {
+        left: 25%;
+        top: 30%;
+      }
+
+      .robot--2 {
+        right: 23%;
+        top: 31%;
+        animation-delay: -0.9s;
+      }
+
+      @keyframes bob {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+
+      .first-view__actions {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 3.5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 0 24px;
+      }
+
+      .secondary-cta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--pixel-font);
+        font-size: 14px;
+        text-decoration: none;
+        letter-spacing: 0.05em;
+      }
+
+      .secondary-cta img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .cta-wrap {
+        position: relative;
+      }
+
+      #cta {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--pixel-font);
+        font-size: 17px;
+        letter-spacing: 0.08em;
+        color: var(--paper);
+        background: var(--ink);
+        border: 2px solid var(--ink);
+        padding: 16px 26px;
+        text-decoration: none;
+        box-shadow: 5px 5px 0 rgba(17, 17, 20, 0.25);
+      }
+
+      #cta img {
+        width: 20px;
+        height: 20px;
+        filter: invert(1);
+      }
+
+      #cta:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 rgba(17, 17, 20, 0.3);
+      }
+
+      .burst-face {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        background: var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pop 1.2s steps(2, jump-none) infinite;
+      }
+
+      .burst-face img {
+        width: 14px;
+        height: 14px;
+        filter: invert(1);
+      }
+
+      .burst-face--a { left: -30px; top: -14px; }
+      .burst-face--b { right: -30px; top: 8px; animation-delay: -0.4s; }
+      .burst-face--c { right: 14px; top: -24px; animation-delay: -0.8s; }
+
+      @keyframes pop {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+      }
+
+      .cursor-lab {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--pixel-font);
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        border: 2px solid var(--ink);
+        background: var(--paper);
+        padding: 6px 10px;
+        box-shadow: 3px 3px 0 var(--ink);
+        user-select: none;
+      }
+
+      .chip img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .chip:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      /* ---------- lab notes ---------- */
+
+      .lab-notes {
+        max-width: 720px;
+        margin: 8vh auto 14vh;
+        padding: 0 24px;
+      }
+
+      .lab-card {
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        box-shadow: 6px 6px 0 var(--ink);
+        padding: 32px 34px;
+      }
+
+      .lab-card h2 {
+        margin: 0 0 18px;
+        font-family: var(--pixel-font);
+        font-weight: 400;
+        font-size: 24px;
+        letter-spacing: 0.06em;
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 12px;
+      }
+
+      .lab-card p {
+        font-size: 14px;
+        line-height: 1.9;
+        margin: 0 0 14px;
+      }
+
+      .lab-card .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .lab-card .links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--pixel-font);
+        font-size: 12px;
+        text-decoration: none;
+        border: 2px solid var(--ink);
+        padding: 6px 10px;
+        box-shadow: 3px 3px 0 var(--ink);
+        background: var(--paper);
+      }
+
+      .lab-card .links a:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      .lab-card .links img {
+        width: 14px;
+        height: 14px;
+      }
+
+      .lab-card .copyright {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #6b6e77;
+      }
+
+      .site-footer {
+        text-align: center;
+        font-family: var(--pixel-font);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        padding: 26px 0 34px;
+      }
+
+      /* ---------- responsive ---------- */
+
+      @media (max-width: 780px) {
+        .site-header nav {
+          display: none;
+        }
+
+        .face--a {
+          left: 6%;
+          top: 44%;
+          width: 108px;
+          height: 108px;
+        }
+
+        .face--b {
+          left: calc(50% - 72px);
+          top: 38%;
+          width: 144px;
+          height: 144px;
+        }
+
+        .face--c {
+          right: 5%;
+          top: 46%;
+          width: 108px;
+          height: 108px;
+        }
+
+        .robot--2 {
+          display: none;
+        }
+
+        #cta {
+          font-size: 15px;
+          padding: 14px 20px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .first-view__characters figure,
+        .burst-face {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="loading">
+      <div class="kid"></div>
+      <div class="text">LOADING<span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="/pixel" data-cursor="bunjiro">
+        <img src={URLS.mark} alt="" width="28" height="28" />
+        <span>PIXEL STYLE DEMO</span>
+      </a>
+      <div class="right">
+        <nav aria-label="demo links">
+          <a href="/" data-cursor="question">BLOG</a>
+          <a href="https://en.yoyu.design/" data-cursor="question" target="_blank" rel="noreferrer">YOYU</a>
+          <a href="https://rea.tools/" data-cursor="question" target="_blank" rel="noreferrer">REA</a>
+        </nav>
+        <button id="kids-toggle" class="pixel-btn" type="button">KIDS ON</button>
+        <button id="motion-toggle" class="pixel-btn" type="button">MOTION ON</button>
+      </div>
+    </header>
+
+    <div class="page">
+      <main>
+        <section class="first-view" aria-label="pixel banner">
+          <canvas id="stage-canvas" aria-hidden="true"></canvas>
+
+          <div class="first-view__heading">
+            <div class="first-view__logo">
+              <img src={URLS.mark} alt="" width="56" height="56" />
+              <h1>PIXEL STYLE DEMO</h1>
+            </div>
+            <p class="first-view__tagline">
+              Take the cursor for a walk. Reverse-engineered with REA.
+            </p>
+          </div>
+
+          <div class="first-view__characters" aria-hidden="true">
+            <figure class="face--a">
+              <img src={FACES["teacher-01"].def} alt="" width="144" height="144" />
+            </figure>
+            <figure class="face--b">
+              <img src={FACES["teacher-02"].def} alt="" width="216" height="216" />
+            </figure>
+            <figure class="face--c">
+              <img src={FACES["teacher-03"].def} alt="" width="180" height="180" />
+            </figure>
+            <figure class="robot-fig robot--1">
+              <img src={ROBOT.closed} alt="" width="72" height="72" />
+            </figure>
+            <figure class="robot-fig robot--2">
+              <img src={ROBOT.open} alt="" width="72" height="72" />
+            </figure>
+          </div>
+
+          <div class="first-view__actions">
+            <a class="secondary-cta" href="#lab-notes" data-cursor="question">
+              WHAT IS THIS?
+              <img src={URLS.chevronDown} alt="" width="16" height="16" />
+            </a>
+            <div class="cta-wrap">
+              <span class="burst-face burst-face--a" aria-hidden="true">
+                <img src={CURSORS.heart.src} alt="" width="14" height="14" />
+              </span>
+              <span class="burst-face burst-face--b" aria-hidden="true">
+                <img src={CURSORS.question.src} alt="" width="14" height="14" />
+              </span>
+              <span class="burst-face burst-face--c" aria-hidden="true">
+                <img src={CURSORS.voice.src} alt="" width="14" height="14" />
+              </span>
+              <a id="cta" href="#lab-notes" data-cursor="mail">
+                <img src={URLS.mail} alt="" width="20" height="20" />
+                <span>TALK TO THE PIXELS</span>
+              </a>
+            </div>
+            <div class="cursor-lab" aria-label="cursor playground">
+              <span class="chip" data-cursor="question">
+                <img src={CURSORS.question.src} alt="" width="18" height="18" />
+                <span>？</span>
+              </span>
+              <span class="chip" data-cursor="heart">
+                <img src={CURSORS.heart.src} alt="" width="18" height="18" />
+                <span>HEART</span>
+              </span>
+              <span class="chip" data-cursor="voice">
+                <img src={CURSORS.voice.src} alt="" width="18" height="18" />
+                <span>VOICE</span>
+              </span>
+              <span class="chip" data-cursor="robot">
+                <img src={CURSORS.robot.src} alt="" width="18" height="18" />
+                <span>ROBOT</span>
+              </span>
+              <span class="chip" data-cursor="bunjiro">
+                <img src={CURSORS.bunjiro.src} alt="" width="18" height="18" />
+                <span>BUNJIRO</span>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="lab-notes" id="lab-notes">
+          <div class="lab-card">
+            <h2>WHAT IS THIS?</h2>
+            <p>
+              这是一个像素风格首页 demo：用 REA（Reverse Engineer Anything）
+              对 en.yoyu.design 做了一次逆向分析，还原它的视觉语言与交互架构——
+              网格纸背景、DotGothic16 像素字、多层 Canvas 2D 像素引擎、
+              变形光标与彩色拖尾、漂浮脸视线跟随、背景行人、闲置屏保冲屏。
+            </p>
+            <p>
+              把鼠标动起来试试：悬停下面的角色与按钮，光标会变形、拖尾会变色；
+              点击任意处会炸出像素方块；挂机 9 秒，会有大家伙冲过屏幕。
+              右上角可以随时关掉动效（MOTION）或送走小孩（KIDS）。
+            </p>
+            <div class="links">
+              <a href="/" data-cursor="mail">
+                <img src={URLS.mail} alt="" width="14" height="14" />
+                <span>回到博客</span>
+              </a>
+              <a href="https://en.yoyu.design/" target="_blank" rel="noreferrer" data-cursor="question">
+                <img src={URLS.question} alt="" width="14" height="14" />
+                <span>原版 en.yoyu.design</span>
+              </a>
+              <a href="https://rea.tools/" target="_blank" rel="noreferrer" data-cursor="heart">
+                <img src={URLS.heartRed} alt="" width="14" height="14" />
+                <span>rea.tools</span>
+              </a>
+            </div>
+            <p class="copyright">
+              仅供学习演示，不做商用、不会提交。页面中的图形素材版权归
+              YOYU DESIGN 所有，字体为 Google Fonts 开源的 DotGothic16 /
+              IBM Plex Sans JP。
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">:ZL · PIXEL DEMO 2026</footer>
+    </div>
+
+    <canvas id="walker-canvas" class="layer" aria-hidden="true"></canvas>
+    <canvas id="idle-canvas" class="layer" aria-hidden="true"></canvas>
+    <canvas id="trail-canvas" class="layer" aria-hidden="true"></canvas>
+    <canvas id="explosion-canvas" class="layer" aria-hidden="true"></canvas>
+    <canvas id="cursor-canvas" class="layer" aria-hidden="true"></canvas>
+
+    <script>
+      import "../components/pixel/main";
+    </script>
+  </body>
+</html>

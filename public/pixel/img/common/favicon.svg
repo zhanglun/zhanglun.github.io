@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_1" data-name="レイヤー_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 256 256">
+  <!-- Generator: Adobe Illustrator 30.7.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 114)  -->
+  <style>
+    /* 既定は黒ベタ。ダークモードのタブでは白ベタへ反転させる */
+    path { fill: #000000 }
+
+    @media (prefers-color-scheme: dark) {
+      path { fill: #ffffff }
+    }
+  </style>
+  <path d="M21.418,107.308v-32.168h32.05v32.168H21.418ZM53.468,182.745v-32.167H21.418v32.167h32.05ZM234.456,18.551h-81.31v30.927h50.359v60.057h-39.129v30.926h39.129v65.331h-61.989v31.646h92.94V18.551Z" fill-rule="evenodd"/>
+</svg>

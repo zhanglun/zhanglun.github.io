@@ -1,0 +1,99 @@
+---
+import PixelLayout from "@layouts/PixelLayout.astro";
+import { getCollection } from "astro:content";
+import getSortedPosts from "@utils/getSortedPosts";
+import formatDotDate from "@utils/formatDotDate";
+
+const posts = getSortedPosts(await getCollection("blogs"));
+---
+
+<PixelLayout
+  title={`文章 · PIXEL DEMO`}
+  mode="ambient"
+  active="blog"
+>
+  <section class="px-page-wrap">
+    <h1 class="px-heading">全部文章</h1>
+    <p class="px-date" style="margin: 0 0 26px;">
+      共 {posts.length} 篇 · 像素版阅读 demo ·
+      <a href="/blog" style="color: var(--px-ink);">原版列表 →</a>
+    </p>
+    <div class="post-list">
+      {
+        posts.map(post => (
+          <a
+            class="px-card row"
+            href={`/pixel-blog/${post.id}`}
+            data-cursor="question"
+          >
+            <time class="px-date" datetime={post.data.date.toISOString()}>
+              {formatDotDate(post.data.date)}
+            </time>
+            <div class="row-main">
+              <h2>{post.data.title}</h2>
+              <p>
+                {
+                  post.data.description?.replace(/^#+\s*/, "") ||
+                  "（无摘要）"
+                }
+              </p>
+            </div>
+            <div class="tags">
+              {post.data.tags.slice(0, 3).map(tag => (
+                <span class="px-tag">{tag}</span>
+              ))}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</PixelLayout>
+
+<style>
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 18px;
+    align-items: baseline;
+  }
+
+  .row h2 {
+    font-family: var(--px-body-font);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0 0 6px;
+  }
+
+  .row p {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #55585f;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tags {
+    justify-self: end;
+  }
+
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+
+    .tags {
+      justify-self: start;
+    }
+  }
+</style>

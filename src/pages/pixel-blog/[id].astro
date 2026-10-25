@@ -1,0 +1,120 @@
+---
+import PixelLayout from "@layouts/PixelLayout.astro";
+import { getCollection, render } from "astro:content";
+import getSortedPosts from "@utils/getSortedPosts";
+import formatDotDate from "@utils/formatDotDate";
+import type { GetStaticPaths } from "astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blogs");
+  return posts
+    .filter(({ data }) => !data.draft)
+    .map(entry => ({
+      params: { id: entry.id },
+      props: { entry },
+    }));
+}
+
+getStaticPaths satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { title, description, date, tags } = entry.data;
+const { Content } = await render(entry);
+const more = getSortedPosts(await getCollection("blogs"))
+  .filter(post => post.id !== entry.id)
+  .slice(0, 4);
+---
+
+<PixelLayout
+  title={`${title} · PIXEL DEMO`}
+  description={description || title}
+  mode="quiet"
+>
+  <article class="px-post">
+    <header class="post-head">
+      <time class="px-date" datetime={date.toISOString()}>
+        {formatDotDate(date)}
+      </time>
+      <h1 class="px-heading">{title}</h1>
+      <div class="post-tags">
+        {tags.map(tag => <span class="px-tag">{tag}</span>)}
+      </div>
+    </header>
+
+    <div class="px-card px-article">
+      <Content />
+    </div>
+
+    <nav class="post-foot" aria-label="继续阅读">
+      <p class="px-date">继续阅读（demo）</p>
+      <div class="more-grid">
+        {
+          more.map(post => (
+            <a class="px-card more-card" href={`/pixel-blog/${post.id}`}>
+              <time class="px-date" datetime={post.data.date.toISOString()}>
+                {formatDotDate(post.data.date)}
+              </time>
+              <span>{post.data.title}</span>
+            </a>
+          ))
+        }
+      </div>
+      <p class="foot-links-row">
+        <a class="px-btn" href="/pixel-blog">← 像素版列表</a>
+        <a class="px-btn" href={`/blog/${entry.id}`}>原版这篇文章</a>
+      </p>
+    </nav>
+  </article>
+</PixelLayout>
+
+<style>
+  .px-post {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 34px 24px 90px;
+  }
+
+  .post-head {
+    margin-bottom: 22px;
+  }
+
+  .post-head .px-heading {
+    font-size: clamp(24px, 3.6vw, 34px);
+    line-height: 1.4;
+    margin: 8px 0 12px;
+  }
+
+  .post-tags {
+    margin-top: 4px;
+  }
+
+  .post-foot {
+    margin-top: 40px;
+  }
+
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin: 12px 0 20px;
+  }
+
+  .more-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .more-card span {
+    font-family: var(--px-body-font);
+  }
+
+  .foot-links-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+</style>

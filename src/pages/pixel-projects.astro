@@ -1,0 +1,19 @@
+---
+import PixelLayout from "@layouts/PixelLayout.astro";
+import WorkshopStreet from "@components/ara/WorkshopStreet.astro";
+---
+
+<PixelLayout
+  title={`项目 · PIXEL DEMO`}
+  mode="ambient"
+  active="projects"
+>
+  <section class="px-page-wrap" style="padding-bottom: 10px;">
+    <h1 class="px-heading">项目 · 镇上的工作坊</h1>
+    <p class="px-date" style="margin: 0;">
+      Ara 工作坊街原样嵌入（原版 <a href="/projects" style="color: var(--px-ink);">/projects</a>），
+      上方的像素光标与拖尾在整页生效。
+    </p>
+  </section>
+  <WorkshopStreet />
+</PixelLayout>
