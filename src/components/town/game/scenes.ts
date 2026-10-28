@@ -16,7 +16,11 @@ import {
   SLIME_FRAMES,
   CAMPFIRE_FRAMES,
   buildGroundVariants,
+  buildPathTiles,
   buildIndoorVariants,
+  buildNameplate,
+  buildFurniture,
+  FURN_KINDS,
 } from "./assets";
 import {
   WORLD_W,
@@ -121,6 +125,7 @@ export class WorldScene extends Phaser.Scene {
     h: number;
     img: Phaser.GameObjects.Image;
   }[] = [];
+  private plates: { b: BuildingDef; x: number; y: number }[] = [];
   private doorPads!: Map<string, BuildingDef>;
   private transitioning = false;
   private wasOnPad = true; // 边沿触发：出生/出门站在门前格时不立即吸回
@@ -138,7 +143,7 @@ export class WorldScene extends Phaser.Scene {
     // 版本参数破缓存:素材文件曾在 dev 服务器运行中被重新生成,
     // 浏览器可能缓存了写入中途的残缺 PNG(PNG 头声明 38px、数据被截断,
     // 观感是树干/树基缺失)。素材内容变更时递增 ASSET_VERSION。
-    const v = "20261025f";
+    const v = "20261025g";
     for (const img of IMAGES) {
       const file = img.startsWith("sv-")
         ? `sv/${img.slice(3)}.png`
@@ -174,6 +179,25 @@ export class WorldScene extends Phaser.Scene {
       buildGroundVariants(dirtColor, "dirt").forEach((cv, i) =>
         this.textures.addCanvas(`town-dirt-v${i}`, cv)
       );
+      // 路径贴片:16 种邻接组合(位 N=1 E=2 S=4 W=8,置位 = 该侧是草)
+      const pathTiles = buildPathTiles(grassColor, dirtColor);
+      pathTiles.forEach((cv, i) =>
+        this.textures.addCanvas(`town-path-${i}`, cv)
+      );
+      const pathTex = (x: number, y: number): string => {
+        const dirtAt = (xx: number, yy: number) =>
+          xx >= 0 &&
+          yy >= 0 &&
+          xx < WORLD_W &&
+          yy < WORLD_H &&
+          ground[yy * WORLD_W + xx] === Ground.DIRT;
+        let m = 0;
+        if (!dirtAt(x, y - 1)) m |= 1;
+        if (!dirtAt(x + 1, y)) m |= 2;
+        if (!dirtAt(x, y + 1)) m |= 4;
+        if (!dirtAt(x - 1, y)) m |= 8;
+        return `town-path-${m}`;
+      };
       // 树接触阴影（硬边像素椭圆，无模糊）
       const shadow = document.createElement("canvas");
       shadow.width = 28;
@@ -188,11 +212,13 @@ export class WorldScene extends Phaser.Scene {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
           if (v === Ground.DIRT) {
+            // 先草后路:路径贴片自带草缘方齿,直接覆盖
             this.groundRt.draw(
-              `town-dirt-v${(x * 11 + y * 7) % 4}`,
+              `town-grass-v${(x * 7 + y * 13) % 4}`,
               x * TILE,
               y * TILE
             );
+            this.groundRt.draw(pathTex(x, y), x * TILE, y * TILE);
           } else {
             this.groundRt.draw(
               `town-grass-v${(x * 7 + y * 13) % 4}`,
@@ -250,7 +276,8 @@ export class WorldScene extends Phaser.Scene {
             for (let i = 0; i < w; i++) mark(p.tx + i, p.ty + h - 1 - j);
         }
       }
-      // 建筑：SV 成品房屋 sprite，水平居中于占格
+      // 建筑：SV 成品房屋 sprite，水平居中于占格；门口立门牌
+      this.textures.addCanvas("gen-nameplate", buildNameplate());
       for (const b of buildings) {
         const img = this.add
           .image((b.tx + b.w / 2) * TILE, (b.ty + b.h) * TILE, b.house)
@@ -260,6 +287,17 @@ export class WorldScene extends Phaser.Scene {
         for (let y = b.ty + b.h - rows; y < b.ty + b.h; y++) {
           for (let x = b.tx; x < b.tx + b.w; x++) mark(x, y);
         }
+        // 门牌:立在小径旁(视觉门中心右侧一格),不挡路
+        const colB = Math.floor(b.tx + b.w / 2 - 0.5) + 1;
+        const plate = this.add
+          .image(
+            (colB + 1) * TILE - 3,
+            (b.ty + b.h + 1) * TILE,
+            "gen-nameplate"
+          )
+          .setOrigin(0.5, 1);
+        plate.setDepth((b.ty + b.h + 1) * TILE);
+        this.plates.push({ b, x: plate.x, y: plate.y });
       }
 
       // ---- 玩家（原创史莱姆）----
@@ -552,6 +590,16 @@ export class WorldScene extends Phaser.Scene {
         });
       });
     }
+    for (const p of this.plates) {
+      consider(p.x, p.y - 6, `看${p.b.name}的门牌`, () => {
+        modalOpen = true;
+        bus.emit(EV.panel, {
+          title: p.b.name,
+          blurb: p.b.blurb,
+          link: p.b.link,
+        });
+      });
+    }
     return best ? { label: best.label, act: best.act } : null;
   }
 
@@ -607,10 +655,13 @@ export class InteriorScene extends Phaser.Scene {
     const H = h * TILE;
     const cv = this.add.renderTexture(0, 0, W, H).setOrigin(0);
 
-    // 程序化室内：石泥墙两行 + 木地板（本站原创纹理）
+    // 程序化室内：石泥墙两行 + 木地板 + 家具（本站原创纹理）
     const { wall, floor } = buildIndoorVariants();
     wall.forEach((c, i) => this.textures.addCanvas(`town-wall-v${i}`, c));
     floor.forEach((c, i) => this.textures.addCanvas(`town-floor-v${i}`, c));
+    FURN_KINDS.forEach(k =>
+      this.textures.addCanvas(`gen-furn-${k}`, buildFurniture(k))
+    );
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
         if (y <= 1) {
@@ -624,8 +675,15 @@ export class InteriorScene extends Phaser.Scene {
     cv.draw("sv-door", (w >> 1) * TILE, TILE);
 
     for (const f of this.b.interior.furniture) {
+      // crate/barrel 用 extract 生成的独立文件,其余走程序化家具纹理
+      const tex =
+        f.img === "crate"
+          ? "gen-crate"
+          : f.img === "barrel"
+            ? "gen-barrel"
+            : `gen-furn-${f.img}`;
       const img = this.add
-        .image(f.x * TILE + TILE / 2, (f.y + 1) * TILE, `gen-${f.img}`)
+        .image(f.x * TILE + TILE / 2, (f.y + 1) * TILE, tex)
         .setOrigin(0.5, 1);
       img.setDepth((f.y + 1) * TILE);
     }
@@ -652,6 +710,8 @@ export class InteriorScene extends Phaser.Scene {
     this.applyZoom();
     this.scale.on(Phaser.Scale.Events.RESIZE, this.applyZoom, this);
     cam.fadeIn(260, 10, 12, 20);
+    // 进门先看屋名牌:格言以主人语气打招呼(随淡入一起出现)
+    bus.emit(EV.dialog, { name: this.b.name, text: this.b.interior.motto });
 
     const kb = this.input.keyboard!;
     this.keys = kb.addKeys("W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE") as Record<
@@ -745,15 +805,6 @@ export class InteriorScene extends Phaser.Scene {
 
     // 提示与交互（出门走到底自动触发，不占交互键）
     let it: { label: string; act: () => void } | null = null;
-    const sign = this.b.interior.sign;
-    const signPx = (sign.x + 0.5) * TILE;
-    const signPy = (sign.y + 1) * TILE;
-    const dSign = Phaser.Math.Distance.Between(
-      this.player.x,
-      this.player.y,
-      signPx,
-      signPy
-    );
     const npc = this.b.interior.npc;
     const npcPx = 4.5 * TILE;
     const npcPy = 2.6 * TILE;
@@ -766,18 +817,6 @@ export class InteriorScene extends Phaser.Scene {
         label: `和${npc.name}说话`,
         act: () => {
           bus.emit(EV.dialog, { name: npc.name, text: npc.text });
-        },
-      };
-    } else if (dSign < 26) {
-      it = {
-        label: "看牌子",
-        act: () => {
-          modalOpen = true;
-          bus.emit(EV.panel, {
-            title: this.b.name,
-            blurb: sign.text,
-            link: this.b.link,
-          });
         },
       };
     }

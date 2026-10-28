@@ -19,11 +19,22 @@ export interface BuildingDef {
   interior: InteriorDef;
 }
 
+export type FurnImg =
+  | "crate"
+  | "barrel"
+  | "bookshelf"
+  | "workbench"
+  | "counter"
+  | "stove"
+  | "bed"
+  | "mailrack"
+  | "table";
+
 export interface InteriorDef {
   w: number;
   h: number;
-  furniture: { img: "crate" | "barrel"; x: number; y: number }[];
-  sign: { x: number; y: number; text: string };
+  furniture: { img: FurnImg; x: number; y: number }[];
+  motto: string; // 室内墙上格言(进门自动显示于面板副语)
   npc?: { name: string; sheet: string; text: string };
 }
 
@@ -72,14 +83,15 @@ export const buildings: BuildingDef[] = [
     interior: {
       w: 13,
       h: 9,
+      motto: "写作是把记忆存进镇子的档案室。",
       furniture: [
-        { img: "crate", x: 2, y: 2 },
-        { img: "barrel", x: 3, y: 2 },
-        { img: "crate", x: 9, y: 2 },
-        { img: "crate", x: 6, y: 4 },
-        { img: "barrel", x: 6, y: 5 },
+        { img: "bookshelf", x: 2, y: 2 },
+        { img: "bookshelf", x: 3, y: 2 },
+        { img: "bookshelf", x: 9, y: 2 },
+        { img: "bookshelf", x: 10, y: 2 },
+        { img: "table", x: 6, y: 4 },
+        { img: "crate", x: 11, y: 6 },
       ],
-      sign: { x: 6, y: 2, text: "「写作是把记忆存进镇子的档案室。」" },
     },
   },
   {
@@ -95,14 +107,15 @@ export const buildings: BuildingDef[] = [
     interior: {
       w: 13,
       h: 9,
+      motto: "慢工出细活，做一件是一件。",
       furniture: [
-        { img: "crate", x: 3, y: 2 },
-        { img: "barrel", x: 4, y: 2 },
+        { img: "workbench", x: 2, y: 2 },
+        { img: "workbench", x: 4, y: 2 },
         { img: "crate", x: 9, y: 2 },
-        { img: "barrel", x: 10, y: 2 },
-        { img: "crate", x: 10, y: 4 },
+        { img: "crate", x: 10, y: 2 },
+        { img: "barrel", x: 10, y: 4 },
+        { img: "table", x: 6, y: 5 },
       ],
-      sign: { x: 6, y: 2, text: "「慢工出细活，做一件是一件。」" },
     },
   },
   {
@@ -118,13 +131,14 @@ export const buildings: BuildingDef[] = [
     interior: {
       w: 13,
       h: 9,
+      motto: "每一封信都会到，只是有的走得慢。",
       furniture: [
-        { img: "crate", x: 5, y: 2 },
-        { img: "barrel", x: 5, y: 3 },
-        { img: "crate", x: 2, y: 2 },
-        { img: "barrel", x: 10, y: 2 },
+        { img: "mailrack", x: 2, y: 2 },
+        { img: "mailrack", x: 3, y: 2 },
+        { img: "counter", x: 6, y: 2 },
+        { img: "counter", x: 8, y: 2 },
+        { img: "barrel", x: 11, y: 3 },
       ],
-      sign: { x: 8, y: 2, text: "「每一封信都会到，只是有的走得慢。」" },
     },
   },
   {
@@ -139,15 +153,16 @@ export const buildings: BuildingDef[] = [
     interior: {
       w: 13,
       h: 9,
+      motto: "今日特供：烤胡萝卜浓汤。",
       furniture: [
-        { img: "crate", x: 3, y: 2 },
-        { img: "crate", x: 4, y: 2 },
-        { img: "crate", x: 5, y: 2 },
-        { img: "barrel", x: 9, y: 4 },
-        { img: "barrel", x: 9, y: 5 },
-        { img: "barrel", x: 10, y: 2 },
+        { img: "stove", x: 2, y: 2 },
+        { img: "counter", x: 3, y: 2 },
+        { img: "counter", x: 4, y: 2 },
+        { img: "counter", x: 5, y: 2 },
+        { img: "table", x: 8, y: 4 },
+        { img: "table", x: 10, y: 5 },
+        { img: "barrel", x: 11, y: 2 },
       ],
-      sign: { x: 6, y: 2, text: "「今日特供：烤胡萝卜浓汤。」" },
       npc: {
         name: "老板阿历克斯",
         sheet: "alex",
@@ -167,12 +182,13 @@ export const buildings: BuildingDef[] = [
     interior: {
       w: 11,
       h: 8,
+      motto: "欢迎回家。炉上有热水，床随你躺。",
       furniture: [
-        { img: "crate", x: 2, y: 2 },
-        { img: "crate", x: 5, y: 3 },
-        { img: "barrel", x: 8, y: 2 },
+        { img: "bed", x: 2, y: 2 },
+        { img: "stove", x: 8, y: 2 },
+        { img: "table", x: 5, y: 3 },
+        { img: "crate", x: 8, y: 5 },
       ],
-      sign: { x: 5, y: 2, text: "「欢迎回家。炉上有热水，床随你躺。」" },
     },
   },
 ];
@@ -210,11 +226,22 @@ export function buildGround(): Uint8Array {
   // 中央广场
   for (let y = 16; y <= 25; y++)
     for (let x = 25; x <= 37; x++) set(x, y, Ground.DIRT);
-  // 建筑门前小径
+  // 建筑门前小径:2 格宽(与房屋 sprite 底部门阶同宽),北屋一路铺到横街,
+  // 南屋铺两行门阶垫
   for (const b of buildings) {
-    const d = doorOf(b);
-    for (let y = d.y + 1; y <= (b.ty < 20 ? 19 : d.y + 1); y++)
-      set(d.x, y, Ground.DIRT);
+    const colA = Math.floor(b.tx + b.w / 2 - 0.5);
+    const top = b.ty + b.h;
+    if (top < 20) {
+      for (let y = top; y <= 19; y++) {
+        set(colA, y, Ground.DIRT);
+        set(colA + 1, y, Ground.DIRT);
+      }
+    } else {
+      set(colA, top, Ground.DIRT);
+      set(colA + 1, top, Ground.DIRT);
+      set(colA, top + 1, Ground.DIRT);
+      set(colA + 1, top + 1, Ground.DIRT);
+    }
   }
   return g;
 }

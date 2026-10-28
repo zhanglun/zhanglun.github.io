@@ -131,6 +131,215 @@ export function buildGroundVariants(
   return out;
 }
 
+// ---- 路径贴片(运行时程序化生成,SV 式不规则方齿草缘)----
+// 16x16 共 16 张,索引位:N=1 E=2 S=4 W=8,置位 = 该侧邻接草地。
+// 画法:泥底(带噪点)→ 对每处草侧盖 4px 深的方齿草缘(2px 步进,
+// 齿深 3/4 交替)→ 齿根压 1px 深绿阴影线;对角草(仅斜角相邻)在角上
+// 补 5x5 草色缺角。与 SV 源贴片的波浪方齿缘同构。
+export function buildPathTiles(
+  grass: [number, number, number],
+  dirt: [number, number, number]
+): HTMLCanvasElement[] {
+  const [gr, gg, gb] = grass;
+  const [dr, dg, db] = dirt;
+  const grassCss = `rgb(${gr},${gg},${gb})`;
+  const grassDark = `rgb(${Math.max(0, gr - 30)},${Math.max(0, gg - 34)},${Math.max(0, gb - 22)})`;
+  const dirtCss = `rgb(${dr},${dg},${db})`;
+  const dirtLight = `rgb(${Math.min(255, dr + 20)},${Math.min(255, dg + 16)},${Math.min(255, db + 12)})`;
+
+  const tiles: HTMLCanvasElement[] = [];
+  for (let mask = 0; mask < 16; mask++) {
+    const cv = document.createElement("canvas");
+    cv.width = 16;
+    cv.height = 16;
+    const ctx = cv.getContext("2d")!;
+    // 泥底 + 噪点
+    ctx.fillStyle = dirtCss;
+    ctx.fillRect(0, 0, 16, 16);
+    ctx.fillStyle = dirtLight;
+    for (let i = 0; i < 6; i++)
+      ctx.fillRect((mask * 7 + i * 5) % 14, (mask * 13 + i * 7) % 15, 2, 1);
+    const has = (bit: number) => (mask & bit) !== 0;
+    // 方齿草缘:沿边 2px 步进,齿深 3/4 交替,齿根 1px 深绿
+    const fringe = (side: "n" | "s" | "w" | "e") => {
+      for (let i = 0; i < 8; i++) {
+        const depth = i % 2 === 0 ? 4 : 3;
+        ctx.fillStyle = grassCss;
+        if (side === "n") ctx.fillRect(i * 2, 0, 2, depth);
+        if (side === "s") ctx.fillRect(i * 2, 16 - depth, 2, depth);
+        if (side === "w") ctx.fillRect(0, i * 2, depth, 2);
+        if (side === "e") ctx.fillRect(16 - depth, i * 2, depth, 2);
+        ctx.fillStyle = grassDark;
+        if (side === "n") ctx.fillRect(i * 2, depth, 2, 1);
+        if (side === "s") ctx.fillRect(i * 2, 15 - depth, 2, 1);
+        if (side === "w") ctx.fillRect(depth, i * 2, 1, 2);
+        if (side === "e") ctx.fillRect(15 - depth, i * 2, 1, 2);
+      }
+    };
+    if (has(1)) fringe("n");
+    if (has(4)) fringe("s");
+    if (has(8)) fringe("w");
+    if (has(2)) fringe("e");
+    // 对角草缺角(两侧都是泥、仅斜角是草):角上 5x5 草块
+    const diag = (cx: 0 | 15, cy: 0 | 15) => {
+      ctx.fillStyle = grassCss;
+      ctx.fillRect(cx === 0 ? 0 : 11, cy === 0 ? 0 : 11, 5, 5);
+      ctx.fillStyle = grassDark;
+      ctx.fillRect(cx === 0 ? 0 : 11, cy === 0 ? 5 : 10, 5, 1);
+      ctx.fillRect(cx === 0 ? 5 : 10, cy === 0 ? 0 : 11, 1, 5);
+    };
+    if (!has(1) && !has(8) && mask & 16) diag(0, 0);
+    tiles.push(cv);
+  }
+  return tiles;
+}
+
+// ---- 门口门牌(程序化,SV 木色)----
+// 12x15:木柱 + 挂牌,牌面两道刻痕示意文字。
+export function buildNameplate(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 12;
+  cv.height = 15;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#5f4126"; // 柱
+  ctx.fillRect(5, 4, 2, 11);
+  ctx.fillStyle = "#8a5a33";
+  ctx.fillRect(5, 4, 1, 11);
+  ctx.fillStyle = "#b98a56"; // 牌
+  ctx.fillRect(1, 1, 10, 7);
+  ctx.fillStyle = "#5f4126";
+  ctx.fillRect(1, 1, 10, 1);
+  ctx.fillRect(1, 7, 10, 1);
+  ctx.fillRect(1, 1, 1, 7);
+  ctx.fillRect(10, 1, 1, 7);
+  ctx.fillStyle = "#7a5533"; // 刻痕文字
+  ctx.fillRect(3, 3, 6, 1);
+  ctx.fillRect(3, 5, 4, 1);
+  return cv;
+}
+
+// ---- 室内家具(程序化,SV 木色;16 宽,原点底部居中)----
+export type FurnKind =
+  | "bookshelf"
+  | "workbench"
+  | "counter"
+  | "stove"
+  | "bed"
+  | "mailrack"
+  | "table";
+
+export const FURN_KINDS: FurnKind[] = [
+  "bookshelf",
+  "workbench",
+  "counter",
+  "stove",
+  "bed",
+  "mailrack",
+  "table",
+];
+
+export function buildFurniture(kind: FurnKind): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  const ctx = cv.getContext("2d")!;
+  const WOOD = "#9c6b3f";
+  const DARK = "#5f4126";
+  const LIGHT = "#b98a56";
+  const CLOTH = "#d8d3c0";
+  if (kind === "bookshelf") {
+    cv.width = 16;
+    cv.height = 24;
+    ctx.fillStyle = DARK;
+    ctx.fillRect(0, 0, 16, 24);
+    ctx.fillStyle = WOOD;
+    ctx.fillRect(1, 1, 14, 22);
+    ctx.fillStyle = DARK;
+    ctx.fillRect(1, 10, 14, 2);
+    ctx.fillRect(1, 20, 14, 2);
+    const books = ["#c94f42", "#e0b23e", "#5fa8c9", "#6da34f"];
+    for (let s = 0; s < 2; s++)
+      for (let b = 0; b < 4; b++) {
+        ctx.fillStyle = books[(b + s) % 4];
+        ctx.fillRect(2 + b * 3, s === 0 ? 3 : 13, 2, 7);
+      }
+  } else if (kind === "workbench") {
+    cv.width = 16;
+    cv.height = 14;
+    ctx.fillStyle = LIGHT;
+    ctx.fillRect(0, 2, 16, 4);
+    ctx.fillStyle = DARK;
+    ctx.fillRect(0, 5, 16, 1);
+    ctx.fillStyle = WOOD;
+    ctx.fillRect(1, 6, 2, 8);
+    ctx.fillRect(13, 6, 2, 8);
+    ctx.fillStyle = "#7d8a94"; // 台钳
+    ctx.fillRect(11, 0, 3, 3);
+  } else if (kind === "counter") {
+    cv.width = 16;
+    cv.height = 12;
+    ctx.fillStyle = LIGHT;
+    ctx.fillRect(0, 0, 16, 3);
+    ctx.fillStyle = WOOD;
+    ctx.fillRect(0, 3, 16, 9);
+    ctx.fillStyle = DARK;
+    ctx.fillRect(0, 3, 16, 1);
+    ctx.fillRect(7, 4, 2, 8);
+  } else if (kind === "stove") {
+    cv.width = 16;
+    cv.height = 16;
+    ctx.fillStyle = "#8d8d84"; // 石身
+    ctx.fillRect(1, 2, 14, 14);
+    ctx.fillStyle = "#6f6f66";
+    ctx.fillRect(1, 2, 14, 2);
+    ctx.fillStyle = DARK; // 炉口
+    ctx.fillRect(4, 8, 8, 7);
+    ctx.fillStyle = "#e8862e"; // 火
+    ctx.fillRect(5, 11, 6, 4);
+    ctx.fillStyle = "#f4c542";
+    ctx.fillRect(6, 12, 4, 3);
+  } else if (kind === "bed") {
+    cv.width = 16;
+    cv.height = 26;
+    ctx.fillStyle = DARK;
+    ctx.fillRect(0, 0, 16, 26);
+    ctx.fillStyle = WOOD;
+    ctx.fillRect(1, 1, 14, 24);
+    ctx.fillStyle = CLOTH; // 褥
+    ctx.fillRect(2, 6, 12, 18);
+    ctx.fillStyle = "#f4f1e4"; // 枕
+    ctx.fillRect(3, 2, 10, 4);
+    ctx.fillStyle = "#a45548"; // 被
+    ctx.fillRect(2, 13, 12, 11);
+    ctx.fillStyle = "#c9756a";
+    ctx.fillRect(2, 13, 12, 2);
+  } else if (kind === "mailrack") {
+    cv.width = 16;
+    cv.height = 24;
+    ctx.fillStyle = DARK;
+    ctx.fillRect(0, 0, 16, 24);
+    ctx.fillStyle = WOOD;
+    ctx.fillRect(1, 1, 14, 22);
+    for (let r = 0; r < 3; r++) {
+      ctx.fillStyle = DARK;
+      ctx.fillRect(2, 2 + r * 7, 12, 6);
+      ctx.fillStyle = CLOTH; // 信
+      ctx.fillRect(3, 3 + r * 7, 4, 4);
+      ctx.fillRect(9, 4 + r * 7, 4, 4);
+    }
+  } else {
+    // table
+    cv.width = 16;
+    cv.height = 12;
+    ctx.fillStyle = LIGHT;
+    ctx.fillRect(0, 1, 16, 4);
+    ctx.fillStyle = DARK;
+    ctx.fillRect(0, 4, 16, 1);
+    ctx.fillStyle = WOOD;
+    ctx.fillRect(2, 5, 2, 7);
+    ctx.fillRect(12, 5, 2, 7);
+  }
+  return cv;
+}
+
 // ---- 室内墙面/木地板(程序化生成,本站原创)----
 // wall: 米色灰泥 + 顶部檐口线;floor: 暖木色横板缝。各 2 变体。
 export function buildIndoorVariants(): {

@@ -55,15 +55,16 @@ const CROPS = [
   ["flower-white", 97, 194, 14, 13],
   ["sign-board", 4, 212, 24, 28], // 木牌 + 石堆
   ["sign-post", 84, 208, 24, 15], // 一段矮木栅栏
-  // 地面基准格(程序化变体的取色源)
+  // 地面基准格(程序化变体的取色源)。路径草边为程序化生成
+  // (buildPathTiles:SV 式不规则方齿草缘,见 assets.ts),不从 sheet 裁。
   ["grass", 64, 48, 16, 16],
-  ["dirt", 144, 48, 16, 16],
+  ["dirt", 96, 48, 16, 16], // 纯泥(带浅色斑点)
 ];
 
 for (const crop of CROPS) {
   // 数组形式 = 从 16x16 sheet 裁切;对象形式 = 从其他文件裁切(half = 缩 50% 回 16px 密度)
   if (Array.isArray(crop)) {
-    const [name, x, y, w, h] = crop;
+    const [name, x, y, w = 16, h = 16] = crop;
     await sharp(SHEET)
       .extract({ left: x, top: y, width: w, height: h })
       .png()
