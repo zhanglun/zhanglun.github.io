@@ -360,6 +360,10 @@ export class WorldScene extends Phaser.Scene {
       cam.startFollow(this.player, true, 0.09, 0.09);
       cam.setRoundPixels(true);
       this.applyZoom();
+      // 立即对准出生点:场景重启时相机被重置,若依赖 follow 的 0.09 插值,
+      // 每次出屋都会看到相机从重置位一路平移到房子(v5 反馈)。
+      cam.centerOn(this.player.x, this.player.y);
+      cam.fadeIn(200, 10, 12, 20);
       this.scale.on(Phaser.Scale.Events.RESIZE, this.applyZoom, this);
 
       // ---- 输入 ----

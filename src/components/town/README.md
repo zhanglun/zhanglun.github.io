@@ -123,6 +123,9 @@ localStorage 存档、工具栏与相关 HUD（早期从 pixel.xyz 逆向带来�
 4. **自动进门用边沿触发**（先离开门前格再踩上才触发），
    电平触发会导致「出门即被吸回」。
 5. **场景重启是同一实例**——create 里须重置提示去重标记等实例状态。
+   相机同理：场景重启时相机被重置到初始位，而 `startFollow` 是 0.09 插值
+   平滑追踪——不手动对准的话，每次出屋都能看到相机从重置位一路平移到
+   门口（v5 用户反馈）。create 里 `centerOn(玩家)` + `fadeIn(200)` 即可。
 6. **`load.image` 的纹理不能 `generateFrameNumbers`**——动画帧需要
    spritesheet（SHEETS 注册），独立 PNG 一律走 IMAGES。
 7. **后台标签页 rAF 暂停**——自动化测试时 `delayedCall` 转场不会推进，
