@@ -19,6 +19,8 @@ export interface BuildingDef {
   interior: InteriorDef;
 }
 
+// ⚠️ 摆放家具时勿占用「门柱列」(w>>1) 的 y=2..4 行——那是出门通道,
+// 堵住会导致进屋后无法退出(v5 实际踩坑)。
 export type FurnImg =
   | "crate"
   | "barrel"
@@ -89,7 +91,7 @@ export const buildings: BuildingDef[] = [
         { img: "bookshelf", x: 3, y: 2 },
         { img: "bookshelf", x: 9, y: 2 },
         { img: "bookshelf", x: 10, y: 2 },
-        { img: "table", x: 6, y: 4 },
+        { img: "table", x: 4, y: 4 },
         { img: "crate", x: 11, y: 6 },
       ],
     },
@@ -114,7 +116,7 @@ export const buildings: BuildingDef[] = [
         { img: "crate", x: 9, y: 2 },
         { img: "crate", x: 10, y: 2 },
         { img: "barrel", x: 10, y: 4 },
-        { img: "table", x: 6, y: 5 },
+        { img: "table", x: 8, y: 4 },
       ],
     },
   },
@@ -135,8 +137,8 @@ export const buildings: BuildingDef[] = [
       furniture: [
         { img: "mailrack", x: 2, y: 2 },
         { img: "mailrack", x: 3, y: 2 },
-        { img: "counter", x: 6, y: 2 },
         { img: "counter", x: 8, y: 2 },
+        { img: "counter", x: 9, y: 2 },
         { img: "barrel", x: 11, y: 3 },
       ],
     },
@@ -186,7 +188,7 @@ export const buildings: BuildingDef[] = [
       furniture: [
         { img: "bed", x: 2, y: 2 },
         { img: "stove", x: 8, y: 2 },
-        { img: "table", x: 5, y: 3 },
+        { img: "table", x: 7, y: 4 },
         { img: "crate", x: 8, y: 5 },
       ],
     },
