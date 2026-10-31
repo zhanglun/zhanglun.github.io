@@ -1,6 +1,16 @@
 ---
 // 像素小镇：全屏 Phaser 画布 + DOM HUD。
 // HUD 与游戏经事件总线单向通行（架构对齐 Pixels 客户端，单机简化）。
+export interface DiaryEntry {
+  title: string;
+  date: string;
+  desc: string;
+  href: string;
+}
+export interface Props {
+  diary: DiaryEntry[];
+}
+const { diary = [] } = Astro.props;
 ---
 
 <div class="town-stage" aria-label="像素小镇">
@@ -30,6 +40,22 @@
     </div>
   </div>
 
+  <div class="town-diary" id="town-diary" hidden>
+    <div class="diary-card">
+      <header>
+        <h2 class="px">小镇日记</h2>
+        <span class="px page-ind" id="diary-ind"></span>
+      </header>
+      <div class="diary-body" id="diary-body"></div>
+      <div class="row">
+        <button class="px" id="diary-prev" type="button">◀ 上一篇</button>
+        <a class="px go" id="diary-go" href="#">去读这篇</a>
+        <button class="px" id="diary-next" type="button">下一篇 ▶</button>
+        <button class="px close" id="diary-close" type="button">合上</button>
+      </div>
+    </div>
+  </div>
+
   <div class="town-touch">
     <div class="dpad" id="town-dpad">
       <button class="du" data-dir="up" type="button" aria-label="上">▲</button>
@@ -51,6 +77,8 @@
     </div>
   </div>
 </div>
+
+<script type="application/json" id="town-diary-data" set:html={JSON.stringify(diary)} />
 
 <style>
   .town-stage {
@@ -248,6 +276,72 @@
     padding: 8px 22px;
     cursor: pointer;
   }
+  .town-diary {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgb(12 10 8 / 0.55);
+    z-index: 9;
+  }
+  .town-diary[hidden] { display: none; }
+  .town-diary .diary-card {
+    width: min(520px, calc(100% - 40px));
+    background: #fffdf5;
+    border: 2px solid #17120e;
+    box-shadow: 6px 6px 0 rgb(23 18 14 / 0.6);
+    padding: 16px 18px 14px;
+  }
+  .town-diary header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid #17120e;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .town-diary h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #d0122a;
+  }
+  .town-diary .page-ind { font-size: 12px; color: #55585f; }
+  .town-diary .diary-body { min-height: 120px; }
+  .town-diary .entry-date {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: #d0122a;
+  }
+  .town-diary .entry-title {
+    margin: 0 0 8px;
+    font-size: 17px;
+    line-height: 1.45;
+  }
+  .town-diary .entry-desc {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #44444a;
+  }
+  .town-diary .row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .town-diary .row button,
+  .town-diary .row .go {
+    background: #17120e;
+    color: #fffdf5;
+    border: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .town-diary .row .go { background: #d0122a; }
+  .town-diary .row .close { margin-left: auto; background: #55585f; }
   .town-intro[hidden] { display: none; }
   .town-panel[hidden] { display: none; }
   .town-dialog[hidden] { display: none; }
@@ -325,6 +419,43 @@
     bus.emit(EV.panel, null);
   });
 
+  // ---- 小镇日记:内容由构建期从最新文章注入 ----
+  const diary: Array<{ title: string; date: string; desc: string; href: string }> =
+    JSON.parse(document.getElementById("town-diary-data")?.textContent || "[]");
+  const diaryEl = $("town-diary")!;
+  const diaryBody = $("diary-body")!;
+  const diaryInd = $("diary-ind")!;
+  const diaryGo = $("diary-go") as HTMLAnchorElement;
+  let diaryIdx = 0;
+  const renderDiary = () => {
+    const e = diary[diaryIdx];
+    if (!e) {
+      diaryBody.innerHTML = "<p>日记本还是空的。</p>";
+      diaryInd.textContent = "";
+      return;
+    }
+    diaryBody.innerHTML = `<p class="entry-date px">${e.date}</p><h3 class="entry-title">${e.title}</h3><p class="entry-desc">${e.desc || "（无摘要）"}</p>`;
+    diaryInd.textContent = `${diaryIdx + 1} / ${diary.length}`;
+    diaryGo.href = e.href;
+  };
+  const openDiary = () => {
+    diaryEl.hidden = false;
+    renderDiary();
+  };
+  $("diary-prev")!.addEventListener("click", () => {
+    diaryIdx = (diaryIdx - 1 + diary.length) % diary.length;
+    renderDiary();
+  });
+  $("diary-next")!.addEventListener("click", () => {
+    diaryIdx = (diaryIdx + 1) % diary.length;
+    renderDiary();
+  });
+  $("diary-close")!.addEventListener("click", () => {
+    diaryEl.hidden = true;
+    bus.emit(EV.panel, null);
+  });
+  bus.on(EV.diary, openDiary);
+
   // 昼夜切换:自动(按本地时间) → 白天 → 夜晚 循环;全局单例 setTod,
   // 开场屏/游戏内任何时刻切换都立即生效(场景每帧读 TOD.mode)
   const todBtn = $("town-tod") as HTMLButtonElement;
@@ -396,9 +527,21 @@
     if (started) return;
     started = true;
     introEl.hidden = true;
-    const { startTown } = await import("./game/scenes");
-    (window as unknown as { __townGame: unknown }).__townGame = startTown(
-      $("town-canvas")!
-    );
+    try {
+      const { startTown } = await import("./game/scenes");
+      (window as unknown as { __townGame: unknown }).__townGame = startTown(
+        $("town-canvas")!
+      );
+    } catch (e) {
+      // 启动失败必须可见:否则开场屏消失后整页像卡死
+      console.error("town: startTown failed", e);
+      introEl.hidden = false;
+      started = false;
+      const msg = e instanceof Error ? `${e.message}\n${e.stack ?? ""}` : String(e);
+      (document.getElementById("town-errbar") ??
+        document.body.appendChild(Object.assign(document.createElement("div"), { id: "town-errbar" }))
+      ).textContent = "启动失败:\n" + msg;
+      throw e;
+    }
   });
 </script>

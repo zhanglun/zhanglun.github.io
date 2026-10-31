@@ -22,6 +22,7 @@ import {
   buildFurniture,
   buildLamp,
   buildGlow,
+  buildDiary,
   FURN_KINDS,
 } from "./assets";
 import {
@@ -726,6 +727,7 @@ export class InteriorScene extends Phaser.Scene {
     FURN_KINDS.forEach(k =>
       this.textures.addCanvas(`gen-furn-${k}`, buildFurniture(k))
     );
+    this.textures.addCanvas("gen-diary", buildDiary());
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
         if (y <= 1) {
@@ -750,6 +752,15 @@ export class InteriorScene extends Phaser.Scene {
         .image(f.x * TILE + TILE / 2, (f.y + 1) * TILE, tex)
         .setOrigin(0.5, 1);
       img.setDepth((f.y + 1) * TILE);
+    }
+
+    // 日记本(书屋内):小件道具,可翻
+    if (this.b.interior.diary) {
+      const d = this.b.interior.diary;
+      const book = this.add
+        .image(d.x * TILE + TILE / 2, (d.y + 1) * TILE, "gen-diary")
+        .setOrigin(0.5, 1);
+      book.setDepth((d.y + 1) * TILE);
     }
 
     this.player = this.add
@@ -802,6 +813,10 @@ export class InteriorScene extends Phaser.Scene {
     );
     bindBus(this, EV.panel, (p: unknown) => {
       if (!p) modalOpen = false;
+    });
+    // 日记浮层合上 = 解锁输入
+    bindBus(this, EV.diary, () => {
+      modalOpen = true;
     });
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -883,6 +898,14 @@ export class InteriorScene extends Phaser.Scene {
           bus.emit(EV.dialog, { name: npc.name, text: npc.text });
         },
       };
+    } else if (this.b.interior.diary && this.nearDiary()) {
+      it = {
+        label: "翻翻日记",
+        act: () => {
+          modalOpen = true;
+          bus.emit(EV.diary);
+        },
+      };
     } else {
       // 家具可看:走近最近的一件,按 E 读一句
       let bestF: { x: number; y: number; kind: string } | null = null;
@@ -919,6 +942,14 @@ export class InteriorScene extends Phaser.Scene {
       bus.emit(EV.prompt, label || null);
     }
     this.current = it;
+  }
+
+  private nearDiary(): boolean {
+    const d = this.b.interior.diary;
+    if (!d) return false;
+    const dx = this.player.x - (d.x * TILE + TILE / 2);
+    const dy = this.player.y - (d.y + 1) * TILE;
+    return Math.hypot(dx, dy) < 28;
   }
 
   private interact() {

@@ -13,7 +13,7 @@ export const EV = {
   touchDir: "town:touchDir", // ({dx,dy,pressed}) 虚拟方向键
   touchAct: "town:touchAct", // () 虚拟交互键
   ready: "town:ready", // ()
-  ready: "town:ready", // ()
+  diary: "town:diary", // () 打开小镇日记
 } as const;
 
 // ---- 昼夜模式:全局单例(HUD 与场景共享,不挂场景生命周期)----

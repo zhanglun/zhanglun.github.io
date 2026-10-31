@@ -424,3 +424,22 @@ export function buildGlow(): HTMLCanvasElement {
   ctx.fillRect(24 - 5, 24 - 3, 10, 6);
   return cv;
 }
+
+// ---- 日记本(程序化;合着的厚本子 + 书签带;12x10)----
+export function buildDiary(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 12;
+  cv.height = 10;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#5f4126"; // 书页边
+  ctx.fillRect(0, 1, 12, 9);
+  ctx.fillStyle = "#8c3b32"; // 封面(暗红)
+  ctx.fillRect(1, 0, 10, 9);
+  ctx.fillStyle = "#a84a3f";
+  ctx.fillRect(1, 0, 10, 1);
+  ctx.fillStyle = "#e8dcc0"; // 书页
+  ctx.fillRect(9, 2, 2, 6);
+  ctx.fillStyle = "#f4c542"; // 书签带
+  ctx.fillRect(5, 6, 2, 3);
+  return cv;
+}

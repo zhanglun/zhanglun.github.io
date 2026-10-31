@@ -38,6 +38,7 @@ export interface InteriorDef {
   furniture: { img: FurnImg; x: number; y: number }[];
   motto: string; // 室内墙上格言(进门自动显示于面板副语)
   npc?: { name: string; sheet: string; text: string };
+  diary?: { x: number; y: number }; // 日记本所在格(走近可翻,内容取自最新文章)
 }
 
 export interface PropDef {
@@ -100,6 +101,7 @@ export const buildings: BuildingDef[] = [
       w: 13,
       h: 9,
       motto: "写作是把记忆存进镇子的档案室。",
+      diary: { x: 11, y: 3 },
       furniture: [
         { img: "bookshelf", x: 2, y: 2 },
         { img: "bookshelf", x: 3, y: 2 },
