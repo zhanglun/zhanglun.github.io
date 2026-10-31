@@ -195,6 +195,12 @@ export class WorldScene extends Phaser.Scene {
       this.transitioning = false;
       // 场景重启是同一实例：重置提示去重，强制第一帧刷新 HUD
       this.lastPrompt = "\u0000reset";
+      // 重置实例数组:场景重启会销毁旧精灵,不清空的话数组会累积
+      // 已销毁对象,游走/遮挡/交互逻辑调用它们即崩(v5 实际踩坑)
+      this.npcs = [];
+      this.trees = [];
+      this.plates = [];
+      this.lamps = [];
 
       // ---- 地面（RenderTexture 一次绘制：草/泥两态 + 程序化变体）----
       const ground = buildGround();
