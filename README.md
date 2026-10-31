@@ -1,13 +1,14 @@
 # zhanglun.github.io
 
-张小伦的网络日志。项目基于 Astro 构建，主要用于发布博客、项目页和个人介绍内容。
+张小伦的网络日志。项目基于 Astro 构建，主要用于发布博客、项目页和个人介绍内容；另含像素小镇 `/town`（Phaser）与像素风首页实验 `/v2`。
 
 ## 技术栈
 
-- [Astro](https://astro.build/)
-- [React](https://react.dev/)
+- [Astro](https://astro.build/) 7.x
+- [React](https://react.dev/) 19
 - [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind CSS](https://tailwindcss.com/) 4（`@tailwindcss/vite`）
+- [Phaser](https://phaser.io/) 3（`/town` 像素小镇）
 - [Fuse.js](https://www.fusejs.io/)
 - [Mermaid](https://mermaid.js.org/)
 
@@ -20,7 +21,7 @@ pnpm install
 pnpm dev
 ```
 
-开发服务默认运行在 `http://localhost:3000`。
+开发服务默认运行在 `http://localhost:4321`（`--host` 可供局域网访问）。
 
 ## 常用命令
 

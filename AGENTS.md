@@ -5,7 +5,7 @@ This document provides essential context for agentic coding agents working in th
 ## Project Overview
 
 **Type**: Astro blog with React components  
-**Framework**: Astro 4.x  
+**Framework**: Astro 7.x  
 **Styling**: Tailwind CSS  
 **Languages**: TypeScript, Markdown  
 **Package Manager**: pnpm
@@ -16,7 +16,7 @@ This document provides essential context for agentic coding agents working in th
 
 ### Development
 ```bash
-pnpm dev          # Start dev server at localhost:3000
+pnpm dev          # Start dev server at localhost:4321
 pnpm start        # Alias for dev
 pnpm preview      # Preview production build locally
 ```
@@ -336,6 +336,16 @@ This project uses **Conventional Commits** via commitizen:
 pnpm cz  # Interactive commit helper
 ```
 
+### `/town` 像素小镇与 `/v2` 像素实验
+
+- `/town`（`src/components/town/`）：Phaser 3.90 像素小镇——博客的小镇形态,
+  只逛/进屋/对话/跳转,无玩法层。素材来自 Serene Village revamped(CC-BY 4.0)
+  + Modern Interiors Free 村民(仅非商业) + 程序化生成;裁切脚本
+  `scripts/extract-town-sv.mjs`。**开发上下文与踩坑必读
+  `src/components/town/README.md` 与 `public/town/ASSETS.md`**。
+- `/v2`（`src/components/pixel/`、`src/layouts/PixelLayout.astro`）：
+  yoyu 风格首页实验,与 Ara 首页(`/`)并行,noindex,待决策转正或下线。
+
 ### Draft Posts
 
 Posts with `draft: true` in frontmatter are filtered out in production builds.
@@ -357,6 +367,6 @@ Images should live in an article's `images/` directory and use relative paths.
 
 ### Styling
 
-- Tailwind CSS with custom theme configuration
-- Dark mode supported via `class` strategy
-- Custom CSS variables for theming in `src/styles/index.css`
+- Tailwind CSS 4 via `@tailwindcss/vite`（无 tailwind.config，样式即源码）
+- 主站皮肤在 `src/styles/ara.css`（`--ara-*` 变量：纸白/墨黑/邮戳红）
+- `/v2` 像素实验用 `src/styles/pixel.css`（`--px-*` 变量）
