@@ -67,6 +67,30 @@ export const SHEETS: SheetDef[] = [
     frameHeight: 32,
   },
   {
+    key: "char-amelia-walk",
+    file: "char/amelia_walk.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "char-bob-walk",
+    file: "char/bob_walk.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "char-adam-walk",
+    file: "char/adam_walk.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
+    key: "char-alex-walk",
+    file: "char/alex_walk.png",
+    frameWidth: 16,
+    frameHeight: 32,
+  },
+  {
     key: "sv-campfire",
     file: "sv/campfire.png",
     frameWidth: 16,
@@ -79,6 +103,14 @@ export const VILLAGERS = ["amelia", "bob", "adam", "alex"] as const;
 export type VillagerKey = (typeof VILLAGERS)[number];
 
 export const IDLE_FRAMES = 6; // 每方向帧数
+export const WALK_FRAMES = 6; // 行走每方向帧数
+// walk 帧方向偏移:下/上/左/右 各占 6 帧
+export const DIR_FRAME: Record<"down" | "up" | "left" | "right", number> = {
+  down: 0,
+  up: 1,
+  left: 2,
+  right: 3,
+};
 export const CAMPFIRE_FRAMES = 4;
 
 // 史莱姆(gen/slime.png 64x16 = 4 帧静息呼吸,玩家/宠物共用)

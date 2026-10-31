@@ -11,13 +11,19 @@ const require = createRequire(import.meta.url);
 const sharp = require("sharp");
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SV = "/tmp/townpacks/stage/sv/SERENE_VILLAGE_REVAMPED";
-const MI = "/tmp/townpacks/stage/mi/Modern tiles_Free";
+// 源目录:优先 /tmp 暂存,回退到 ~/Downloads 的解包目录
+const SV =
+  ["/tmp/townpacks/stage/sv/SERENE_VILLAGE_REVAMPED", "/Users/zhanglun/Downloads/SERENE_VILLAGE_REVAMPED"].find(d =>
+    existsSync(join(d, "Serene_Village_16x16.png"))
+  ) ?? "/Users/zhanglun/Downloads/SERENE_VILLAGE_REVAMPED";
+const MI = ["/tmp/townpacks/stage/mi/Modern tiles_Free", "/Users/zhanglun/Downloads/Modern tiles_Free"].find(d =>
+  existsSync(join(d, "Characters_free/Amelia_idle_anim_16x16.png"))
+) ?? "/Users/zhanglun/Downloads/Modern tiles_Free";
 // XP 版(树为独立对象、2x 像素密度)直接取用户下载的包
-const XP = "/Users/zhanglun/Downloads/SERENE_VILLAGE_REVAMPED/RPG_MAKER_XP/Serene_Village_XP.png";
+const XP = join(SV, "RPG_MAKER_XP/Serene_Village_XP.png");
 if (!existsSync(join(SV, "Serene_Village_16x16.png"))) {
   console.error(`找不到 Serene Village 解包目录: ${SV}`);
-  console.error("请先把两个素材包 zip 解包到 /tmp/townpacks/stage/(见 ASSETS.md)");
+  console.error("请解包两个素材包 zip 到 /tmp/townpacks/stage/ 或 ~/Downloads/(见 ASSETS.md)");
   process.exit(1);
 }
 const OUT_SV = join(here, "../public/town/sv");
@@ -90,11 +96,17 @@ copyFileSync(
 );
 console.log("SV: door.png + campfire.png");
 
-// 村民:Modern Interiors Free 的 idle 呼吸动画(16x32,24 帧 = 6f × 下/上/左/右)
+// 村民:Modern Interiors Free 的 idle 呼吸 + walk 行走表
+// (均为 16x32 帧;walk sheet 384x224,row1 = 24 帧 = 6f × 下/上/左/右)
 for (const who of ["Amelia", "Bob", "Adam", "Alex"]) {
   copyFileSync(
     join(MI, `Characters_free/${who}_idle_anim_16x16.png`),
     join(OUT_CHAR, `${who.toLowerCase()}_idle.png`)
   );
+  // walk:从 384x224 的 walk sheet 抠 row1(24 帧)成 384x32
+  await sharp(join(MI, `Characters_free/${who}_16x16.png`))
+    .extract({ left: 0, top: 32, width: 384, height: 32 })
+    .png()
+    .toFile(join(OUT_CHAR, `${who.toLowerCase()}_walk.png`));
 }
-console.log("MI: 4 个村民 idle 动画 → public/town/char/");
+console.log("MI: 4 个村民 idle + walk 动画 → public/town/char/");

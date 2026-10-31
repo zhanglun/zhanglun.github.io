@@ -13,6 +13,8 @@ import {
   SHEETS,
   IMAGES,
   IDLE_FRAMES,
+  WALK_FRAMES,
+  DIR_FRAME,
   SLIME_FRAMES,
   CAMPFIRE_FRAMES,
   buildGroundVariants,
@@ -39,6 +41,7 @@ import {
   type BuildingDef,
 } from "./world";
 import { bus, EV, TOD } from "./state";
+import { TownAudio } from "./audio";
 
 const SPEED = 88;
 const INTERACT_DIST = 30;
@@ -76,7 +79,7 @@ function registerAnims(scene: Phaser.Scene) {
     frameRate: 5,
     repeat: -1,
   });
-  // 村民待机（朝下 6 帧）
+  // 村民待机（朝下 6 帧）+ 行走（4 向各 6 帧）
   for (const v of ["amelia", "bob", "adam", "alex"]) {
     scene.anims.create({
       key: `v-idle-${v}`,
@@ -86,6 +89,18 @@ function registerAnims(scene: Phaser.Scene) {
       frameRate: 5,
       repeat: -1,
     });
+    for (const [dir, off] of Object.entries(DIR_FRAME)) {
+      scene.anims.create({
+        key: `v-walk-${v}-${dir}`,
+        frames: scene.anims.generateFrameNumbers(`char-${v}-walk`, {
+          frames: [...Array(WALK_FRAMES).keys()].map(
+            n => off * WALK_FRAMES + n
+          ),
+        }),
+        frameRate: 7,
+        repeat: -1,
+      });
+    }
   }
   // 篝火
   scene.anims.create({
@@ -118,6 +133,10 @@ export class WorldScene extends Phaser.Scene {
     spr: Phaser.GameObjects.Sprite;
     def: (typeof npcDefs)[number];
     li: number;
+    home: { x: number; y: number };
+    mode: "idle" | "walk";
+    timer: number;
+    dir: "down" | "up" | "left" | "right";
   }[] = [];
   private pet!: Phaser.GameObjects.Sprite;
   private night!: Phaser.GameObjects.Rectangle;
@@ -139,6 +158,11 @@ export class WorldScene extends Phaser.Scene {
     typeof location !== "undefined" &&
     new URLSearchParams(location.search).has("debug");
   private debugGfx?: Phaser.GameObjects.Graphics;
+  // 音效引擎与节奏状态(引擎默认静音,HUD 🔊 开启)
+  readonly audio = new TownAudio();
+  private stepAcc = 0;
+  private moving = false;
+  private fireLit = true;
 
   constructor() {
     super("world");
@@ -358,7 +382,15 @@ export class WorldScene extends Phaser.Scene {
           .setOrigin(0.5, 1);
         spr.play(`v-idle-${def.sheet}`);
         spr.setDepth(spr.y);
-        this.npcs.push({ spr, def, li: 0 });
+        this.npcs.push({
+          spr,
+          def,
+          li: 0,
+          home: { x: spr.x, y: spr.y },
+          mode: "idle",
+          timer: 2 + Math.random() * 4,
+          dir: "down",
+        });
       }
       // 跟随宠物：小史莱姆
       this.pet = this.add
@@ -431,6 +463,10 @@ export class WorldScene extends Phaser.Scene {
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () =>
         window.removeEventListener("town:tod", onTod)
       );
+      if (this.audio.restore()) {
+        // 开启状态:无需额外操作,ensureCtx 已在 restore 中建好
+      }
+      (window as unknown as { __townAudio: unknown }).__townAudio = this.audio;
       bus.emit(EV.ready);
     } catch (e) {
       (window as unknown as { __townErr: string }).__townErr = String(e);
@@ -456,8 +492,19 @@ export class WorldScene extends Phaser.Scene {
   update(_time: number, delta: number) {
     const dt = delta / 1000;
     this.movePlayer(dt);
+    this.stepAcc = (this.stepAcc ?? 0) + (this.moving ? dt : 0);
+    if (this.moving && this.stepAcc > 0.28) {
+      this.stepAcc = 0;
+      this.audio.footstep();
+    }
+    this.updateNpcs(dt);
     this.updatePet(dt);
     this.updateNight(dt);
+    this.audio.tick(
+      dt,
+      Math.hypot(this.player.x - 34.5 * TILE, this.player.y - 23.5 * TILE),
+      this.fireLit
+    );
     // 树冠半透明：玩家位于树后（被遮挡）时降低树透明度，避免看不清
     for (const t of this.trees) {
       const topY = t.ty * TILE;
@@ -529,6 +576,7 @@ export class WorldScene extends Phaser.Scene {
       this.player.x += vx;
     if (dy !== 0 && !this.blocked(this.player.x, this.player.y + vy))
       this.player.y += vy;
+    this.moving = dx !== 0 || dy !== 0;
     this.player.setDepth(this.player.y);
   }
 
@@ -548,6 +596,54 @@ export class WorldScene extends Phaser.Scene {
       if (this.solid[ty * WORLD_W + tx]) return true;
     }
     return false;
+  }
+
+  private updateNpcs(dt: number) {
+    const SPEED = 26;
+    const RADIUS = 56;
+    for (const n of this.npcs) {
+      n.timer -= dt;
+      if (n.mode === "idle") {
+        if (n.timer <= 0) {
+          // 从 4 向里挑一个,走 0.6-1.4s
+          const dirs: Array<[string, number, number]> = [
+            ["down", 0, 1],
+            ["up", 0, -1],
+            ["left", -1, 0],
+            ["right", 1, 0],
+          ];
+          const [dir, dx, dy] = dirs[(Math.random() * 4) | 0];
+          // 用一格(16px)探测目标是否越界——用整步 RADIUS 探测时,
+          // 从 home 出发的第一步恰好落在边界上,四向全被拒,村民会冻死
+          const nx = n.spr.x + dx * 16;
+          const ny = n.spr.y + dy * 16;
+          if (
+            Math.abs(nx - n.home.x) <= RADIUS &&
+            Math.abs(ny - n.home.y) <= RADIUS * 0.8
+          ) {
+            n.dir = dir as "down" | "up" | "left" | "right";
+            n.mode = "walk";
+            n.timer = 0.6 + Math.random() * 0.9;
+            n.spr.play(`v-walk-${n.def.sheet}-${dir}`);
+            n.spr.setFlipX(dir === "left");
+          } else {
+            n.timer = 1 + Math.random() * 2;
+          }
+        }
+      } else {
+        const v = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] }[
+          n.dir
+        ];
+        n.spr.x += v[0] * SPEED * dt;
+        n.spr.y += v[1] * SPEED * dt;
+        if (n.timer <= 0) {
+          n.mode = "idle";
+          n.timer = 2 + Math.random() * 4;
+          n.spr.play(`v-idle-${n.def.sheet}`);
+        }
+      }
+      n.spr.setDepth(n.spr.y);
+    }
   }
 
   private updatePet(dt: number) {
@@ -688,6 +784,7 @@ export class WorldScene extends Phaser.Scene {
   private enterBuilding(b: BuildingDef) {
     if (this.transitioning) return;
     this.transitioning = true;
+    this.audio.door(true);
     this.cameras.main.fadeOut(260, 10, 12, 20);
     this.time.delayedCall(280, () => this.scene.start("interior", { b }));
   }

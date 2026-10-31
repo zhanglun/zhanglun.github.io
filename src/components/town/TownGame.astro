@@ -18,7 +18,10 @@ const { diary = [] } = Astro.props;
 
   <div class="town-hud">
     <a class="town-back px" href="/">‹ 回博客</a>
-    <button class="town-tod px" id="town-tod" type="button" aria-label="切换白天黑夜">昼夜:自动</button>
+    <div class="town-hud-right">
+      <button class="town-tod px" id="town-sound" type="button" aria-label="切换音效">🔇 静音</button>
+      <button class="town-tod px" id="town-tod" type="button" aria-label="切换白天黑夜">昼夜:自动</button>
+    </div>
   </div>
 
   <div class="town-prompt px" id="town-prompt" hidden></div>
@@ -110,6 +113,11 @@ const { diary = [] } = Astro.props;
     padding: 10px 12px;
     pointer-events: none;
     z-index: 5;
+  }
+  .town-hud-right {
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
   }
   .town-tod {
     pointer-events: auto;
@@ -479,6 +487,16 @@ const { diary = [] } = Astro.props;
     setTod(next);
     syncTod(next);
   });
+
+  // ---- 音效开关:默认静音,点击开启;状态交由场景音频引擎 ----
+  const soundBtn = $("town-sound") as HTMLButtonElement;
+  const syncSound = (on: boolean) =>
+    (soundBtn.textContent = on ? "🔊 音效" : "🔇 静音");
+  soundBtn.addEventListener("click", () => {
+    const audio = (window as unknown as { __townAudio?: { toggle(): boolean } }).__townAudio;
+    syncSound(audio ? audio.toggle() : false);
+  });
+  syncSound(false);
 
   // 虚拟方向键（pointer 事件，支持按住）
   const dpad = $("town-dpad")!;
