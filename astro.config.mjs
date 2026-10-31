@@ -40,7 +40,16 @@ export default defineConfig({
 
   integrations: [
     react(),
-    sitemap({ filter: page => new URL(page).pathname !== "/admin/" }),
+    sitemap({
+      filter: page => {
+        const p = new URL(page).pathname;
+        return (
+          !p.startsWith("/admin") &&
+          !p.startsWith("/pixel") &&
+          !p.startsWith("/v2")
+        );
+      },
+    }),
     mermaid({
       theme: "forest",
       autoTheme: true,

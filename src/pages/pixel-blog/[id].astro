@@ -26,7 +26,7 @@ const more = getSortedPosts(await getCollection("blogs"))
 ---
 
 <PixelLayout
-  title={`${title} · PIXEL DEMO`}
+  title={`${title} · 像素版`}
   description={description || title}
   mode="quiet"
 >
@@ -46,7 +46,7 @@ const more = getSortedPosts(await getCollection("blogs"))
     </div>
 
     <nav class="post-foot" aria-label="继续阅读">
-      <p class="px-date">继续阅读（demo）</p>
+      <p class="px-date">继续阅读</p>
       <div class="more-grid">
         {
           more.map(post => (

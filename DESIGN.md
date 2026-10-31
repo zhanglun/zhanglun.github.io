@@ -202,8 +202,8 @@ UI 表面没有阴影：卡片、引用、按钮全靠分层和墨线。深度�
 - **Search:** 白底、3px 墨框、点阵 12px、内边 `10px 14px`，最宽 `36rem`。Focus：2px 邮戳红 outline，offset 2px。占位「搜标题或标签」。输入框不加 `type="search"`。只搜 title 和 tags；trim 后超过 1 个字才查。无 JS 只保证 idle 壳（`#search-ssr` / `#q-ssr`）和最近八篇，不假装 SSR `?q=`。
 
 ### Navigation
-- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航（首页 / 文章 / 搜索 / 项目 / 关于）。当前项与 hover 为邮戳红。无归档入口。
-- **Category rail:** 32px 像素图标 + 点阵短标签 16px，桌面 sticky。五项与顶栏同岗：最新 / 全部文章 / 搜索 / 项目 / 关于。当前项邮戳红。无归档入口。
+- **Masthead:** 小人 48px + 点阵站名 + 副标题「写给以后翻看」；右侧点阵导航（首页 / 文章 / 搜索 / 项目 / 关于 / 小镇）。当前项与 hover 为邮戳红。无归档入口;页脚含 GitHub / 邮箱 / RSS / 小镇 / 像素版。
+- **Category rail:** 32px 像素图标 + 点阵短标签 16px，桌面 sticky。六项与顶栏同岗：最新 / 全部文章 / 搜索 / 项目 / 关于 / 小镇。当前项邮戳红。无归档入口。
 - **Post TOC:** 桌面 sticky，`max-height: calc(100dvh - 9rem)` 内滚动（扣掉顶栏后的剩余视口），条目衬线 14px，无像素图标；手机收折成「目录」。
 - **Back to top:** 仅文章页。右下角固定，像素向上箭头 +「顶部」，链到 `#top`。白纸 2px 墨框，不是 HUD。
 - **Footer:** 2px 墨线收尾，与顶栏开镇的墨线首尾呼应。左：© 年份（客户端刷新）；右：GitHub / 邮箱 / RSS 点阵链接。巡逻蟹（36×24，用户提供素材 thing_crab_01 等值复刻，scripts/make-crab.mjs）沿墨线巡逻：16s 一个来回，cqw 计程的 transform 动画，步态带加速/减速/中途驻足；郁金香与木箱当障碍物，抛物线跳跃（水平匀速 + 垂直贝塞尔抛物线，游戏人物式物理；双向四跳，每趟遇两障碍各跳一次）。关键帧由 Layout.astro 内联脚本在运行时实测几何生成（WAAPI）：障碍位置/宽高/轨道宽全部 getBoundingClientRect 实测，resize 自动重排，任意视口宽度下碰撞窗口按实测计算，无第三方库；窄屏隐藏。出视口自动暂停，`prefers-reduced-motion` 时坐回右端岗位。

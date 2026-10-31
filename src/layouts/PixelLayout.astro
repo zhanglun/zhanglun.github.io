@@ -19,28 +19,27 @@ export interface Props {
   footerLeft?: string;
 }
 
+// 像素版导航:与主站同构(首页/文章/搜索/项目/关于)+ 回主站
 const demoNav = [
-  ["首页 A", "/pixel-home-coexist", "home-a"],
-  ["首页 B", "/pixel-home-yoyu", "home-b"],
+  ["首页", "/pixel-home-yoyu", "home"],
   ["文章", "/pixel-blog", "blog"],
   ["搜索", "/pixel-search", "search"],
   ["项目", "/pixel-projects", "projects"],
   ["关于", "/pixel-about", "about"],
-  ["原站", "/", ""],
-  ["实验室", "/pixel", ""],
+  ["原版站点", "/", ""],
 ] as const;
 
 const {
   title,
-  description = "像素风格 demo：逆向自 en.yoyu.design，仅供学习演示。",
+  description = "张小伦的网络日志 · 像素版。",
   mode = "ambient",
   active,
   takeover = "page",
   scopeSelector = "#pixel-banner",
-  brand = "PIXEL DEMO",
+  brand = "张小伦的网络日志 · 像素版",
   brandHref = "/pixel-home-yoyu",
   navItems = demoNav,
-  footerLeft = ":ZL · PIXEL DEMO · 风格逆向自 en.yoyu.design（仅演示）",
+  footerLeft = ":ZL · 像素版 · 风格逆向自 en.yoyu.design",
 } = Astro.props;
 
 const nav = navItems;
