@@ -379,3 +379,47 @@ export function buildIndoorVariants(): {
   };
   return { wall: [wall(0), wall(1)], floor: [floor(0), floor(1)] };
 }
+
+// ---- 路灯(程序化,SV 木色 + 暖光灯头;16x30,原点底部居中)----
+export function buildLamp(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 16;
+  cv.height = 30;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#4a3a28"; // 灯柱
+  ctx.fillRect(7, 8, 2, 22);
+  ctx.fillStyle = "#6d5636";
+  ctx.fillRect(7, 8, 1, 22);
+  ctx.fillStyle = "#4a3a28"; // 底座
+  ctx.fillRect(5, 28, 6, 2);
+  ctx.fillStyle = "#5f4126"; // 灯帽
+  ctx.fillRect(4, 2, 8, 2);
+  ctx.fillStyle = "#3a3126"; // 灯框
+  ctx.fillRect(4, 4, 8, 7);
+  ctx.fillStyle = "#f4c542"; // 灯芯
+  ctx.fillRect(5, 5, 6, 5);
+  ctx.fillStyle = "#fff3c4";
+  ctx.fillRect(6, 6, 4, 3);
+  return cv;
+}
+
+// ---- 夜间光晕(硬边像素同心方,暖色;48x48)----
+export function buildGlow(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 48;
+  cv.height = 48;
+  const ctx = cv.getContext("2d")!;
+  // 中心在灯头(24,18):三层暖色同心方块,alpha 叠出渐层
+  const rings: [number, number, number, string][] = [
+    [22, 7, 0.5, 26], // [半宽, 半高, 步进, alpha]
+    [16, 5, 0.5, 42],
+    [10, 4, 0.5, 70],
+  ];
+  for (const [hw, hh, , alpha] of rings) {
+    ctx.fillStyle = `rgba(244, 197, 66, ${alpha / 255})`;
+    ctx.fillRect(24 - hw, 18 - hh, hw * 2, hh * 2);
+  }
+  ctx.fillStyle = "rgba(255, 243, 196, 0.35)";
+  ctx.fillRect(24 - 5, 18 - 3, 10, 6);
+  return cv;
+}

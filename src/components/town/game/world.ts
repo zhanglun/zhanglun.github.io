@@ -58,7 +58,21 @@ export interface NpcDef {
   tx: number;
   ty: number;
   lines: string[];
+  nightLines?: string[]; // 夜间(游戏时段 0.42-0.78)优先说的台词
 }
+
+// 室内家具「可看」文案(按 E 读一句)
+export const FURN_LOOKS: Record<FurnImg, string> = {
+  crate: "箱子没上锁，装的都是零碎。",
+  barrel: "敲一敲，咚咚响，是空的。",
+  bookshelf: "书脊排得整整齐齐，最新一本还没归位。",
+  workbench: "台钳夹着半成品，刨花还没来得及扫。",
+  counter: "柜面擦得发亮，今天还没开张。",
+  stove: "炉火温着，锅里的汤在咕嘟。",
+  bed: "被子叠得方方正正，枕头有太阳的味道。",
+  mailrack: "几个格子空着，信在路上。",
+  table: "桌上放着一瓶没盖盖的墨水。",
+};
 
 // 稳定伪随机（同一种子每次生成同一张镇子）
 function mulberry32(seed: number) {
@@ -404,6 +418,18 @@ export function buildProps(): PropDef[] {
     solid: true,
     center: true,
   });
+  // 路灯:沿横街与竖街布置(夜间由场景点亮光晕)
+  for (const [lx, ly] of [
+    [12, 19],
+    [42, 19],
+    [52, 19],
+    [29, 14],
+    [29, 33],
+    [26, 16],
+    [36, 25],
+  ]) {
+    props.push({ image: "gen-lamp", tx: lx, ty: ly, solid: true, center: true });
+  }
   // 岩石点缀
   props.push({
     image: "sv-rock-big",
@@ -450,7 +476,11 @@ export const npcDefs: NpcDef[] = [
     lines: [
       "欢迎来到小圆镇！这镇子就是站长的博客。",
       "书屋在东北，工坊在西北，邮局在路口。",
-      "晚上广场会点起篝火，别玩太晚呀。",
+      "广场的篝火是入夜才点的，白天凑近看看也行。",
+    ],
+    nightLines: [
+      "夜里镇子安静下来，篝火别扑灭呀。",
+      "灯柱下的光圈是留给晚归人的。",
     ],
   },
   {
@@ -458,13 +488,23 @@ export const npcDefs: NpcDef[] = [
     sheet: "bob",
     tx: 13,
     ty: 15,
-    lines: ["书屋今早刚开张，架子还热乎着。", "路口的野花开得正好，随便看。"],
+    lines: [
+      "书屋今早刚开张，架子还热乎着。",
+      "路口的野花开得正好，随便看。",
+      "西南边那片树丛是新栽的，再等等就成荫了。",
+    ],
+    nightLines: ["天黑了就早些回，小屋的炉子总温着。"],
   },
   {
     name: "邮差亚当",
     sheet: "adam",
     tx: 44,
     ty: 13,
-    lines: ["工坊那小子又熬了个通宵。", "邮局的信，风里雨里都会送到。"],
+    lines: [
+      "工坊那小子又熬了个通宵。",
+      "邮局的信，风里雨里都会送到。",
+      "今天有几封挂号信，都盖了戳。",
+    ],
+    nightLines: ["夜里赶路小心，路灯只照到路口。"],
   },
 ];

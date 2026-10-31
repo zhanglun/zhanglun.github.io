@@ -20,6 +20,8 @@ import {
   buildIndoorVariants,
   buildNameplate,
   buildFurniture,
+  buildLamp,
+  buildGlow,
   FURN_KINDS,
 } from "./assets";
 import {
@@ -32,6 +34,7 @@ import {
   solidRowsOf,
   npcDefs,
   Ground,
+  FURN_LOOKS,
   type BuildingDef,
 } from "./world";
 import { bus, EV } from "./state";
@@ -126,6 +129,8 @@ export class WorldScene extends Phaser.Scene {
     img: Phaser.GameObjects.Image;
   }[] = [];
   private plates: { b: BuildingDef; x: number; y: number }[] = [];
+  private lamps: { glow: Phaser.GameObjects.Image; cx: number; cy: number }[] =
+    [];
   private doorPads!: Map<string, BuildingDef>;
   private transitioning = false;
   private wasOnPad = true; // 边沿触发：出生/出门站在门前格时不立即吸回
@@ -208,6 +213,8 @@ export class WorldScene extends Phaser.Scene {
         sctx.fillRect(14 - w / 2, r, w, 1)
       );
       this.textures.addCanvas("town-shadow", shadow);
+      this.textures.addCanvas("gen-lamp", buildLamp());
+      this.textures.addCanvas("gen-glow", buildGlow());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -254,6 +261,18 @@ export class WorldScene extends Phaser.Scene {
             .setOrigin(0, 1);
         }
         img.setDepth((p.ty + h) * TILE);
+        if (p.image === "gen-lamp") {
+          // 光晕挂在灯头(顶部 4px),夜间点亮;白天 alpha 0
+          const cx = (p.tx + 0.5) * TILE;
+          const cy = (p.ty + h) * TILE - 24;
+          const glow = this.add
+            .image(cx, cy, "gen-glow")
+            .setOrigin(0.5, 0.5)
+            .setDepth(10_001)
+            .setBlendMode(Phaser.BlendModes.ADD)
+            .setAlpha(0);
+          this.lamps.push({ glow, cx, cy });
+        }
         if (p.image?.startsWith("sv-tree")) {
           // 接触阴影：SV 树的浅绿草基贴在同色系草地上会隐形，树冠像被截断；
           // 脚下画一枚硬边像素阴影把树「落」在地上（同 ARA 项目页做法）
@@ -560,15 +579,23 @@ export class WorldScene extends Phaser.Scene {
       }
     }
     const u = (t - a[0]) / Math.max(0.0001, b[0] - a[0]);
-    const mix = (i: number) => Math.round(a[1][i] + (b[1][i] - a[1][i]) * u);
+    // alpha 是 0-1 分数,stops 第 4 位直接就是 alpha——
+    // 旧代码误除 255,夜幕从上线起就几乎不可见(v5 修复)
+    const mix = (i: number) => a[1][i] + (b[1][i] - a[1][i]) * u;
+    const darkness = mix(3);
     this.night.setFillStyle(
-      Phaser.Display.Color.GetColor(mix(0), mix(1), mix(2)),
-      mix(3) / 255
+      Phaser.Display.Color.GetColor(Math.round(mix(0)), Math.round(mix(1)), Math.round(mix(2))),
+      darkness
     );
     this.night.setPosition(
       this.cameras.main.scrollX,
       this.cameras.main.scrollY
     );
+    // 路灯光晕:夜色越深越亮,带轻微呼吸
+    for (let i = 0; i < this.lamps.length; i++) {
+      const flicker = 0.92 + 0.08 * Math.sin(time / 90 + i * 2.1);
+      this.lamps[i].glow.setAlpha(Math.min(1, darkness * 2.2) * flicker);
+    }
   }
 
   // ---- 交互 ----
@@ -586,11 +613,15 @@ export class WorldScene extends Phaser.Scene {
         this.enterBuilding(b)
       );
     }
+    const tCycle = (this.time.now / 150_000) % 1;
+    const nightNow = tCycle > 0.42 && tCycle < 0.78;
     for (const n of this.npcs) {
       consider(n.spr.x, n.spr.y, `和${n.def.name}说话`, () => {
+        const pool =
+          nightNow && n.def.nightLines ? n.def.nightLines : n.def.lines;
         bus.emit(EV.dialog, {
           name: n.def.name,
-          text: n.def.lines[n.li++ % n.def.lines.length],
+          text: pool[n.li++ % pool.length],
         });
       });
     }
@@ -823,6 +854,35 @@ export class InteriorScene extends Phaser.Scene {
           bus.emit(EV.dialog, { name: npc.name, text: npc.text });
         },
       };
+    } else {
+      // 家具可看:走近最近的一件,按 E 读一句
+      let bestF: { x: number; y: number; kind: string } | null = null;
+      let bestD = 26;
+      for (const f of this.b.interior.furniture) {
+        const fx = f.x * TILE + TILE / 2;
+        const fy = (f.y + 1) * TILE;
+        const d = Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          fx,
+          fy
+        );
+        if (d < bestD) {
+          bestD = d;
+          bestF = { x: fx, y: fy, kind: f.img };
+        }
+      }
+      if (bestF) {
+        it = {
+          label: "看看这个",
+          act: () => {
+            bus.emit(EV.dialog, {
+              name: this.b.name,
+              text: FURN_LOOKS[bestF.kind] ?? "……",
+            });
+          },
+        };
+      }
     }
     const label = it ? it.label : "";
     if (label !== this.lastPrompt) {
