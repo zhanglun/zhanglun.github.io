@@ -14,7 +14,7 @@
     "@scrambl/react": "^0.1.1",
     "@tailwindcss/vite": "^4.3.0",
     "@uiw/react-codemirror": "^4.25.11",
-    "astro": "7.3.8",
+    "astro": "7.4.4",
     "astro-mermaid": "^2.1.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.20",

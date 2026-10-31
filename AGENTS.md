@@ -31,7 +31,8 @@ pnpm build        # Build production site to ./dist/
 pnpm format:check # Check formatting with Prettier
 pnpm format       # Auto-format with Prettier
 pnpm check        # Type check (astro check;0 errors 为门槛)
-# Node 由 fnm 管理;astro 7.4+ 需 Node ≥22.23.4(当前 22.14,astro 钉在 7.3.8)
+# Node 由 fnm 管理(default 已设 v22.23.4);astro 7.4+ 需 Node ≥22.23.4,
+# 旧终端需 `eval "$(fnm env)"` 或开新窗口刷新
 ```
 
 ### Other
