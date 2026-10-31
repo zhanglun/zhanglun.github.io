@@ -409,17 +409,18 @@ export function buildGlow(): HTMLCanvasElement {
   cv.width = 48;
   cv.height = 48;
   const ctx = cv.getContext("2d")!;
-  // 中心在灯头(24,18):三层暖色同心方块,alpha 叠出渐层
-  const rings: [number, number, number, string][] = [
-    [22, 7, 0.5, 26], // [半宽, 半高, 步进, alpha]
-    [16, 5, 0.5, 42],
-    [10, 4, 0.5, 70],
+  // 同心环以画布正中(24,24)为心——origin(0.5,0.5) 挂在灯头上即精确对位
+  // (旧版画在 y=18,整体上偏 6px,v5 反馈)
+  const rings: [number, number, number][] = [
+    [22, 7, 26], // [半宽, 半高, alpha]
+    [16, 5, 42],
+    [10, 4, 70],
   ];
-  for (const [hw, hh, , alpha] of rings) {
+  for (const [hw, hh, alpha] of rings) {
     ctx.fillStyle = `rgba(244, 197, 66, ${alpha / 255})`;
-    ctx.fillRect(24 - hw, 18 - hh, hw * 2, hh * 2);
+    ctx.fillRect(24 - hw, 24 - hh, hw * 2, hh * 2);
   }
   ctx.fillStyle = "rgba(255, 243, 196, 0.35)";
-  ctx.fillRect(24 - 5, 18 - 3, 10, 6);
+  ctx.fillRect(24 - 5, 24 - 3, 10, 6);
   return cv;
 }

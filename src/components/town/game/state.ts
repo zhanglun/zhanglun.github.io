@@ -13,4 +13,6 @@ export const EV = {
   touchDir: "town:touchDir", // ({dx,dy,pressed}) 虚拟方向键
   touchAct: "town:touchAct", // () 虚拟交互键
   ready: "town:ready", // ()
+  todSet: "town:todSet", // ("auto"|"day"|"night") HUD → 场景:昼夜模式
+  todSync: "town:todSync", // (同上) 场景 → HUD:初始同步
 } as const;

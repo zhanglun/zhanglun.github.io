@@ -417,7 +417,16 @@ export class WorldScene extends Phaser.Scene {
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
         this.scale.off(Phaser.Scale.Events.RESIZE, this.applyZoom, this);
       });
+      // 昼夜模式:优先用户选择,否则按本地时间(19:00-7:00 为夜)
+      try {
+        const saved = localStorage.getItem("town-daycycle");
+        if (saved === "day" || saved === "night") this.tod = saved;
+      } catch {}
+      const hour = new Date().getHours();
+      this.dayBase = hour >= 19 || hour < 7 ? 0.55 : 0.12;
+      this.applyTod();
       bus.emit(EV.ready);
+      bus.emit(EV.todSync, this.tod);
     } catch (e) {
       (window as unknown as { __townErr: string }).__townErr = String(e);
       console.error("WorldScene.create failed:", e);
@@ -443,7 +452,7 @@ export class WorldScene extends Phaser.Scene {
     const dt = delta / 1000;
     this.movePlayer(dt);
     this.updatePet(dt);
-    this.updateNight(_time);
+    this.updateNight(dt);
     // 树冠半透明：玩家位于树后（被遮挡）时降低树透明度，避免看不清
     for (const t of this.trees) {
       const topY = t.ty * TILE;
@@ -558,8 +567,27 @@ export class WorldScene extends Phaser.Scene {
     c.setDepth(c.y);
   }
 
-  private updateNight(time: number) {
-    const t = (time / 150_000) % 1;
+  private applyTod() {
+    // 昼夜模式切换时持久化(值由 HUD 写入 localStorage,此处冗余兜底)
+    try {
+      localStorage.setItem("town-daycycle", this.tod);
+    } catch {}
+  }
+
+  private updateNight(dt: number) {
+    // 相位:day/night 强制定格;auto 走 150s 循环(初始相位按本地时间)
+    let t: number;
+    if (this.tod === "day") {
+      this.isNight = false;
+      t = 0.12;
+    } else if (this.tod === "night") {
+      this.isNight = true;
+      t = 0.55;
+    } else {
+      this.dayClock += dt;
+      t = (this.dayBase + this.dayClock / 150) % 1;
+      this.isNight = t > 0.42 && t < 0.78;
+    }
     // 关键帧：正午白 → 黄昏橙 → 夜蓝 → 黎明 → 正午
     const stops: [number, [number, number, number, number]][] = [
       [0.0, [255, 244, 214, 0]],
@@ -584,7 +612,11 @@ export class WorldScene extends Phaser.Scene {
     const mix = (i: number) => a[1][i] + (b[1][i] - a[1][i]) * u;
     const darkness = mix(3);
     this.night.setFillStyle(
-      Phaser.Display.Color.GetColor(Math.round(mix(0)), Math.round(mix(1)), Math.round(mix(2))),
+      Phaser.Display.Color.GetColor(
+        Math.round(mix(0)),
+        Math.round(mix(1)),
+        Math.round(mix(2))
+      ),
       darkness
     );
     this.night.setPosition(
@@ -593,7 +625,7 @@ export class WorldScene extends Phaser.Scene {
     );
     // 路灯光晕:夜色越深越亮,带轻微呼吸
     for (let i = 0; i < this.lamps.length; i++) {
-      const flicker = 0.92 + 0.08 * Math.sin(time / 90 + i * 2.1);
+      const flicker = 0.92 + 0.08 * Math.sin(this.dayClock * 8 + i * 2.1);
       this.lamps[i].glow.setAlpha(Math.min(1, darkness * 2.2) * flicker);
     }
   }
@@ -613,8 +645,7 @@ export class WorldScene extends Phaser.Scene {
         this.enterBuilding(b)
       );
     }
-    const tCycle = (this.time.now / 150_000) % 1;
-    const nightNow = tCycle > 0.42 && tCycle < 0.78;
+    const nightNow = this.isNight;
     for (const n of this.npcs) {
       consider(n.spr.x, n.spr.y, `和${n.def.name}说话`, () => {
         const pool =

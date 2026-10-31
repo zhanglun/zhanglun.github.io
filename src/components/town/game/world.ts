@@ -428,7 +428,13 @@ export function buildProps(): PropDef[] {
     [26, 16],
     [36, 25],
   ]) {
-    props.push({ image: "gen-lamp", tx: lx, ty: ly, solid: true, center: true });
+    props.push({
+      image: "gen-lamp",
+      tx: lx,
+      ty: ly,
+      solid: true,
+      center: true,
+    });
   }
   // 岩石点缀
   props.push({

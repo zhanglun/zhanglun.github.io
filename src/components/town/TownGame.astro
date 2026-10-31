@@ -8,6 +8,7 @@
 
   <div class="town-hud">
     <a class="town-back px" href="/">‹ 回博客</a>
+    <button class="town-tod px" id="town-tod" type="button" aria-label="切换白天黑夜">昼夜:自动</button>
   </div>
 
   <div class="town-prompt px" id="town-prompt" hidden></div>
@@ -80,6 +81,16 @@
     padding: 10px 12px;
     pointer-events: none;
     z-index: 5;
+  }
+  .town-tod {
+    pointer-events: auto;
+    background: #fffdf5;
+    border: 2px solid #17120e;
+    box-shadow: 3px 3px 0 rgb(23 18 14 / 0.7);
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #17120e;
+    cursor: pointer;
   }
   .town-back {
     pointer-events: auto;
@@ -311,6 +322,36 @@
   $("town-panel-close")!.addEventListener("click", () => {
     panelEl.hidden = true;
     bus.emit(EV.panel, null);
+  });
+
+  // 昼夜切换:自动(按本地时间) → 白天 → 夜晚 循环,选择持久化
+  const todBtn = $("town-tod") as HTMLButtonElement;
+  const todLabel: Record<string, string> = {
+    auto: "昼夜:自动",
+    day: "☀ 白天",
+    night: "🌙 夜晚",
+  };
+  const syncTod = (v: string) => {
+    todBtn.textContent = todLabel[v] ?? v;
+    todBtn.dataset.mode = v;
+  };
+  // 初始标签:直接读持久化选择,不等场景同步(scene create 可能有先后)
+  let initTod = "auto";
+  try {
+    initTod = localStorage.getItem("town-daycycle") || "auto";
+  } catch {}
+  syncTod(initTod);
+  bus.on(EV.todSync, syncTod);
+  todBtn.addEventListener("click", () => {
+    const order = ["auto", "day", "night"];
+    const cur = todBtn.dataset.mode || "auto";
+    const next = order[(order.indexOf(cur) + 1) % order.length];
+    todBtn.dataset.mode = next;
+    syncTod(next);
+    try {
+      localStorage.setItem("town-daycycle", next);
+    } catch {}
+    bus.emit(EV.todSet, next);
   });
 
   // 虚拟方向键（pointer 事件，支持按住）
