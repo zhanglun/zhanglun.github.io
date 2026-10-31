@@ -27,10 +27,10 @@ Git 是内容真源，不是外挂 CMS。文章和图住在 `src/content/blogs/`
 
 ## Operating Context
 
-- 读者走公开站：首页、博客列表与详情、搜索、项目、关于、RSS。生产构建过滤 `draft: true`。
+- 读者走公开站：首页、博客列表与详情、搜索、项目、关于、RSS、像素小镇 `/town`、像素版皮肤 `/pixel-*`。生产构建过滤 `draft: true`。
 - 作者靠书签打开 `https://<生产域名>/admin/`。GitHub OAuth，仅 `ADMIN_GITHUB_USER_ID` 可进。前台不放后台链接。
 - 写作：Markdown 正文 + frontmatter（title、date、tags、categories、draft；可选 description / cover / ogImage）。图片进该文 `images/`，相对路径引用；上传 ≤4MB，仅 PNG/JPEG/WebP。
-- 部署：Vercel，`master` push 自动部署。本地 `pnpm dev` 默认 `http://localhost:3000`。无 `PUBLIC_ADMIN_ORIGIN` 时 Admin 走 fixture，不打生产 API。
+- 部署：Vercel，`master` push 自动部署。本地 `pnpm dev` 默认 `http://localhost:4321`。无 `PUBLIC_ADMIN_ORIGIN` 时 Admin 走 fixture，不打生产 API。
 - 改 `api/` 后必跑：`node tests/admin-api-local.mjs && pnpm build`。
 
 ## Capabilities and Constraints
@@ -41,6 +41,8 @@ Confirmed:
 - Admin：列表、标题搜索、草稿/已发布筛选、新建、CodeMirror Markdown 编辑、预览（含 Mermaid）、保存草稿、发布、取消发布、删除、粘贴/拖拽/选择上传图片。
 - API：`/api/auth/*`、`/api/posts`（path 用 query，不用 catch-all）、`/api/preview`、`/api/images/upload`。GitHub 写入只用 Contents API（Git Data API 会超 Vercel 10s）。
 - 导航不含归档。`/archive` 只留占位页给旧链接，不做按年按月目录。
+- `/town`（Phaser 像素小镇，博客的小镇形态）：只逛/进屋/对话/跳转，不做任务与经济系统；技术与素材上下文见 `src/components/town/README.md`。
+- 像素版皮肤 `/pixel-*`（yoyu 风格，与主站内容同源）：保持 noindex、不进 sitemap，保留 en.yoyu.design 风格出处署名；正式门面仍是 Ara 版 `/`。
 
 Constraints:
 

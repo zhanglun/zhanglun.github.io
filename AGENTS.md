@@ -323,7 +323,7 @@ try {
 │   ├── config.ts        # Site configuration
 │   └── types.ts         # Type definitions
 ├── astro.config.mjs     # Astro configuration
-├── tailwind.config.cjs  # Tailwind configuration
+├── pnpm-workspace.yaml  # pnpm 配置与 overrides
 ├── tsconfig.json        # TypeScript configuration
 └── package.json
 ```

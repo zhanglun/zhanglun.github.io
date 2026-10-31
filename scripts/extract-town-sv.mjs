@@ -45,7 +45,7 @@ const CROPS = [
   // 压叠),任何 32px 硬切都会切坏——「树被截断」的真正根因(v5 踩坑)。
   // 树全部改从 **RPG_MAKER_XP 版** y916 行取:该行 4 棵树按 64px 间距独立
   // 排布,每棵 64x76 完整;XP 像素密度 2x,缩 50% 回 16px → 32x38。
-  // (16x16 sheet 仅保留 tree-round 备用;XP 文件路径见下方 XP 常量。)
+  // (三个变体全部来自 XP 版;16x16 sheet 的树行均为融合树篱,不可用。)
   { name: "tree-teal", file: XP, x: 64, y: 916, w: 64, h: 76, half: true }, // 绿单树
   { name: "tree-dark", file: XP, x: 192, y: 916, w: 64, h: 76, half: true }, // 暗青单树
   { name: "tree-round", file: XP, x: 196, y: 1000, w: 52, h: 56, half: true }, // 小圆树

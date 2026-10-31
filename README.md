@@ -33,6 +33,7 @@ pnpm dev
 | `pnpm preview` | 本地预览生产构建 |
 | `pnpm format:check` | 检查 Prettier 格式 |
 | `pnpm format` | 格式化代码 |
+| `pnpm check` | 类型检查(astro check,0 errors 为门槛) |
 | `pnpm cz` | 使用 Commitizen 提交 |
 
 ## 项目结构
@@ -56,7 +57,7 @@ pnpm dev
 │   ├── config.ts        # 站点配置
 │   └── content.config.ts # Astro 内容集合配置
 ├── astro.config.mjs
-├── tailwind.config.cjs
+├── pnpm-workspace.yaml
 ├── tsconfig.json
 └── package.json
 ```
