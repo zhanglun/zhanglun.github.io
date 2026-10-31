@@ -75,11 +75,11 @@ const cells = sprites.map(([name, w, h]) => {
   const ground = document.querySelector(".ara-ground");
   if (ground && matchMedia("(hover: none), (pointer: coarse)").matches) {
     ground.addEventListener("click", e => {
-      const a = e.target.closest("a.spr");
+      const a = (e.target as HTMLElement | null)?.closest("a.spr") as HTMLElement | null;
       if (!a || a.dataset.armed) return;
       e.preventDefault();
       ground
-        .querySelectorAll("a.spr[data-armed]")
+        .querySelectorAll<HTMLAnchorElement>("a.spr[data-armed]")
         .forEach(s => delete s.dataset.armed);
       a.dataset.armed = "1";
     });

@@ -4,7 +4,7 @@ const getSortedPosts = (posts: CollectionEntry<"blogs">[]) =>
   posts
     .filter(({ data }) => !data.draft)
     .map(post => {
-      const text = post.body.replace(/<[^>]+>/gi, "");
+      const text = (post.body ?? "").replace(/<[^>]+>/gi, "");
       const firstPeriodIdx = text.search(/\.\s|。/gi);
       const description =
         post.data.description ||

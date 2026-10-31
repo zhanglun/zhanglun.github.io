@@ -12,7 +12,7 @@ const png = (n: string) => {
   const file = (DIM as Record<string, unknown>)[`${n}_file`];
   return `/ara/town/${typeof file === "string" ? file : `${n}.png`}`;
 };
-const dim = (n: string): [number, number] => DIM[n] as [number, number];
+const dim = (n: string): [number, number] => (DIM as unknown as Record<string, number[]>)[n] as [number, number];
 
 type Shop = {
   name: string;
@@ -280,7 +280,7 @@ const walkers = [
         Math.min(street.clientWidth / 2360, street.clientHeight / 1260, 1.6)
       )
     );
-    ground.style.setProperty("--tz", String(z));
+    (ground as HTMLElement).style.setProperty("--tz", String(z));
   };
   fit();
   if ("ResizeObserver" in window && street) new ResizeObserver(fit).observe(street);

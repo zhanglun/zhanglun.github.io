@@ -39,6 +39,7 @@ import {
   Ground,
   FURN_LOOKS,
   type BuildingDef,
+  type FurnImg,
 } from "./world";
 import { bus, EV, TOD } from "./state";
 import { TownAudio } from "./audio";
@@ -154,6 +155,10 @@ export class WorldScene extends Phaser.Scene {
   private doorPads!: Map<string, BuildingDef>;
   private transitioning = false;
   private wasOnPad = true; // 边沿触发：出生/出门站在门前格时不立即吸回
+  // 昼夜系统:模式在 state.TOD(全局单例);时钟与相位在此实例内
+  private dayClock = 0; // 自动循环累计秒
+  private dayBase = 0.12; // 初始相位(白天 0.12 / 夜晚 0.55,由本地时间决定)
+  private isNight = false;
   private debugOn =
     typeof location !== "undefined" &&
     new URLSearchParams(location.search).has("debug");
@@ -737,10 +742,12 @@ export class WorldScene extends Phaser.Scene {
   private nearestInteract(): { label: string; act: () => void } | null {
     const px = this.player.x;
     const py = this.player.y - 4;
-    let best: { label: string; act: () => void; d: number } | null = null;
+    // 候选收集后取最近(TS 不追踪闭包内对 let 的赋值,
+    // 直接在闭包里改 best 会让收窄把 best 判成 never)
+    const cands: { label: string; act: () => void; d: number }[] = [];
     const consider = (x: number, y: number, label: string, act: () => void) => {
       const d = Phaser.Math.Distance.Between(px, py, x, y);
-      if (d < INTERACT_DIST && (!best || d < best.d)) best = { label, act, d };
+      if (d < INTERACT_DIST) cands.push({ label, act, d });
     };
     for (const b of buildings) {
       const d = doorOf(b);
@@ -769,7 +776,9 @@ export class WorldScene extends Phaser.Scene {
         });
       });
     }
-    return best ? { label: best.label, act: best.act } : null;
+    return cands.length
+      ? cands.reduce((a, b) => (b.d < a.d ? b : a))
+      : null;
   }
 
   private updatePrompt() {
@@ -1013,7 +1022,7 @@ export class InteriorScene extends Phaser.Scene {
       };
     } else {
       // 家具可看:走近最近的一件,按 E 读一句
-      let bestF: { x: number; y: number; kind: string } | null = null;
+      let bestF: { x: number; y: number; kind: FurnImg } | null = null;
       let bestD = 26;
       for (const f of this.b.interior.furniture) {
         const fx = f.x * TILE + TILE / 2;

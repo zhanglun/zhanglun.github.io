@@ -30,6 +30,8 @@ pnpm build        # Build production site to ./dist/
 ```bash
 pnpm format:check # Check formatting with Prettier
 pnpm format       # Auto-format with Prettier
+pnpm check        # Type check (astro check;0 errors 为门槛)
+# Node 由 fnm 管理;astro 7.4+ 需 Node ≥22.23.4(当前 22.14,astro 钉在 7.3.8)
 ```
 
 ### Other

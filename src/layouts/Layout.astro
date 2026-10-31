@@ -78,9 +78,14 @@ const nav = [
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NV80H5X8DD"
     ></script>
     <script>
+      declare global {
+        interface Window {
+          dataLayer: unknown[];
+        }
+      }
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+      function gtag(...args: unknown[]) {
+        window.dataLayer.push(args);
       }
       gtag("js", new Date());
       gtag("config", "G-NV80H5X8DD");
@@ -183,29 +188,41 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       // 巡逻蟹巡线：运行时实测几何 → WAAPI 动态关键帧（闭合回路，任意视口宽度都准确）。
       // ponytail: 不引物理库——装饰编排需要的是实测几何，不是刚体响应；WAAPI 原生够用。
       const foot = document.querySelector(".ara-foot");
-      const track = foot && foot.querySelector(".crab-track");
+      const track = foot?.querySelector<HTMLElement>(".crab-track");
+      const walkEl = track?.querySelector<HTMLElement>(".crab-walk");
+      const hopEl = track?.querySelector<HTMLElement>(".crab-hop");
+      const flipEl = track?.querySelector<HTMLElement>(".crab-flip");
+      const crabImg = track?.querySelector<HTMLElement>(".foot-crab");
       const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-      if (foot && track && !reduced.matches && Element.prototype.animate) {
-        const walkEl = track.querySelector(".crab-walk");
-        const hopEl = track.querySelector(".crab-hop");
-        const flipEl = track.querySelector(".crab-flip");
-        const crabImg = track.querySelector(".foot-crab");
-        let anims = [];
+      // 元素查询带可选链,守卫并入条件——内联脚本顶层不能用 return
+      if (
+        foot &&
+        track &&
+        walkEl &&
+        hopEl &&
+        flipEl &&
+        crabImg &&
+        !reduced.matches
+      ) {
+        const trackEl = track;
+        const footEl = foot;
+        const crabImgEl = crabImg;
+        let anims: Animation[] = [];
 
-        function build() {
+        const build = () => {
           anims.forEach(a => a.cancel());
           anims = [];
-          const trackRect = track.getBoundingClientRect();
+          const trackRect = trackEl.getBoundingClientRect();
           const T = trackRect.width;
           if (T <= 0) return;
-          const crabW = crabImg.getBoundingClientRect().width || 36;
+          const crabW = crabImgEl.getBoundingClientRect().width || 36;
           const cruise = (2 * T) / 15000; // px/ms：行走预算约 15s
           const burst = cruise * 1.8; // 起跳扑跳加速（猫 physical burst）
           const creep = cruise * 0.5;
           const pad = 6; // 猫剪影（耳/尾）超出碰撞盒的经验余量
 
           // 实测障碍：中心 / 宽 / 高（资产已裁为实心满幅，重排/改尺寸自动跟随）
-          const obstacles = [...foot.querySelectorAll(".foot-obstacle")]
+          const obstacles = [...footEl.querySelectorAll<HTMLElement>(".foot-obstacle")]
             .map(o => {
               const r = o.getBoundingClientRect();
               return { c: r.left + r.width / 2 - trackRect.left, w: r.width, h: r.height };
@@ -215,18 +232,18 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
           // 单次跳跃：弧形按目标宽高比反推——重叠边缘落在抛物线 u=0.62 处、
           // 边缘净空 5px，滞空时间 = 窗宽/扑跳速（约 0.45–0.55s，游戏手感而非气球滑翔）
-          function jumpFor(ob) {
+          function jumpFor(ob: { c: number; w: number; h: number }) {
             const overlapHalf = (crabW + ob.w) / 2 + pad;
             const u = 0.62;
             const H = (ob.h + 5) / (1 - u * u);
             return { passX: ob.c - crabW / 2, halfPx: overlapHalf / u, H };
           }
 
-          const xPins = [];
-          const hops = [];
+          const xPins: { t: number; x: number }[] = [];
+          const hops: { t0: number; t1: number; H: number }[] = [];
           let t = 0;
           let x = T;
-          const push = (dt, nx) => {
+          const push = (dt: number, nx: number) => {
             t += Math.max(0, dt);
             x = nx;
             xPins.push({ t, x });
@@ -269,7 +286,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           const total = t;
 
           // X：线性分段（分段速度即步态节奏）
-          const kx = xPins.map(p => ({
+          const kx: Keyframe[] = xPins.map(p => ({
             transform: `translate(${p.x.toFixed(1)}px, 0)`,
             offset: p.t / total,
             easing: "linear",
@@ -278,14 +295,15 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           // Y：抛物线——升段减速 / 降段加速，顶点速度为零
           const RISE = "cubic-bezier(0.33, 0.67, 0.67, 1)";
           const FALL = "cubic-bezier(0.33, 0, 0.67, 0.33)";
-          const ky = [{ transform: "translateY(0)", offset: 0 }];
+          const ky: Keyframe[] = [{ transform: "translateY(0)", offset: 0 }];
           for (const h of hops) {
             const t0o = h.t0 / total;
             const mid = (h.t0 + (h.t1 - h.t0) / 2) / total;
             const t1o = h.t1 / total;
             // 起跳地面帧：没有它，上升段会从上一个关键帧（上一个落点或 offset 0）
             // 开始缓动，猫会在障碍前老远开始飘升——实测滞空 2.5s 的真凶
-            if (t0o > ky[ky.length - 1].offset) {
+            const lastKy = ky[ky.length - 1];
+            if (t0o > (lastKy.offset ?? 0)) {
               ky.push({ transform: "translateY(0)", offset: t0o, easing: RISE });
             }
             ky.push({
@@ -300,7 +318,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           // 折返翻转（瞬时）
           const a = flipA / total;
           const b = flipB / total;
-          const kf = [
+          const kf: Keyframe[] = [
             { transform: "scaleX(1)", offset: 0 },
             { transform: "scaleX(1)", offset: Math.max(0, a - 0.0005) },
             { transform: "scaleX(-1)", offset: Math.min(1, a + 0.0005) },
@@ -321,12 +339,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         new ResizeObserver(() => {
           cancelAnimationFrame(raf);
           raf = requestAnimationFrame(build);
-        }).observe(foot);
+        }).observe(footEl);
         if ("IntersectionObserver" in window) {
           new IntersectionObserver(entries => {
             const on = entries[entries.length - 1].isIntersecting;
             anims.forEach(a => (on ? a.play() : a.pause()));
-          }).observe(foot);
+          }).observe(footEl);
         }
       }
     </script>
