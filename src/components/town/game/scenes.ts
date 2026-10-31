@@ -37,7 +37,7 @@ import {
   FURN_LOOKS,
   type BuildingDef,
 } from "./world";
-import { bus, EV } from "./state";
+import { bus, EV, TOD } from "./state";
 
 const SPEED = 88;
 const INTERACT_DIST = 30;
@@ -417,16 +417,20 @@ export class WorldScene extends Phaser.Scene {
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
         this.scale.off(Phaser.Scale.Events.RESIZE, this.applyZoom, this);
       });
-      // 昼夜模式:优先用户选择,否则按本地时间(19:00-7:00 为夜)
-      try {
-        const saved = localStorage.getItem("town-daycycle");
-        if (saved === "day" || saved === "night") this.tod = saved;
-      } catch {}
+      // 自动模式初始相位按访客本地时间(19:00-7:00 为夜)
       const hour = new Date().getHours();
-      this.dayBase = hour >= 19 || hour < 7 ? 0.55 : 0.12;
-      this.applyTod();
+      this.dayBase =
+        TOD.mode === "auto" ? (hour >= 19 || hour < 7 ? 0.55 : 0.12) : 0.12;
+      this.dayClock = 0;
+      // HUD 切换走 window 事件(跨模块实例);收到即同步本实例副本
+      const onTod = (e: Event) => {
+        TOD.mode = (e as CustomEvent).detail;
+      };
+      window.addEventListener("town:tod", onTod);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () =>
+        window.removeEventListener("town:tod", onTod)
+      );
       bus.emit(EV.ready);
-      bus.emit(EV.todSync, this.tod);
     } catch (e) {
       (window as unknown as { __townErr: string }).__townErr = String(e);
       console.error("WorldScene.create failed:", e);
@@ -567,20 +571,14 @@ export class WorldScene extends Phaser.Scene {
     c.setDepth(c.y);
   }
 
-  private applyTod() {
-    // 昼夜模式切换时持久化(值由 HUD 写入 localStorage,此处冗余兜底)
-    try {
-      localStorage.setItem("town-daycycle", this.tod);
-    } catch {}
-  }
-
   private updateNight(dt: number) {
-    // 相位:day/night 强制定格;auto 走 150s 循环(初始相位按本地时间)
+    // 相位:day/night 强制定格(全局单例,开场屏切换也生效);
+    // auto 走 150s 循环(初始相位按访客本地时间)
     let t: number;
-    if (this.tod === "day") {
+    if (TOD.mode === "day") {
       this.isNight = false;
       t = 0.12;
-    } else if (this.tod === "night") {
+    } else if (TOD.mode === "night") {
       this.isNight = true;
       t = 0.55;
     } else {

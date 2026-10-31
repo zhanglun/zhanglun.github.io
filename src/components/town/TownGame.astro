@@ -58,6 +58,7 @@
     inset: 0;
     z-index: 50;
     background: #2f5537;
+    transition: background 0.4s;
     overflow: hidden;
     touch-action: none;
     user-select: none;
@@ -254,7 +255,7 @@
 </style>
 
 <script>
-  import { bus, EV } from "./game/state";
+  import { bus, EV, TOD, setTod } from "./game/state";
 
   // 未捕获错误可视化（仅出错时出现）
   window.addEventListener("error", e => {
@@ -324,8 +325,10 @@
     bus.emit(EV.panel, null);
   });
 
-  // 昼夜切换:自动(按本地时间) → 白天 → 夜晚 循环,选择持久化
+  // 昼夜切换:自动(按本地时间) → 白天 → 夜晚 循环;全局单例 setTod,
+  // 开场屏/游戏内任何时刻切换都立即生效(场景每帧读 TOD.mode)
   const todBtn = $("town-tod") as HTMLButtonElement;
+  const stage = document.querySelector(".town-stage") as HTMLElement;
   const todLabel: Record<string, string> = {
     auto: "昼夜:自动",
     day: "☀ 白天",
@@ -334,24 +337,16 @@
   const syncTod = (v: string) => {
     todBtn.textContent = todLabel[v] ?? v;
     todBtn.dataset.mode = v;
+    // 开场屏背景直接内联(类名方案被 Astro 样式作用域干扰)
+    stage.style.background = v === "night" ? "#17233a" : "#2f5537";
   };
-  // 初始标签:直接读持久化选择,不等场景同步(scene create 可能有先后)
-  let initTod = "auto";
-  try {
-    initTod = localStorage.getItem("town-daycycle") || "auto";
-  } catch {}
-  syncTod(initTod);
-  bus.on(EV.todSync, syncTod);
+  syncTod(TOD.mode);
   todBtn.addEventListener("click", () => {
-    const order = ["auto", "day", "night"];
-    const cur = todBtn.dataset.mode || "auto";
+    const order: Array<"auto" | "day" | "night"> = ["auto", "day", "night"];
+    const cur = TOD.mode;
     const next = order[(order.indexOf(cur) + 1) % order.length];
-    todBtn.dataset.mode = next;
+    setTod(next);
     syncTod(next);
-    try {
-      localStorage.setItem("town-daycycle", next);
-    } catch {}
-    bus.emit(EV.todSet, next);
   });
 
   // 虚拟方向键（pointer 事件，支持按住）
