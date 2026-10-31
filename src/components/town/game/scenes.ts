@@ -630,8 +630,10 @@ export class WorldScene extends Phaser.Scene {
             n.dir = dir as "down" | "up" | "left" | "right";
             n.mode = "walk";
             n.timer = 0.6 + Math.random() * 0.9;
+            // MI walk 表四向帧各自朝向正确(下/上/左/右),无需镜像;
+            // 此前的 left 翻转会让村民走左边朝右(v5 反馈)
+            n.spr.setFlipX(false);
             n.spr.play(`v-walk-${n.def.sheet}-${dir}`);
-            n.spr.setFlipX(dir === "left");
           } else {
             n.timer = 1 + Math.random() * 2;
           }
