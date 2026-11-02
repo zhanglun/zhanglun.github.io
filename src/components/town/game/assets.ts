@@ -595,3 +595,45 @@ export function buildSnowFlake(): HTMLCanvasElement {
   ctx.fillRect(1, 1, 1, 1);
   return cv;
 }
+
+// ---- 许愿井(程序化;石圈 + 井水 + 双柱横杆;16x20,原点底部居中)----
+export function buildWell(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 16;
+  cv.height = 20;
+  const ctx = cv.getContext("2d")!;
+  // 石圈
+  ctx.fillStyle = "#8d8d84";
+  ctx.fillRect(2, 10, 12, 8);
+  ctx.fillStyle = "#6f6f66";
+  ctx.fillRect(2, 10, 12, 2);
+  ctx.fillRect(2, 16, 12, 2);
+  // 井水
+  ctx.fillStyle = "#1c2a3a";
+  ctx.fillRect(4, 12, 8, 4);
+  ctx.fillStyle = "#2c4258";
+  ctx.fillRect(4, 12, 8, 1);
+  // 双柱与横杆
+  ctx.fillStyle = "#5f4126";
+  ctx.fillRect(3, 2, 2, 9);
+  ctx.fillRect(11, 2, 2, 9);
+  ctx.fillStyle = "#7a5533";
+  ctx.fillRect(1, 1, 14, 2);
+  // 辘轳绳与小桶
+  ctx.fillStyle = "#4a3a28";
+  ctx.fillRect(7, 3, 1, 4);
+  ctx.fillStyle = "#8a5a33";
+  ctx.fillRect(5, 7, 5, 3);
+  return cv;
+}
+
+// ---- 烟花火花与萤火虫光点(程序化;白色小块,tint 上色)----
+export function buildSpark(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 2;
+  cv.height = 2;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, 2, 2);
+  return cv;
+}

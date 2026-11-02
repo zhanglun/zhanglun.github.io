@@ -6,6 +6,7 @@ import type { CollectionEntry } from "astro:content";
 import { SITE, SOCIALS } from "@config";
 import { PROJECTS } from "@data/projects";
 import { FRIENDS } from "@data/friends";
+import { GUESTBOOK } from "@data/guestbook";
 
 export interface TownPost {
   t: string; // 标题
@@ -52,6 +53,10 @@ export interface TownData {
   quote: TownQuote | null; // 每日一句(按日期确定性抽取)
   latest: { title: string; href: string; date: string; fresh: boolean } | null;
   about: { author: string; bio: string };
+  guestbook: {
+    repoIssue: string;
+    letters: { from: string; date: string; text: string }[];
+  };
 }
 
 // 最多 6 排书架 = 最近 5 个年份 + 「更早」兜底,覆盖全部文章
@@ -160,5 +165,6 @@ export function buildTownData(sorted: CollectionEntry<"blogs">[]): TownData {
           }
         : null,
     about: { author: SITE.author, bio: SITE.description },
+    guestbook: GUESTBOOK,
   };
 }

@@ -18,6 +18,7 @@ export const EV = {
   search: "town:search", // (boolean) 打开(true)/关闭(false)搜索浮层
   playerTile: "town:playerTile", // ({x,y}) 玩家所在 tile(小地图标记,WorldScene 发)
   travel: "town:travel", // (id) 点小地图建筑传送(WorldScene/InteriorScene 收)
+  collect: "town:collect", // ({caught,total}) 捉到萤火虫,HUD 出计数角标
 } as const;
 
 // EV.list 载荷:场景只报「哪类联动」,内容由 HUD 从 town-data 解析

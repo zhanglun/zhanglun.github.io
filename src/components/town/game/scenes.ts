@@ -31,6 +31,8 @@ import {
   buildNewsBubble,
   buildRainDrop,
   buildSnowFlake,
+  buildWell,
+  buildSpark,
   FURN_KINDS,
 } from "./assets";
 import {
@@ -45,6 +47,8 @@ import {
   TOTEM_SPOTS,
   ORB_SPOT,
   BOARD_SPOT,
+  WELL_SPOT,
+  FIREFLY_SPOTS,
   Ground,
   FURN_LOOKS,
   type BuildingDef,
@@ -192,6 +196,12 @@ export class WorldScene extends Phaser.Scene {
   // 天气:按真实日期确定性决定(冬多雪,其余季节约 1/4 天数有雨),
   // ?weather=rain|snow|clear 可强制,供调试与实机验收
   private weather: "clear" | "rain" | "snow" = "clear";
+  private fireflies: {
+    id: string;
+    glow: Phaser.GameObjects.Image;
+    dot: Phaser.GameObjects.Image;
+  }[] = [];
+  private caughtFireflies = new Set<string>();
   private insidePrev = false; // 村民作息触发器:夜/雨 = 回屋
   private debugOn =
     typeof location !== "undefined" &&
@@ -291,6 +301,8 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("gen-news", buildNewsBubble());
       this.textures.addCanvas("gen-rain", buildRainDrop());
       this.textures.addCanvas("gen-snow", buildSnowFlake());
+      this.textures.addCanvas("gen-well", buildWell());
+      this.textures.addCanvas("gen-spark", buildSpark());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -456,6 +468,55 @@ export class WorldScene extends Phaser.Scene {
             ease: "sine.inout",
           });
         }
+      }
+
+      // 萤火虫收集彩蛋:镇上藏 6 只,捉满触发烟花。
+      // localStorage 只存「捉没捉过」的 id 集合——化妆品,不是资产。
+      try {
+        (localStorage.getItem("town-fireflies") ?? "")
+          .split(",")
+          .filter(Boolean)
+          .forEach(id => this.caughtFireflies.add(id));
+      } catch {}
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      FIREFLY_SPOTS.forEach(([tx, ty], i) => {
+        const id = String(i);
+        if (this.caughtFireflies.has(id)) return;
+        const fx = (tx + 0.5) * TILE;
+        const fy = (ty + 0.8) * TILE;
+        const glow = this.add
+          .image(fx, fy, "gen-glow")
+          .setOrigin(0.5)
+          .setDepth(9_999)
+          .setBlendMode(Phaser.BlendModes.ADD)
+          .setAlpha(0.55);
+        const dot = this.add
+          .image(fx, fy, "gen-spark")
+          .setOrigin(0.5)
+          .setDepth(10_001)
+          .setTint(0xf4e042);
+        if (!reducedMotion) {
+          this.tweens.add({
+            targets: [glow, dot],
+            alpha: { from: 0.55, to: 1 },
+            duration: 900 + i * 130,
+            yoyo: true,
+            repeat: -1,
+            ease: "sine.inout",
+          });
+        }
+        this.fireflies.push({ id, glow, dot });
+      });
+
+      // 烟花触发:新年头三天,或 ?fireworks=1 调试
+      const now = new Date();
+      if (
+        new URLSearchParams(location.search).has("fireworks") ||
+        (now.getMonth() === 0 && now.getDate() <= 3)
+      ) {
+        this.time.delayedCall(1800, () => this.celebrate(8));
       }
 
       // ---- 村民与宠物 ----
@@ -1071,7 +1132,100 @@ export class WorldScene extends Phaser.Scene {
         });
       }
     );
+    // 许愿井:按 E 许愿,井里回荡一篇旧文的书名(随机,每次不同)
+    const wellPosts = townData().posts;
+    consider(
+      (WELL_SPOT.tx + 0.5) * TILE,
+      (WELL_SPOT.ty + 1) * TILE,
+      "许个愿",
+      () => {
+        const p = wellPosts.length
+          ? wellPosts[(Math.random() * wellPosts.length) | 0]
+          : null;
+        bus.emit(EV.dialog, {
+          name: "许愿井",
+          text: p
+            ? `你朝井口许了个愿，井里回荡起一串书名：《${p.t}》。`
+            : "井水静静的，还没听过后来的故事。",
+        });
+      }
+    );
+    // 萤火虫(未捉到的)
+    for (const ff of this.fireflies) {
+      consider(ff.glow.x, ff.glow.y + 8, "捉萤火虫", () =>
+        this.catchFirefly(ff)
+      );
+    }
     return cands.length ? cands.reduce((a, b) => (b.d < a.d ? b : a)) : null;
+  }
+
+  // 捉到萤火虫:持久化、放彩蛋文案、报 HUD 计数;捉满放烟花
+  private catchFirefly(ff: (typeof this.fireflies)[number]) {
+    this.fireflies = this.fireflies.filter(f => f !== ff);
+    ff.glow.destroy();
+    ff.dot.destroy();
+    this.caughtFireflies.add(ff.id);
+    try {
+      localStorage.setItem(
+        "town-fireflies",
+        [...this.caughtFireflies].join(",")
+      );
+    } catch {}
+    this.audio.pop();
+    bus.emit(EV.collect, {
+      caught: this.caughtFireflies.size,
+      total: FIREFLY_SPOTS.length,
+    });
+    bus.emit(EV.dialog, { name: "萤火虫", text: this.fireflyEgg(ff.id) });
+    if (this.caughtFireflies.size === FIREFLY_SPOTS.length) {
+      this.time.delayedCall(1400, () => this.celebrate());
+    }
+  }
+
+  // 每只萤火虫对应一枚彩蛋:站点的旧文、功能与秘密
+  private fireflyEgg(id: string): string {
+    const posts = townData().posts;
+    const oldest = posts[posts.length - 1];
+    const eggs: Record<string, string> = {
+      "0": oldest
+        ? `这只萤火虫绕着老树转——镇子最老的一篇文字写于 ${oldest.d}：《${oldest.t}》。`
+        : "这只萤火虫绕着老树转，像在数镇子的年轮。",
+      "1": "它落在水晶球上——搜索不必进书屋，广场上这颗球随查随用。",
+      "2": "它飞向路灯——按 M 打开地图，点建筑就能瞬间飞过去。",
+      "3": "它钻进了小屋——床头的照片里藏着站长的社交出口，去过吗？",
+      "4": "它停在图腾顶上——按 P 可以给小镇拍一张像素纪念照。",
+      "5": "最后一只钻进邮局——镇子的素材与出处都写在 /town/ASSETS.md。",
+    };
+    return eggs[id] ?? "它在你手心亮了一下，飞走了。";
+  }
+
+  // 节令烟花:广场上空一串彩色爆点(捉满萤火虫 / 新年头三天 / ?fireworks=1)
+  private celebrate(bursts = 6) {
+    const cam = this.cameras.main;
+    for (let i = 0; i < bursts; i++) {
+      this.time.delayedCall(i * 460, () => {
+        const x = cam.midPoint.x + Phaser.Math.Between(-110, 110);
+        const y = cam.midPoint.y - Phaser.Math.Between(40, 100);
+        const tint = Phaser.Display.Color.HSVToRGB(
+          ((i * 55) % 360) / 360,
+          0.85,
+          1
+        ).color;
+        const em = this.add.particles(x, y, "gen-spark", {
+          speed: { min: 28, max: 92 },
+          lifespan: 850,
+          gravityY: 55,
+          quantity: 26,
+          frequency: -1,
+          tint,
+          blendMode: "ADD",
+        });
+        em.setDepth(10_003);
+        em.explode(26);
+        this.audio.pop();
+        this.time.delayedCall(1000, () => em.destroy());
+      });
+    }
   }
 
   // 村民台词:三成概率聊最新文章(构建期 latest 数据),让镇子「知道」博客更新了

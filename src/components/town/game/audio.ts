@@ -217,4 +217,10 @@ export class TownAudio {
     o.start();
     o.stop(ctx.currentTime + 0.18);
   }
+
+  /** 烟花升空/炸开的闷响(低频噪声短爆) */
+  pop(): void {
+    if (this.muted || !this.ctx) return;
+    this.noiseBurst(0.16, 320 + Math.random() * 160, 0.14, "lowpass");
+  }
 }

@@ -167,7 +167,7 @@ export const buildings: BuildingDef[] = [
       furniture: [
         { img: "mailrack", x: 2, y: 2, act: "annual" },
         { img: "mailrack", x: 3, y: 2 },
-        { img: "counter", x: 8, y: 2 },
+        { img: "counter", x: 8, y: 2, act: "guestbook" },
         { img: "counter", x: 9, y: 2 },
         { img: "barrel", x: 11, y: 3 },
       ],
@@ -238,6 +238,17 @@ export const TOTEM_SPOTS: [number, number][] = [
 export const ORB_SPOT = { tx: 26, ty: 22 };
 // 镇口黑板(每日一句,构建期从文章里按日期抽一句)
 export const BOARD_SPOT = { tx: 33, ty: 17 };
+// 许愿井(广场东侧)
+export const WELL_SPOT = { tx: 36, ty: 20 };
+// 萤火虫出没的角落(收集彩蛋,详见 scenes.ts 的蛋文案)
+export const FIREFLY_SPOTS: [number, number][] = [
+  [8, 11],
+  [54, 32],
+  [2, 24],
+  [61, 8],
+  [16, 33],
+  [38, 5],
+];
 
 // 门格：底行中央；玩家踩门前格（自动）或按 E 进入
 export function doorOf(b: BuildingDef) {
@@ -485,6 +496,15 @@ export function buildProps(): PropDef[] {
     });
     occupy(tx, ty, 1, 1);
   }
+  // 许愿井(广场东侧):按 E 许愿,井里回荡一篇旧文的书名
+  props.push({
+    image: "gen-well",
+    tx: WELL_SPOT.tx,
+    ty: WELL_SPOT.ty,
+    solid: true,
+    center: true,
+  });
+  occupy(WELL_SPOT.tx, WELL_SPOT.ty, 1, 1);
   // 岩石点缀
   props.push({
     image: "sv-rock-big",

@@ -27,6 +27,10 @@ export interface TownDataClient {
   quote: { text: string; from: string; href: string; date: string } | null;
   latest: { title: string; href: string; date: string; fresh: boolean } | null;
   about: { author: string; bio: string };
+  guestbook: {
+    repoIssue: string;
+    letters: { from: string; date: string; text: string }[];
+  };
 }
 
 const EMPTY: TownDataClient = {
@@ -41,6 +45,7 @@ const EMPTY: TownDataClient = {
   quote: null,
   latest: null,
   about: { author: "", bio: "" },
+  guestbook: { repoIssue: "", letters: [] },
 };
 
 let cached: TownDataClient | null = null;

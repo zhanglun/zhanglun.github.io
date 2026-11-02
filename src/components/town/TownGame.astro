@@ -36,6 +36,7 @@ const { townData } = Astro.props;
   <div class="town-guide px" id="town-guide" hidden></div>
 
   <div class="town-prompt px" id="town-prompt" hidden></div>
+  <div class="town-toast px" id="town-toast" hidden></div>
 
   <div class="town-dialog px" id="town-dialog" hidden>
     <b class="who"></b>
@@ -188,6 +189,28 @@ const { townData } = Astro.props;
     padding: 3px 10px;
     z-index: 5;
     white-space: nowrap;
+  }
+  .town-toast {
+    position: absolute;
+    top: 52px;
+    left: 12px;
+    background: #fffdf5;
+    border: 2px solid #17120e;
+    box-shadow: 3px 3px 0 rgb(23 18 14 / 0.7);
+    padding: 3px 10px;
+    z-index: 7;
+    font-size: 12px;
+  }
+  .town-toast[hidden] { display: none; }
+  /* 拍照模式:P 键截图瞬间隐藏全部 HUD */
+  .town-stage.town-photo .town-hud,
+  .town-stage.town-photo .town-touch,
+  .town-stage.town-photo .town-prompt,
+  .town-stage.town-photo .town-dialog,
+  .town-stage.town-photo .town-map,
+  .town-stage.town-photo .town-guide,
+  .town-stage.town-photo .town-toast {
+    display: none !important;
   }
   .town-dialog {
     position: absolute;
@@ -796,6 +819,29 @@ const { townData } = Astro.props;
             { label: "关于站长", meta: "/about", href: "/about" },
           ],
         };
+      case "guestbook": {
+        const gb = TD.guestbook ?? { repoIssue: "", letters: [] };
+        return {
+          title: "邮局留言簿",
+          blurb: "想留句话?去 GitHub 提个 issue,站长会誊进簿子里。",
+          items: [
+            ...(gb.repoIssue
+              ? [
+                  {
+                    label: "✉ 去写一封留言",
+                    meta: "GitHub issue",
+                    href: gb.repoIssue,
+                  },
+                ]
+              : []),
+            ...[...gb.letters].reverse().map(l => ({
+              label: `${l.from} · ${l.date}`,
+              desc: l.text,
+              href: gb.repoIssue || location.href,
+            })),
+          ],
+        };
+      }
     }
     return { title: "空空如也", blurb: "", items: [] };
   };
@@ -1034,6 +1080,62 @@ const { townData } = Astro.props;
     if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement)
       return;
     toggleMap();
+  });
+
+  // ---- 萤火虫收集角标:场景捉到时上报,3s 后收起 ----
+  const toastEl = $("town-toast")!;
+  let toastTimer = 0;
+  bus.on(EV.collect, (c: { caught: number; total: number }) => {
+    toastEl.textContent =
+      c.caught >= c.total
+        ? `✨ ${c.caught}/${c.total} 萤火虫都跟你回家了!`
+        : `✨ 捉到萤火虫 ${c.caught}/${c.total}`;
+    toastEl.hidden = false;
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => (toastEl.hidden = true), 3400);
+  });
+
+  // ---- 拍照模式:P 键隐藏 HUD → 画布快照 → 加像框与日期戳 → 下载 ----
+  interface PhaserLike {
+    renderer: { snapshot(callback: (img: HTMLImageElement) => void): void };
+  }
+  const takePhoto = () => {
+    const g = (window as unknown as { __townGame?: PhaserLike }).__townGame;
+    if (!g) return;
+    stage.classList.add("town-photo");
+    window.setTimeout(() => {
+      try {
+        g.renderer.snapshot((img: HTMLImageElement) => {
+          const cv = document.createElement("canvas");
+          cv.width = img.width + 16;
+          cv.height = img.height + 30;
+          const ctx = cv.getContext("2d")!;
+          ctx.fillStyle = "#17120e";
+          ctx.fillRect(0, 0, cv.width, cv.height);
+          ctx.drawImage(img, 8, 8);
+          ctx.fillStyle = "#fffdf5";
+          ctx.font = "10px monospace, monospace";
+          ctx.fillText(
+            `小圆镇 · ${new Date().toISOString().slice(0, 10)}`,
+            8,
+            img.height + 22
+          );
+          const a = document.createElement("a");
+          a.href = cv.toDataURL("image/png");
+          a.download = `town-${Date.now()}.png`;
+          a.click();
+        });
+      } finally {
+        window.setTimeout(() => stage.classList.remove("town-photo"), 150);
+      }
+    }, 130);
+  };
+  document.addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "p") return;
+    const t = e.target as HTMLElement;
+    if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement)
+      return;
+    takePhoto();
   });
 
   // ---- 首次引导:出现一次,首次互动或 12s 后消失并记入 localStorage ----
