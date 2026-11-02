@@ -1131,6 +1131,34 @@ body:has(.ara-street.is-shops) {
   border-color: var(--ara-stamp);
 }
 
+.to-town {
+  position: fixed;
+  right: 20px;
+  bottom: 92px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 10px 6px;
+  background: var(--ara-paper);
+  border: 2px solid var(--ara-ink);
+  color: var(--ara-ink);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.to-town img {
+  width: 24px;
+  height: 24px;
+  image-rendering: pixelated;
+}
+
+.to-town:hover {
+  color: var(--ara-stamp);
+  border-color: var(--ara-stamp);
+}
+
 .toc-toggle {
   position: absolute;
   width: 1px;

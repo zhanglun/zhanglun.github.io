@@ -27,6 +27,7 @@ import {
   buildDiary,
   buildOrb,
   buildTotem,
+  buildHintBubble,
   FURN_KINDS,
 } from "./assets";
 import {
@@ -178,6 +179,8 @@ export class WorldScene extends Phaser.Scene {
   private wasOnPad = true; // 边沿触发：出生/出门站在门前格时不立即吸回
   private lastTileX = -1; // 玩家 tile 上报去重(小地图标记)
   private lastTileY = -1;
+  private hint!: Phaser.GameObjects.Image; // 交互提示气泡(最近交互点上方)
+  private padAWasDown = false; // 手柄 A 键边沿触发
   // 昼夜系统:模式在 state.TOD(全局单例);时钟与相位在此实例内
   private dayClock = 0; // 自动循环累计秒
   private dayBase = 0.12; // 初始相位(白天 0.12 / 夜晚 0.55,由本地时间决定)
@@ -276,6 +279,7 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("gen-glow", buildGlow());
       this.textures.addCanvas("gen-orb", buildOrb());
       this.textures.addCanvas("gen-totem", buildTotem());
+      this.textures.addCanvas("gen-hint", buildHintBubble());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -381,10 +385,18 @@ export class WorldScene extends Phaser.Scene {
       }
 
       // ---- 玩家（原创史莱姆）----
+      // 深链:/town?go=<建筑 id> 直接出生在该建筑门口(仅首次启动生效,
+      // 出屋走 data.spawnAt,不受残留 URL 影响)
+      const goParam = new URLSearchParams(location.search).get("go");
+      const spawnId =
+        data.spawnAt ??
+        (goParam && buildings.some(b => b.id === goParam)
+          ? goParam
+          : undefined);
       let sx = 32 * TILE;
       let sy = 23 * TILE;
-      if (data.spawnAt) {
-        const b = buildings.find(x => x.id === data.spawnAt)!;
+      if (spawnId) {
+        const b = buildings.find(x => x.id === spawnId)!;
         const d = doorOf(b);
         sx = (d.x + 0.5) * TILE;
         sy = (d.y + 1.6) * TILE;
@@ -397,6 +409,12 @@ export class WorldScene extends Phaser.Scene {
         this.player.y = 23 * TILE;
       }
       this.player.setDepth(this.player.y);
+      // 交互提示气泡:挂在最近交互点上方,随 updatePrompt 移动
+      this.hint = this.add
+        .image(0, 0, "gen-hint")
+        .setOrigin(0.5, 1)
+        .setDepth(20_000)
+        .setVisible(false);
 
       // 门前格注册：踩上即自动进门（与室内「走到底自动出门」对称）
       this.doorPads = new Map(
@@ -616,7 +634,24 @@ export class WorldScene extends Phaser.Scene {
         dx += touch.dx;
         dy += touch.dy;
       }
+      // 手柄:左摇杆 + 十字键,A 键边沿触发交互
+      const pad = this.input.gamepad?.pad1;
+      if (pad) {
+        const ax = pad.axes.length ? pad.axes[0].getValue() : 0;
+        const ay = pad.axes.length ? pad.axes[1].getValue() : 0;
+        if (Math.abs(ax) > 0.25) dx += Math.sign(ax);
+        if (Math.abs(ay) > 0.25) dy += Math.sign(ay);
+        if (pad.left) dx -= 1;
+        if (pad.right) dx += 1;
+        if (pad.up) dy -= 1;
+        if (pad.down) dy += 1;
+        const aDown = pad.A;
+        if (aDown && !this.padAWasDown) this.interact();
+        this.padAWasDown = aDown;
+      }
     }
+    dx = Phaser.Math.Clamp(dx, -1, 1);
+    dy = Phaser.Math.Clamp(dy, -1, 1);
     const len = Math.hypot(dx, dy) || 1;
     const vx = (dx / len) * SPEED * dt;
     const vy = (dy / len) * SPEED * dt;
@@ -780,15 +815,26 @@ export class WorldScene extends Phaser.Scene {
   }
 
   // ---- 交互 ----
-  private nearestInteract(): { label: string; act: () => void } | null {
+  private nearestInteract(): {
+    label: string;
+    act: () => void;
+    x: number;
+    y: number;
+  } | null {
     const px = this.player.x;
     const py = this.player.y - 4;
     // 候选收集后取最近(TS 不追踪闭包内对 let 的赋值,
     // 直接在闭包里改 best 会让收窄把 best 判成 never)
-    const cands: { label: string; act: () => void; d: number }[] = [];
+    const cands: {
+      label: string;
+      act: () => void;
+      d: number;
+      x: number;
+      y: number;
+    }[] = [];
     const consider = (x: number, y: number, label: string, act: () => void) => {
       const d = Phaser.Math.Distance.Between(px, py, x, y);
-      if (d < INTERACT_DIST) cands.push({ label, act, d });
+      if (d < INTERACT_DIST) cands.push({ label, act, d, x, y });
     };
     for (const b of buildings) {
       const d = doorOf(b);
@@ -858,6 +904,9 @@ export class WorldScene extends Phaser.Scene {
       bus.emit(EV.prompt, label || null);
     }
     this.current = it;
+    // 交互提示气泡跟随最近交互点(比纯底部文字更显眼)
+    if (it) this.hint.setVisible(true).setPosition(it.x, it.y - 20);
+    else this.hint.setVisible(false);
   }
   private current: { label: string; act: () => void } | null = null;
 
@@ -899,6 +948,8 @@ export class InteriorScene extends Phaser.Scene {
   private lastPrompt = "";
   private current: { label: string; act: () => void } | null = null;
   private exitX = 0;
+  private hint!: Phaser.GameObjects.Image;
+  private padAWasDown = false;
   private friends: {
     f: { name: string; desc: string; href: string };
     spr: Phaser.GameObjects.Sprite;
@@ -970,6 +1021,11 @@ export class InteriorScene extends Phaser.Scene {
       .setOrigin(0.5, 0.9);
     this.player.play("slime-idle");
     this.player.setDepth(this.player.y);
+    this.hint = this.add
+      .image(0, 0, "gen-hint")
+      .setOrigin(0.5, 1)
+      .setDepth(20_000)
+      .setVisible(false);
 
     if (this.b.interior.npc) {
       // 人形老板：站柜台位，呼吸待机
@@ -1084,7 +1140,24 @@ export class InteriorScene extends Phaser.Scene {
         dx += touch.dx;
         dy += touch.dy;
       }
+      // 手柄:左摇杆 + 十字键,A 键边沿触发交互
+      const pad = this.input.gamepad?.pad1;
+      if (pad) {
+        const ax = pad.axes.length ? pad.axes[0].getValue() : 0;
+        const ay = pad.axes.length ? pad.axes[1].getValue() : 0;
+        if (Math.abs(ax) > 0.25) dx += Math.sign(ax);
+        if (Math.abs(ay) > 0.25) dy += Math.sign(ay);
+        if (pad.left) dx -= 1;
+        if (pad.right) dx += 1;
+        if (pad.up) dy -= 1;
+        if (pad.down) dy += 1;
+        const aDown = pad.A;
+        if (aDown && !this.padAWasDown) this.interact();
+        this.padAWasDown = aDown;
+      }
     }
+    dx = Phaser.Math.Clamp(dx, -1, 1);
+    dy = Phaser.Math.Clamp(dy, -1, 1);
     const len = Math.hypot(dx, dy) || 1;
     // 室内碰撞：一圈墙 + 家具格
     const solid = (px: number, py: number) => {
@@ -1115,7 +1188,13 @@ export class InteriorScene extends Phaser.Scene {
 
     // 交互候选统一裁决(与室外 nearestInteract 同构):
     // 老板 / 日记 / 友链村民 / 家具(带 act 的联动家具优先弹列表面板)
-    const cands: { label: string; act: () => void; d: number }[] = [];
+    const cands: {
+      label: string;
+      act: () => void;
+      d: number;
+      x: number;
+      y: number;
+    }[] = [];
     const add = (x: number, y: number, label: string, act: () => void) => {
       const d = Phaser.Math.Distance.Between(
         this.player.x,
@@ -1123,7 +1202,7 @@ export class InteriorScene extends Phaser.Scene {
         x,
         y
       );
-      if (d < 26) cands.push({ label, act, d });
+      if (d < 26) cands.push({ label, act, d, x, y });
     };
     const npc = this.b.interior.npc;
     if (npc) {
@@ -1169,15 +1248,16 @@ export class InteriorScene extends Phaser.Scene {
         });
       }
     }
-    const it: { label: string; act: () => void } | null = cands.length
-      ? cands.reduce((a, b) => (b.d < a.d ? b : a))
-      : null;
+    const it: { label: string; act: () => void; x: number; y: number } | null =
+      cands.length ? cands.reduce((a, b) => (b.d < a.d ? b : a)) : null;
     const label = it ? it.label : "";
     if (label !== this.lastPrompt) {
       this.lastPrompt = label;
       bus.emit(EV.prompt, label || null);
     }
     this.current = it;
+    if (it) this.hint.setVisible(true).setPosition(it.x, it.y - 20);
+    else this.hint.setVisible(false);
   }
 
   private interact() {
@@ -1207,6 +1287,7 @@ export function startTown(parent: HTMLElement): Phaser.Game {
     pixelArt: true,
     roundPixels: true,
     backgroundColor: "#4d8a55",
+    input: { gamepad: true },
     scale: {
       mode: Phaser.Scale.RESIZE,
       width: parent.clientWidth,

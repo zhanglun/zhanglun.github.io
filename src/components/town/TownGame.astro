@@ -17,10 +17,23 @@ const { townData } = Astro.props;
   <div class="town-hud">
     <a class="town-back px" href="/">‹ 回博客</a>
     <div class="town-hud-right">
+      <button class="town-tod px" id="town-map" type="button" aria-label="开关小地图">🗺 地图</button>
       <button class="town-tod px" id="town-sound" type="button" aria-label="切换音效">🔇 静音</button>
       <button class="town-tod px" id="town-tod" type="button" aria-label="切换白天黑夜">昼夜:自动</button>
     </div>
   </div>
+
+  <div class="town-map px" id="town-map-panel" hidden>
+    <div class="map-card">
+      <header>
+        <h2 class="px">小圆镇地图</h2>
+        <span class="px page-ind">M 开关 · 点建筑传送</span>
+      </header>
+      <svg id="map-svg" role="img" aria-label="小镇地图:五栋建筑与玩家位置"></svg>
+    </div>
+  </div>
+
+  <div class="town-guide px" id="town-guide" hidden></div>
 
   <div class="town-prompt px" id="town-prompt" hidden></div>
 
@@ -492,11 +505,69 @@ const { townData } = Astro.props;
     font-size: 12px;
     cursor: pointer;
   }
+
+  /* ---- 小地图(M 键 / 🗺 按钮,非模态;点建筑传送) ---- */
+  .town-map {
+    position: absolute;
+    top: 52px;
+    right: 12px;
+    z-index: 8;
+  }
+  .town-map[hidden] { display: none; }
+  .map-card {
+    width: min(340px, calc(100vw - 24px));
+    background: #fffdf5;
+    border: 2px solid #17120e;
+    box-shadow: 4px 4px 0 rgb(23 18 14 / 0.6);
+    padding: 10px 12px;
+  }
+  .map-card header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .map-card h2 {
+    margin: 0;
+    font-size: 14px;
+    color: #d0122a;
+  }
+  .map-card .page-ind { font-size: 11px; color: #55585f; }
+  #map-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  /* SVG 子元素由 JS 创建,不带 Astro 作用域属性,
+     样式须经 :global() 命中;字号等写成正内联属性 */
+  #map-svg :global(rect[data-id]) { cursor: pointer; }
+  #map-svg :global(rect[data-id]:hover) { fill: #c9884f; }
+
+  /* ---- 首次引导条(首次互动或 12s 后消失,只出现一次) ---- */
+  .town-guide {
+    position: absolute;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fffdf5;
+    border: 2px solid #17120e;
+    box-shadow: 3px 3px 0 rgb(23 18 14 / 0.7);
+    padding: 4px 12px;
+    z-index: 7;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .town-guide[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .town-stage { transition: none !important; }
+  }
 </style>
 
 <script>
   import Fuse from "fuse.js";
   import { bus, EV, TOD, setTod } from "./game/state";
+  import { buildings, WORLD_W, WORLD_H } from "./game/world";
   import type { TownDataClient } from "./game/towndata";
 
   // 未捕获错误可视化（仅出错时出现）
@@ -530,16 +601,36 @@ const { townData } = Astro.props;
     promptEl.hidden = false;
   });
   let dialogTimer = 0;
+  let typeTimer = 0;
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
   bus.on(EV.dialog, (d: { name: string; text: string } | null) => {
     if (!d) {
       dialogEl.hidden = true;
       return;
     }
     dialogEl.querySelector(".who")!.textContent = d.name;
-    dialogEl.querySelector(".text")!.textContent = d.text;
+    const textEl = dialogEl.querySelector(".text")!;
     dialogEl.hidden = false;
     window.clearTimeout(dialogTimer);
-    dialogTimer = window.setTimeout(() => (dialogEl.hidden = true), 4200);
+    window.clearInterval(typeTimer);
+    // 打字机逐字上屏(尊重 prefers-reduced-motion:直接整句)
+    if (reducedMotion) {
+      textEl.textContent = d.text;
+    } else {
+      let i = 0;
+      textEl.textContent = "";
+      typeTimer = window.setInterval(() => {
+        i += 1;
+        textEl.textContent = d.text.slice(0, i);
+        if (i >= d.text.length) window.clearInterval(typeTimer);
+      }, 26);
+    }
+    dialogTimer = window.setTimeout(
+      () => (dialogEl.hidden = true),
+      1600 + d.text.length * 70
+    );
   });
   bus.on(
     EV.panel,
@@ -857,6 +948,111 @@ const { townData } = Astro.props;
     b.addEventListener("pointerleave", off);
   });
   $("town-btn-act")!.addEventListener("click", () => bus.emit(EV.touchAct));
+
+  // ---- 小地图:站点地图的隐喻做实。M 键/按钮开关(非模态,可边走边看),
+  // 点建筑瞬移(EV.travel,场景侧落到门口)。 ----
+  const mapPanel = $("town-map-panel")!;
+  const mapSvg = $("map-svg") as unknown as SVGSVGElement;
+  const mapNs = "http://www.w3.org/2000/svg";
+  const svgEl = (
+    tag: string,
+    attrs: Record<string, string | number>
+  ): SVGElement => {
+    const el = document.createElementNS(mapNs, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+    return el;
+  };
+  const buildMap = () => {
+    mapSvg.setAttribute("viewBox", `0 0 ${WORLD_W} ${WORLD_H}`);
+    mapSvg.replaceChildren();
+    const add = (el: SVGElement) => mapSvg.appendChild(el);
+    add(svgEl("rect", { x: 0, y: 0, width: WORLD_W, height: WORLD_H, fill: "#8fb47e" }));
+    // 街道与广场(与 world.buildGround 同布局)
+    add(svgEl("rect", { x: 0, y: 20, width: WORLD_W, height: 2, fill: "#cfa76f" }));
+    add(svgEl("rect", { x: 30, y: 0, width: 2, height: WORLD_H, fill: "#cfa76f" }));
+    add(svgEl("rect", { x: 25, y: 16, width: 13, height: 10, fill: "#cfa76f" }));
+    // 建筑与名字
+    for (const b of buildings) {
+      const r = svgEl("rect", {
+        x: b.tx,
+        y: b.ty,
+        width: b.w,
+        height: b.h,
+        fill: "#a4703f",
+        stroke: "#17120e",
+        "stroke-width": 0.4,
+        "data-id": b.id,
+      });
+      const t = svgEl("text", {
+        x: b.tx + b.w / 2,
+        y: b.ty + b.h / 2 + 1,
+        "text-anchor": "middle",
+        "font-size": 2.8,
+        "font-weight": 700,
+        fill: "#fffdf5",
+      });
+      t.textContent = b.name;
+      add(r);
+      add(t);
+    }
+    add(
+      svgEl("circle", {
+        id: "map-player",
+        r: 1.2,
+        cx: 32.5,
+        cy: 23.5,
+        fill: "#d0122a",
+        stroke: "#fffdf5",
+        "stroke-width": 0.35,
+      })
+    );
+  };
+  buildMap();
+  bus.on(EV.playerTile, (p: { x: number; y: number }) => {
+    const dot = mapSvg.querySelector("#map-player");
+    if (dot) {
+      dot.setAttribute("cx", String(p.x + 0.5));
+      dot.setAttribute("cy", String(p.y + 0.7));
+    }
+  });
+  mapSvg.addEventListener("click", e => {
+    const id = (e.target as HTMLElement)?.getAttribute?.("data-id");
+    if (!id) return;
+    bus.emit(EV.travel, id);
+  });
+  const toggleMap = () => (mapPanel.hidden = !mapPanel.hidden);
+  ($("town-map") as HTMLButtonElement).addEventListener("click", toggleMap);
+  document.addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "m") return;
+    const t = e.target as HTMLElement;
+    if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement)
+      return;
+    toggleMap();
+  });
+
+  // ---- 首次引导:出现一次,首次互动或 12s 后消失并记入 localStorage ----
+  const guideEl = $("town-guide")!;
+  let guideDone = false;
+  try {
+    guideDone = localStorage.getItem("town-onboarded") === "1";
+  } catch {}
+  const dismissGuide = () => {
+    if (guideEl.hidden) return;
+    guideEl.hidden = true;
+    guideDone = true;
+    try {
+      localStorage.setItem("town-onboarded", "1");
+    } catch {}
+  };
+  if (!guideDone) {
+    guideEl.textContent = window.matchMedia("(pointer: coarse)").matches
+      ? "虚拟键走动 · A 互动 · 🗺 地图可传送"
+      : "WASD / 方向键走动 · E 互动 · M 地图(可点建筑传送)";
+    guideEl.hidden = false;
+    for (const ev of [EV.dialog, EV.panel, EV.diary, EV.list, EV.search])
+      bus.once(ev, dismissGuide);
+    window.setTimeout(dismissGuide, 12000);
+  }
 
   // 启动：点「进入小镇」时才拉起 Phaser（按需加载，键盘锁定前先显示说明）
   let started = false;

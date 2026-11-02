@@ -531,3 +531,22 @@ export function buildTotem(): HTMLCanvasElement {
   ctx.fillRect(2, 24, 10, 2);
   return cv;
 }
+
+// ---- 交互提示气泡(白底墨边红感叹号 + 泡尾;10x10,原点底部居中)----
+// 挂在最近交互点上方,替代纯底部文字提示,降低「不知道能点啥」成本。
+export function buildHintBubble(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 10;
+  cv.height = 10;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#17120e"; // 外框
+  ctx.fillRect(0, 0, 10, 8);
+  ctx.fillStyle = "#fffdf5"; // 泡体
+  ctx.fillRect(1, 1, 8, 6);
+  ctx.fillStyle = "#d0122a"; // 感叹号
+  ctx.fillRect(4, 2, 2, 3);
+  ctx.fillRect(4, 6, 2, 1);
+  ctx.fillStyle = "#17120e"; // 泡尾
+  ctx.fillRect(4, 8, 2, 2);
+  return cv;
+}
