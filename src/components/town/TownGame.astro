@@ -609,6 +609,15 @@ const { townData } = Astro.props;
   });
 
   const $ = (id: string) => document.getElementById(id);
+  // 列表面板/日记/搜索结果按 innerHTML 渲染,标题摘要等一律先转义
+  const esc = (t: string) =>
+    t.replace(/[&<>"']/g, c => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    })[c] as string);
   const promptEl = $("town-prompt")!;
   const dialogEl = $("town-dialog")!;
   const panelEl = $("town-panel")!;
@@ -709,9 +718,9 @@ const { townData } = Astro.props;
       return;
     }
     const tags = e.tags.length
-      ? `<p class="entry-tags px">${e.tags.map(t => `#${t}`).join(" ")}</p>`
+      ? `<p class="entry-tags px">${e.tags.map(t => `#${esc(t)}`).join(" ")}</p>`
       : "";
-    diaryBody.innerHTML = `<p class="entry-date px">${e.date}</p><h3 class="entry-title">${e.title}</h3><p class="entry-desc">${e.desc || "（无摘要）"}</p>${tags}`;
+    diaryBody.innerHTML = `<p class="entry-date px">${esc(e.date)}</p><h3 class="entry-title">${esc(e.title)}</h3><p class="entry-desc">${esc(e.desc) || "（无摘要）"}</p>${tags}`;
     diaryInd.textContent = `${diaryIdx + 1} / ${TD.diary.length}`;
     diaryGo.href = e.href;
   };
@@ -742,9 +751,9 @@ const { townData } = Astro.props;
   }
   const listEl = $("town-list")!;
   const itemHtml = (it: ListItem) => {
-    const desc = it.desc ? `<span class="li-d">${it.desc}</span>` : "";
-    const meta = it.meta ? `<span class="li-m">${it.meta}</span>` : "";
-    return `<a href="${it.href}" target="_blank" rel="noreferrer"><span class="li-main"><span class="li-t">${it.label}</span>${desc}</span>${meta}</a>`;
+    const desc = it.desc ? `<span class="li-d">${esc(it.desc)}</span>` : "";
+    const meta = it.meta ? `<span class="li-m">${esc(it.meta)}</span>` : "";
+    return `<a href="${esc(it.href)}" target="_blank" rel="noreferrer"><span class="li-main"><span class="li-t">${esc(it.label)}</span>${desc}</span>${meta}</a>`;
   };
   const resolveList = (
     r: { kind: string; index?: number }
@@ -754,8 +763,9 @@ const { townData } = Astro.props;
       ps.map(p => ({ label: p.t, meta: p.d, href: p.h }));
     switch (r.kind) {
       case "archive": {
-        const shelf = TD.shelves[r.index ?? 0] ?? TD.shelves[0];
-        if (!shelf) break;
+        const shelf = TD.shelves[r.index ?? 0];
+        if (!shelf)
+          return { title: "空书架", blurb: "这排还没摆上书。", items: [] };
         const ps = posts.filter(p => p.y >= shelf.from && p.y <= shelf.to);
         return {
           title: `书架 · ${shelf.label}`,

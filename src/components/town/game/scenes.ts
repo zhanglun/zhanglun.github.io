@@ -933,6 +933,12 @@ export class WorldScene extends Phaser.Scene {
         n.spr.setAlpha(0).setVisible(true);
         n.spr.play(`v-idle-${n.def.sheet}`);
         this.tweens.add({ targets: n.spr, alpha: 1, duration: 380 });
+      } else if (!inside && n.mode === "toHome") {
+        // 条件在半路翻转(雨停/天亮):就地取消回屋,否则会走到家门口
+        // 淡出成 gone,在大白天失踪一整个白天
+        n.mode = "idle";
+        n.timer = 1 + Math.random() * 2;
+        n.spr.play(`v-idle-${n.def.sheet}`);
       }
     });
   }
