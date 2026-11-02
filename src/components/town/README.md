@@ -20,7 +20,7 @@
 书屋日记:可翻的最新文章日记本(构建期注入,「去读这篇」跳原文)。
 **归档进镇**:书屋六排书架 = 最近 5 个年份 + 「更早」(全部文章可翻)、
 广场标签图腾(高频标签×4)、搜索水晶球(客户端 Fuse 检索标题与标签)、
-工坊项目卡、咖啡馆友链村民 + 友链墙、邮局年报信、小屋床头照片。
+工坊项目卡、邮局年报信、小屋床头照片。
 氛围与玩具:每日一句黑板(按日期从文章确定性抽取)、村民 30% 概率口播
 最新文章、7 天内有新文时书屋门头「有新篇」气泡、环境音(昼鸟鸣/夜虫鸣/
 雨天雨声,随昼夜天气切换)、6 只可收集萤火虫(彩蛋文案 + 捉满放烟花)、
@@ -71,7 +71,7 @@ localStorage 存档、工具栏与相关 HUD（早期从 pixel.xyz 逆向带来�
 
 ```
 src/pages/town.astro       getCollection → getSortedPosts → buildTownData(全部文章/
-                           项目/友链/年报/每日一句/最新一篇,utils/townData.ts)
+                           项目/年报/每日一句/最新一篇,utils/townData.ts)
   └─ <TownGame townData /> 序列化为 props
       └─ <script type="application/json" id="town-data">   注入 DOM
           ├─ TownGame HUD 脚本   JSON.parse → 日记/列表面板/搜索/留言簿渲染
@@ -80,8 +80,7 @@ src/pages/town.astro       getCollection → getSortedPosts → buildTownData(�
 ```
 
 - **已实现**(2026-11-02):书屋日记(最新 12 篇)+ 六排书架年份归档(全部文章);
-  标签图腾;搜索水晶球;工坊项目卡;咖啡馆友链村民 + 友链墙(`src/data/friends.ts`,
-  ⚠️ 当前是示例占位数据,发布前替换);邮局年报 + RSS 引导;小屋床头照片;
+  标签图腾;搜索水晶球;工坊项目卡;邮局年报 + RSS 引导;小屋床头照片;
   每日一句黑板;村民口播最新文章;「有新篇」气泡(7 天内);邮局留言簿
   (`src/data/guestbook.ts` + GitHub issue 入口,唯一非纯静态联动但零运行时 API)。
 - 文章页右下角有「小镇」回链(`/town?go=blog`);`/town?go=<建筑id>` 可深链出生
@@ -210,12 +209,13 @@ src/pages/town.astro       getCollection → getSortedPosts → buildTownData(�
   整格对齐（居中绘制），调整建筑尺寸需同步检查门前小径与碰撞。
 - 已完成（2026-10-31）：路灯夜光、NPC 游走与夜间台词、书屋日记、
   程序化音效、昼夜切换。已完成（2026-11-02 四批）：归档进镇（书架/
-  图腾/搜索/项目卡/友链/年报/床头照片）、小地图点图传送、打字机对话、
+  图腾/搜索/项目卡/年报/床头照片）、小地图点图传送、打字机对话、
   交互提示气泡、首次引导、`?go=` 深链、手柄、天气与季节、环境音、
   村民作息（夜间/雨天回屋）、真实时钟档、每日一句、口播新文、新篇
   气泡、萤火虫收集、许愿井、拍照模式、节令烟花、留言簿。
 - 可继续迭代：室内装饰丰富度、NPC 对话扩充、节令装饰（春节灯笼等）。
-- `src/data/friends.ts` 是示例占位数据（example.com 系），发布前替换;
-  `src/data/guestbook.ts` 的 repoIssue 指向仓库 issues,若仓库转私有需换。
+- `src/data/guestbook.ts` 的 repoIssue 指向仓库 issues,若仓库转私有需换。
+  (咖啡馆友链村民功能 2026-11-02 上线当日移除——用户不要占位友链数据;
+  若日后恢复,参考第一批提交 915cf3a 的 friends.ts + InteriorScene 方案。)
 - MI 免费版村民仅限非商业用途（见 ASSETS.md），商业化前需替换。
 - 改 town 代码后必跑 `pnpm check` + `pnpm build`（见根 AGENTS.md）。

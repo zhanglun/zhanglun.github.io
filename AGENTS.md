@@ -342,13 +342,12 @@ pnpm cz  # Interactive commit helper
 ### `/town` 像素小镇与 `/v2` 像素实验
 
 - `/town`（`src/components/town/`）：Phaser 3.90 像素小镇——博客的小镇形态,
-  逛/进屋/对话/跳转 + 构建期内容联动(书架归档/标签图腾/搜索/项目卡/友链/
+  逛/进屋/对话/跳转 + 构建期内容联动(书架归档/标签图腾/搜索/项目卡/
   年报/留言簿,全部经 `utils/townData.ts` 注入) + 玩具层(天气/村民作息/
   昼夜四档/收集萤火虫/拍照/烟花),无任务经济类玩法。素材来自 Serene
   Village revamped(CC-BY 4.0) + Modern Interiors Free 村民(仅非商业) +
   程序化生成;裁切脚本 `scripts/extract-town-sv.mjs`。**开发上下文与踩坑
-  必读 `src/components/town/README.md` 与 `public/town/ASSETS.md`**;
-  `src/data/friends.ts` 为示例占位数据,发布前替换。
+  必读 `src/components/town/README.md` 与 `public/town/ASSETS.md`**。
 - `/v2` 与 `/pixel-*`（`src/components/pixel/`、`src/layouts/PixelLayout.astro`）：
   yoyu 风格像素皮肤站(2026-10-31 决策:正式门面保持 Ara 版 `/`,像素版
   转正为完整皮肤站但保持 noindex 不进 sitemap)。像素首页入口

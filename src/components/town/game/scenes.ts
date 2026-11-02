@@ -60,19 +60,12 @@ import { TownAudio } from "./audio";
 
 const SPEED = 88;
 const INTERACT_DIST = 30;
-const FRIEND_SLOTS: [number, number][] = [
-  [7, 3],
-  [9, 3],
-  [11, 4],
-];
-const FRIEND_SHEETS = ["amelia", "bob", "adam"];
 
 // 室内家具联动动作的提示词(与 world.ts FurnAct 对应)
 const ACT_LABEL: Record<FurnAct, string> = {
   archive: "翻翻书架",
   projects: "看看项目",
   annual: "读年报信",
-  friends: "看友链墙",
   about: "看看床头照片",
   guestbook: "翻留言簿",
 };
@@ -1300,10 +1293,6 @@ export class InteriorScene extends Phaser.Scene {
   private exitX = 0;
   private hint!: Phaser.GameObjects.Image;
   private padAWasDown = false;
-  private friends: {
-    f: { name: string; desc: string; href: string };
-    spr: Phaser.GameObjects.Sprite;
-  }[] = [];
 
   constructor() {
     super("interior");
@@ -1317,7 +1306,6 @@ export class InteriorScene extends Phaser.Scene {
     registerAnims(this);
     modalOpen = false;
     this.lastPrompt = "\u0000reset";
-    this.friends = [];
     const { w, h } = this.b.interior;
     const W = w * TILE;
     const H = h * TILE;
@@ -1385,21 +1373,6 @@ export class InteriorScene extends Phaser.Scene {
         .setOrigin(0.5, 1);
       boss.play(`v-idle-${npc.sheet}`);
       boss.setDepth(boss.y);
-    }
-
-    // 友链村民:数据源 town-data friends,坐进固定卡座(超出 3 位只来前 3 位)
-    if (this.b.interior.friends) {
-      const list = townData().friends.slice(0, FRIEND_SLOTS.length);
-      this.friends = list.map((f, i) => {
-        const sheet = FRIEND_SHEETS[i % FRIEND_SHEETS.length];
-        const [tx, ty] = FRIEND_SLOTS[i];
-        const spr = this.add
-          .sprite(tx * TILE + TILE / 2, (ty + 1) * TILE, `char-${sheet}`, 0)
-          .setOrigin(0.5, 1);
-        spr.play(`v-idle-${sheet}`);
-        spr.setDepth(spr.y);
-        return { f, spr };
-      });
     }
 
     const cam = this.cameras.main;
@@ -1565,16 +1538,6 @@ export class InteriorScene extends Phaser.Scene {
       add(d.x * TILE + TILE / 2, (d.y + 1) * TILE, "翻翻日记", () => {
         modalOpen = true;
         bus.emit(EV.diary);
-      });
-    }
-    for (const fr of this.friends) {
-      add(fr.spr.x, fr.spr.y, `和${fr.f.name}聊天`, () => {
-        modalOpen = true;
-        bus.emit(EV.panel, {
-          title: fr.f.name,
-          blurb: fr.f.desc,
-          link: { label: "去串门", href: fr.f.href },
-        });
       });
     }
     let archiveN = 0;

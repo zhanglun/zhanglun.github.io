@@ -23,14 +23,7 @@ export const EV = {
 
 // EV.list 载荷:场景只报「哪类联动」,内容由 HUD 从 town-data 解析
 export interface ListRequest {
-  kind:
-    | "archive"
-    | "projects"
-    | "annual"
-    | "friends"
-    | "about"
-    | "guestbook"
-    | "tag";
+  kind: "archive" | "projects" | "annual" | "about" | "guestbook" | "tag";
   index?: number; // archive = 第几排书架;tag = 第几根图腾
 }
 

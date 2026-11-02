@@ -21,7 +21,6 @@ export interface TownDataClient {
     tech: string;
     open: boolean;
   }[];
-  friends: { name: string; desc: string; href: string }[];
   stats: { posts: number; days: number; tags: number; since: string };
   socials: { name: string; href: string }[];
   quote: { text: string; from: string; href: string; date: string } | null;
@@ -39,7 +38,6 @@ const EMPTY: TownDataClient = {
   shelves: [],
   tags: [],
   projects: [],
-  friends: [],
   stats: { posts: 0, days: 0, tags: 0, since: "" },
   socials: [],
   quote: null,

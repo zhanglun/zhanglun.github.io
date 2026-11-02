@@ -38,7 +38,6 @@ export type FurnAct =
   | "archive" // 书架归档(书屋 bookshelf,按数组顺序对应 shelves[i])
   | "projects" // 工坊项目卡
   | "annual" // 邮局年报 + RSS
-  | "friends" // 咖啡馆友链墙
   | "about" // 小屋 about/社交出口
   | "guestbook"; // 邮局留言簿(第四批接线)
 
@@ -49,7 +48,6 @@ export interface InteriorDef {
   motto: string; // 室内墙上格言(进门自动显示于面板副语)
   npc?: { name: string; sheet: string; text: string };
   diary?: { x: number; y: number }; // 日记本所在格(走近可翻,内容取自最新文章)
-  friends?: boolean; // 咖啡馆友链村民(场景按 town-data friends 坐进 FRIEND_SLOTS)
 }
 
 export interface PropDef {
@@ -186,11 +184,10 @@ export const buildings: BuildingDef[] = [
       w: 13,
       h: 9,
       motto: "今日特供：烤胡萝卜浓汤。",
-      friends: true,
       furniture: [
         { img: "stove", x: 2, y: 2 },
         { img: "counter", x: 3, y: 2 },
-        { img: "counter", x: 4, y: 2, act: "friends" },
+        { img: "counter", x: 4, y: 2 },
         { img: "counter", x: 5, y: 2 },
         { img: "table", x: 8, y: 4 },
         { img: "table", x: 10, y: 5 },

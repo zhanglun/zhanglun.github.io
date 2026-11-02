@@ -5,7 +5,6 @@
 import type { CollectionEntry } from "astro:content";
 import { SITE, SOCIALS } from "@config";
 import { PROJECTS } from "@data/projects";
-import { FRIENDS } from "@data/friends";
 import { GUESTBOOK } from "@data/guestbook";
 
 export interface TownPost {
@@ -47,7 +46,6 @@ export interface TownData {
     tech: string;
     open: boolean;
   }[];
-  friends: { name: string; desc: string; href: string }[];
   stats: { posts: number; days: number; tags: number; since: string };
   socials: { name: string; href: string }[];
   quote: TownQuote | null; // 每日一句(按日期确定性抽取)
@@ -135,7 +133,6 @@ export function buildTownData(sorted: CollectionEntry<"blogs">[]): TownData {
       tech: pr.technologies.slice(0, 4).join(" · "),
       open: pr.open,
     })),
-    friends: FRIENDS,
     stats: {
       posts: posts.length,
       days:

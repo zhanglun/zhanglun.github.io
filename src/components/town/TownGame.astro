@@ -690,7 +690,6 @@ const { townData } = Astro.props;
     shelves: [],
     tags: [],
     projects: [],
-    friends: [],
     stats: { posts: 0, days: 0, tags: 0, since: "" },
     socials: [],
     quote: null,
@@ -794,17 +793,6 @@ const { townData } = Astro.props;
             { label: "翻全部归档", meta: "按年份", href: "/archive" },
             { label: "认识站长", meta: "/about", href: "/about" },
           ],
-        };
-      case "friends":
-        return {
-          title: "友链墙",
-          blurb: "咖啡馆的常客,都是老朋友。",
-          items: TD.friends.map(f => ({
-            label: f.name,
-            meta: "去串门",
-            desc: f.desc,
-            href: f.href,
-          })),
         };
       case "about":
         return {
