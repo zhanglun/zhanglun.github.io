@@ -47,6 +47,24 @@ localStorage 存档、工具栏与相关 HUD（早期从 pixel.xyz 逆向带来�
   室内家具差异化（`buildFurniture`：书架/工作台/柜台/炉子/床/信件架），
   进门自动弹屋主格言。
 
+## 与博客的联动
+
+小镇是博客的阅读面之一,联动通过**构建期注入**实现(无运行时 API 依赖):
+
+```
+src/pages/town.astro            getCollection("blogs") → getSortedPosts → 最新 12 篇
+  └─ <TownGame diary={...} />   序列化为 props
+      └─ <script type="application/json" id="town-diary-data">   注入 DOM
+          └─ TownGame HUD 脚本    JSON.parse → 日记浮层渲染(翻页/跳原文)
+              └─ EV.diary 事件    书屋场景 nearDiary() 命中时 emit,打开浮层
+```
+
+- **已实现**:书屋日记本(最新 12 篇,「去读这篇」跳 `/blog/...` 原文);
+  五栋建筑门牌面板跳转(/blog、/projects、/about)。
+- 发布新文章后重新部署,日记内容自动更新,无需改小镇代码。
+- **可扩展的联动点**(未实现,按需取用):工坊室内嵌项目卡片、
+  路灯/告示牌点击跳转、小镇里"今日更新"提示气泡。
+
 ## 架构模式（受 Pixels 开源客户端启发）
 
 参考 Mystic Woods 同类游戏 Pixels 的开源客户端

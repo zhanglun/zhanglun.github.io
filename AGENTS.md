@@ -346,8 +346,10 @@ pnpm cz  # Interactive commit helper
   + Modern Interiors Free 村民(仅非商业) + 程序化生成;裁切脚本
   `scripts/extract-town-sv.mjs`。**开发上下文与踩坑必读
   `src/components/town/README.md` 与 `public/town/ASSETS.md`**。
-- `/v2`（`src/components/pixel/`、`src/layouts/PixelLayout.astro`）：
-  yoyu 风格首页实验,与 Ara 首页(`/`)并行,noindex,待决策转正或下线。
+- `/v2` 与 `/pixel-*`（`src/components/pixel/`、`src/layouts/PixelLayout.astro`）：
+  yoyu 风格像素皮肤站(2026-10-31 决策:正式门面保持 Ara 版 `/`,像素版
+  转正为完整皮肤站但保持 noindex 不进 sitemap)。像素首页入口
+  `/pixel-home-yoyu`,与主站内容同源。
 
 ### Draft Posts
 
