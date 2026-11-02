@@ -1,16 +1,14 @@
 ---
 // 像素小镇：全屏 Phaser 画布 + DOM HUD。
 // HUD 与游戏经事件总线单向通行（架构对齐 Pixels 客户端，单机简化）。
-export interface DiaryEntry {
-  title: string;
-  date: string;
-  desc: string;
-  href: string;
-}
+// 联动内容(日记/归档/项目/友链/年报…)由构建期注入的 town-data 驱动,
+// HUD 与游戏场景各自从 #town-data 解析(DOM 是跨模块实例的共享通道)。
+import type { TownData } from "@/utils/townData";
+
 export interface Props {
-  diary: DiaryEntry[];
+  townData: TownData;
 }
-const { diary = [] } = Astro.props;
+const { townData } = Astro.props;
 ---
 
 <div class="town-stage" aria-label="像素小镇">
@@ -39,6 +37,34 @@ const { diary = [] } = Astro.props;
       <div class="row">
         <a class="px go" id="town-panel-link" hidden target="_blank" rel="noreferrer"></a>
         <button class="px close" id="town-panel-close" type="button">回到小镇</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="town-list" id="town-list" hidden>
+    <div class="list-card">
+      <header>
+        <h2 class="px" id="list-title"></h2>
+        <span class="px page-ind" id="list-ind"></span>
+      </header>
+      <p class="px blurb" id="list-blurb" hidden></p>
+      <div class="list-items px" id="list-items"></div>
+      <div class="row">
+        <button class="px close" id="list-close" type="button">合上</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="town-search" id="town-search" hidden>
+    <div class="list-card">
+      <header>
+        <h2 class="px">搜一搜</h2>
+        <span class="px page-ind">标题 / 标签</span>
+      </header>
+      <input class="px" id="search-input" type="text" placeholder="输入关键词,回车打开第一条" autocomplete="off" />
+      <div class="list-items px" id="search-results"></div>
+      <div class="row">
+        <button class="px close" id="search-close" type="button">合上</button>
       </div>
     </div>
   </div>
@@ -81,7 +107,7 @@ const { diary = [] } = Astro.props;
   </div>
 </div>
 
-<script type="application/json" id="town-diary-data" set:html={JSON.stringify(diary)} />
+<script type="application/json" id="town-data" set:html={JSON.stringify(townData)} />
 
 <style>
   .town-stage {
@@ -331,6 +357,11 @@ const { diary = [] } = Astro.props;
     line-height: 1.7;
     color: #44444a;
   }
+  .town-diary .entry-tags {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: #8a8478;
+  }
   .town-diary .row {
     display: flex;
     gap: 8px;
@@ -354,10 +385,119 @@ const { diary = [] } = Astro.props;
   .town-panel[hidden] { display: none; }
   .town-dialog[hidden] { display: none; }
   .town-prompt[hidden] { display: none; }
+
+  /* ---- 列表面板 / 搜索浮层(归档、项目、标签、友链、年报、搜索共用) ---- */
+  .town-list,
+  .town-search {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgb(12 10 8 / 0.55);
+    z-index: 9;
+  }
+  .town-list[hidden],
+  .town-search[hidden] { display: none; }
+  .list-card {
+    width: min(560px, calc(100% - 40px));
+    max-height: min(78vh, 640px);
+    display: flex;
+    flex-direction: column;
+    background: #fffdf5;
+    border: 2px solid #17120e;
+    box-shadow: 6px 6px 0 rgb(23 18 14 / 0.6);
+    padding: 16px 18px 14px;
+  }
+  .list-card header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid #17120e;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .list-card h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #d0122a;
+  }
+  .list-card .page-ind { font-size: 12px; color: #55585f; }
+  .list-card .blurb {
+    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #44444a;
+  }
+  .list-items {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 60px;
+  }
+  .list-items a {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 7px 6px;
+    border-bottom: 1px dashed #d8d3c0;
+    text-decoration: none;
+    color: #17120e;
+  }
+  .list-items a:hover { background: #f4ecd8; }
+  .list-items .li-main { display: block; min-width: 0; }
+  .list-items .li-t {
+    display: block;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .list-items .li-d {
+    display: block;
+    font-size: 12px;
+    color: #55585f;
+    margin-top: 2px;
+  }
+  .list-items .li-m {
+    font-size: 11.5px;
+    color: #8a8478;
+    white-space: nowrap;
+  }
+  .list-items .empty {
+    text-align: center;
+    color: #8a8478;
+    font-size: 13px;
+    padding: 18px 0;
+    margin: 0;
+  }
+  #search-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #17120e;
+    background: #fff;
+    padding: 7px 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    outline: none;
+  }
+  #search-input:focus { border-color: #d0122a; }
+  .list-card .row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  .list-card .row .close {
+    background: #55585f;
+    color: #fffdf5;
+    border: 0;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+  }
 </style>
 
 <script>
+  import Fuse from "fuse.js";
   import { bus, EV, TOD, setTod } from "./game/state";
+  import type { TownDataClient } from "./game/towndata";
 
   // 未捕获错误可视化（仅出错时出现）
   window.addEventListener("error", e => {
@@ -427,23 +567,39 @@ const { diary = [] } = Astro.props;
     bus.emit(EV.panel, null);
   });
 
-  // ---- 小镇日记:内容由构建期从最新文章注入 ----
-  const diary: Array<{ title: string; date: string; desc: string; href: string }> =
-    JSON.parse(document.getElementById("town-diary-data")?.textContent || "[]");
+  // ---- 构建期数据:日记/归档/项目/友链/年报,全部来自 #town-data ----
+  const TD: TownDataClient = JSON.parse(
+    document.getElementById("town-data")?.textContent || "null"
+  ) ?? {
+    diary: [],
+    posts: [],
+    shelves: [],
+    tags: [],
+    projects: [],
+    friends: [],
+    stats: { posts: 0, days: 0, tags: 0, since: "" },
+    socials: [],
+    quote: null,
+    latest: null,
+    about: { author: "", bio: "" },
+  };
   const diaryEl = $("town-diary")!;
   const diaryBody = $("diary-body")!;
   const diaryInd = $("diary-ind")!;
   const diaryGo = $("diary-go") as HTMLAnchorElement;
   let diaryIdx = 0;
   const renderDiary = () => {
-    const e = diary[diaryIdx];
+    const e = TD.diary[diaryIdx];
     if (!e) {
       diaryBody.innerHTML = "<p>日记本还是空的。</p>";
       diaryInd.textContent = "";
       return;
     }
-    diaryBody.innerHTML = `<p class="entry-date px">${e.date}</p><h3 class="entry-title">${e.title}</h3><p class="entry-desc">${e.desc || "（无摘要）"}</p>`;
-    diaryInd.textContent = `${diaryIdx + 1} / ${diary.length}`;
+    const tags = e.tags.length
+      ? `<p class="entry-tags px">${e.tags.map(t => `#${t}`).join(" ")}</p>`
+      : "";
+    diaryBody.innerHTML = `<p class="entry-date px">${e.date}</p><h3 class="entry-title">${e.title}</h3><p class="entry-desc">${e.desc || "（无摘要）"}</p>${tags}`;
+    diaryInd.textContent = `${diaryIdx + 1} / ${TD.diary.length}`;
     diaryGo.href = e.href;
   };
   const openDiary = () => {
@@ -451,11 +607,11 @@ const { diary = [] } = Astro.props;
     renderDiary();
   };
   $("diary-prev")!.addEventListener("click", () => {
-    diaryIdx = (diaryIdx - 1 + diary.length) % diary.length;
+    diaryIdx = (diaryIdx - 1 + TD.diary.length) % TD.diary.length;
     renderDiary();
   });
   $("diary-next")!.addEventListener("click", () => {
-    diaryIdx = (diaryIdx + 1) % diary.length;
+    diaryIdx = (diaryIdx + 1) % TD.diary.length;
     renderDiary();
   });
   $("diary-close")!.addEventListener("click", () => {
@@ -463,6 +619,169 @@ const { diary = [] } = Astro.props;
     bus.emit(EV.panel, null);
   });
   bus.on(EV.diary, openDiary);
+
+  // ---- 列表面板:场景只报 {kind,index},内容由 town-data 解析渲染 ----
+  interface ListItem {
+    label: string;
+    meta?: string;
+    desc?: string;
+    href: string;
+  }
+  const listEl = $("town-list")!;
+  const itemHtml = (it: ListItem) => {
+    const desc = it.desc ? `<span class="li-d">${it.desc}</span>` : "";
+    const meta = it.meta ? `<span class="li-m">${it.meta}</span>` : "";
+    return `<a href="${it.href}" target="_blank" rel="noreferrer"><span class="li-main"><span class="li-t">${it.label}</span>${desc}</span>${meta}</a>`;
+  };
+  const resolveList = (
+    r: { kind: string; index?: number }
+  ): { title: string; blurb: string; items: ListItem[] } => {
+    const posts = TD.posts;
+    const postItems = (ps: typeof posts): ListItem[] =>
+      ps.map(p => ({ label: p.t, meta: p.d, href: p.h }));
+    switch (r.kind) {
+      case "archive": {
+        const shelf = TD.shelves[r.index ?? 0] ?? TD.shelves[0];
+        if (!shelf) break;
+        const ps = posts.filter(p => p.y >= shelf.from && p.y <= shelf.to);
+        return {
+          title: `书架 · ${shelf.label}`,
+          blurb: `${ps.length} 篇,按时间排的。`,
+          items: postItems(ps),
+        };
+      }
+      case "tag": {
+        const tg = TD.tags[r.index ?? 0];
+        if (!tg) break;
+        const ps = posts.filter(p => p.tags.includes(tg.name));
+        return {
+          title: `#${tg.name}`,
+          blurb: `写过 ${tg.count} 次,攒了 ${ps.length} 篇。`,
+          items: postItems(ps),
+        };
+      }
+      case "projects":
+        return {
+          title: "工坊项目台",
+          blurb: "做到一半和已经收工的,都在这张台上。",
+          items: TD.projects.map(p => ({
+            label: p.name,
+            meta: `${p.open ? "维护中" : "已归档"} · ${p.tech}`,
+            desc: p.desc,
+            href: p.href,
+          })),
+        };
+      case "annual":
+        return {
+          title: "小镇年报",
+          blurb: `${TD.stats.since} 建镇 · 收信 ${TD.stats.posts} 封 · 写作 ${TD.stats.days} 天 · ${TD.stats.tags} 个标签。`,
+          items: [
+            { label: "订阅 RSS", meta: "新信自动送进阅读器", href: "/rss.xml" },
+            { label: "翻全部归档", meta: "按年份", href: "/archive" },
+            { label: "认识站长", meta: "/about", href: "/about" },
+          ],
+        };
+      case "friends":
+        return {
+          title: "友链墙",
+          blurb: "咖啡馆的常客,都是老朋友。",
+          items: TD.friends.map(f => ({
+            label: f.name,
+            meta: "去串门",
+            desc: f.desc,
+            href: f.href,
+          })),
+        };
+      case "about":
+        return {
+          title: "床头照片",
+          blurb: TD.about.bio,
+          items: [
+            ...TD.socials.map(s => ({
+              label: s.name,
+              meta: "去打个招呼",
+              href: s.href,
+            })),
+            { label: "关于站长", meta: "/about", href: "/about" },
+          ],
+        };
+    }
+    return { title: "空空如也", blurb: "", items: [] };
+  };
+  const openList = (r: { kind: string; index?: number }) => {
+    const { title, blurb, items } = resolveList(r);
+    ($("list-title") as HTMLElement).textContent = title;
+    ($("list-ind") as HTMLElement).textContent = `${items.length}`;
+    const blurbEl = $("list-blurb") as HTMLElement;
+    blurbEl.textContent = blurb;
+    blurbEl.hidden = !blurb;
+    ($("list-items") as HTMLElement).innerHTML = items.length
+      ? items.map(itemHtml).join("")
+      : `<p class="empty">还什么都没有。</p>`;
+    listEl.hidden = false;
+  };
+  const closeList = () => {
+    if (listEl.hidden) return;
+    listEl.hidden = true;
+    bus.emit(EV.list, null);
+  };
+  bus.on(EV.list, (r: { kind: string; index?: number } | null) => {
+    if (r) openList(r);
+  });
+  $("list-close")!.addEventListener("click", closeList);
+
+  // ---- 搜索浮层:复用站内数据,客户端 Fuse 检索 ----
+  const searchEl = $("town-search")!;
+  const searchInput = $("search-input") as HTMLInputElement;
+  const searchResults = $("search-results")!;
+  const searchDocs = TD.posts.map(p => ({
+    title: p.t,
+    tags: p.tags.join(" "),
+    d: p.d,
+    h: p.h,
+  }));
+  const fuse = new Fuse(searchDocs, {
+    keys: ["title", "tags"],
+    threshold: 0.35,
+    ignoreLocation: true,
+  });
+  let lastFound: { title: string; d: string; h: string }[] = [];
+  const renderSearch = () => {
+    const q = searchInput.value.trim();
+    lastFound = q ? fuse.search(q).map(r => r.item) : searchDocs.slice(0, 8);
+    const items: ListItem[] = lastFound
+      .slice(0, 12)
+      .map(p => ({ label: p.title, meta: p.d, href: p.h }));
+    searchResults.innerHTML = items.length
+      ? items.map(itemHtml).join("")
+      : `<p class="empty">没找到,换个词试试。</p>`;
+  };
+  const closeSearch = () => {
+    if (searchEl.hidden) return;
+    searchEl.hidden = true;
+    bus.emit(EV.search, false);
+  };
+  bus.on(EV.search, (open: boolean) => {
+    if (!open) return;
+    searchEl.hidden = false;
+    searchInput.value = "";
+    renderSearch();
+    window.setTimeout(() => searchInput.focus(), 40);
+  });
+  searchInput.addEventListener("input", renderSearch);
+  searchInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && lastFound[0])
+      window.open(lastFound[0].h, "_blank", "noopener");
+    if (e.key === "Escape") closeSearch();
+  });
+  $("search-close")!.addEventListener("click", closeSearch);
+
+  // ESC 关浮层(焦点不在输入框时也生效)
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Escape") return;
+    if (!listEl.hidden) closeList();
+    else if (!searchEl.hidden) closeSearch();
+  });
 
   // 昼夜切换:自动(按本地时间) → 白天 → 夜晚 循环;全局单例 setTod,
   // 开场屏/游戏内任何时刻切换都立即生效(场景每帧读 TOD.mode)

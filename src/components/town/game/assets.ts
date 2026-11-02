@@ -475,3 +475,59 @@ export function buildDiary(): HTMLCanvasElement {
   ctx.fillRect(5, 6, 2, 3);
   return cv;
 }
+
+// ---- 搜索水晶球(程序化;木座 + 蓝晶球 + 高光;14x16,原点底部居中)----
+export function buildOrb(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 14;
+  cv.height = 16;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#5f4126"; // 木座
+  ctx.fillRect(3, 12, 8, 4);
+  ctx.fillStyle = "#7a5533";
+  ctx.fillRect(3, 12, 8, 1);
+  ctx.fillStyle = "#4a3a28"; // 球托
+  ctx.fillRect(5, 10, 4, 2);
+  // 晶球:深蓝底 → 中蓝 → 高光斜斑
+  ctx.fillStyle = "#2a4a6e";
+  ctx.fillRect(4, 3, 6, 7);
+  ctx.fillRect(5, 2, 4, 9);
+  ctx.fillStyle = "#3f6f9e";
+  ctx.fillRect(5, 4, 4, 4);
+  ctx.fillStyle = "#7fb2d9";
+  ctx.fillRect(5, 3, 2, 2);
+  ctx.fillStyle = "#e8f4fc"; // 星点
+  ctx.fillRect(8, 5, 1, 1);
+  ctx.fillRect(6, 7, 1, 1);
+  return cv;
+}
+
+// ---- 标签图腾(程序化;刻痕木柱 + 彩色签带;14x26,原点底部居中)----
+// 彩带四色与书架书脊同源,呼应「标签 = 归档的另一条路径」;
+// 不用 sv-sign-post:那是一丛细木条,观感像栅栏且与 (36,17) 原有路标混淆。
+export function buildTotem(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 14;
+  cv.height = 26;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#4a3a28"; // 柱身
+  ctx.fillRect(4, 2, 6, 24);
+  ctx.fillStyle = "#5f4126";
+  ctx.fillRect(5, 2, 4, 24);
+  ctx.fillStyle = "#3a2d20"; // 柱头
+  ctx.fillRect(3, 0, 8, 3);
+  ctx.fillStyle = "#6d5636";
+  ctx.fillRect(3, 0, 8, 1);
+  // 四道彩色签带(刻进去的感觉:右下留 1px 暗边)
+  const bands = ["#c94f42", "#e0b23e", "#5fa8c9", "#6da34f"];
+  bands.forEach((c, i) => {
+    const y = 5 + i * 5;
+    ctx.fillStyle = c;
+    ctx.fillRect(5, y, 4, 3);
+    ctx.fillStyle = "#3a2d20";
+    ctx.fillRect(5, y + 3, 4, 1);
+  });
+  ctx.fillStyle = "#4a3a28"; // 底座
+  ctx.fillRect(2, 24, 10, 2);
+  return cv;
+}

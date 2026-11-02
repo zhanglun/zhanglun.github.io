@@ -25,6 +25,8 @@ import {
   buildLamp,
   buildGlow,
   buildDiary,
+  buildOrb,
+  buildTotem,
   FURN_KINDS,
 } from "./assets";
 import {
@@ -36,16 +38,35 @@ import {
   doorOf,
   solidRowsOf,
   npcDefs,
+  TOTEM_SPOTS,
+  ORB_SPOT,
   Ground,
   FURN_LOOKS,
   type BuildingDef,
-  type FurnImg,
+  type FurnAct,
 } from "./world";
-import { bus, EV, TOD } from "./state";
+import { bus, EV, TOD, type ListRequest } from "./state";
+import { townData } from "./towndata";
 import { TownAudio } from "./audio";
 
 const SPEED = 88;
 const INTERACT_DIST = 30;
+const FRIEND_SLOTS: [number, number][] = [
+  [7, 3],
+  [9, 3],
+  [11, 4],
+];
+const FRIEND_SHEETS = ["amelia", "bob", "adam"];
+
+// 室内家具联动动作的提示词(与 world.ts FurnAct 对应)
+const ACT_LABEL: Record<FurnAct, string> = {
+  archive: "翻翻书架",
+  projects: "看看项目",
+  annual: "读年报信",
+  friends: "看友链墙",
+  about: "看看床头照片",
+  guestbook: "翻留言簿",
+};
 
 function bindBus(scene: Phaser.Scene, ev: string, fn: (...a: never[]) => void) {
   bus.on(ev, fn);
@@ -155,6 +176,8 @@ export class WorldScene extends Phaser.Scene {
   private doorPads!: Map<string, BuildingDef>;
   private transitioning = false;
   private wasOnPad = true; // 边沿触发：出生/出门站在门前格时不立即吸回
+  private lastTileX = -1; // 玩家 tile 上报去重(小地图标记)
+  private lastTileY = -1;
   // 昼夜系统:模式在 state.TOD(全局单例);时钟与相位在此实例内
   private dayClock = 0; // 自动循环累计秒
   private dayBase = 0.12; // 初始相位(白天 0.12 / 夜晚 0.55,由本地时间决定)
@@ -251,6 +274,8 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("town-shadow", shadow);
       this.textures.addCanvas("gen-lamp", buildLamp());
       this.textures.addCanvas("gen-glow", buildGlow());
+      this.textures.addCanvas("gen-orb", buildOrb());
+      this.textures.addCanvas("gen-totem", buildTotem());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -447,6 +472,14 @@ export class WorldScene extends Phaser.Scene {
           touch.pressed = t.pressed;
         }
       );
+      // HUD 侧浮层(列表面板/搜索)关闭 = 解锁场景输入
+      bindBus(this, EV.list, (p: ListRequest | null) => {
+        if (!p) modalOpen = false;
+      });
+      bindBus(this, EV.search, (open: boolean) => {
+        if (!open) modalOpen = false;
+      });
+      bindBus(this, EV.travel, (id: string) => this.travelTo(id));
 
       // ---- 调试边框（?debug=1 进入或按 D 切换）----
       this.debugGfx = this.add
@@ -503,6 +536,14 @@ export class WorldScene extends Phaser.Scene {
   update(_time: number, delta: number) {
     const dt = delta / 1000;
     this.movePlayer(dt);
+    // 玩家 tile 变化才上报(HUD 小地图标记用)
+    const ptx = Math.floor(this.player.x / TILE);
+    const pty = Math.floor(this.player.y / TILE);
+    if (ptx !== this.lastTileX || pty !== this.lastTileY) {
+      this.lastTileX = ptx;
+      this.lastTileY = pty;
+      bus.emit(EV.playerTile, { x: ptx, y: pty });
+    }
     this.stepAcc = (this.stepAcc ?? 0) + (this.moving ? dt : 0);
     if (this.moving && this.stepAcc > 0.28) {
       this.stepAcc = 0;
@@ -776,9 +817,37 @@ export class WorldScene extends Phaser.Scene {
         });
       });
     }
-    return cands.length
-      ? cands.reduce((a, b) => (b.d < a.d ? b : a))
-      : null;
+    // 搜索水晶球与标签图腾(内容按构建期 tags 数据,没排到的图腾无字)
+    consider(
+      (ORB_SPOT.tx + 0.5) * TILE,
+      (ORB_SPOT.ty + 1) * TILE,
+      "搜一搜文章",
+      () => {
+        modalOpen = true;
+        bus.emit(EV.search, true);
+      }
+    );
+    const tags = townData().tags;
+    TOTEM_SPOTS.forEach(([tx, ty], i) => {
+      const tag = tags[i];
+      consider(
+        (tx + 0.5) * TILE,
+        (ty + 1) * TILE,
+        tag ? `看 #${tag.name} 图腾` : "看无字图腾",
+        () => {
+          if (!tag) {
+            bus.emit(EV.dialog, {
+              name: "无字图腾",
+              text: "这根图腾还没刻上字，等下一篇热门文章吧。",
+            });
+            return;
+          }
+          modalOpen = true;
+          bus.emit(EV.list, { kind: "tag", index: i });
+        }
+      );
+    });
+    return cands.length ? cands.reduce((a, b) => (b.d < a.d ? b : a)) : null;
   }
 
   private updatePrompt() {
@@ -805,6 +874,20 @@ export class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeOut(260, 10, 12, 20);
     this.time.delayedCall(280, () => this.scene.start("interior", { b }));
   }
+
+  // 小地图点图传送:瞬移到目标建筑门口(室内场景由 InteriorScene 出屋处理)
+  private travelTo(id: string) {
+    const b = buildings.find(x => x.id === id);
+    if (!b || this.transitioning) return;
+    const d = doorOf(b);
+    this.player.x = (d.x + 0.5) * TILE;
+    this.player.y = (d.y + 1.6) * TILE;
+    this.player.setDepth(this.player.y);
+    this.wasOnPad = true; // 落点与出生点同规则,不触发门前格
+    this.cameras.main.centerOn(this.player.x, this.player.y);
+    this.cameras.main.flash(140, 10, 12, 20);
+    this.audio.door(false);
+  }
 }
 
 // ---------------------------------------------------------------- 室内
@@ -816,6 +899,10 @@ export class InteriorScene extends Phaser.Scene {
   private lastPrompt = "";
   private current: { label: string; act: () => void } | null = null;
   private exitX = 0;
+  private friends: {
+    f: { name: string; desc: string; href: string };
+    spr: Phaser.GameObjects.Sprite;
+  }[] = [];
 
   constructor() {
     super("interior");
@@ -829,6 +916,7 @@ export class InteriorScene extends Phaser.Scene {
     registerAnims(this);
     modalOpen = false;
     this.lastPrompt = "\u0000reset";
+    this.friends = [];
     const { w, h } = this.b.interior;
     const W = w * TILE;
     const H = h * TILE;
@@ -893,6 +981,21 @@ export class InteriorScene extends Phaser.Scene {
       boss.setDepth(boss.y);
     }
 
+    // 友链村民:数据源 town-data friends,坐进固定卡座(超出 3 位只来前 3 位)
+    if (this.b.interior.friends) {
+      const list = townData().friends.slice(0, FRIEND_SLOTS.length);
+      this.friends = list.map((f, i) => {
+        const sheet = FRIEND_SHEETS[i % FRIEND_SHEETS.length];
+        const [tx, ty] = FRIEND_SLOTS[i];
+        const spr = this.add
+          .sprite(tx * TILE + TILE / 2, (ty + 1) * TILE, `char-${sheet}`, 0)
+          .setOrigin(0.5, 1);
+        spr.play(`v-idle-${sheet}`);
+        spr.setDepth(spr.y);
+        return { f, spr };
+      });
+    }
+
     const cam = this.cameras.main;
     cam.setBackgroundColor("#171310");
     cam.setRoundPixels(true);
@@ -931,6 +1034,20 @@ export class InteriorScene extends Phaser.Scene {
     // 日记浮层合上 = 解锁输入
     bindBus(this, EV.diary, () => {
       modalOpen = true;
+    });
+    // HUD 侧浮层(列表面板/搜索)关闭 = 解锁输入
+    bindBus(this, EV.list, (p: ListRequest | null) => {
+      if (!p) modalOpen = false;
+    });
+    bindBus(this, EV.search, (open: boolean) => {
+      if (!open) modalOpen = false;
+    });
+    // 小地图传送:从室内直接出屋到目标建筑门口
+    bindBus(this, EV.travel, (id: string) => {
+      this.cameras.main.fadeOut(240, 10, 12, 20);
+      this.time.delayedCall(260, () =>
+        this.scene.start("world", { spawnAt: id })
+      );
     });
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -996,74 +1113,71 @@ export class InteriorScene extends Phaser.Scene {
       return;
     }
 
-    // 提示与交互（出门走到底自动触发，不占交互键）
-    let it: { label: string; act: () => void } | null = null;
+    // 交互候选统一裁决(与室外 nearestInteract 同构):
+    // 老板 / 日记 / 友链村民 / 家具(带 act 的联动家具优先弹列表面板)
+    const cands: { label: string; act: () => void; d: number }[] = [];
+    const add = (x: number, y: number, label: string, act: () => void) => {
+      const d = Phaser.Math.Distance.Between(
+        this.player.x,
+        this.player.y,
+        x,
+        y
+      );
+      if (d < 26) cands.push({ label, act, d });
+    };
     const npc = this.b.interior.npc;
-    const npcPx = 4.5 * TILE;
-    const npcPy = 2.6 * TILE;
-    if (
-      npc &&
-      Phaser.Math.Distance.Between(this.player.x, this.player.y, npcPx, npcPy) <
-        26
-    ) {
-      it = {
-        label: `和${npc.name}说话`,
-        act: () => {
-          bus.emit(EV.dialog, { name: npc.name, text: npc.text });
-        },
-      };
-    } else if (this.b.interior.diary && this.nearDiary()) {
-      it = {
-        label: "翻翻日记",
-        act: () => {
+    if (npc) {
+      add(4.5 * TILE, 2.6 * TILE, `和${npc.name}说话`, () => {
+        bus.emit(EV.dialog, { name: npc.name, text: npc.text });
+      });
+    }
+    if (this.b.interior.diary) {
+      const d = this.b.interior.diary;
+      add(d.x * TILE + TILE / 2, (d.y + 1) * TILE, "翻翻日记", () => {
+        modalOpen = true;
+        bus.emit(EV.diary);
+      });
+    }
+    for (const fr of this.friends) {
+      add(fr.spr.x, fr.spr.y, `和${fr.f.name}聊天`, () => {
+        modalOpen = true;
+        bus.emit(EV.panel, {
+          title: fr.f.name,
+          blurb: fr.f.desc,
+          link: { label: "去串门", href: fr.f.href },
+        });
+      });
+    }
+    let archiveN = 0;
+    for (const f of this.b.interior.furniture) {
+      const fx = f.x * TILE + TILE / 2;
+      const fy = (f.y + 1) * TILE;
+      if (f.act) {
+        const kind = f.act;
+        const idx = f.act === "archive" ? archiveN++ : undefined;
+        add(fx, fy, ACT_LABEL[f.act], () => {
           modalOpen = true;
-          bus.emit(EV.diary);
-        },
-      };
-    } else {
-      // 家具可看:走近最近的一件,按 E 读一句
-      let bestF: { x: number; y: number; kind: FurnImg } | null = null;
-      let bestD = 26;
-      for (const f of this.b.interior.furniture) {
-        const fx = f.x * TILE + TILE / 2;
-        const fy = (f.y + 1) * TILE;
-        const d = Phaser.Math.Distance.Between(
-          this.player.x,
-          this.player.y,
-          fx,
-          fy
-        );
-        if (d < bestD) {
-          bestD = d;
-          bestF = { x: fx, y: fy, kind: f.img };
-        }
-      }
-      if (bestF) {
-        it = {
-          label: "看看这个",
-          act: () => {
-            bus.emit(EV.dialog, {
-              name: this.b.name,
-              text: FURN_LOOKS[bestF.kind] ?? "……",
-            });
-          },
-        };
+          bus.emit(EV.list, { kind, index: idx });
+        });
+      } else {
+        // 无联动的家具:走近读一句屋内文案
+        add(fx, fy, "看看这个", () => {
+          bus.emit(EV.dialog, {
+            name: this.b.name,
+            text: FURN_LOOKS[f.img] ?? "……",
+          });
+        });
       }
     }
+    const it: { label: string; act: () => void } | null = cands.length
+      ? cands.reduce((a, b) => (b.d < a.d ? b : a))
+      : null;
     const label = it ? it.label : "";
     if (label !== this.lastPrompt) {
       this.lastPrompt = label;
       bus.emit(EV.prompt, label || null);
     }
     this.current = it;
-  }
-
-  private nearDiary(): boolean {
-    const d = this.b.interior.diary;
-    if (!d) return false;
-    const dx = this.player.x - (d.x * TILE + TILE / 2);
-    const dy = this.player.y - (d.y + 1) * TILE;
-    return Math.hypot(dx, dy) < 28;
   }
 
   private interact() {

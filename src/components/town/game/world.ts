@@ -32,13 +32,24 @@ export type FurnImg =
   | "mailrack"
   | "table";
 
+// 家具/道具挂载的联动动作:场景按 E 时 emit EV.list,HUD 用 town-data 解析渲染。
+// 无 act 的家具保持「看看这个」读一句文案的旧行为。
+export type FurnAct =
+  | "archive" // 书架归档(书屋 bookshelf,按数组顺序对应 shelves[i])
+  | "projects" // 工坊项目卡
+  | "annual" // 邮局年报 + RSS
+  | "friends" // 咖啡馆友链墙
+  | "about" // 小屋 about/社交出口
+  | "guestbook"; // 邮局留言簿(第四批接线)
+
 export interface InteriorDef {
   w: number;
   h: number;
-  furniture: { img: FurnImg; x: number; y: number }[];
+  furniture: { img: FurnImg; x: number; y: number; act?: FurnAct }[];
   motto: string; // 室内墙上格言(进门自动显示于面板副语)
   npc?: { name: string; sheet: string; text: string };
   diary?: { x: number; y: number }; // 日记本所在格(走近可翻,内容取自最新文章)
+  friends?: boolean; // 咖啡馆友链村民(场景按 town-data friends 坐进 FRIEND_SLOTS)
 }
 
 export interface PropDef {
@@ -103,10 +114,13 @@ export const buildings: BuildingDef[] = [
       motto: "写作是把记忆存进镇子的档案室。",
       diary: { x: 11, y: 3 },
       furniture: [
-        { img: "bookshelf", x: 2, y: 2 },
-        { img: "bookshelf", x: 3, y: 2 },
-        { img: "bookshelf", x: 9, y: 2 },
-        { img: "bookshelf", x: 10, y: 2 },
+        // 六排书架 = shelves[0..5](最近 5 个年份 + 「更早」),按数组顺序对应
+        { img: "bookshelf", x: 2, y: 2, act: "archive" },
+        { img: "bookshelf", x: 3, y: 2, act: "archive" },
+        { img: "bookshelf", x: 5, y: 2, act: "archive" },
+        { img: "bookshelf", x: 7, y: 2, act: "archive" },
+        { img: "bookshelf", x: 9, y: 2, act: "archive" },
+        { img: "bookshelf", x: 10, y: 2, act: "archive" },
         { img: "table", x: 4, y: 4 },
         { img: "crate", x: 11, y: 6 },
       ],
@@ -127,8 +141,8 @@ export const buildings: BuildingDef[] = [
       h: 9,
       motto: "慢工出细活，做一件是一件。",
       furniture: [
-        { img: "workbench", x: 2, y: 2 },
-        { img: "workbench", x: 4, y: 2 },
+        { img: "workbench", x: 2, y: 2, act: "projects" },
+        { img: "workbench", x: 4, y: 2, act: "projects" },
         { img: "crate", x: 9, y: 2 },
         { img: "crate", x: 10, y: 2 },
         { img: "barrel", x: 10, y: 4 },
@@ -151,7 +165,7 @@ export const buildings: BuildingDef[] = [
       h: 9,
       motto: "每一封信都会到，只是有的走得慢。",
       furniture: [
-        { img: "mailrack", x: 2, y: 2 },
+        { img: "mailrack", x: 2, y: 2, act: "annual" },
         { img: "mailrack", x: 3, y: 2 },
         { img: "counter", x: 8, y: 2 },
         { img: "counter", x: 9, y: 2 },
@@ -172,10 +186,11 @@ export const buildings: BuildingDef[] = [
       w: 13,
       h: 9,
       motto: "今日特供：烤胡萝卜浓汤。",
+      friends: true,
       furniture: [
         { img: "stove", x: 2, y: 2 },
         { img: "counter", x: 3, y: 2 },
-        { img: "counter", x: 4, y: 2 },
+        { img: "counter", x: 4, y: 2, act: "friends" },
         { img: "counter", x: 5, y: 2 },
         { img: "table", x: 8, y: 4 },
         { img: "table", x: 10, y: 5 },
@@ -202,7 +217,7 @@ export const buildings: BuildingDef[] = [
       h: 8,
       motto: "欢迎回家。炉上有热水，床随你躺。",
       furniture: [
-        { img: "bed", x: 2, y: 2 },
+        { img: "bed", x: 2, y: 2, act: "about" },
         { img: "stove", x: 8, y: 2 },
         { img: "table", x: 7, y: 4 },
         { img: "crate", x: 8, y: 5 },
@@ -210,6 +225,17 @@ export const buildings: BuildingDef[] = [
     },
   },
 ];
+
+// 广场北缘标签图腾的位置(最多 4 根,内容由构建期 tags 数据决定,
+// 场景里按下标对应 townData().tags[i];没排到的图腾保持无字状态)
+export const TOTEM_SPOTS: [number, number][] = [
+  [25, 16],
+  [27, 16],
+  [35, 16],
+  [37, 16],
+];
+// 搜索水晶球(广场西侧)
+export const ORB_SPOT = { tx: 26, ty: 22 };
 
 // 门格：底行中央；玩家踩门前格（自动）或按 E 进入
 export function doorOf(b: BuildingDef) {
@@ -437,6 +463,25 @@ export function buildProps(): PropDef[] {
       solid: true,
       center: true,
     });
+  }
+  // 搜索水晶球与标签图腾(广场上,内容按构建期数据在场景里挂接)
+  props.push({
+    image: "gen-orb",
+    tx: ORB_SPOT.tx,
+    ty: ORB_SPOT.ty,
+    solid: true,
+    center: true,
+  });
+  occupy(ORB_SPOT.tx, ORB_SPOT.ty, 1, 1);
+  for (const [tx, ty] of TOTEM_SPOTS) {
+    props.push({
+      image: "gen-totem",
+      tx,
+      ty,
+      solid: true,
+      center: true,
+    });
+    occupy(tx, ty, 1, 1);
   }
   // 岩石点缀
   props.push({

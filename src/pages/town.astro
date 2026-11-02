@@ -1,19 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
-import formatDotDate from "@utils/formatDotDate";
+import { buildTownData } from "@utils/townData";
 import Layout from "@layouts/Layout.astro";
 import TownGame from "@components/town/TownGame.astro";
 
-// 小镇日记:构建期取最新文章,注入游戏内可翻阅的日记本
-const diary = getSortedPosts(await getCollection("blogs"))
-  .slice(0, 12)
-  .map(p => ({
-    title: p.data.title,
-    date: formatDotDate(p.data.date),
-    desc: (p.data.description || "").replace(/\s+/g, " ").slice(0, 80),
-    href: `/blog/${p.id}`,
-  }));
+// 小镇联动数据全部在构建期生成:日记(最新 12 篇)、全部文章(书架归档/
+// 标签图腾/搜索)、项目卡、友链、年报、每日一句。发布新文章重新部署即更新。
+const townData = buildTownData(getSortedPosts(await getCollection("blogs")));
 ---
 
 <Layout
@@ -26,7 +20,7 @@ const diary = getSortedPosts(await getCollection("blogs"))
     document.documentElement.style.overscrollBehavior = "none";
   </script>
   <h1 class="sr-only">小圆镇 · 像素小镇</h1>
-  <TownGame diary={diary} />
+  <TownGame townData={townData} />
   <p class="sr-only">
     素材：Serene Village revamped by LimeZu（CC-BY 4.0）；村民形象来自
     Modern Interiors Free by LimeZu；史莱姆与室内为本站程序化原创。
