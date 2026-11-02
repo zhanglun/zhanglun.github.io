@@ -34,12 +34,14 @@ export interface ListRequest {
 }
 
 // ---- 昼夜模式:全局单例(HUD 与场景共享,不挂场景生命周期)----
-// auto = 按访客本地时间定初始相位并走 150s 循环;day/night 强制定格。
-export type TodMode = "auto" | "day" | "night";
+// auto = 按访客本地时间定初始相位并走 150s 循环;real = 跟随真实时钟
+// (19:00-7:00 为夜);day/night 强制定格。
+export type TodMode = "auto" | "real" | "day" | "night";
 export const TOD = { mode: "auto" as TodMode };
 try {
   const saved = localStorage.getItem("town-daycycle");
-  if (saved === "day" || saved === "night") TOD.mode = saved;
+  if (saved === "real" || saved === "day" || saved === "night")
+    TOD.mode = saved;
 } catch {}
 
 export function setTod(mode: TodMode) {

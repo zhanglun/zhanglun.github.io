@@ -874,12 +874,13 @@ const { townData } = Astro.props;
     else if (!searchEl.hidden) closeSearch();
   });
 
-  // 昼夜切换:自动(按本地时间) → 白天 → 夜晚 循环;全局单例 setTod,
-  // 开场屏/游戏内任何时刻切换都立即生效(场景每帧读 TOD.mode)
+  // 昼夜切换:自动(150s 循环) → 真实(跟随本地时钟) → 白天 → 夜晚 循环;
+  // 全局单例 setTod,开场屏/游戏内任何时刻切换都立即生效(场景每帧读 TOD.mode)
   const todBtn = $("town-tod") as HTMLButtonElement;
   const stage = document.querySelector(".town-stage") as HTMLElement;
   const todLabel: Record<string, string> = {
     auto: "昼夜:自动",
+    real: "🕐 真实",
     day: "☀ 白天",
     night: "🌙 夜晚",
   };
@@ -891,7 +892,12 @@ const { townData } = Astro.props;
   };
   syncTod(TOD.mode);
   todBtn.addEventListener("click", () => {
-    const order: Array<"auto" | "day" | "night"> = ["auto", "day", "night"];
+    const order: Array<"auto" | "real" | "day" | "night"> = [
+      "auto",
+      "real",
+      "day",
+      "night",
+    ];
     const cur = TOD.mode;
     const next = order[(order.indexOf(cur) + 1) % order.length];
     setTod(next);

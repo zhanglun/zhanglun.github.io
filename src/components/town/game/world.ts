@@ -236,6 +236,8 @@ export const TOTEM_SPOTS: [number, number][] = [
 ];
 // 搜索水晶球(广场西侧)
 export const ORB_SPOT = { tx: 26, ty: 22 };
+// 镇口黑板(每日一句,构建期从文章里按日期抽一句)
+export const BOARD_SPOT = { tx: 33, ty: 17 };
 
 // 门格：底行中央；玩家踩门前格（自动）或按 E 进入
 export function doorOf(b: BuildingDef) {

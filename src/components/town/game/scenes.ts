@@ -28,6 +28,9 @@ import {
   buildOrb,
   buildTotem,
   buildHintBubble,
+  buildNewsBubble,
+  buildRainDrop,
+  buildSnowFlake,
   FURN_KINDS,
 } from "./assets";
 import {
@@ -41,6 +44,7 @@ import {
   npcDefs,
   TOTEM_SPOTS,
   ORB_SPOT,
+  BOARD_SPOT,
   Ground,
   FURN_LOOKS,
   type BuildingDef,
@@ -157,7 +161,7 @@ export class WorldScene extends Phaser.Scene {
     def: (typeof npcDefs)[number];
     li: number;
     home: { x: number; y: number };
-    mode: "idle" | "walk";
+    mode: "idle" | "walk" | "toHome" | "gone";
     timer: number;
     dir: "down" | "up" | "left" | "right";
   }[] = [];
@@ -185,6 +189,10 @@ export class WorldScene extends Phaser.Scene {
   private dayClock = 0; // 自动循环累计秒
   private dayBase = 0.12; // 初始相位(白天 0.12 / 夜晚 0.55,由本地时间决定)
   private isNight = false;
+  // 天气:按真实日期确定性决定(冬多雪,其余季节约 1/4 天数有雨),
+  // ?weather=rain|snow|clear 可强制,供调试与实机验收
+  private weather: "clear" | "rain" | "snow" = "clear";
+  private insidePrev = false; // 村民作息触发器:夜/雨 = 回屋
   private debugOn =
     typeof location !== "undefined" &&
     new URLSearchParams(location.search).has("debug");
@@ -280,6 +288,9 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("gen-orb", buildOrb());
       this.textures.addCanvas("gen-totem", buildTotem());
       this.textures.addCanvas("gen-hint", buildHintBubble());
+      this.textures.addCanvas("gen-news", buildNewsBubble());
+      this.textures.addCanvas("gen-rain", buildRainDrop());
+      this.textures.addCanvas("gen-snow", buildSnowFlake());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -424,6 +435,29 @@ export class WorldScene extends Phaser.Scene {
         })
       );
 
+      // 「有新篇」气泡:最新文章 7 天内发布,挂在书屋门头轻轻浮动
+      if (townData().latest?.fresh) {
+        const blog = buildings.find(x => x.id === "blog")!;
+        const bubble = this.add
+          .image(
+            (doorOf(blog).x + 0.5) * TILE,
+            (blog.ty + blog.h) * TILE - 30,
+            "gen-news"
+          )
+          .setOrigin(0.5, 1)
+          .setDepth(20_000);
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          this.tweens.add({
+            targets: bubble,
+            y: "-=3",
+            duration: 820,
+            yoyo: true,
+            repeat: -1,
+            ease: "sine.inout",
+          });
+        }
+      }
+
       // ---- 村民与宠物 ----
       for (const def of npcDefs) {
         const spr = this.add
@@ -517,6 +551,17 @@ export class WorldScene extends Phaser.Scene {
       this.dayBase =
         TOD.mode === "auto" ? (hour >= 19 || hour < 7 ? 0.55 : 0.12) : 0.12;
       this.dayClock = 0;
+      // 天气:按真实日期确定性决定(冬多雪,其余季节约 1/4 天数有雨);
+      // ?weather=rain|snow|clear 可强制,供调试与实机验收。
+      // 相机段已设好 zoom,粒子以屏幕坐标系(scrollFactor 0)铺满视口
+      const wParam = new URLSearchParams(location.search).get("weather");
+      this.weather =
+        wParam === "rain" || wParam === "snow" || wParam === "clear"
+          ? wParam
+          : WorldScene.weatherOf();
+      this.buildWeatherFx();
+      // 首帧 updateNight 会按当前昼夜/天气把村民作息收敛到位
+      this.insidePrev = false;
       // HUD 切换走 window 事件(跨模块实例);收到即同步本实例副本
       const onTod = (e: Event) => {
         TOD.mode = (e as CustomEvent).detail;
@@ -549,6 +594,58 @@ export class WorldScene extends Phaser.Scene {
           );
     this.cameras.main.setZoom(zoom);
     this.night.setSize(width, height);
+  }
+
+  // 当天天气:日期字符串哈希 → 确定性结果(同一天全站一致,无运行时开销)。
+  // 冬季(12/1/2 月)45% 下雪,其余月份 22% 下雨,其余晴。
+  static weatherOf(d = new Date()): WorldScene["weather"] {
+    const m = d.getMonth() + 1;
+    const key = `${d.getFullYear()}-${m}-${d.getDate()}`;
+    let h = 0;
+    for (const c of key) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    const r = (h % 100) / 100;
+    if (m === 12 || m <= 2) return r < 0.45 ? "snow" : "clear";
+    return r < 0.22 ? "rain" : "clear";
+  }
+
+  // 天气粒子:铺满相机可视区。scrollFactor 0 的坐标围绕屏幕中心缩放,
+  // 可视区中心 = (W/2, H/2),半宽高 = 屏幕像素 / zoom / 2;雨快雪慢。
+  private buildWeatherFx():
+    | Phaser.GameObjects.Particles.ParticleEmitter
+    | undefined {
+    if (this.weather === "clear") return undefined;
+    const zoom = this.cameras.main.zoom || 2;
+    const cx = this.scale.width / 2;
+    const cy = this.scale.height / 2;
+    const hw = this.scale.width / zoom / 2;
+    const hh = this.scale.height / zoom / 2;
+    if (this.weather === "rain") {
+      const fx = this.add.particles(0, 0, "gen-rain", {
+        x: { min: cx - hw - 80, max: cx + hw + 80 },
+        y: cy - hh - 12,
+        lifespan: ((hh * 2 + 24) / 380) * 1000 + 150,
+        speedY: { min: 330, max: 430 },
+        speedX: { min: -95, max: -60 },
+        quantity: 2,
+        frequency: 25,
+      });
+      fx.setScrollFactor(0);
+      fx.setDepth(10_002);
+      return fx;
+    }
+    const fx = this.add.particles(0, 0, "gen-snow", {
+      x: { min: cx - hw - 20, max: cx + hw + 20 },
+      y: cy - hh - 6,
+      lifespan: ((hh * 2 + 12) / 55) * 1000 + 400,
+      speedY: { min: 38, max: 72 },
+      speedX: { min: -20, max: 20 },
+      quantity: 1,
+      frequency: 90,
+      scale: { min: 0.8, max: 1.3 },
+    });
+    fx.setScrollFactor(0);
+    fx.setDepth(10_002);
+    return fx;
   }
 
   update(_time: number, delta: number) {
@@ -689,8 +786,40 @@ export class WorldScene extends Phaser.Scene {
     const SPEED = 26;
     const RADIUS = 56;
     for (const n of this.npcs) {
+      if (n.mode === "gone") continue;
       n.timer -= dt;
-      if (n.mode === "idle") {
+      if (n.mode === "toHome") {
+        // 作息:径直走回出生点(视为家门),到门口淡出进屋
+        const dxh = n.home.x - n.spr.x;
+        const dyh = n.home.y - n.spr.y;
+        const dist = Math.hypot(dxh, dyh);
+        if (dist < 3) {
+          n.mode = "gone";
+          this.tweens.add({
+            targets: n.spr,
+            alpha: 0,
+            duration: 380,
+            onComplete: () => n.spr.setVisible(false),
+          });
+        } else {
+          const dir =
+            Math.abs(dxh) > Math.abs(dyh)
+              ? dxh > 0
+                ? "right"
+                : "left"
+              : dyh > 0
+                ? "down"
+                : "up";
+          if (dir !== n.dir) {
+            n.dir = dir as typeof n.dir;
+            n.spr.play(`v-walk-${n.def.sheet}-${n.dir}`);
+          }
+          const vx = (dxh / dist) * SPEED * dt;
+          const vy = (dyh / dist) * SPEED * dt;
+          n.spr.x += vx;
+          n.spr.y += vy;
+        }
+      } else if (n.mode === "idle") {
         if (n.timer <= 0) {
           // 从 4 向里挑一个,走 0.6-1.4s
           const dirs: Array<[string, number, number]> = [
@@ -719,7 +848,7 @@ export class WorldScene extends Phaser.Scene {
             n.timer = 1 + Math.random() * 2;
           }
         }
-      } else {
+      } else if (n.mode === "walk") {
         const v = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] }[
           n.dir
         ];
@@ -733,6 +862,25 @@ export class WorldScene extends Phaser.Scene {
       }
       n.spr.setDepth(n.spr.y);
     }
+  }
+
+  // ---- 村民作息:入夜/下雨回屋(镇长留守望夜),天亮雨停复出 ----
+  private setVillagersInside(inside: boolean) {
+    this.npcs.forEach((n, i) => {
+      const mustGo = inside && !(i === 0 && this.weather !== "rain");
+      if (mustGo && (n.mode === "idle" || n.mode === "walk")) {
+        n.mode = "toHome";
+        n.spr.setFlipX(false);
+        n.spr.play(`v-walk-${n.def.sheet}-down`);
+      } else if (!inside && n.mode === "gone") {
+        n.mode = "idle";
+        n.timer = 2 + Math.random() * 4;
+        n.spr.setPosition(n.home.x, n.home.y);
+        n.spr.setAlpha(0).setVisible(true);
+        n.spr.play(`v-idle-${n.def.sheet}`);
+        this.tweens.add({ targets: n.spr, alpha: 1, duration: 380 });
+      }
+    });
   }
 
   private updatePet(dt: number) {
@@ -759,6 +907,7 @@ export class WorldScene extends Phaser.Scene {
 
   private updateNight(dt: number) {
     // 相位:day/night 强制定格(全局单例,开场屏切换也生效);
+    // real 跟随真实时钟(19:00-7:00 为夜);
     // auto 走 150s 循环(初始相位按访客本地时间)
     let t: number;
     if (TOD.mode === "day") {
@@ -767,6 +916,10 @@ export class WorldScene extends Phaser.Scene {
     } else if (TOD.mode === "night") {
       this.isNight = true;
       t = 0.55;
+    } else if (TOD.mode === "real") {
+      const h = new Date().getHours();
+      this.isNight = h >= 19 || h < 7;
+      t = this.isNight ? 0.55 : 0.12;
     } else {
       this.dayClock += dt;
       t = (this.dayBase + this.dayClock / 150) % 1;
@@ -812,6 +965,17 @@ export class WorldScene extends Phaser.Scene {
       const flicker = 0.92 + 0.08 * Math.sin(this.dayClock * 8 + i * 2.1);
       this.lamps[i].glow.setAlpha(Math.min(1, darkness * 2.2) * flicker);
     }
+    // 环境音随昼夜与天气:白昼晴鸟鸣 / 夜晚晴虫鸣 / 雨天只留雨声
+    this.audio.setAmbient(
+      this.weather === "rain" ? null : this.isNight ? "crickets" : "birds"
+    );
+    this.audio.setRain(this.weather === "rain");
+    // 村民作息:入夜或下雨回屋(镇长留守望夜),天亮雨停复出
+    const wantInside = this.isNight || this.weather === "rain";
+    if (wantInside !== this.insidePrev) {
+      this.insidePrev = wantInside;
+      this.setVillagersInside(wantInside);
+    }
   }
 
   // ---- 交互 ----
@@ -844,12 +1008,11 @@ export class WorldScene extends Phaser.Scene {
     }
     const nightNow = this.isNight;
     for (const n of this.npcs) {
+      if (n.mode === "gone") continue; // 回屋的村民不在街上
       consider(n.spr.x, n.spr.y, `和${n.def.name}说话`, () => {
-        const pool =
-          nightNow && n.def.nightLines ? n.def.nightLines : n.def.lines;
         bus.emit(EV.dialog, {
           name: n.def.name,
-          text: pool[n.li++ % pool.length],
+          text: this.villagerLine(n, nightNow),
         });
       });
     }
@@ -893,7 +1056,40 @@ export class WorldScene extends Phaser.Scene {
         }
       );
     });
+    // 镇口黑板:每日一句(构建期按日期从文章确定性抽取,同一天全站一致)
+    const quote = townData().quote;
+    consider(
+      (BOARD_SPOT.tx + 0.5) * TILE,
+      (BOARD_SPOT.ty + 1) * TILE,
+      "看看今日一句",
+      () => {
+        bus.emit(EV.dialog, {
+          name: "镇口黑板",
+          text: quote
+            ? `${quote.text} ——《${quote.from}》`
+            : "今天黑板还没写字，站长偷懒了。",
+        });
+      }
+    );
     return cands.length ? cands.reduce((a, b) => (b.d < a.d ? b : a)) : null;
+  }
+
+  // 村民台词:三成概率聊最新文章(构建期 latest 数据),让镇子「知道」博客更新了
+  private villagerLine(
+    n: { def: (typeof npcDefs)[number]; li: number },
+    nightNow: boolean
+  ): string {
+    const latest = townData().latest;
+    if (latest && Math.random() < 0.3) {
+      const gossips = [
+        `听说了吗？书屋新来了本《${latest.title}》。`,
+        `邮差刚送来的新书，《${latest.title}》，说是站长亲笔。`,
+        `最近镇上都在聊《${latest.title}》，你看过没？`,
+      ];
+      return gossips[(Math.random() * gossips.length) | 0];
+    }
+    const pool = nightNow && n.def.nightLines ? n.def.nightLines : n.def.lines;
+    return pool[n.li++ % pool.length];
   }
 
   private updatePrompt() {

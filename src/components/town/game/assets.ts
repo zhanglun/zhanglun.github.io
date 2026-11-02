@@ -550,3 +550,48 @@ export function buildHintBubble(): HTMLCanvasElement {
   ctx.fillRect(4, 8, 2, 2);
   return cv;
 }
+
+// ---- 「有新篇」气泡(程序化;红底白叹号 + 泡尾;14x13,原点底部居中)----
+// 最新文章发布 7 天内挂在书屋门头;与白色交互提示气泡以颜色区分。
+export function buildNewsBubble(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 14;
+  cv.height = 13;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#7d1020"; // 深红外圈
+  ctx.fillRect(1, 0, 12, 10);
+  ctx.fillStyle = "#d0122a"; // 牌面
+  ctx.fillRect(2, 1, 10, 8);
+  ctx.fillStyle = "#fffdf5"; // 感叹号
+  ctx.fillRect(6, 2, 2, 4);
+  ctx.fillRect(6, 7, 2, 1);
+  ctx.fillStyle = "#7d1020"; // 泡尾
+  ctx.fillRect(6, 10, 2, 3);
+  return cv;
+}
+
+// ---- 天气粒子(程序化;雨丝 2x9 斜条,雪花 3x3 白点)----
+export function buildRainDrop(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 2;
+  cv.height = 9;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "rgba(190, 214, 236, 0.75)";
+  ctx.fillRect(0, 0, 2, 9);
+  ctx.fillStyle = "rgba(236, 246, 252, 0.9)";
+  ctx.fillRect(0, 0, 1, 6);
+  return cv;
+}
+
+export function buildSnowFlake(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 3;
+  cv.height = 3;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(1, 0, 1, 3);
+  ctx.fillRect(0, 1, 3, 1);
+  ctx.fillStyle = "#dfe9f4";
+  ctx.fillRect(1, 1, 1, 1);
+  return cv;
+}
