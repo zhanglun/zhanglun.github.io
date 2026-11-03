@@ -257,7 +257,7 @@ export class WorldScene extends Phaser.Scene {
     // 版本参数破缓存:素材文件曾在 dev 服务器运行中被重新生成,
     // 浏览器可能缓存了写入中途的残缺 PNG(PNG 头声明 38px、数据被截断,
     // 观感是树干/树基缺失)。素材内容变更时递增 ASSET_VERSION。
-    const v = "20261102b";
+    const v = "20261103a";
     for (const img of IMAGES) {
       const file = img.startsWith("sv-")
         ? `sv/${img.slice(3)}.png`

@@ -71,6 +71,9 @@ for (const [sp, idleFile, walkFile] of [
 // ---- 牧场动物:单表 = idle(行0-3) + walk(行4-7),拆两半 ----
 // 羊/猪/火鸡/公鸡 192x256(32px 帧);牛 384x512(64px 帧,缩半回 32px,
 // 游戏里是 2 格宽的大型牲畜)。
+// ⚠️ walk 行只有前 4 列有帧(后 2 列是透明空帧)——必须把 walk 半表裁到
+// 前 4 列,否则「列数 6 > 每向帧数 4」会让帧索引按 4 取步长时串行:
+// up 播到空帧+下行帧、left 播 up 行、right 播 left 行(实际踩坑)。
 console.log("牧场动物(farm animals):");
 for (const [sp, size] of [
   ["Sheep", 32],
@@ -93,13 +96,14 @@ for (const [sp, size] of [
     .resize(outW, outH, { kernel: "nearest" })
     .png()
     .toFile(join(OUT_ANIMAL, `${name}-idle.png`));
+  const walkW = size * 4; // walk 只取前 4 列,列数=帧数,索引步长才正确
   await sharp(src)
-    .extract({ left: 0, top: rowsH, width: meta.width, height: rowsH })
-    .resize(outW, outH, { kernel: "nearest" })
+    .extract({ left: 0, top: rowsH, width: walkW, height: rowsH })
+    .resize(Math.round(walkW / 2), outH, { kernel: "nearest" })
     .png()
     .toFile(join(OUT_ANIMAL, `${name}-walk.png`));
   console.log(
-    `  ${name}-idle/-walk.png: ${meta.width}x${meta.height} 拆半 → ${outW}x${outH}(${size / 2}px 帧,每向 ${cols} 列)`
+    `  ${name}-idle.png: ${outW}x${outH}(${size / 2}px 帧,每向 6f) / ${name}-walk.png: ${Math.round(walkW / 2)}x${outH}(每向 4f)`
   );
 }
 
