@@ -20,6 +20,7 @@ const { townData } = Astro.props;
       <button class="town-tod px" id="town-map" type="button" aria-label="开关小地图">🗺 地图</button>
       <button class="town-tod px" id="town-sound" type="button" aria-label="切换音效">🔇 静音</button>
       <button class="town-tod px" id="town-tod" type="button" aria-label="切换白天黑夜">昼夜:自动</button>
+      <button class="town-tod px" id="town-wx" type="button" aria-label="切换天气">天气:实况</button>
     </div>
   </div>
 
@@ -601,7 +602,16 @@ const { townData } = Astro.props;
 
 <script>
   import Fuse from "fuse.js";
-  import { bus, EV, TOD, setTod } from "./game/state";
+  import {
+    bus,
+    EV,
+    TOD,
+    WEATHER,
+    getRealWeather,
+    setRealWeather,
+    setTod,
+    setWeatherMode,
+  } from "./game/state";
   import { buildings, WORLD_W, WORLD_H } from "./game/world";
   import type { TownDataClient } from "./game/towndata";
 
@@ -1095,15 +1105,135 @@ const { townData } = Astro.props;
   // ---- 萤火虫收集角标:场景捉到时上报,3s 后收起 ----
   const toastEl = $("town-toast")!;
   let toastTimer = 0;
-  bus.on(EV.collect, (c: { caught: number; total: number }) => {
-    toastEl.textContent =
-      c.caught >= c.total
-        ? `✨ ${c.caught}/${c.total} 萤火虫都跟你回家了!`
-        : `✨ 捉到萤火虫 ${c.caught}/${c.total}`;
+  const toastMsg = (text: string) => {
+    toastEl.textContent = text;
     toastEl.hidden = false;
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => (toastEl.hidden = true), 3400);
+  };
+  bus.on(EV.collect, (c: { caught: number; total: number }) => {
+    toastMsg(
+      c.caught >= c.total
+        ? `✨ ${c.caught}/${c.total} 萤火虫都跟你回家了!`
+        : `✨ 捉到萤火虫 ${c.caught}/${c.total}`
+    );
   });
+
+  // ---- 天气:右上角按钮循环 实况 → 晴 → 雨 → 雪(持久化,场景窗口事件同步);
+  // 实况 = IP 定位(ipapi.co → ipwho.is 兜底)→ Open-Meteo current_weather,
+  // 2.5s 超时全程静默失败,结果 sessionStorage 会话内复用,场景读不到时
+  // 用日期哈希兜底。?weather= 参数仍为最高优先(调试用)。----
+  const wxBtn = $("town-wx") as HTMLButtonElement;
+  const wxLabel: Record<string, string> = {
+    auto: "天气:实况",
+    clear: "☀ 晴",
+    rain: "🌧 雨",
+    snow: "❄ 雪",
+  };
+  const syncWx = (v: string) => {
+    wxBtn.textContent = wxLabel[v] ?? v;
+    wxBtn.dataset.mode = v;
+  };
+  syncWx(WEATHER.mode);
+  wxBtn.addEventListener("click", () => {
+    const order: Array<"auto" | "clear" | "rain" | "snow"> = [
+      "auto",
+      "clear",
+      "rain",
+      "snow",
+    ];
+    const next = order[(order.indexOf(WEATHER.mode) + 1) % order.length];
+    setWeatherMode(next);
+    syncWx(next);
+    toastMsg(
+      next === "auto"
+        ? "天气:跟随你所在地的实况"
+        : `天气:已切换为${wxLabel[next].slice(2)}`
+    );
+  });
+
+  async function fetchJson(url: string, ms: number): Promise<unknown> {
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(() => ctrl.abort(), ms);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal });
+      if (!res.ok) throw new Error(String(res.status));
+      return await res.json();
+    } finally {
+      window.clearTimeout(timer);
+    }
+  }
+  // Open-Meteo weathercode → 镇上三态:0-50 视作晴(多云/雾也算),
+  // 51-67/80-82/95+ 雨系,71-77/85/86 雪系
+  function codeToWeather(code: number): "clear" | "rain" | "snow" {
+    if ((code >= 71 && code <= 77) || code === 85 || code === 86) return "snow";
+    if (
+      (code >= 51 && code <= 67) ||
+      (code >= 80 && code <= 82) ||
+      code >= 95
+    )
+      return "rain";
+    return "clear";
+  }
+  async function resolveRealWeather(): Promise<void> {
+    if (getRealWeather()) return; // 会话内已解析
+    try {
+      let lat: number | undefined;
+      let lon: number | undefined;
+      try {
+        const g = (await fetchJson("https://ipapi.co/json/", 2500)) as {
+          latitude?: number;
+          longitude?: number;
+        };
+        lat = g.latitude;
+        lon = g.longitude;
+      } catch {
+        const g = (await fetchJson("https://ipwho.is/", 2500)) as {
+          latitude?: number;
+          longitude?: number;
+        };
+        lat = g.latitude;
+        lon = g.longitude;
+      }
+      if (typeof lat !== "number" || typeof lon !== "number") return;
+      // 生产优先走自家 /api/weather 代理(可达性与站点一致,10 分钟缓存);
+      // dev 下 Vercel Function 不存在,fetch 会触发 Vite 把 api/*.ts 当
+      // 客户端模块转换而弹全屏报错遮罩,故 dev 直接连 Open-Meteo(通常
+      // 不通,静默回退哈希)
+      let code: number | undefined;
+      if (!import.meta.env.DEV) {
+        try {
+          const m = (await fetchJson(`/api/weather?lat=${lat}&lon=${lon}`, 4000)) as {
+            current_weather?: { weathercode?: number };
+          };
+          code = m.current_weather?.weathercode;
+        } catch {
+          // 代理失败 → 落到直连
+        }
+      }
+      if (typeof code !== "number") {
+        const m = (await fetchJson(
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
+          2500
+        )) as { current_weather?: { weathercode?: number } };
+        code = m.current_weather?.weathercode;
+      }
+      if (typeof code !== "number") return;
+      const w = codeToWeather(code);
+      setRealWeather(w);
+      if (WEATHER.mode === "auto")
+        toastMsg(
+          w === "clear"
+            ? "☀ 已同步你所在地的实况:晴"
+            : w === "rain"
+              ? "🌧 已同步你所在地的实况:雨"
+              : "❄ 已同步你所在地的实况:雪"
+        );
+    } catch {
+      // 静默失败:场景侧回退日期哈希天气
+    }
+  }
+  resolveRealWeather();
 
   // ---- 拍照模式:P 键隐藏 HUD → 画布快照 → 加像框与日期戳 → 下载 ----
   interface PhaserLike {

@@ -47,3 +47,39 @@ export function setTod(mode: TodMode) {
   // 单例在两边不共享——用 window 事件桥接,场景监听后同步自己的副本。
   window?.dispatchEvent(new CustomEvent("town:tod", { detail: mode }));
 }
+
+// ---- 天气模式:全局单例(桥接方式与 TOD 同款)----
+// auto = 实况(实况解析由 HUD 侧完成:IP 定位 → Open-Meteo,失败回退
+// 日期哈希);clear/rain/snow = 强制。实况结果存 sessionStorage
+// (town-realweather,会话内复用,不重复请求第三方)。
+export type WeatherMode = "auto" | "clear" | "rain" | "snow";
+export type WeatherKind = "clear" | "rain" | "snow";
+export const WEATHER: { mode: WeatherMode } = { mode: "auto" };
+try {
+  const saved = localStorage.getItem("town-weather");
+  if (saved === "clear" || saved === "rain" || saved === "snow")
+    WEATHER.mode = saved;
+} catch {}
+
+export function setWeatherMode(mode: WeatherMode) {
+  WEATHER.mode = mode;
+  try {
+    localStorage.setItem("town-weather", mode);
+  } catch {}
+  window?.dispatchEvent(new CustomEvent("town:weather-mode", { detail: mode }));
+}
+
+export function setRealWeather(w: WeatherKind) {
+  try {
+    sessionStorage.setItem("town-realweather", w);
+  } catch {}
+  window?.dispatchEvent(new CustomEvent("town:realweather", { detail: w }));
+}
+
+export function getRealWeather(): WeatherKind | null {
+  try {
+    const w = sessionStorage.getItem("town-realweather");
+    if (w === "clear" || w === "rain" || w === "snow") return w;
+  } catch {}
+  return null;
+}

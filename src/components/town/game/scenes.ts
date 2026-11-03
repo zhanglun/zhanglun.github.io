@@ -57,7 +57,15 @@ import {
   type BuildingDef,
   type FurnAct,
 } from "./world";
-import { bus, EV, TOD, type ListRequest } from "./state";
+import {
+  bus,
+  EV,
+  TOD,
+  WEATHER,
+  getRealWeather,
+  type ListRequest,
+  type WeatherKind,
+} from "./state";
 import { townData } from "./towndata";
 import { TownAudio } from "./audio";
 
@@ -219,9 +227,10 @@ export class WorldScene extends Phaser.Scene {
   private dayClock = 0; // 自动循环累计秒
   private dayBase = 0.12; // 初始相位(白天 0.12 / 夜晚 0.55,由本地时间决定)
   private isNight = false;
-  // 天气:按真实日期确定性决定(冬多雪,其余季节约 1/4 天数有雨),
-  // ?weather=rain|snow|clear 可强制,供调试与实机验收
-  private weather: "clear" | "rain" | "snow" = "clear";
+  // 天气:?weather= > HUD 手动选择 > 实况(IP 定位+Open-Meteo,HUD 解析)
+  // > 日期哈希,四级优先级见 resolveWeather()
+  private weather: WeatherKind = "clear";
+  private weatherFx?: Phaser.GameObjects.Particles.ParticleEmitter;
   private fireflies: {
     id: string;
     glow: Phaser.GameObjects.Image;
@@ -663,11 +672,8 @@ export class WorldScene extends Phaser.Scene {
       // ?weather=rain|snow|clear 可强制,供调试与实机验收。
       // 相机段已设好 zoom,粒子以屏幕坐标系(scrollFactor 0)铺满视口
       const wParam = new URLSearchParams(location.search).get("weather");
-      this.weather =
-        wParam === "rain" || wParam === "snow" || wParam === "clear"
-          ? wParam
-          : WorldScene.weatherOf();
-      this.buildWeatherFx();
+      this.weather = this.resolveWeather(wParam);
+      this.weatherFx = this.buildWeatherFx();
       // 首帧 updateNight 会按当前昼夜/天气把村民作息收敛到位
       this.insidePrev = false;
       // HUD 切换走 window 事件(跨模块实例);收到即同步本实例副本
@@ -678,6 +684,15 @@ export class WorldScene extends Phaser.Scene {
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () =>
         window.removeEventListener("town:tod", onTod)
       );
+      // 天气同理:HUD 手动切换 / 实况解析落地都会广播,重建雨雪粒子;
+      // 环境音与村民作息由下一帧 updateNight 按 this.weather 自动收敛
+      const onWx = () => this.syncWeatherFromBridge();
+      window.addEventListener("town:weather-mode", onWx);
+      window.addEventListener("town:realweather", onWx);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        window.removeEventListener("town:weather-mode", onWx);
+        window.removeEventListener("town:realweather", onWx);
+      });
       if (this.audio.restore()) {
         // 开启状态:无需额外操作,ensureCtx 已在 restore 中建好
       }
@@ -706,6 +721,7 @@ export class WorldScene extends Phaser.Scene {
 
   // 当天天气:日期字符串哈希 → 确定性结果(同一天全站一致,无运行时开销)。
   // 冬季(12/1/2 月)45% 下雪,其余月份 22% 下雨,其余晴。
+  // 作为实况解析失败时的兜底——两个来源都不依赖网络。
   static weatherOf(d = new Date()): WorldScene["weather"] {
     const m = d.getMonth() + 1;
     const key = `${d.getFullYear()}-${m}-${d.getDate()}`;
@@ -714,6 +730,28 @@ export class WorldScene extends Phaser.Scene {
     const r = (h % 100) / 100;
     if (m === 12 || m <= 2) return r < 0.45 ? "snow" : "clear";
     return r < 0.22 ? "rain" : "clear";
+  }
+
+  // ---- 天气来源四级优先:?weather= > HUD 手动(WEATHER.mode) >
+  // 实况(sessionStorage,HUD 侧 IP 定位 + Open-Meteo 解析) > 日期哈希 ----
+  private resolveWeather(urlParam: string | null): WeatherKind {
+    if (urlParam === "rain" || urlParam === "snow" || urlParam === "clear")
+      return urlParam;
+    if (WEATHER.mode !== "auto") return WEATHER.mode;
+    return getRealWeather() ?? WorldScene.weatherOf();
+  }
+
+  // HUD 切换天气按钮 / 实况解析落地时同步:换源重建雨雪粒子。
+  // 环境音(雨声)与村民作息由下一帧 updateNight 按 this.weather 自动收敛,
+  // 这里不用管。
+  private syncWeatherFromBridge() {
+    const next = this.resolveWeather(
+      new URLSearchParams(location.search).get("weather")
+    );
+    if (next === this.weather) return;
+    this.weather = next;
+    this.weatherFx?.destroy();
+    this.weatherFx = this.buildWeatherFx();
   }
 
   // 天气粒子:铺满相机可视区。scrollFactor 0 的坐标围绕屏幕中心缩放,
