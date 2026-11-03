@@ -422,6 +422,18 @@ const { townData } = Astro.props;
   .town-dialog[hidden] { display: none; }
   .town-prompt[hidden] { display: none; }
 
+  /* ---- 羊皮纸九宫格(CraftPix UI 包,CSS slice 5 / 2x 显示)----
+     统一替换四类纸面容器的墨线边框;原 background/border 保留作
+     加载失败的兜底,border-image fill 会盖在底色上。 */
+  .town-dialog,
+  .town-panel .card,
+  .town-diary .diary-card,
+  .list-card {
+    border: 10px solid transparent;
+    border-image: url("/town/ui/panel.png?v=20261102a") 5 fill round;
+    image-rendering: pixelated;
+  }
+
   /* ---- 列表面板 / 搜索浮层(归档、项目、标签、友链、年报、搜索共用) ---- */
   .town-list,
   .town-search {

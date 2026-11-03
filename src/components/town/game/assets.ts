@@ -29,6 +29,16 @@ export const IMAGES = [
   "sv-door",
   "gen-crate",
   "gen-barrel",
+  // 室内家具(public/town/furn/,MC Home 免费包 16px 原生裁切)
+  "furn-bookcase",
+  "furn-kitchen",
+  "furn-cabinet",
+  "furn-bed",
+  "furn-desk",
+  "furn-round",
+  "furn-alchemy",
+  "furn-shelf",
+  "furn-rug",
 ] as const;
 
 // 精灵表(public/town/):村民 idle 呼吸动画 16x32 × 24 帧 = 6f × [下/上/左/右];
@@ -96,6 +106,30 @@ export const SHEETS: SheetDef[] = [
     frameWidth: 16,
     frameHeight: 16,
   },
+  // 动物(public/town/animal/):CraftPix 免费包 32px 帧经
+  // scripts/extract-town-craftpix.mjs 缩 50% 回 16px;行序 = 下/上/左/右,
+  // 与 DIR_FRAME 一致(hare-idle / fox-walk 逐行目检确认)
+  { key: "an-hare-idle", file: "animal/hare-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-hare-walk", file: "animal/hare-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-fox-idle", file: "animal/fox-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-fox-walk", file: "animal/fox-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-deer-idle", file: "animal/deer-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-deer-walk", file: "animal/deer-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-sheep-idle", file: "animal/sheep-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-sheep-walk", file: "animal/sheep-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-piglet-idle", file: "animal/piglet-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-piglet-walk", file: "animal/piglet-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-rooster-idle", file: "animal/rooster-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-rooster-walk", file: "animal/rooster-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-turkey-idle", file: "animal/turkey-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-turkey-walk", file: "animal/turkey-walk.png", frameWidth: 16, frameHeight: 16 },
+  // 牛为 64px 帧缩半 = 32px 帧(2 格宽的大型牲畜)
+  { key: "an-bull-idle", file: "animal/bull-idle.png", frameWidth: 32, frameHeight: 32 },
+  { key: "an-bull-walk", file: "animal/bull-walk.png", frameWidth: 32, frameHeight: 32 },
+  { key: "an-boar-idle", file: "animal/boar-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-boar-walk", file: "animal/boar-walk.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-grouse-idle", file: "animal/grouse-idle.png", frameWidth: 16, frameHeight: 16 },
+  { key: "an-grouse-walk", file: "animal/grouse-walk.png", frameWidth: 16, frameHeight: 16 },
 ];
 
 // 村民(室外 NPC 与室内老板共用;待机用朝下前 6 帧)
@@ -112,6 +146,37 @@ export const DIR_FRAME: Record<"down" | "up" | "left" | "right", number> = {
   right: 3,
 };
 export const CAMPFIRE_FRAMES = 4;
+
+// ---- 动物(CraftPix)----
+// 每物种每方向的帧数;表布局:行 = 方向(DIR_FRAME 序),列 = 帧。
+// 牧场动物源自同一张 192x256 表拆半:idle = 行 0-3(6f)、walk = 行 4-7(4f)。
+export type CritterSp =
+  | "hare"
+  | "fox"
+  | "deer"
+  | "sheep"
+  | "piglet"
+  | "rooster"
+  | "turkey"
+  | "bull"
+  | "boar"
+  | "grouse";
+
+export const CRITTER_FRAMES: Record<
+  CritterSp,
+  { idle: number; walk: number }
+> = {
+  hare: { idle: 4, walk: 5 },
+  fox: { idle: 4, walk: 6 },
+  deer: { idle: 4, walk: 6 },
+  sheep: { idle: 6, walk: 4 },
+  piglet: { idle: 6, walk: 4 },
+  rooster: { idle: 6, walk: 4 },
+  turkey: { idle: 6, walk: 4 },
+  bull: { idle: 6, walk: 4 },
+  boar: { idle: 4, walk: 6 },
+  grouse: { idle: 4, walk: 6 },
+};
 
 // 史莱姆(gen/slime.png 64x16 = 4 帧静息呼吸,玩家/宠物共用)
 export const SLIME_FRAMES = 4;

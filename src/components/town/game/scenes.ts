@@ -34,6 +34,8 @@ import {
   buildWell,
   buildSpark,
   FURN_KINDS,
+  CRITTER_FRAMES,
+  type CritterSp,
 } from "./assets";
 import {
   WORLD_W,
@@ -44,6 +46,7 @@ import {
   doorOf,
   solidRowsOf,
   npcDefs,
+  critterDefs,
   TOTEM_SPOTS,
   ORB_SPOT,
   BOARD_SPOT,
@@ -135,6 +138,27 @@ function registerAnims(scene: Phaser.Scene) {
     frameRate: 8,
     repeat: -1,
   });
+  // 动物(CraftPix):idle/walk 各 4 向,行序 = DIR_FRAME
+  for (const [sp, fr] of Object.entries(CRITTER_FRAMES)) {
+    for (const [dir, off] of Object.entries(DIR_FRAME)) {
+      scene.anims.create({
+        key: `an-idle-${sp}-${dir}`,
+        frames: scene.anims.generateFrameNumbers(`an-${sp}-idle`, {
+          frames: [...Array(fr.idle).keys()].map(n => off * fr.idle + n),
+        }),
+        frameRate: 4,
+        repeat: -1,
+      });
+      scene.anims.create({
+        key: `an-walk-${sp}-${dir}`,
+        frames: scene.anims.generateFrameNumbers(`an-${sp}-walk`, {
+          frames: [...Array(fr.walk).keys()].map(n => off * fr.walk + n),
+        }),
+        frameRate: 6,
+        repeat: -1,
+      });
+    }
+  }
 }
 
 interface TouchState {
@@ -163,6 +187,15 @@ export class WorldScene extends Phaser.Scene {
     dir: "down" | "up" | "left" | "right";
   }[] = [];
   private pet!: Phaser.GameObjects.Sprite;
+  private critters: {
+    spr: Phaser.GameObjects.Sprite;
+    sp: CritterSp;
+    home: { x: number; y: number };
+    mode: "idle" | "walk";
+    timer: number;
+    dir: "down" | "up" | "left" | "right";
+    radius: number;
+  }[] = [];
   private night!: Phaser.GameObjects.Rectangle;
   private keys!: Record<string, Phaser.Input.Keyboard.Key>;
   private trees: {
@@ -215,11 +248,13 @@ export class WorldScene extends Phaser.Scene {
     // 版本参数破缓存:素材文件曾在 dev 服务器运行中被重新生成,
     // 浏览器可能缓存了写入中途的残缺 PNG(PNG 头声明 38px、数据被截断,
     // 观感是树干/树基缺失)。素材内容变更时递增 ASSET_VERSION。
-    const v = "20261025g";
+    const v = "20261102b";
     for (const img of IMAGES) {
       const file = img.startsWith("sv-")
         ? `sv/${img.slice(3)}.png`
-        : `gen/${img.slice(4)}.png`;
+        : img.startsWith("furn-")
+          ? `furn/${img.slice(5)}.png`
+          : `gen/${img.slice(4)}.png`;
       this.load.image(img, `${file}?v=${v}`);
     }
     for (const s of SHEETS) {
@@ -240,6 +275,7 @@ export class WorldScene extends Phaser.Scene {
       // 重置实例数组:场景重启会销毁旧精灵,不清空的话数组会累积
       // 已销毁对象,游走/遮挡/交互逻辑调用它们即崩(v5 实际踩坑)
       this.npcs = [];
+      this.critters = [];
       this.trees = [];
       this.plates = [];
       this.lamps = [];
@@ -542,6 +578,24 @@ export class WorldScene extends Phaser.Scene {
       this.pet.play("slime-idle");
       this.pet.setDepth(this.pet.y);
 
+      // ---- 动物(野生动物 + 东南草场):NPC 式随机游走,纯氛围 ----
+      for (const c of critterDefs) {
+        const spr = this.add
+          .sprite((c.tx + 0.5) * TILE, (c.ty + 1) * TILE, `an-${c.sp}-idle`, 0)
+          .setOrigin(0.5, 1);
+        spr.play(`an-idle-${c.sp}-down`);
+        spr.setDepth(spr.y);
+        this.critters.push({
+          spr,
+          sp: c.sp,
+          home: { x: spr.x, y: spr.y },
+          mode: "idle",
+          timer: 1 + Math.random() * 3,
+          dir: "down",
+          radius: c.radius ?? 40,
+        });
+      }
+
       // ---- 日夜 ----
       this.night = this.add
         .rectangle(0, 0, WORLD_W * TILE, WORLD_H * TILE, 0x0b1030, 0)
@@ -719,6 +773,7 @@ export class WorldScene extends Phaser.Scene {
       this.audio.footstep();
     }
     this.updateNpcs(dt);
+    this.updateCritters(dt);
     this.updatePet(dt);
     this.updateNight(dt);
     this.audio.tick(
@@ -915,6 +970,52 @@ export class WorldScene extends Phaser.Scene {
         }
       }
       n.spr.setDepth(n.spr.y);
+    }
+  }
+
+  // ---- 动物游走:与村民同款状态机,更慢更宅;idle 保持原朝向(低头吃草感) ----
+  private updateCritters(dt: number) {
+    const SPEED = 15;
+    for (const c of this.critters) {
+      c.timer -= dt;
+      if (c.mode === "idle") {
+        if (c.timer <= 0) {
+          // 单格(16px)探测防冻死:整步半径探测会在边界全向被拒(村民 v5 踩坑)
+          const dirs: Array<[("down" | "up" | "left" | "right"), number, number]> =
+            [
+              ["down", 0, 1],
+              ["up", 0, -1],
+              ["left", -1, 0],
+              ["right", 1, 0],
+            ];
+          const [dir, dx, dy] = dirs[(Math.random() * 4) | 0];
+          const nx = c.spr.x + dx * 16;
+          const ny = c.spr.y + dy * 16;
+          if (
+            Math.abs(nx - c.home.x) <= c.radius &&
+            Math.abs(ny - c.home.y) <= c.radius * 0.8
+          ) {
+            c.dir = dir;
+            c.mode = "walk";
+            c.timer = 0.6 + Math.random() * 1.2;
+            c.spr.play(`an-walk-${c.sp}-${dir}`);
+          } else {
+            c.timer = 1 + Math.random() * 2;
+          }
+        }
+      } else {
+        const v = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] }[
+          c.dir
+        ];
+        c.spr.x += v[0] * SPEED * dt;
+        c.spr.y += v[1] * SPEED * dt;
+        if (c.timer <= 0) {
+          c.mode = "idle";
+          c.timer = 2 + Math.random() * 5;
+          c.spr.play(`an-idle-${c.sp}-${c.dir}`);
+        }
+      }
+      c.spr.setDepth(c.spr.y);
     }
   }
 
@@ -1338,17 +1439,20 @@ export class InteriorScene extends Phaser.Scene {
     cv.draw("sv-door", (w >> 1) * TILE, TILE);
 
     for (const f of this.b.interior.furniture) {
-      // crate/barrel 用 extract 生成的独立文件,其余走程序化家具纹理
-      const tex =
-        f.img === "crate"
+      // furn-* 用 MC Home 裁切件,crate/barrel 用 extract 生成的独立文件,
+      // 其余走程序化家具纹理;多格家具锚定整段中底,flat 地毯压在地板层
+      const span = f.w ?? 1;
+      const tex = f.img.startsWith("furn-")
+        ? f.img
+        : f.img === "crate"
           ? "gen-crate"
           : f.img === "barrel"
             ? "gen-barrel"
             : `gen-furn-${f.img}`;
       const img = this.add
-        .image(f.x * TILE + TILE / 2, (f.y + 1) * TILE, tex)
+        .image((f.x + span / 2) * TILE, (f.y + 1) * TILE, tex)
         .setOrigin(0.5, 1);
-      img.setDepth((f.y + 1) * TILE);
+      img.setDepth(f.flat ? 1 : (f.y + 1) * TILE);
     }
 
     // 日记本(书屋内):小件道具,可翻
@@ -1488,13 +1592,19 @@ export class InteriorScene extends Phaser.Scene {
     dx = Phaser.Math.Clamp(dx, -1, 1);
     dy = Phaser.Math.Clamp(dy, -1, 1);
     const len = Math.hypot(dx, dy) || 1;
-    // 室内碰撞：一圈墙 + 家具格
+    // 室内碰撞：一圈墙 + 家具格(flat 地毯可踩,多格家具整段挡)
     const solid = (px: number, py: number) => {
       const tx = Math.floor(px / TILE);
       const ty = Math.floor(py / TILE);
       const { w, h } = this.b.interior;
       if (tx < 0 || ty < 2 || tx >= w || ty >= h) return true;
-      return this.b.interior.furniture.some(f => f.x === tx && f.y === ty);
+      return this.b.interior.furniture.some(
+        f =>
+          !f.flat &&
+          ty === f.y &&
+          tx >= f.x &&
+          tx < f.x + (f.w ?? 1)
+      );
     };
     const vx = (dx / len) * SPEED * dt;
     const vy = (dy / len) * SPEED * dt;
@@ -1548,7 +1658,9 @@ export class InteriorScene extends Phaser.Scene {
     }
     let archiveN = 0;
     for (const f of this.b.interior.furniture) {
-      const fx = f.x * TILE + TILE / 2;
+      if (f.flat) continue; // 地毯类纯装饰,不进交互候选
+      const fw = f.w ?? 1;
+      const fx = (f.x + fw / 2) * TILE;
       const fy = (f.y + 1) * TILE;
       if (f.act) {
         const kind = f.act;

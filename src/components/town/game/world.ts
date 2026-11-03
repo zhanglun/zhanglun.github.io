@@ -1,7 +1,10 @@
 // 小镇世界数据：程序化生成地面与碰撞，建筑/装饰/NPC 全部数据驱动。
 // 坐标一律为 tile 格；像素坐标在场景里 × TILE。
 // 建筑为 Serene Village 成品房屋 sprite（scripts/extract-town-sv.mjs 裁切），
-// 散件为 SV 图块，史莱姆与室内为程序化生成。
+// 散件为 SV 图块，史莱姆与室内为程序化生成，
+// 动物为 CraftPix 免费包（scripts/extract-town-craftpix.mjs 裁切缩半）。
+
+import type { CritterSp } from "./assets";
 
 export const WORLD_W = 64;
 export const WORLD_H = 40;
@@ -21,6 +24,9 @@ export interface BuildingDef {
 
 // ⚠️ 摆放家具时勿占用「门柱列」(w>>1) 的 y=2..4 行——那是出门通道,
 // 堵住会导致进屋后无法退出(v5 实际踩坑)。
+// furn-* = MC Home 免费包裁切件(public/town/furn/,16px 原生);
+// w = 占格宽(多格家具碰撞/交互锚/渲染都按整段计),flat = 平铺装饰
+// (不挡路不交互,压在地板层)。
 export type FurnImg =
   | "crate"
   | "barrel"
@@ -30,7 +36,16 @@ export type FurnImg =
   | "stove"
   | "bed"
   | "mailrack"
-  | "table";
+  | "table"
+  | "furn-bookcase"
+  | "furn-kitchen"
+  | "furn-cabinet"
+  | "furn-bed"
+  | "furn-desk"
+  | "furn-round"
+  | "furn-alchemy"
+  | "furn-shelf"
+  | "furn-rug";
 
 // 家具/道具挂载的联动动作:场景按 E 时 emit EV.list,HUD 用 town-data 解析渲染。
 // 无 act 的家具保持「看看这个」读一句文案的旧行为。
@@ -44,7 +59,14 @@ export type FurnAct =
 export interface InteriorDef {
   w: number;
   h: number;
-  furniture: { img: FurnImg; x: number; y: number; act?: FurnAct }[];
+  furniture: {
+    img: FurnImg;
+    x: number;
+    y: number;
+    act?: FurnAct;
+    w?: number; // 占格宽(默认 1)
+    flat?: boolean; // 平铺装饰:不挡路、不进交互候选
+  }[];
   motto: string; // 室内墙上格言(进门自动显示于面板副语)
   npc?: { name: string; sheet: string; text: string };
   diary?: { x: number; y: number }; // 日记本所在格(走近可翻,内容取自最新文章)
@@ -71,7 +93,7 @@ export interface NpcDef {
   nightLines?: string[]; // 夜间(游戏时段 0.42-0.78)优先说的台词
 }
 
-// 室内家具「可看」文案(按 E 读一句)
+// 室内家具「可看」文案(按 E 读一句;带 act 的家具出面板不走这里)
 export const FURN_LOOKS: Record<FurnImg, string> = {
   crate: "箱子没上锁，装的都是零碎。",
   barrel: "敲一敲，咚咚响，是空的。",
@@ -82,6 +104,15 @@ export const FURN_LOOKS: Record<FurnImg, string> = {
   bed: "被子叠得方方正正，枕头有太阳的味道。",
   mailrack: "几个格子空着，信在路上。",
   table: "桌上放着一瓶没盖盖的墨水。",
+  "furn-bookcase": "书脊排得整整齐齐，最新一本还没归位。",
+  "furn-kitchen": "锅碗瓢盆挂了一墙，汤勺还在滴水。",
+  "furn-cabinet": "柜门推得紧紧的，信件都分好了类。",
+  "furn-bed": "被子叠得方方正正，枕头有太阳的味道。",
+  "furn-desk": "台钳夹着半成品，刨花还没来得及扫。",
+  "furn-round": "圆桌上煨着茶壶，杯子倒扣着晾。",
+  "furn-alchemy": "瓶瓶罐罐排成一排，标签都是手写的。",
+  "furn-shelf": "瓶瓶罐罐摆了一排，毛巾晾在架上。",
+  "furn-rug": "地毯织得厚实，踩上去软软的。",
 };
 
 // 稳定伪随机（同一种子每次生成同一张镇子）
@@ -112,14 +143,14 @@ export const buildings: BuildingDef[] = [
       motto: "写作是把记忆存进镇子的档案室。",
       diary: { x: 11, y: 3 },
       furniture: [
-        // 六排书架 = shelves[0..5](最近 5 个年份 + 「更早」),按数组顺序对应
-        { img: "bookshelf", x: 2, y: 2, act: "archive" },
-        { img: "bookshelf", x: 3, y: 2, act: "archive" },
-        { img: "bookshelf", x: 5, y: 2, act: "archive" },
-        { img: "bookshelf", x: 7, y: 2, act: "archive" },
-        { img: "bookshelf", x: 9, y: 2, act: "archive" },
-        { img: "bookshelf", x: 10, y: 2, act: "archive" },
-        { img: "table", x: 4, y: 4 },
+        // 六面书架 = shelves[0..5](最近 5 个年份 + 「更早」),按数组顺序对应
+        { img: "furn-bookcase", x: 0, y: 2, w: 2, act: "archive" },
+        { img: "furn-bookcase", x: 2, y: 2, w: 2, act: "archive" },
+        { img: "furn-bookcase", x: 4, y: 2, w: 2, act: "archive" },
+        { img: "furn-bookcase", x: 7, y: 2, w: 2, act: "archive" },
+        { img: "furn-bookcase", x: 9, y: 2, w: 2, act: "archive" },
+        { img: "furn-bookcase", x: 11, y: 2, w: 2, act: "archive" },
+        { img: "furn-round", x: 4, y: 5, w: 2 },
         { img: "crate", x: 11, y: 6 },
       ],
     },
@@ -139,12 +170,12 @@ export const buildings: BuildingDef[] = [
       h: 9,
       motto: "慢工出细活，做一件是一件。",
       furniture: [
-        { img: "workbench", x: 2, y: 2, act: "projects" },
-        { img: "workbench", x: 4, y: 2, act: "projects" },
-        { img: "crate", x: 9, y: 2 },
-        { img: "crate", x: 10, y: 2 },
-        { img: "barrel", x: 10, y: 4 },
-        { img: "table", x: 8, y: 4 },
+        { img: "furn-desk", x: 1, y: 2, w: 2, act: "projects" },
+        { img: "furn-desk", x: 4, y: 2, w: 2, act: "projects" },
+        { img: "furn-alchemy", x: 8, y: 2, w: 2 },
+        { img: "crate", x: 11, y: 2 },
+        { img: "barrel", x: 11, y: 4 },
+        { img: "furn-round", x: 9, y: 5, w: 2 },
       ],
     },
   },
@@ -163,10 +194,9 @@ export const buildings: BuildingDef[] = [
       h: 9,
       motto: "每一封信都会到，只是有的走得慢。",
       furniture: [
-        { img: "mailrack", x: 2, y: 2, act: "annual" },
-        { img: "mailrack", x: 3, y: 2 },
-        { img: "counter", x: 8, y: 2, act: "guestbook" },
-        { img: "counter", x: 9, y: 2 },
+        // 高柜 59px 偏高,放 y=3 让它完整立在墙边(顶部不被墙带截断)
+        { img: "furn-cabinet", x: 2, y: 3, w: 3, act: "annual" },
+        { img: "furn-desk", x: 8, y: 2, w: 2, act: "guestbook" },
         { img: "barrel", x: 11, y: 3 },
       ],
     },
@@ -185,12 +215,9 @@ export const buildings: BuildingDef[] = [
       h: 9,
       motto: "今日特供：烤胡萝卜浓汤。",
       furniture: [
-        { img: "stove", x: 2, y: 2 },
-        { img: "counter", x: 3, y: 2 },
-        { img: "counter", x: 4, y: 2 },
-        { img: "counter", x: 5, y: 2 },
-        { img: "table", x: 8, y: 4 },
-        { img: "table", x: 10, y: 5 },
+        { img: "furn-kitchen", x: 2, y: 2, w: 3 },
+        { img: "furn-rug", x: 7, y: 6, w: 3, flat: true },
+        { img: "furn-round", x: 8, y: 5, w: 2 },
         { img: "barrel", x: 11, y: 2 },
       ],
       npc: {
@@ -214,9 +241,10 @@ export const buildings: BuildingDef[] = [
       h: 8,
       motto: "欢迎回家。炉上有热水，床随你躺。",
       furniture: [
-        { img: "bed", x: 2, y: 2, act: "about" },
+        { img: "furn-shelf", x: 0, y: 2, w: 2 },
+        { img: "furn-bed", x: 2, y: 3, w: 2, act: "about" },
         { img: "stove", x: 8, y: 2 },
-        { img: "table", x: 7, y: 4 },
+        { img: "furn-round", x: 6, y: 4, w: 2 },
         { img: "crate", x: 8, y: 5 },
       ],
     },
@@ -579,4 +607,33 @@ export const npcDefs: NpcDef[] = [
     ],
     nightLines: ["夜里赶路小心，路灯只照到路口。"],
   },
+];
+
+// ---- 动物(CraftPix 免费包):野生动物散在林缘,牧场动物圈在东南树丛旁 ----
+// 场景里做 NPC 式随机游走(纯氛围,不参与交互/对话/碰撞);
+// tx/ty = 安家格,须为开阔草地;radius = 游走半径 px(默认 40)。
+export interface CritterDef {
+  sp: CritterSp;
+  tx: number;
+  ty: number;
+  radius?: number;
+}
+
+export const critterDefs: CritterDef[] = [
+  // 野生动物
+  { sp: "hare", tx: 14, ty: 14 },
+  { sp: "hare", tx: 20, ty: 30 },
+  { sp: "fox", tx: 45, ty: 33 },
+  { sp: "deer", tx: 50, ty: 12, radius: 64 },
+  { sp: "deer", tx: 22, ty: 5, radius: 64 },
+  // 东南树丛旁的草场
+  { sp: "sheep", tx: 51, ty: 35 },
+  { sp: "sheep", tx: 55, ty: 35 },
+  { sp: "piglet", tx: 53, ty: 34 },
+  { sp: "rooster", tx: 57, ty: 33 },
+  { sp: "turkey", tx: 56, ty: 33 },
+  { sp: "bull", tx: 53, ty: 36, radius: 56 },
+  // 西南林缘(野猪)与西北树丛下(松鸡)
+  { sp: "boar", tx: 10, ty: 34 },
+  { sp: "grouse", tx: 6, ty: 15 },
 ];

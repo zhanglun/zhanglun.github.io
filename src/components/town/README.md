@@ -14,6 +14,8 @@
 (HUD「昼夜」按钮循环切换,持久化 town-daycycle);
 夜幕降临时路灯光晕点亮、NPC 说夜间专属台词。
 村民游走:在 home 半径内随机走动(walk 动画 4 向各 6 帧);
+动物(2026-11-02):野生动物(兔/狐/鹿)散在林缘、牧场动物(羊/猪/公鸡)
+圈在东南树丛旁,NPC 式随机游走纯氛围,无作息不参与交互;
 **作息**:入夜或下雨径直走回出生点淡出进屋(雨天镇长也回),天亮雨停复出。
 天气:按真实日期确定性决定(冬 45% 雪、其余月 22% 雨),
 `?weather=rain|snow|clear` 可强制;雨雪粒子铺满相机可视区。
@@ -43,6 +45,15 @@ localStorage 存档、工具栏与相关 HUD（早期从 pixel.xyz 逆向带来�
   - 世界图块/建筑：**Serene Village revamped**（LimeZu，**CC-BY 4.0**），
     `scripts/extract-town-sv.mjs` 按连通域包围盒从原 tileset 裁切成独立 PNG
   - 村民：**Modern Interiors Free**（LimeZu，免费版仅非商业）人形 idle 动画
+  - 动物（2026-11-02）：**CraftPix 免费包**野生动物（兔/狐/鹿/野猪/黑松鸡）+
+    牧场动物（羊/猪/公鸡/火鸡/牛），`scripts/extract-town-craftpix.mjs`
+    把 32px 帧缩半回 16px（牛 64px 帧缩半回 32px）；数据驱动
+    （`world.ts critterDefs`），NPC 式随机游走、纯氛围
+  - 室内家具（2026-11-02）：CraftPix **MC Home** 免费包 9 件（书架/厨房
+    置物架/高柜/床/台钳工作台/圆桌/炼金台/洗漱角/地毯），16px 原生直裁；
+    家具支持 `w`（多格占位）与 `flat`（平铺装饰不挡路）字段
+  - HUD 纸面容器：CraftPix **Basic Pixel Art UI** 素面面板 48x40 作
+    border-image 九宫格（`TownGame.astro` 羊皮纸规则）
   - 史莱姆（玩家/宠物）：本站原创，`scripts/make-slime.mjs` 程序化绘制
   - 室内墙面/木地板：运行时程序化生成（`buildIndoorVariants`）
 - **模块**：
@@ -108,6 +119,10 @@ src/pages/town.astro       getCollection → getSortedPosts → buildTownData(�
   （`public/town/ASSETS.md` 即署名）。取代 Mystic Woods 的主因。
 - **Modern Interiors Free（char/）**：免费版 LICENSE 为**仅非商业**。
   本站为个人非商业博客；若站点引入广告等商业行为，需购买完整版或移除该目录。
+- **CraftPix 免费包（animal/、ui/）**：可商用、免署名，但**禁止再分发源
+  文件**（公开仓库与 MI 免费版同属灰区，商业化盘点时一并处理），
+  且禁止用于训练 AI 模型。调研备选与未接入包见
+  memory「craftpix asset survey」与 `~/Downloads/素材/`。
 - **程序化生成纹理**（`public/town/gen/`、室内）：本站原创，无授权限制。
 
 ## 已移除的素材（及原因）
@@ -160,6 +175,14 @@ src/pages/town.astro       getCollection → getSortedPosts → buildTownData(�
    （`town-shadow`，无模糊），与 ARA 项目页「硬边像素接触阴影」规则一致。
    （注：排查「树被截断」时先后误诊过渲染 bug 与色彩融合，真正根因是
    第 6 条的树篱拼接怪裁切 + 浏览器缓存了写入中途的残缺 PNG，见第 9 条。）
+9. **CraftPix 动物表布局（11-02 目检确认）**：狩猎动物每动物每动画一张
+   表（Idle 128x128 / Walk 160-192x128），**行 = 方向，序 = 下/上/左/右**
+   （与 MI 村民 DIR_FRAME 一致，hare-idle/fox-walk 逐行放大目检）；
+   牧场动物是单张 192x256 复合表：行 0-3 = idle（6 帧）+ 行 4-7 = walk
+   （4 帧），拆半裁切即可。32px 帧缩 50% nearest 回 16px 与 SV 密度对齐。
+10. **CraftPix Main_tiles 的 UI 面板不能用 trim 裁**——素面面板自带烘焙
+    阴影，与右侧邻件在 alpha 上粘连，`sharp.trim()` 收不动；须按 8x 放大
+    目测 + alpha 直方定界后硬切（panel = 208,197 48x40，勿凭直觉改）。
 
 ## 关键踩坑记录（运行时）
 
@@ -213,7 +236,10 @@ src/pages/town.astro       getCollection → getSortedPosts → buildTownData(�
   交互提示气泡、首次引导、`?go=` 深链、手柄、天气与季节、环境音、
   村民作息（夜间/雨天回屋）、真实时钟档、每日一句、口播新文、新篇
   气泡、萤火虫收集、许愿井、拍照模式、节令烟花、留言簿。
-- 可继续迭代：室内装饰丰富度、NPC 对话扩充、节令装饰（春节灯笼等）。
+- 可继续迭代：室内装饰丰富度、NPC 对话扩充、节令装饰（春节灯笼等）、
+  CraftPix 剩余素材接入（猫跳动画彩蛋、飞鸟氛围、16x16 图标 120 枚）。
+  ⚠️ MC Home 的 cat_animation 是单条跳跃弧线、bird_fly 过碎，均不适合
+  常规接入，勿再试。
 - `src/data/guestbook.ts` 的 repoIssue 指向仓库 issues,若仓库转私有需换。
   (咖啡馆友链村民功能 2026-11-02 上线当日移除——用户不要占位友链数据;
   若日后恢复,参考第一批提交 915cf3a 的 friends.ts + InteriorScene 方案。)
