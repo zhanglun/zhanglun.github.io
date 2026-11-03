@@ -2104,8 +2104,16 @@ export function startTown(parent: HTMLElement): Phaser.Game {
     input: { gamepad: true },
     scale: {
       mode: Phaser.Scale.RESIZE,
-      width: parent.clientWidth,
-      height: parent.clientHeight,
+      // 容器塌成 0(面板折叠/最小化/布局未就绪)时,RESIZE 会把画布与
+      // 渲染目标缩到 0x0——WebGL 建 0 尺寸帧缓冲抛
+      // "Framebuffer status: Incomplete Attachment" 且游戏黑屏,
+      // 故钳制最小尺寸(实际踩坑)
+      width: Math.max(320, parent.clientWidth),
+      height: Math.max(240, parent.clientHeight),
+      min: {
+        width: 320,
+        height: 240,
+      },
     },
     scene: [WorldScene, InteriorScene],
   });
