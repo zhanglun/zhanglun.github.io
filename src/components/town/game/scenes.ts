@@ -86,6 +86,15 @@ function bindBus(scene: Phaser.Scene, ev: string, fn: (...a: never[]) => void) {
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => bus.off(ev, fn));
 }
 
+// 关闭全部 HUD 浮层(门牌面板/列表面板/搜索)。E 键关弹窗时必须三类都发——
+// 只发 panel null 会让 list/search 留在屏上,暗遮罩盖住画布像卡死(实际踩坑:
+// 书屋进门按 E 误触书架弹出归档列表,按 E 关不掉,角色看起来不能动)。
+function closeOverlays() {
+  bus.emit(EV.panel, null);
+  bus.emit(EV.list, null);
+  bus.emit(EV.search, false);
+}
+
 // 纹理取一个像素的颜色（地面变体取色用）
 function pixelOf(
   scene: Phaser.Scene,
@@ -254,6 +263,10 @@ export class WorldScene extends Phaser.Scene {
 
   preload() {
     this.load.setPath("/town/");
+    // 加载进度 → HUD 开场屏的像素进度条(window 事件,跨模块实例)
+    this.load.on("progress", (v: number) => {
+      window.dispatchEvent(new CustomEvent("town:loadprogress", { detail: v }));
+    });
     // 版本参数破缓存:素材文件曾在 dev 服务器运行中被重新生成,
     // 浏览器可能缓存了写入中途的残缺 PNG(PNG 头声明 38px、数据被截断,
     // 观感是树干/树基缺失)。素材内容变更时递增 ASSET_VERSION。
@@ -1399,7 +1412,11 @@ export class WorldScene extends Phaser.Scene {
   private current: { label: string; act: () => void } | null = null;
 
   private interact() {
-    if (modalOpen) return;
+    if (modalOpen) {
+      closeOverlays();
+      modalOpen = false;
+      return;
+    }
     this.current = this.nearestInteract();
     if (this.current) this.current.act();
   }
@@ -1436,6 +1453,8 @@ export class InteriorScene extends Phaser.Scene {
   private lastPrompt = "";
   private current: { label: string; act: () => void } | null = null;
   private exitX = 0;
+  // 进门宽限期:格言展示期间(约 3.5s)按 E 只关格言不触发家具交互
+  private entryGrace = 0;
   private hint!: Phaser.GameObjects.Image;
   private padAWasDown = false;
 
@@ -1530,6 +1549,7 @@ export class InteriorScene extends Phaser.Scene {
     this.scale.on(Phaser.Scale.Events.RESIZE, this.applyZoom, this);
     cam.fadeIn(260, 10, 12, 20);
     // 进门先看屋名牌:格言以主人语气打招呼(随淡入一起出现)
+    this.entryGrace = 3.5;
     bus.emit(EV.dialog, { name: this.b.name, text: this.b.interior.motto });
 
     const kb = this.input.keyboard!;
@@ -1599,6 +1619,7 @@ export class InteriorScene extends Phaser.Scene {
 
   update(_time: number, delta: number) {
     const dt = delta / 1000;
+    this.entryGrace = Math.max(0, this.entryGrace - dt);
     const k = this.keys;
     let dx = 0;
     let dy = 0;
@@ -1730,10 +1751,17 @@ export class InteriorScene extends Phaser.Scene {
   }
 
   private interact() {
-    // 面板打开时按 E/空格/ESC = 关闭面板（等价点「回到小镇」）
+    // 面板/列表/搜索开着时按 E/空格 = 全部关掉(等价点「合上/回到小镇」)
     if (modalOpen) {
+      closeOverlays();
       modalOpen = false;
-      bus.emit(EV.panel, null);
+      return;
+    }
+    // 进门格言还在展示期时,E 只负责关格言——出生点往往就在门口家具的
+    // 交互半径内(书屋出生点够到书架),此时按 E 会误触弹出归档列表
+    if (this.entryGrace > 0) {
+      this.entryGrace = 0;
+      bus.emit(EV.dialog, null);
       return;
     }
     if (this.current) this.current.act();

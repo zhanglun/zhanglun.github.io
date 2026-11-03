@@ -236,6 +236,19 @@ src/pages/town.astro       getCollection → getSortedPosts → buildTownData(�
     `createElementNS` 建的节点没有该属性。小地图文字因此以默认
     16px 巨字渲染盖住整张图。解法：JS 节点样式写成正内联属性，
     或选择器走 `:global()`。
+11. **HUD 浮层的关闭必须走统一 closeOverlays()（11-03 踩坑）**——
+    列表/搜索/面板各自的 HUD 处理器起初只响应「打开」负载，
+    场景按 E 时只广播 `EV.panel null` → 归档列表永远留在屏上，
+    暗遮罩盖住画布，观感就是「弹窗关不掉、角色不能动」。修法：
+    `closeOverlays()` 三连发（panel null / list null / search false），
+    HUD 三个处理器都要响应关闭信号；另加进门宽限期（entryGrace
+    3.5s），期内按 E 只关进门格言——出生点常在家具交互半径内
+    （书屋出生点够到书架），不设防会误触弹出归档列表。
+12. **列表/日记条目样式吃不到作用域（踩坑 10 的 DOM 版，11-03）**——
+    条目由 `innerHTML` 生成（itemHtml/diaryBody），同样没有
+    `[data-astro-cid]`，`.list-items a` 这类规则从未命中过，
+    条目一直是浏览器默认裸链接的密集样式。解法：条目级选择器
+    全部走 `:global()`（.list-items :global(a) 等）。
 
 ## 已知边界与后续方向
 

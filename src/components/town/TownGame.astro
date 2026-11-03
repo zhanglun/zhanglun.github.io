@@ -115,9 +115,16 @@ const { townData } = Astro.props;
   <div class="town-intro px" id="town-intro">
     <div class="intro-card">
       <h2>小圆镇</h2>
-      <p>方向键 / WASD 走动 · E 进门、说话</p>
-      <p class="dim">这就是博客的小镇形态 · 手机用屏幕按键</p>
-      <button class="px start" id="town-start" type="button">进入小镇</button>
+      <div class="intro-play" id="intro-play">
+        <p>方向键 / WASD 走动 · E 进门、说话</p>
+        <p class="dim">这就是博客的小镇形态 · 手机用屏幕按键</p>
+        <button class="px start" id="town-start" type="button">进入小镇</button>
+      </div>
+      <div class="intro-loading" id="intro-loading" hidden>
+        <p class="load-tip" id="load-tip">正在铺路…</p>
+        <div class="load-bar"><div class="load-fill" id="load-fill"></div></div>
+        <p class="load-pct" id="load-pct">0%</p>
+      </div>
     </div>
   </div>
 </div>
@@ -347,6 +354,37 @@ const { townData } = Astro.props;
     padding: 8px 22px;
     cursor: pointer;
   }
+  /* ---- 加载画面:像素砖纹进度条 + 轮换提示(游戏式,覆盖进镇等待)---- */
+  .intro-loading { min-height: 78px; }
+  .load-tip {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .load-bar {
+    width: 224px;
+    height: 14px;
+    margin: 10px auto 6px;
+    border: 2px solid #fffdf5;
+    background: rgb(255 253 245 / 0.18);
+    padding: 2px;
+    box-sizing: border-box;
+  }
+  .load-fill {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(
+      90deg,
+      #d0122a 0 8px,
+      #e04a3a 8px 16px
+    );
+    transition: width 120ms steps(6, end);
+  }
+  .load-pct {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.8;
+  }
   .town-diary {
     position: absolute;
     inset: 0;
@@ -378,23 +416,24 @@ const { townData } = Astro.props;
   }
   .town-diary .page-ind { font-size: 12px; color: #55585f; }
   .town-diary .diary-body { min-height: 120px; }
-  .town-diary .entry-date {
+  /* ⚠️ 日记条目由 JS innerHTML 生成,须 :global() 才命中(踩坑 10) */
+  .town-diary :global(.entry-date) {
     margin: 0 0 4px;
     font-size: 12px;
     color: #d0122a;
   }
-  .town-diary .entry-title {
+  .town-diary :global(.entry-title) {
     margin: 0 0 8px;
     font-size: 17px;
     line-height: 1.45;
   }
-  .town-diary .entry-desc {
+  .town-diary :global(.entry-desc) {
     margin: 0;
     font-size: 13.5px;
     line-height: 1.7;
     color: #44444a;
   }
-  .town-diary .entry-tags {
+  .town-diary :global(.entry-tags) {
     margin: 8px 0 0;
     font-size: 12px;
     color: #8a8478;
@@ -429,6 +468,7 @@ const { townData } = Astro.props;
   .town-dialog,
   .town-panel .card,
   .town-diary .diary-card,
+  .map-card,
   .list-card {
     border: 10px solid transparent;
     border-image: url("/town/ui/panel.png?v=20261102a") 5 fill round;
@@ -453,7 +493,6 @@ const { townData } = Astro.props;
     display: flex;
     flex-direction: column;
     background: #fffdf5;
-    border: 2px solid #17120e;
     box-shadow: 6px 6px 0 rgb(23 18 14 / 0.6);
     padding: 16px 18px 14px;
   }
@@ -482,33 +521,46 @@ const { townData } = Astro.props;
     overflow-y: auto;
     min-height: 60px;
   }
-  .list-items a {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 7px 6px;
-    border-bottom: 1px dashed #d8d3c0;
+  /* ⚠️ 条目由 JS innerHTML 生成,无 Astro 作用域属性,必须 :global() 才命中
+     (踩坑 10 同款);块状布局:标题一行、日期/摘要另起,留呼吸感 */
+  .list-items :global(a) {
+    display: block;
+    padding: 9px 10px;
+    margin: 0 0 6px;
+    background: rgb(255 253 245 / 0.6);
+    border: 1px solid rgb(216 211 192 / 0.9);
     text-decoration: none;
     color: #17120e;
   }
-  .list-items a:hover { background: #f4ecd8; }
-  .list-items .li-main { display: block; min-width: 0; }
-  .list-items .li-t {
+  .list-items :global(a:hover) {
+    background: #f4ecd8;
+    border-color: #d0122a;
+  }
+  .list-items :global(.li-main) { display: block; min-width: 0; }
+  .list-items :global(.li-t) {
     display: block;
     font-size: 13.5px;
-    line-height: 1.5;
+    line-height: 1.55;
   }
-  .list-items .li-d {
+  .list-items :global(.li-d) {
     display: block;
     font-size: 12px;
     color: #55585f;
-    margin-top: 2px;
+    margin-top: 4px;
+    line-height: 1.6;
   }
-  .list-items .li-m {
+  .list-items :global(.li-m) {
+    display: block;
     font-size: 11.5px;
     color: #8a8478;
-    white-space: nowrap;
+    margin-top: 4px;
+  }
+  .list-items :global(.empty) {
+    text-align: center;
+    color: #8a8478;
+    font-size: 13px;
+    padding: 18px 0;
+    margin: 0;
   }
   .list-items .empty {
     text-align: center;
@@ -553,9 +605,8 @@ const { townData } = Astro.props;
   .map-card {
     width: min(340px, calc(100vw - 24px));
     background: #fffdf5;
-    border: 2px solid #17120e;
     box-shadow: 4px 4px 0 rgb(23 18 14 / 0.6);
-    padding: 10px 12px;
+    padding: 8px 10px;
   }
   .map-card header {
     display: flex;
@@ -884,6 +935,7 @@ const { townData } = Astro.props;
   };
   bus.on(EV.list, (r: { kind: string; index?: number } | null) => {
     if (r) openList(r);
+    else listEl.hidden = true; // 场景侧关闭信号(E 关弹窗广播)
   });
   $("list-close")!.addEventListener("click", closeList);
 
@@ -919,7 +971,10 @@ const { townData } = Astro.props;
     bus.emit(EV.search, false);
   };
   bus.on(EV.search, (open: boolean) => {
-    if (!open) return;
+    if (!open) {
+      searchEl.hidden = true; // 场景侧关闭信号(E 关弹窗广播)
+      return;
+    }
     searchEl.hidden = false;
     searchInput.value = "";
     renderSearch();
@@ -1038,46 +1093,114 @@ const { townData } = Astro.props;
     mapSvg.setAttribute("viewBox", `0 0 ${WORLD_W} ${WORLD_H}`);
     mapSvg.replaceChildren();
     const add = (el: SVGElement) => mapSvg.appendChild(el);
+    // 草地底色 + 确定性深浅草斑(同一种子每次画同一张图)
     add(svgEl("rect", { x: 0, y: 0, width: WORLD_W, height: WORLD_H, fill: "#8fb47e" }));
+    let seed = 20261103;
+    const rnd = () => {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+    for (let i = 0; i < 90; i++) {
+      add(svgEl("rect", {
+        x: Math.floor(rnd() * WORLD_W),
+        y: Math.floor(rnd() * WORLD_H),
+        width: 1 + Math.floor(rnd() * 2),
+        height: 1,
+        fill: rnd() > 0.5 ? "#86aa76" : "#9abc8a",
+      }));
+    }
+    // 边界树林(与游戏世界边林对应)
+    for (let x = 1; x < WORLD_W - 1; x += 2) {
+      for (const y of [1.4, WORLD_H - 1.6]) {
+        add(svgEl("circle", { cx: x + rnd() * 0.6, cy: y + rnd() * 0.4, r: 1.1, fill: "#4e7a44", stroke: "#3d663b", "stroke-width": 0.25 }));
+      }
+    }
+    for (let y = 4; y < WORLD_H - 4; y += 3) {
+      for (const x of [1.4, WORLD_W - 1.6]) {
+        add(svgEl("circle", { cx: x + rnd() * 0.4, cy: y + rnd() * 0.6, r: 1.1, fill: "#4e7a44", stroke: "#3d663b", "stroke-width": 0.25 }));
+      }
+    }
     // 街道与广场(与 world.buildGround 同布局)
     add(svgEl("rect", { x: 0, y: 20, width: WORLD_W, height: 2, fill: "#cfa76f" }));
     add(svgEl("rect", { x: 30, y: 0, width: 2, height: WORLD_H, fill: "#cfa76f" }));
     add(svgEl("rect", { x: 25, y: 16, width: 13, height: 10, fill: "#cfa76f" }));
-    // 建筑与名字
+    // 两处树丛
+    for (const [gx, gy] of [[4, 12], [53, 32]]) {
+      add(svgEl("rect", { x: gx, y: gy, width: 5, height: 3, rx: 1, fill: "#5e8c61", stroke: "#3d663b", "stroke-width": 0.25 }));
+    }
+    // 建筑:SV 屋顶配色 + 木身 + 屋底白字名
+    const ROOFS: Record<string, string> = {
+      blog: "#b5493e",
+      projects: "#5e8c61",
+      about: "#5b7ea6",
+      cafe: "#c98a4b",
+      home: "#7a9464",
+    };
     for (const b of buildings) {
-      const r = svgEl("rect", {
+      const roofH = Math.max(1, Math.round(b.h * 0.55));
+      add(svgEl("rect", {
         x: b.tx,
         y: b.ty,
         width: b.w,
         height: b.h,
         fill: "#a4703f",
         stroke: "#17120e",
-        "stroke-width": 0.4,
+        "stroke-width": 0.35,
         "data-id": b.id,
+      }));
+      add(svgEl("rect", {
+        x: b.tx + 0.2,
+        y: b.ty + 0.2,
+        width: b.w - 0.4,
+        height: roofH,
+        fill: ROOFS[b.id] ?? "#8a5a33",
+        stroke: "#17120e",
+        "stroke-width": 0.25,
+        "data-id": b.id,
+      }));
+      const chip = svgEl("rect", {
+        x: b.tx + b.w / 2 - 3,
+        y: b.ty + b.h + 0.3,
+        width: 6,
+        height: 2.1,
+        fill: "#fffdf5",
+        stroke: "#17120e",
+        "stroke-width": 0.2,
       });
+      add(chip);
       const t = svgEl("text", {
         x: b.tx + b.w / 2,
-        y: b.ty + b.h / 2 + 1,
+        y: b.ty + b.h + 1.9,
         "text-anchor": "middle",
-        "font-size": 2.8,
+        "font-size": 1.7,
         "font-weight": 700,
-        fill: "#fffdf5",
+        fill: "#17120e",
       });
       t.textContent = b.name;
-      add(r);
       add(t);
     }
-    add(
-      svgEl("circle", {
-        id: "map-player",
-        r: 1.2,
-        cx: 32.5,
-        cy: 23.5,
-        fill: "#d0122a",
-        stroke: "#fffdf5",
-        "stroke-width": 0.35,
-      })
-    );
+    // 广场地标:篝火 / 许愿井 / 搜索水晶球
+    add(svgEl("circle", { cx: 34.5, cy: 23.8, r: 0.7, fill: "#e8862e", stroke: "#17120e", "stroke-width": 0.2 }));
+    add(svgEl("rect", { x: 35.6, y: 19.6, width: 1.2, height: 1.2, fill: "#8d8d84", stroke: "#17120e", "stroke-width": 0.2 }));
+    add(svgEl("circle", { cx: 26.6, cy: 22.6, r: 0.6, fill: "#5fa8c9", stroke: "#17120e", "stroke-width": 0.2 }));
+    // 玩家:红点白圈 + 呼吸
+    const dot = svgEl("circle", {
+      id: "map-player",
+      r: 1.2,
+      cx: 32.5,
+      cy: 23.5,
+      fill: "#d0122a",
+      stroke: "#fffdf5",
+      "stroke-width": 0.35,
+    });
+    const pulse = svgEl("animate", {
+      attributeName: "r",
+      values: "1.05;1.45;1.05",
+      dur: "1.6s",
+      repeatCount: "indefinite",
+    });
+    dot.appendChild(pulse);
+    add(dot);
   };
   buildMap();
   bus.on(EV.playerTile, (p: { x: number; y: number }) => {
@@ -1302,21 +1425,61 @@ const { townData } = Astro.props;
     window.setTimeout(dismissGuide, 12000);
   }
 
-  // 启动：点「进入小镇」时才拉起 Phaser（按需加载，键盘锁定前先显示说明）
+  // 启动：点「进入小镇」时才拉起 Phaser(按需加载)。加载期间开场屏切换为
+  // 像素进度条——场景 preload 经 town:loadprogress(window 事件)上报进度,
+  // EV.ready 后整屏淡出。首屏等待与进镇等待都是这段进度条的覆盖范围。
+  const startBtn = $("town-start") as HTMLButtonElement;
+  const playBox = $("intro-play") as HTMLElement;
+  const loadBox = $("intro-loading") as HTMLElement;
+  const fillEl = $("load-fill") as HTMLElement;
+  const pctEl = $("load-pct") as HTMLElement;
+  const tipEl = $("load-tip") as HTMLElement;
+  const TIPS = [
+    "正在铺路…",
+    "正在种树…",
+    "正在挂路灯…",
+    "正在请动物进场…",
+    "正在点篝火…",
+  ];
+  let tipIdx = 0;
+  let tipTimer = 0;
   let started = false;
-  $("town-start")!.addEventListener("click", async () => {
+  const onProg = (e: Event) => {
+    const v = (e as CustomEvent<number>).detail ?? 0;
+    const pct = Math.min(100, Math.round(v * 100));
+    fillEl.style.width = `${pct - (pct % 5)}%`; // 5% 一档,像素感
+    pctEl.textContent = `${pct}%`;
+  };
+  const finishLoading = () => {
+    fillEl.style.width = "100%";
+    pctEl.textContent = "100%";
+    window.clearTimeout(tipTimer);
+    window.removeEventListener("town:loadprogress", onProg);
+    window.setTimeout(() => (introEl.hidden = true), 260);
+  };
+  bus.on(EV.ready, finishLoading);
+  startBtn.addEventListener("click", async () => {
     if (started) return;
     started = true;
-    introEl.hidden = true;
+    playBox.hidden = true;
+    loadBox.hidden = false;
+    tipTimer = window.setInterval(() => {
+      tipIdx = (tipIdx + 1) % TIPS.length;
+      tipEl.textContent = TIPS[tipIdx];
+    }, 650);
+    window.addEventListener("town:loadprogress", onProg);
     try {
       const { startTown } = await import("./game/scenes");
       (window as unknown as { __townGame: unknown }).__townGame = startTown(
         $("town-canvas")!
       );
     } catch (e) {
-      // 启动失败必须可见:否则开场屏消失后整页像卡死
+      // 启动失败必须可见:否则开场屏消失后整页像卡死;恢复按钮状态
       console.error("town: startTown failed", e);
-      introEl.hidden = false;
+      window.clearTimeout(tipTimer);
+      window.removeEventListener("town:loadprogress", onProg);
+      loadBox.hidden = true;
+      playBox.hidden = false;
       started = false;
       const msg = e instanceof Error ? `${e.message}\n${e.stack ?? ""}` : String(e);
       (document.getElementById("town-errbar") ??
