@@ -81,6 +81,7 @@ export interface PropDef {
   cols?: number;
   rows?: number;
   solid?: boolean;
+  solidAuto?: boolean; // 逐格读纹理自动标碰撞(蓝色=水,sv-lake 专用)
   center?: boolean; // 小件在格内居中
 }
 
@@ -274,6 +275,22 @@ export const FIREFLY_SPOTS: [number, number][] = [
   [16, 33],
   [38, 5],
 ];
+// 湖心岛东岸栈桥的钓鱼点(像素坐标,场景按距离出「钓鱼」交互)
+export const LAKE_FISH_SPOT = { x: 178, y: 556 };
+// 每日宝藏候选挖掘点(日期哈希每天取一处;全部在 buildProps 占位,
+// 随机树/花不会落在上面)
+export const TREASURE_SPOTS: [number, number][] = [
+  [23, 14],
+  [41, 18],
+  [45, 23],
+  [56, 25],
+  [22, 25],
+  [39, 13],
+  [18, 18],
+  [52, 22],
+  [22, 34],
+  [44, 30],
+];
 
 // 门格：底行中央；玩家踩门前格（自动）或按 E 进入
 export function doorOf(b: BuildingDef) {
@@ -338,6 +355,11 @@ export function buildProps(): PropDef[] {
       for (let i = 0; i < w; i++) taken.add(`${x + i},${y + j}`);
   };
   for (const b of buildings) occupy(b.tx, b.ty, b.w, b.h);
+  // 湖心岛:大块地形先占位(scripts/extract-town-sv.mjs 合成,含栈桥);
+  // 水面逐格碰撞由场景读纹理自动标记(PropDef.solidAuto)
+  occupy(2, 32, 14, 5);
+  // 每日宝藏候选点占位(随机树/花不落点上)
+  for (const [tx, ty] of TREASURE_SPOTS) occupy(tx, ty, 1, 1);
   for (let x = 0; x < WORLD_W; x++) {
     taken.add(`${x},20`);
     taken.add(`${x},21`);
@@ -414,6 +436,15 @@ export function buildProps(): PropDef[] {
     cols: 5,
     rows: 3,
     solid: true,
+  });
+  // 湖心岛(南面):水面逐格自动碰撞,东岸木栈桥为钓鱼点(LAKE_FISH_SPOT)
+  props.push({
+    image: "sv-lake",
+    tx: 2,
+    ty: 32,
+    cols: 14,
+    rows: 5,
+    solidAuto: true,
   });
   // 内部散树/花/石（树占 2×3 格，检查须覆盖全部占格，否则同排树会水平重叠）
   const FLOWERS = ["sv-flower-pink", "sv-flower-yellow", "sv-flower-white"];
@@ -634,6 +665,6 @@ export const critterDefs: CritterDef[] = [
   { sp: "turkey", tx: 56, ty: 33 },
   { sp: "bull", tx: 53, ty: 36, radius: 56 },
   // 西南林缘(野猪)与西北树丛下(松鸡)
-  { sp: "boar", tx: 10, ty: 34 },
+  { sp: "boar", tx: 19, ty: 35 },
   { sp: "grouse", tx: 6, ty: 15 },
 ];

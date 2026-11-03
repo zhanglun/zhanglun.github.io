@@ -2,7 +2,9 @@
 
 - `sv/` — **Serene Village revamped** by LimeZu（itch.io），16x16 像素素材。
   由 `scripts/extract-town-sv.mjs` 从原始 tileset（Serene_Village_16x16.png）
-  按包围盒裁切；门/篝火来自包内 Animated stuff。
+  按包围盒裁切；门/篝火/动态水面(water-waves,14 帧,备用)来自包内
+  Animated stuff；`lake.png` 湖心岛为表内湖泊区块(40,50 起 180x80)
+  垫 12 列草底合成 + 左右切边方齿草岸封盖（草/深水色取自同表）。
   许可：**CC-BY 4.0**（https://creativecommons.org/licenses/by/4.0/ ）——
   可自由使用、修改、再分发，须署名。来源：https://limezu.itch.io/serenevillagerevamped
 - `char/` — 村民待机动画，来自 **Modern Interiors Free** by LimeZu

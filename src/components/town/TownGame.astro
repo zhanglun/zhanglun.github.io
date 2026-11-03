@@ -118,13 +118,13 @@ const { townData } = Astro.props;
       <div class="intro-play" id="intro-play">
         <p>方向键 / WASD 走动 · E 进门、说话</p>
         <p class="dim">这就是博客的小镇形态 · 手机用屏幕按键</p>
-        <button class="px start" id="town-start" type="button">进入小镇</button>
       </div>
       <div class="intro-loading" id="intro-loading" hidden>
         <p class="load-tip" id="load-tip">正在铺路…</p>
         <div class="load-bar"><div class="load-fill" id="load-fill"></div></div>
         <p class="load-pct" id="load-pct">0%</p>
       </div>
+      <button class="px start" id="town-start" type="button">加载中…</button>
     </div>
   </div>
 </div>
@@ -353,6 +353,10 @@ const { townData } = Astro.props;
     border: 2px solid #fffdf5;
     padding: 8px 22px;
     cursor: pointer;
+  }
+  .town-intro .start[disabled] {
+    opacity: 0.55;
+    cursor: default;
   }
   /* ---- 加载画面:像素砖纹进度条 + 轮换提示(游戏式,覆盖进镇等待)---- */
   .intro-loading { min-height: 78px; }
@@ -1425,9 +1429,9 @@ const { townData } = Astro.props;
     window.setTimeout(dismissGuide, 12000);
   }
 
-  // 启动：点「进入小镇」时才拉起 Phaser(按需加载)。加载期间开场屏切换为
-  // 像素进度条——场景 preload 经 town:loadprogress(window 事件)上报进度,
-  // EV.ready 后整屏淡出。首屏等待与进镇等待都是这段进度条的覆盖范围。
+  // 启动:页面打开即后台拉起 Phaser——首屏就显示加载进度(场景 preload
+  // 经 town:loadprogress 上报),就绪后按钮变「进入小镇」;点击即进
+  // (游戏已在背后跑起来),不用再等。
   const startBtn = $("town-start") as HTMLButtonElement;
   const playBox = $("intro-play") as HTMLElement;
   const loadBox = $("intro-loading") as HTMLElement;
@@ -1444,25 +1448,26 @@ const { townData } = Astro.props;
   let tipIdx = 0;
   let tipTimer = 0;
   let started = false;
+  let gameReady = false;
+  let pendingEnter = false;
   const onProg = (e: Event) => {
     const v = (e as CustomEvent<number>).detail ?? 0;
     const pct = Math.min(100, Math.round(v * 100));
     fillEl.style.width = `${pct - (pct % 5)}%`; // 5% 一档,像素感
     pctEl.textContent = `${pct}%`;
   };
-  const finishLoading = () => {
-    fillEl.style.width = "100%";
-    pctEl.textContent = "100%";
+  const enterTown = () => {
+    introEl.hidden = true;
     window.clearTimeout(tipTimer);
     window.removeEventListener("town:loadprogress", onProg);
-    window.setTimeout(() => (introEl.hidden = true), 260);
   };
-  bus.on(EV.ready, finishLoading);
-  startBtn.addEventListener("click", async () => {
+  const boot = async () => {
     if (started) return;
     started = true;
-    playBox.hidden = true;
     loadBox.hidden = false;
+    playBox.hidden = true;
+    startBtn.textContent = "加载中…";
+    startBtn.setAttribute("disabled", "");
     tipTimer = window.setInterval(() => {
       tipIdx = (tipIdx + 1) % TIPS.length;
       tipEl.textContent = TIPS[tipIdx];
@@ -1474,18 +1479,40 @@ const { townData } = Astro.props;
         $("town-canvas")!
       );
     } catch (e) {
-      // 启动失败必须可见:否则开场屏消失后整页像卡死;恢复按钮状态
+      // 启动失败必须可见:恢复按钮状态 + 错误条
       console.error("town: startTown failed", e);
       window.clearTimeout(tipTimer);
       window.removeEventListener("town:loadprogress", onProg);
       loadBox.hidden = true;
       playBox.hidden = false;
       started = false;
+      startBtn.textContent = "进入小镇";
+      startBtn.removeAttribute("disabled");
       const msg = e instanceof Error ? `${e.message}\n${e.stack ?? ""}` : String(e);
       (document.getElementById("town-errbar") ??
         document.body.appendChild(Object.assign(document.createElement("div"), { id: "town-errbar" }))
       ).textContent = "启动失败:\n" + msg;
       throw e;
     }
+  };
+  bus.on(EV.ready, () => {
+    gameReady = true;
+    fillEl.style.width = "100%";
+    pctEl.textContent = "100%";
+    window.clearTimeout(tipTimer);
+    window.removeEventListener("town:loadprogress", onProg);
+    loadBox.hidden = true;
+    playBox.hidden = false;
+    startBtn.textContent = "进入小镇";
+    startBtn.removeAttribute("disabled");
+    if (pendingEnter) enterTown();
   });
+  startBtn.addEventListener("click", () => {
+    if (gameReady) {
+      enterTown();
+      return;
+    }
+    pendingEnter = true; // 还没就绪:记下意图,就绪后自动进
+  });
+  void boot(); // 页面打开即开始加载(标题屏就是加载屏)
 </script>

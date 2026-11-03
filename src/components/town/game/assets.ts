@@ -15,6 +15,7 @@ export const IMAGES = [
   "sv-tree-teal",
   "sv-tree-dark",
   "sv-tree-round",
+  "sv-lake",
   "sv-rock-small",
   "sv-rock-big",
   "sv-grove",
@@ -700,5 +701,92 @@ export function buildSpark(): HTMLCanvasElement {
   const ctx = cv.getContext("2d")!;
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, 2, 2);
+  return cv;
+}
+
+// ---- 流云(程序化;半透明白块,高空缓慢漂移,两variant)----
+export function buildCloud(variant: 0 | 1): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = variant === 0 ? 64 : 46;
+  cv.height = variant === 0 ? 24 : 18;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "rgba(255,255,255,0.85)";
+  const blob = (x: number, y: number, w: number, h: number, a: number) => {
+    ctx.globalAlpha = a;
+    ctx.beginPath();
+    ctx.ellipse(x, y, w / 2, h / 2, 0, 0, Math.PI * 2);
+    ctx.fill();
+  };
+  if (variant === 0) {
+    blob(16, 12, 30, 13, 0.2);
+    blob(36, 10, 26, 11, 0.17);
+    blob(50, 15, 18, 8, 0.14);
+  } else {
+    blob(12, 9, 22, 10, 0.2);
+    blob(30, 11, 18, 8, 0.15);
+  }
+  ctx.globalAlpha = 1;
+  return cv;
+}
+
+// ---- 飞鸟(程序化;两帧翅膀,7x5,白天高空掠过)----
+export function buildBirdFrame(up: boolean): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 7;
+  cv.height = 5;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#2e3d33";
+  const px = (x: number, y: number, w = 1, h = 1) => ctx.fillRect(x, y, w, h);
+  px(3, 2, 1, 1); // 身体
+  if (up) {
+    px(1, 0, 2, 1); // 左翅抬起
+    px(4, 0, 2, 1);
+  } else {
+    px(0, 3, 2, 1); // 双翅下压
+    px(5, 3, 2, 1);
+  }
+  px(2, 1, 1, 1);
+  px(4, 1, 1, 1);
+  return cv;
+}
+
+// ---- 湖面鱼影(程序化;深色椭圆,水下游动的钓鱼目标)----
+export function buildFishShadow(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 12;
+  cv.height = 6;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "rgba(16,32,52,0.5)";
+  ctx.beginPath();
+  ctx.ellipse(5, 3, 4.4, 2.4, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(9, 3);
+  ctx.lineTo(12, 1);
+  ctx.lineTo(12, 5);
+  ctx.closePath();
+  ctx.fill();
+  return cv;
+}
+
+// ---- 每日宝藏标记(程序化;土堆+闪光,挖掘收集)----
+export function buildTreasure(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 12;
+  cv.height = 12;
+  const ctx = cv.getContext("2d")!;
+  // 土堆
+  ctx.fillStyle = "#8a5a33";
+  ctx.fillRect(2, 7, 8, 4);
+  ctx.fillStyle = "#a4703f";
+  ctx.fillRect(3, 6, 6, 2);
+  ctx.fillStyle = "#5f4126";
+  ctx.fillRect(2, 10, 8, 1);
+  // 闪光十字
+  ctx.fillStyle = "#f4c542";
+  ctx.fillRect(5, 1, 2, 4);
+  ctx.fillRect(4, 2, 4, 2);
+  ctx.fillStyle = "#fff3c4";
+  ctx.fillRect(5, 2, 2, 2);
   return cv;
 }

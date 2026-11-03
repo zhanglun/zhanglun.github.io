@@ -85,6 +85,101 @@ for (const crop of CROPS) {
 }
 console.log(`SV: ${CROPS.length} 个裁切 → public/town/sv/`);
 
+// 湖心岛+栈桥:主表 (40,50) 起的湖泊(青蓝水面+沙滩岸+中央草岛),
+// 东侧自带一座木栈桥——一并包入(16x5 tile / 256x80),垫草底合成,
+// 四缘草底与镇子草地同源同色。黑色背景键出为透明;水域碰撞由场景
+// 读纹理自动标记(蓝色格),栈桥木板可走(钓鱼点)。
+{
+  const grass = await sharp(SHEET)
+    .extract({ left: 64, top: 48, width: 16, height: 16 })
+    .toBuffer();
+  const grassTiles = [];
+  for (let r = 0; r < 5; r++)
+    for (let c = 0; c < 14; c++)
+      grassTiles.push({ input: grass, left: c * 16, top: r * 16 });
+  const lakeRaw = await sharp(SHEET)
+    .extract({ left: 36, top: 46, width: 224, height: 80 })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const d = lakeRaw.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i] + d[i + 1] + d[i + 2] < 24) d[i + 3] = 0; // 键出黑背景
+  }
+  const lake = await sharp(d, {
+    raw: { width: 224, height: 80, channels: 4 },
+  })
+    .png()
+    .toBuffer();
+  // 左右切边草岸封盖:水带横贯整张表,任何裁宽都会切水——在左右两条
+  // 切边上画「方齿草缘 + 深水线」(与 buildPathTiles 草缘同风格),
+  // 湖体自然收边成独立池塘。
+  const caps = [];
+  const grassSample = await sharp(SHEET)
+    .extract({ left: 64, top: 48, width: 1, height: 1 })
+    .raw()
+    .toBuffer();
+  const GRASS = `rgb(${grassSample[0]},${grassSample[1]},${grassSample[2]})`;
+  const GRASS_DARK = `rgb(${Math.max(0, grassSample[0] - 30)},${Math.max(0, grassSample[1] - 34)},${Math.max(0, grassSample[2] - 22)})`;
+  const WATER_DARK = "rgba(20,60,110,0.55)";
+  const waterAt = (x, y) => {
+    const i = (y * 224 + x) * 4;
+    return d[i + 3] > 8 && d[i + 2] > 140 && d[i + 2] > d[i] + 30;
+  };
+  for (const side of ["left", "right"]) {
+    const ex = side === "left" ? 0 : 223;
+    for (let row = 0; row < 5; row++) {
+      let waterRows = 0;
+      for (let y = row * 16; y < row * 16 + 16; y++)
+        if (waterAt(ex, y)) waterRows++;
+      if (waterRows < 6) continue; // 该 tile 行边缘不是水,不封
+      const top = row * 16;
+      // 草体:左缘铺 9px / 右缘铺 9px
+      const body = Buffer.from(
+        `<svg width="9" height="16"><rect x="0" y="0" width="9" height="16" fill="${GRASS}"/></svg>`
+      );
+      caps.push({ input: body, left: side === "left" ? 0 : 215, top });
+      // 方齿草缘(齿深 3/5 交替,2px 步进)伸入水面
+      for (let i = 0; i < 8; i++) {
+        const depth = i % 2 === 0 ? 3 : 5;
+        const y0 = top + i * 2;
+        const teeth = Buffer.from(
+          `<svg width="6" height="2"><rect x="0" y="0" width="6" height="2" fill="${GRASS}"/></svg>`
+        );
+        caps.push({
+          input: teeth,
+          left: side === "left" ? 9 : 224 - 9 - 6,
+          top: y0,
+        });
+        const dark = Buffer.from(
+          `<svg width="2" height="2"><rect x="0" y="0" width="2" height="2" fill="${GRASS_DARK}"/></svg>`
+        );
+        caps.push({
+          input: dark,
+          left: side === "left" ? 9 + depth : 224 - 9 - depth - 2,
+          top: y0,
+        });
+      }
+      // 深水阴影线压在齿根
+      const shadow = Buffer.from(
+        `<svg width="2" height="16"><rect x="0" y="0" width="2" height="16" fill="${WATER_DARK}"/></svg>`
+      );
+      caps.push({ input: shadow, left: side === "left" ? 9 : 224 - 11, top });
+    }
+  }
+  await sharp({ create: { width: 224, height: 80, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+    .composite([...grassTiles, { input: lake, left: 0, top: 0 }, ...caps])
+    .png()
+    .toFile(join(OUT_SV, "lake.png"));
+  console.log("SV: lake.png 湖心岛+栈桥+草岸封盖 224x80(14x5 tile,水面自动碰撞)");
+}
+
+// 动态水面:Animated stuff 的 14 帧水波(湖面点缀/未来水景用)
+copyFileSync(
+  join(SV, "Animated stuff/water_waves_16x16.png"),
+  join(OUT_SV, "water-waves.png")
+);
+console.log("SV: water-waves.png 动态水面 14 帧");
+
 // 门(关着的第一帧)与篝火(4 帧动画)来自 Animated stuff
 await sharp(join(SV, "Animated stuff/door_16x16.png"))
   .extract({ left: 0, top: 0, width: 16, height: 16 })

@@ -33,6 +33,10 @@ import {
   buildSnowFlake,
   buildWell,
   buildSpark,
+  buildCloud,
+  buildBirdFrame,
+  buildFishShadow,
+  buildTreasure,
   FURN_KINDS,
   CRITTER_FRAMES,
   type CritterSp,
@@ -52,6 +56,8 @@ import {
   BOARD_SPOT,
   WELL_SPOT,
   FIREFLY_SPOTS,
+  LAKE_FISH_SPOT,
+  TREASURE_SPOTS,
   Ground,
   FURN_LOOKS,
   type BuildingDef,
@@ -244,7 +250,35 @@ export class WorldScene extends Phaser.Scene {
     id: string;
     glow: Phaser.GameObjects.Image;
     dot: Phaser.GameObjects.Image;
+    hx: number; // 巢(出生点),游走以巢为圆心
+    hy: number;
+    angle: number;
+    speed: number;
+    turnTimer: number;
+    phase: number;
   }[] = [];
+  private fireflyNight = 0; // 夜显系数 0-1(入夜淡入,天亮淡出)
+  private fishShadow!: Phaser.GameObjects.Image;
+  private fishShadowHome = { x: 0, y: 0 };
+  // 天空元素:流云(整图缓慢漂移)与飞鸟(白天成群掠过,夜晚不出)
+  private clouds: { img: Phaser.GameObjects.Image; speed: number }[] = [];
+  private birds: {
+    spr: Phaser.GameObjects.Image;
+    vx: number;
+    ft: number;
+    t: number;
+    y0: number;
+  }[] = [];
+  private birdTimer = 6;
+  // 钓鱼进行中:记录甩竿位置,走远即脱竿;timer 到点收鱼
+  private fishing: {
+    sx: number;
+    sy: number;
+    timer: Phaser.Time.TimerEvent;
+  } | null = null;
+  // 每日宝藏:每天日期哈希选一处,当天挖开有惊喜
+  private treasure: { spr: Phaser.GameObjects.Image } | null = null;
+  private treasureCollected = false;
   private caughtFireflies = new Set<string>();
   private insidePrev = false; // 村民作息触发器:夜/雨 = 回屋
   private debugOn =
@@ -270,7 +304,7 @@ export class WorldScene extends Phaser.Scene {
     // 版本参数破缓存:素材文件曾在 dev 服务器运行中被重新生成,
     // 浏览器可能缓存了写入中途的残缺 PNG(PNG 头声明 38px、数据被截断,
     // 观感是树干/树基缺失)。素材内容变更时递增 ASSET_VERSION。
-    const v = "20261103a";
+    const v = "20261103b";
     for (const img of IMAGES) {
       const file = img.startsWith("sv-")
         ? `sv/${img.slice(3)}.png`
@@ -354,6 +388,12 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("gen-snow", buildSnowFlake());
       this.textures.addCanvas("gen-well", buildWell());
       this.textures.addCanvas("gen-spark", buildSpark());
+      this.textures.addCanvas("gen-cloud0", buildCloud(0));
+      this.textures.addCanvas("gen-cloud1", buildCloud(1));
+      this.textures.addCanvas("gen-bird0", buildBirdFrame(true));
+      this.textures.addCanvas("gen-bird1", buildBirdFrame(false));
+      this.textures.addCanvas("gen-fish-shadow", buildFishShadow());
+      this.textures.addCanvas("gen-treasure", buildTreasure());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -400,6 +440,10 @@ export class WorldScene extends Phaser.Scene {
             .setOrigin(0, 1);
         }
         img.setDepth((p.ty + h) * TILE);
+        if (p.solidAuto) {
+          // 平铺地形(湖面):贴地渲染,深度压到地面层,实体画在其上
+          img.setDepth(p.ty * TILE - 1);
+        }
         if (p.image === "gen-lamp") {
           // 光晕挂在灯头(顶部 4px),夜间点亮;白天 alpha 0
           const cx = (p.tx + 0.5) * TILE;
@@ -427,7 +471,36 @@ export class WorldScene extends Phaser.Scene {
             img: img as Phaser.GameObjects.Image,
           });
         }
-        if (p.solid) {
+        if (p.solidAuto) {
+          // 逐格读纹理:蓝色占比过半的格标碰撞(湖面),岸/桥/岛可走
+          const src = this.textures
+            .get(p.image!)
+            .getSourceImage() as HTMLImageElement;
+          const cv = document.createElement("canvas");
+          cv.width = src.width;
+          cv.height = src.height;
+          const c2 = cv.getContext("2d")!;
+          c2.drawImage(src, 0, 0);
+          const dd = c2.getImageData(0, 0, src.width, src.height).data;
+          for (let r = 0; r < h; r++) {
+            for (let i = 0; i < w; i++) {
+              let blue = 0;
+              for (let y = 0; y < TILE; y++) {
+                for (let x = 0; x < TILE; x++) {
+                  const k =
+                    ((r * TILE + y) * src.width + i * TILE + x) * 4;
+                  if (
+                    dd[k + 3] > 100 &&
+                    dd[k + 2] > 130 &&
+                    dd[k + 2] > dd[k] + 30
+                  )
+                    blue++;
+                }
+              }
+              if (blue > (TILE * TILE) / 2) mark(p.tx + i, p.ty + r);
+            }
+          }
+        } else if (p.solid) {
           // 树只挡底行（树冠可从后面走过），小件整格
           const solidRows = h >= 3 ? 1 : h;
           for (let j = 0; j < solidRows; j++)
@@ -532,6 +605,7 @@ export class WorldScene extends Phaser.Scene {
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
+      // 萤火虫:夜间出没(入夜淡入/天亮淡出),随机游走+呼吸闪烁
       FIREFLY_SPOTS.forEach(([tx, ty], i) => {
         const id = String(i);
         if (this.caughtFireflies.has(id)) return;
@@ -542,24 +616,83 @@ export class WorldScene extends Phaser.Scene {
           .setOrigin(0.5)
           .setDepth(9_999)
           .setBlendMode(Phaser.BlendModes.ADD)
-          .setAlpha(0.55);
+          .setScale(0.55)
+          .setAlpha(0);
         const dot = this.add
           .image(fx, fy, "gen-spark")
           .setOrigin(0.5)
           .setDepth(10_001)
-          .setTint(0xf4e042);
-        if (!reducedMotion) {
-          this.tweens.add({
-            targets: [glow, dot],
-            alpha: { from: 0.55, to: 1 },
-            duration: 900 + i * 130,
-            yoyo: true,
-            repeat: -1,
-            ease: "sine.inout",
-          });
-        }
-        this.fireflies.push({ id, glow, dot });
+          .setTint(0xf4e042)
+          .setAlpha(0);
+        this.fireflies.push({
+          id,
+          glow,
+          dot,
+          hx: fx,
+          hy: fy,
+          angle: Math.random() * Math.PI * 2,
+          speed: 8 + Math.random() * 7,
+          turnTimer: Math.random() * 2,
+          phase: Math.random() * Math.PI * 2,
+        });
       });
+
+      // ---- 天空元素:流云(缓慢漂移,绕世界循环)----
+      this.clouds = [];
+      for (const [cx, cy, v, sp] of [
+        [6, 5, 0, 4.2],
+        [28, 34, 1, 3.2],
+        [46, 8, 0, 3.8],
+        [12, 22, 1, 4.6],
+      ] as Array<[number, number, 0 | 1, number]>) {
+        const img = this.add
+          .image(cx * TILE, cy * TILE, `gen-cloud${v}`)
+          .setOrigin(0.5)
+          .setDepth(9_990);
+        this.clouds.push({ img, speed: sp });
+      }
+      this.birds = [];
+      this.birdTimer = 6;
+
+      // ---- 每日宝藏:日期哈希选一处,当天挖开收集(化妆品计数)----
+      {
+        const now0 = new Date();
+        const today = `${now0.getFullYear()}-${now0.getMonth() + 1}-${now0.getDate()}`;
+        let h = 0;
+        for (const c of today) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+        const [ttx, tty] = TREASURE_SPOTS[h % TREASURE_SPOTS.length];
+        let collected = false;
+        try {
+          const raw = JSON.parse(
+            localStorage.getItem("town-daily") ?? "null"
+          ) as { date?: string } | null;
+          collected = raw?.date === today;
+        } catch {}
+        if (!collected) {
+          const spr = this.add
+            .image((ttx + 0.5) * TILE, (tty + 1) * TILE, "gen-treasure")
+            .setOrigin(0.5, 1)
+            .setDepth((tty + 1) * TILE);
+          if (!reducedMotion) {
+            this.tweens.add({
+              targets: spr,
+              y: "-=2",
+              duration: 700,
+              yoyo: true,
+              repeat: -1,
+              ease: "sine.inout",
+            });
+          }
+          this.treasure = { spr };
+        }
+        this.treasureCollected = collected;
+      }
+      // 钓鱼目标鱼影:在湖心水域游动(视觉目标,钓鱼点在东岸栈桥)
+      this.fishShadow = this.add
+        .image(9 * TILE, 34.5 * TILE, "gen-fish-shadow")
+        .setOrigin(0.5)
+        .setDepth(593);
+      this.fishShadowHome = { x: this.fishShadow.x, y: this.fishShadow.y };
 
       // 烟花触发:新年头三天,或 ?fireworks=1 调试
       const now = new Date();
@@ -826,6 +959,10 @@ export class WorldScene extends Phaser.Scene {
     this.updateNpcs(dt);
     this.updateCritters(dt);
     this.updatePet(dt);
+    this.updateClouds(dt);
+    this.updateBirds(dt);
+    this.updateFireflies(dt);
+    this.updateFishShadow(dt);
     this.updateNight(dt);
     this.audio.tick(
       dt,
@@ -921,6 +1058,8 @@ export class WorldScene extends Phaser.Scene {
     if (dy !== 0 && !this.blocked(this.player.x, this.player.y + vy))
       this.player.y += vy;
     this.moving = dx !== 0 || dy !== 0;
+    // 甩竿后走远即脱竿(结果延迟回调里也会做距离校验)
+    if (this.fishing && this.moving) this.cancelFishing();
     this.player.setDepth(this.player.y);
   }
 
@@ -1068,6 +1207,170 @@ export class WorldScene extends Phaser.Scene {
       }
       c.spr.setDepth(c.spr.y);
     }
+  }
+
+  // ---- 天空元素:流云整图漂移(出右界回左界),飞鸟白天成群掠过 ----
+  private updateClouds(dt: number) {
+    for (const c of this.clouds) {
+      c.img.x += c.speed * dt;
+      if (c.img.x - 80 > WORLD_W * TILE) c.img.x = -80;
+    }
+  }
+
+  private updateBirds(dt: number) {
+    this.birdTimer -= dt;
+    // 白天每 12-30s 从左右边缘飞进一只(夜里鸟归巢,不出来)
+    if (this.birdTimer <= 0 && !this.isNight && this.birds.length < 3) {
+      this.birdTimer = 12 + Math.random() * 18;
+      const fromLeft = Math.random() < 0.5;
+      const y0 = (4 + Math.random() * 30) * TILE;
+      const spr = this.add
+        .image(fromLeft ? -20 : WORLD_W * TILE + 20, y0, "gen-bird0")
+        .setOrigin(0.5)
+        .setDepth(9_991);
+      this.birds.push({
+        spr,
+        vx: (fromLeft ? 1 : -1) * (26 + Math.random() * 12),
+        ft: 0,
+        t: 0,
+        y0,
+      });
+    }
+    for (let i = this.birds.length - 1; i >= 0; i--) {
+      const b = this.birds[i];
+      b.t += dt;
+      b.ft += dt;
+      if (b.ft > 0.13) {
+        b.ft = 0;
+        b.spr.setTexture(
+          b.spr.texture.key === "gen-bird0" ? "gen-bird1" : "gen-bird0"
+        );
+      }
+      b.spr.x += b.vx * dt;
+      b.spr.y = b.y0 + Math.sin(b.t * 3) * 4;
+      if (b.spr.x < -30 || b.spr.x > WORLD_W * TILE + 30) {
+        b.spr.destroy();
+        this.birds.splice(i, 1);
+      }
+    }
+  }
+
+  // ---- 萤火虫:夜间出没(入夜淡入/天亮淡出),绕巢随机游走+呼吸闪烁 ----
+  private updateFireflies(dt: number) {
+    const want = this.isNight && this.weather !== "rain" ? 1 : 0;
+    this.fireflyNight = Phaser.Math.Linear(
+      this.fireflyNight,
+      want,
+      Math.min(1, dt * 2)
+    );
+    const vis = this.fireflyNight > 0.02;
+    const t = this.time.now / 1000;
+    for (const f of this.fireflies) {
+      if (!vis) {
+        f.glow.setAlpha(0);
+        f.dot.setAlpha(0);
+        continue;
+      }
+      f.turnTimer -= dt;
+      if (f.turnTimer <= 0) {
+        f.angle += (Math.random() - 0.5) * 2.4;
+        f.turnTimer = 0.4 + Math.random() * 1.2;
+      }
+      const vx = Math.cos(f.angle) * f.speed * dt;
+      const vy = Math.sin(f.angle) * f.speed * dt;
+      f.glow.x += vx;
+      f.glow.y += vy;
+      f.dot.setPosition(f.glow.x, f.glow.y - 2);
+      // 出圈回巢
+      const dx = f.glow.x - f.hx;
+      const dy = f.glow.y - f.hy;
+      if (Math.hypot(dx, dy) > 26)
+        f.angle = Math.atan2(f.hy - f.glow.y, f.hx - f.glow.x);
+      const blink = 0.35 + 0.65 * Math.abs(Math.sin(t * 1.6 + f.phase));
+      f.glow.setAlpha(this.fireflyNight * 0.55 * blink);
+      f.dot.setAlpha(this.fireflyNight * blink);
+    }
+  }
+
+  // ---- 湖面鱼影:绕湖心缓慢游动(钓鱼的视觉目标)----
+  private fishShadowT = 0;
+  private updateFishShadow(dt: number) {
+    if (!this.fishShadow) return;
+    this.fishShadowT += dt;
+    const t = this.fishShadowT;
+    const home = this.fishShadowHome;
+    this.fishShadow.x = home.x + Math.sin(t * 0.6) * 26 + Math.sin(t * 1.7) * 6;
+    this.fishShadow.y = home.y + Math.cos(t * 0.8) * 10;
+    this.fishShadow.setFlipX(Math.cos(t * 0.6) < 0);
+  }
+
+  // ---- 钓鱼:栈桥按 E 甩竿,1.5s 后收鱼;走远即脱竿 ----
+  private startFishing() {
+    if (this.fishing) return;
+    const sx = this.player.x;
+    const sy = this.player.y;
+    this.fishing = {
+      sx,
+      sy,
+      timer: this.time.delayedCall(1500, () => this.fishResult(sx, sy)),
+    };
+    bus.emit(EV.dialog, {
+      name: "湖畔",
+      text: "甩竿——浮漂立在水面上，等鱼来…（走开会脱竿）",
+    });
+  }
+
+  private cancelFishing() {
+    if (!this.fishing) return;
+    this.fishing.timer.remove(false);
+    this.fishing = null;
+    bus.emit(EV.dialog, null);
+  }
+
+  private fishResult(sx: number, sy: number) {
+    this.fishing = null;
+    if (Math.hypot(this.player.x - sx, this.player.y - sy) > 40) {
+      bus.emit(EV.dialog, { name: "湖畔", text: "走远了，竿脱了手…" });
+      return;
+    }
+    const big = Math.random() < 0.08;
+    const fish = big
+      ? "湖心大青鱼"
+      : (["鲫鱼", "泥鳅", "小白条", "湖虾"] as const)[(Math.random() * 4) | 0];
+    let count = 1;
+    try {
+      count =
+        (parseInt(localStorage.getItem("town-fish") ?? "0", 10) || 0) + 1;
+      localStorage.setItem("town-fish", String(count));
+    } catch {}
+    bus.emit(EV.dialog, {
+      name: big ? "大鱼上钩！" : "钓到了",
+      text: big
+        ? `拉竿差点脱手——一条「${fish}」！这是第 ${count} 条。`
+        : `一条「${fish}」，放进桶里。这是第 ${count} 条。`,
+    });
+  }
+
+  // ---- 每日宝藏:按 E 挖开,当天一次;计数持久化(化妆品,不是资产)----
+  private collectTreasure() {
+    if (!this.treasure || this.treasureCollected) return;
+    const now = new Date();
+    const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+    let count = 1;
+    try {
+      const raw = JSON.parse(
+        localStorage.getItem("town-daily") ?? "null"
+      ) as { date?: string; count?: number } | null;
+      count = (raw?.date === today ? raw.count ?? 0 : 0) + 1;
+      localStorage.setItem("town-daily", JSON.stringify({ date: today, count }));
+    } catch {}
+    this.treasureCollected = true;
+    this.treasure.spr.destroy();
+    this.treasure = null;
+    bus.emit(EV.dialog, {
+      name: "小发现",
+      text: `挖到今日宝藏！口袋里已经攒了 ${count} 个小玩意，明天镇上别处还会再冒出一个。`,
+    });
   }
 
   // ---- 村民作息:入夜/下雨回屋(镇长留守望夜),天亮雨停复出 ----
@@ -1301,11 +1604,25 @@ export class WorldScene extends Phaser.Scene {
         });
       }
     );
-    // 萤火虫(未捉到的)
-    for (const ff of this.fireflies) {
-      consider(ff.glow.x, ff.glow.y + 8, "捉萤火虫", () =>
-        this.catchFirefly(ff)
-      );
+    // 萤火虫(未捉到的;只在夜里可见时才作为交互点,白天隐形不提示)
+    if (this.fireflyNight > 0.3) {
+      for (const ff of this.fireflies) {
+        consider(ff.glow.x, ff.glow.y + 8, "捉萤火虫", () =>
+          this.catchFirefly(ff)
+        );
+      }
+    }
+    // 湖心岛栈桥钓鱼
+    consider(
+      LAKE_FISH_SPOT.x,
+      LAKE_FISH_SPOT.y,
+      "在栈桥上钓鱼",
+      () => this.startFishing()
+    );
+    // 每日宝藏(当天已挖则无标记无交互)
+    if (this.treasure && !this.treasureCollected) {
+      const t = this.treasure;
+      consider(t.spr.x, t.spr.y - 4, "挖开看看", () => this.collectTreasure());
     }
     return cands.length ? cands.reduce((a, b) => (b.d < a.d ? b : a)) : null;
   }
