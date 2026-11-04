@@ -37,6 +37,9 @@ import {
   buildBirdFrame,
   buildFishShadow,
   buildTreasure,
+  buildSnowman,
+  buildLantern,
+  buildPumpkin,
   FURN_KINDS,
   CRITTER_FRAMES,
   type CritterSp,
@@ -68,9 +71,15 @@ import {
   EV,
   TOD,
   WEATHER,
+  FISH_RARITY_LABEL,
+  FISH_SPECIES,
+  WISH_LABEL,
+  ensureWish,
+  completeWish,
   getRealWeather,
   type ListRequest,
   type WeatherKind,
+  type WishKind,
 } from "./state";
 import { townData } from "./towndata";
 import { TownAudio } from "./audio";
@@ -246,6 +255,7 @@ export class WorldScene extends Phaser.Scene {
   // > 日期哈希,四级优先级见 resolveWeather()
   private weather: WeatherKind = "clear";
   private weatherFx?: Phaser.GameObjects.Particles.ParticleEmitter;
+  private isSpring = false; // 3-5 月:晴天飘樱花瓣
   private fireflies: {
     id: string;
     glow: Phaser.GameObjects.Image;
@@ -270,12 +280,16 @@ export class WorldScene extends Phaser.Scene {
     y0: number;
   }[] = [];
   private birdTimer = 6;
-  // 钓鱼进行中:记录甩竿位置,走远即脱竿;timer 到点收鱼
+  // 钓鱼进行中:cast = 等咬钩(delayedCall 到点进 bite),bite = 咬钩窗口
+  // (限时拉竿,前 420ms 为完美判定);走远即脱竿
   private fishing: {
+    phase: "cast" | "bite";
     sx: number;
     sy: number;
     timer: Phaser.Time.TimerEvent;
+    biteAt: number;
   } | null = null;
+  private biteMarker?: Phaser.GameObjects.Image;
   // 每日宝藏:每天日期哈希选一处,当天挖开有惊喜
   private treasure: { spr: Phaser.GameObjects.Image } | null = null;
   private treasureCollected = false;
@@ -394,6 +408,9 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("gen-bird1", buildBirdFrame(false));
       this.textures.addCanvas("gen-fish-shadow", buildFishShadow());
       this.textures.addCanvas("gen-treasure", buildTreasure());
+      this.textures.addCanvas("gen-snowman", buildSnowman());
+      this.textures.addCanvas("gen-lantern", buildLantern());
+      this.textures.addCanvas("gen-pumpkin", buildPumpkin());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -703,6 +720,67 @@ export class WorldScene extends Phaser.Scene {
         this.time.delayedCall(1800, () => this.celebrate(8));
       }
 
+      // ---- 季节节令装饰(按日期确定性;程序化绘制)----
+      // 冬季(12/1/2)雪人;春节窗口(1/15-2/20)图腾与小屋挂灯笼;
+      // 万圣周(10/24-11/7)南瓜三只;其余月份无节令件。
+      {
+        const m0 = now.getMonth() + 1;
+        const day0 = now.getDate();
+        const isWinter = m0 === 12 || m0 <= 2;
+        const isSpringFestival =
+          (m0 === 1 && day0 >= 15) || (m0 === 2 && day0 <= 20);
+        const isHalloween = (m0 === 10 && day0 >= 24) || (m0 === 11 && day0 <= 7);
+        if (isWinter) {
+          const snow = this.add
+            .image(26.5 * TILE, 15 * TILE, "gen-snowman")
+            .setOrigin(0.5, 1)
+            .setDepth(15 * TILE);
+          void snow;
+          this.solid[14 * WORLD_W + 26] = 1;
+        }
+        if (isSpringFestival) {
+          for (const [tx, ty] of TOTEM_SPOTS) {
+            this.add
+              .image((tx + 0.7) * TILE, (ty + 1) * TILE - 26, "gen-lantern")
+              .setOrigin(0.5, 0)
+              .setDepth((ty + 1) * TILE + 1);
+          }
+          for (const lx of [7.6, 10.4]) {
+            this.add
+              .image(lx * TILE, 29.4 * TILE, "gen-lantern")
+              .setOrigin(0.5, 0)
+              .setDepth(30 * TILE);
+          }
+        }
+        if (isHalloween) {
+          for (const [px, py] of [
+            [8, 14],
+            [54, 30],
+            [41, 25],
+          ] as Array<[number, number]>) {
+            this.add
+              .image((px + 0.5) * TILE, (py + 1) * TILE, "gen-pumpkin")
+              .setOrigin(0.5, 1)
+              .setDepth((py + 1) * TILE);
+            this.solid[py * WORLD_W + px] = 1;
+          }
+        }
+      }
+
+      // ---- 小屋烟囱炊烟(粒子:灰白小团上升消散)----
+      if (!reducedMotion) {
+        const smoke = this.add.particles(152, 428, "gen-spark", {
+          speedY: { min: -16, max: -9 },
+          speedX: { min: 2, max: 9 },
+          lifespan: 2800,
+          frequency: 460,
+          scale: { start: 2.2, end: 4.6 },
+          alpha: { start: 0.26, end: 0 },
+          tint: 0x9a9a92,
+        });
+        smoke.setDepth(486);
+      }
+
       // ---- 村民与宠物 ----
       for (const def of npcDefs) {
         const spr = this.add
@@ -819,6 +897,11 @@ export class WorldScene extends Phaser.Scene {
       // 相机段已设好 zoom,粒子以屏幕坐标系(scrollFactor 0)铺满视口
       const wParam = new URLSearchParams(location.search).get("weather");
       this.weather = this.resolveWeather(wParam);
+      {
+        const dd = new Date();
+        const mm = dd.getMonth() + 1;
+        this.isSpring = mm >= 3 && mm <= 5;
+      }
       this.weatherFx = this.buildWeatherFx();
       // 首帧 updateNight 会按当前昼夜/天气把村民作息收敛到位
       this.insidePrev = false;
@@ -905,12 +988,32 @@ export class WorldScene extends Phaser.Scene {
   private buildWeatherFx():
     | Phaser.GameObjects.Particles.ParticleEmitter
     | undefined {
-    if (this.weather === "clear") return undefined;
     const zoom = this.cameras.main.zoom || 2;
     const cx = this.scale.width / 2;
     const cy = this.scale.height / 2;
     const hw = this.scale.width / zoom / 2;
     const hh = this.scale.height / zoom / 2;
+    if (this.weather === "clear") {
+      // 春季(3-5 月)晴天飘樱花瓣:粉色慢速,铺满可视区
+      if (this.isSpring) {
+        const fx = this.add.particles(0, 0, "gen-snow", {
+          x: { min: cx - hw - 20, max: cx + hw + 20 },
+          y: cy - hh - 6,
+          lifespan: ((hh * 2 + 12) / 45) * 1000 + 300,
+          speedY: { min: 26, max: 46 },
+          speedX: { min: -12, max: 12 },
+          quantity: 1,
+          frequency: 260,
+          scale: { min: 0.9, max: 1.3 },
+          tint: 0xf7a8c4,
+          alpha: { start: 0.9, end: 0.3 },
+        });
+        fx.setScrollFactor(0);
+        fx.setDepth(10_002);
+        return fx;
+      }
+      return undefined;
+    }
     if (this.weather === "rain") {
       const fx = this.add.particles(0, 0, "gen-rain", {
         x: { min: cx - hw - 80, max: cx + hw + 80 },
@@ -1304,56 +1407,114 @@ export class WorldScene extends Phaser.Scene {
     this.fishShadow.setFlipX(Math.cos(t * 0.6) < 0);
   }
 
-  // ---- 钓鱼:栈桥按 E 甩竿,1.5s 后收鱼;走远即脱竿 ----
+  // ---- 钓鱼时机小游戏:甩竿 → 随机 2.2-4.8s 后咬钩(bite 提示 950ms 窗口,
+  // 前 420ms 内拉竿 = 完美判定,稀有概率翻倍);走远即脱竿 ----
   private startFishing() {
     if (this.fishing) return;
     const sx = this.player.x;
     const sy = this.player.y;
-    this.fishing = {
-      sx,
-      sy,
-      timer: this.time.delayedCall(1500, () => this.fishResult(sx, sy)),
-    };
+    this.audio.splash();
+    const timer = this.time.delayedCall(
+      Phaser.Math.Between(2200, 4800),
+      () => this.beginBite()
+    );
+    this.fishing = { phase: "cast", sx, sy, timer, biteAt: 0 };
     bus.emit(EV.dialog, {
       name: "湖畔",
       text: "甩竿——浮漂立在水面上，等鱼来…（走开会脱竿）",
     });
   }
 
-  private cancelFishing() {
-    if (!this.fishing) return;
-    this.fishing.timer.remove(false);
-    this.fishing = null;
-    bus.emit(EV.dialog, null);
+  private beginBite() {
+    if (!this.fishing || this.fishing.phase !== "cast") return;
+    this.fishing.phase = "bite";
+    this.fishing.biteAt = this.time.now;
+    this.audio.bite();
+    this.biteMarker = this.add
+      .image(this.player.x, this.player.y - 34, "gen-hint")
+      .setOrigin(0.5, 1)
+      .setDepth(20_001);
+    this.fishing.timer = this.time.delayedCall(950, () => this.escapeFish());
   }
 
-  private fishResult(sx: number, sy: number) {
+  private escapeFish() {
+    if (!this.fishing) return;
+    this.biteMarker?.destroy();
+    this.biteMarker = undefined;
     this.fishing = null;
-    if (Math.hypot(this.player.x - sx, this.player.y - sy) > 40) {
-      bus.emit(EV.dialog, { name: "湖畔", text: "走远了，竿脱了手…" });
-      return;
-    }
-    const big = Math.random() < 0.08;
-    const fish = big
-      ? "湖心大青鱼"
-      : (["鲫鱼", "泥鳅", "小白条", "湖虾"] as const)[(Math.random() * 4) | 0];
-    let count = 1;
-    try {
-      count =
-        (parseInt(localStorage.getItem("town-fish") ?? "0", 10) || 0) + 1;
-      localStorage.setItem("town-fish", String(count));
-    } catch {}
     bus.emit(EV.dialog, {
-      name: big ? "大鱼上钩！" : "钓到了",
-      text: big
-        ? `拉竿差点脱手——一条「${fish}」！这是第 ${count} 条。`
-        : `一条「${fish}」，放进桶里。这是第 ${count} 条。`,
+      name: "湖畔",
+      text: "犹豫了一下，鱼跑掉了…再试一次。",
     });
   }
 
-  // ---- 每日宝藏:按 E 挖开,当天一次;计数持久化(化妆品,不是资产)----
+  private reelAttempt() {
+    if (!this.fishing) return;
+    if (this.fishing.phase !== "bite") {
+      bus.emit(EV.dialog, { name: "湖畔", text: "别急，鱼还没咬钩…" });
+      return;
+    }
+    const quality = this.time.now - this.fishing.biteAt;
+    const perfect = quality <= 420;
+    this.biteMarker?.destroy();
+    this.biteMarker = undefined;
+    this.fishing = null;
+    this.fishCaught(perfect);
+  }
+
+  private fishCaught(perfect: boolean) {
+    this.audio.splash();
+    // 掷签:完美判定把总权重抬到 130(稀有/传说占比翻倍)
+    const roll = Math.random() * (perfect ? 130 : 100);
+    let pick = FISH_SPECIES[0];
+    let matched = false;
+    const band = (min: number, max: number) => roll >= min && roll < max;
+    for (const f of FISH_SPECIES) {
+      if (f.rarity === "legendary" && band(97, 100)) { pick = f; matched = true; break; }
+      if (f.rarity === "rare" && band(85, 97)) { pick = f; matched = true; break; }
+    }
+    if (!matched) {
+      if (roll >= 10) {
+        const commons = FISH_SPECIES.filter(
+          f => f.rarity === "common" || f.rarity === "uncommon"
+        );
+        pick = commons[(Math.random() * commons.length) | 0] ?? FISH_SPECIES[1];
+      } else {
+        pick = FISH_SPECIES[0]; // boot 杂物
+      }
+    }
+    // 图鉴计数
+    try {
+      const dex = JSON.parse(localStorage.getItem("town-fishdex") ?? "{}") as Record<string, number>;
+      dex[pick.id] = (dex[pick.id] ?? 0) + 1;
+      localStorage.setItem("town-fishdex", JSON.stringify(dex));
+    } catch {}
+    let total = 1;
+    try {
+      total = (parseInt(localStorage.getItem("town-fish") ?? "0", 10) || 0) + 1;
+      localStorage.setItem("town-fish", String(total));
+    } catch {}
+    const wishDone = completeWish("fish");
+    if (wishDone || pick.rarity === "legendary" || pick.rarity === "rare") this.audio.chime();
+    bus.emit(EV.dialog, {
+      name: perfect ? "完美时机！" : pick.rarity === "junk" ? "钓到了" : pick.rarity === "legendary" ? "传说上钩！" : "钓到了",
+      text: `${pick.rarity === "junk" ? "捞上来一只破木靴…不是鱼。" : `一条「${pick.name}」（${FISH_RARITY_LABEL[pick.rarity]}），放进桶里。`}${wishDone ? "镇长的心愿达成！" : ""} 这是第 ${total} 条。`,
+    });
+  }
+
+  private cancelFishing(msg = "走远了，竿脱了手…") {
+    if (!this.fishing) return;
+    this.fishing.timer.remove(false);
+    this.biteMarker?.destroy();
+    this.biteMarker = undefined;
+    this.fishing = null;
+    bus.emit(EV.dialog, { name: "湖畔", text: msg });
+  }
+
+  // ---- 每日宝藏:按 E 挖开,当天一次;挖出物从旧文里取词(构建期注入)----
   private collectTreasure() {
     if (!this.treasure || this.treasureCollected) return;
+    this.audio.dig();
     const now = new Date();
     const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
     let count = 1;
@@ -1367,9 +1528,16 @@ export class WorldScene extends Phaser.Scene {
     this.treasureCollected = true;
     this.treasure.spr.destroy();
     this.treasure = null;
+    // 挖出物文案:从镇子的旧文章里取词,让宝藏也是「翻出一段记忆」
+    const posts = townData().posts;
+    const post = posts.length ? posts[(count - 1) % posts.length] : null;
+    const wishDone = completeWish("treasure");
+    if (wishDone || count % 3 === 1) this.audio.chime();
     bus.emit(EV.dialog, {
       name: "小发现",
-      text: `挖到今日宝藏！口袋里已经攒了 ${count} 个小玩意，明天镇上别处还会再冒出一个。`,
+      text: post
+        ? `挖出一张旧书签，印着《${post.t}》（${post.d}）。${wishDone ? "镇长的心愿达成！" : ""} 口袋里已经攒了 ${count} 件，明天别处还会再冒出一个。`
+        : `挖到今日宝藏！口袋里已经攒了 ${count} 件，明天镇上别处还会再冒出一个。`,
     });
   }
 
@@ -1522,13 +1690,21 @@ export class WorldScene extends Phaser.Scene {
       );
     }
     const nightNow = this.isNight;
+    const wish = ensureWish();
     for (const n of this.npcs) {
       if (n.mode === "gone") continue; // 回屋的村民不在街上
+      const isMayor = n.def.sheet === "amelia";
       consider(n.spr.x, n.spr.y, `和${n.def.name}说话`, () => {
-        bus.emit(EV.dialog, {
-          name: n.def.name,
-          text: this.villagerLine(n, nightNow),
-        });
+        let text = this.villagerLine(n, nightNow);
+        if (isMayor) {
+          // 镇长承载每日心愿:未完成报心愿,完成致谢
+          text = wish.done
+            ? "今天多亏你帮了我一把，镇子有你真好。"
+            : `${WISH_LABEL[wish.kind]}——找到了回来跟我说一声。`;
+        } else if (wish.kind === "chat" && !wish.done) {
+          completeWish("chat");
+        }
+        bus.emit(EV.dialog, { name: n.def.name, text });
       });
     }
     for (const p of this.plates) {
@@ -1616,8 +1792,8 @@ export class WorldScene extends Phaser.Scene {
     consider(
       LAKE_FISH_SPOT.x,
       LAKE_FISH_SPOT.y,
-      "在栈桥上钓鱼",
-      () => this.startFishing()
+      this.fishing?.phase === "bite" ? "拉竿！" : "在栈桥上钓鱼",
+      () => (this.fishing ? this.reelAttempt() : this.startFishing())
     );
     // 每日宝藏(当天已挖则无标记无交互)
     if (this.treasure && !this.treasureCollected) {
@@ -1644,7 +1820,13 @@ export class WorldScene extends Phaser.Scene {
       caught: this.caughtFireflies.size,
       total: FIREFLY_SPOTS.length,
     });
-    bus.emit(EV.dialog, { name: "萤火虫", text: this.fireflyEgg(ff.id) });
+    const wishDone = completeWish("firefly");
+    if (wishDone) this.audio.chime();
+    bus.emit(EV.dialog, {
+      name: "萤火虫",
+      text:
+        this.fireflyEgg(ff.id) + (wishDone ? "（镇长的心愿达成！）" : ""),
+    });
     if (this.caughtFireflies.size === FIREFLY_SPOTS.length) {
       this.time.delayedCall(1400, () => this.celebrate());
     }
@@ -1732,6 +1914,11 @@ export class WorldScene extends Phaser.Scene {
     if (modalOpen) {
       closeOverlays();
       modalOpen = false;
+      return;
+    }
+    // 钓鱼中按 E:咬钩窗口内 = 拉竿收鱼,否则提示耐心
+    if (this.fishing) {
+      this.reelAttempt();
       return;
     }
     this.current = this.nearestInteract();

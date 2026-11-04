@@ -21,6 +21,7 @@ const { townData } = Astro.props;
       <button class="town-tod px" id="town-sound" type="button" aria-label="切换音效">🔇 静音</button>
       <button class="town-tod px" id="town-tod" type="button" aria-label="切换白天黑夜">昼夜:自动</button>
       <button class="town-tod px" id="town-wx" type="button" aria-label="切换天气">天气:实况</button>
+      <button class="town-tod px" id="town-hb" type="button" aria-label="小镇手册">📖 手册</button>
     </div>
   </div>
 
@@ -80,6 +81,19 @@ const { townData } = Astro.props;
       <div class="list-items px" id="search-results"></div>
       <div class="row">
         <button class="px close" id="search-close" type="button">合上</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="town-handbook" id="town-handbook" hidden>
+    <div class="list-card">
+      <header>
+        <h2 class="px">小镇手册</h2>
+        <span class="px page-ind">L 开关</span>
+      </header>
+      <div class="hb-body" id="hb-body"></div>
+      <div class="row">
+        <button class="px close" id="hb-close" type="button">合上</button>
       </div>
     </div>
   </div>
@@ -246,40 +260,44 @@ const { townData } = Astro.props;
     display: none;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 0 14px 90px;
+    /* iPhone 底部安全区:env() 兜底刘海/小白条遮挡 */
+    padding: 0 14px calc(88px + env(safe-area-inset-bottom, 0px));
     z-index: 6;
     pointer-events: none;
   }
   .town-touch button {
     pointer-events: auto;
+    touch-action: manipulation;
   }
   .dpad {
     position: relative;
-    width: 132px;
-    height: 132px;
+    width: 144px;
+    height: 144px;
   }
   .dpad button {
     position: absolute;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     background: #fffdf5cc;
     border: 2px solid #17120e;
-    font-size: 13px;
+    font-size: 14px;
+    border-radius: 6px;
   }
-  .dpad .du { left: 44px; top: 0; }
-  .dpad .dl { left: 0; top: 44px; }
-  .dpad .dr { left: 88px; top: 44px; }
-  .dpad .dd { left: 44px; top: 88px; }
+  .dpad .du { left: 48px; top: 0; }
+  .dpad .dl { left: 0; top: 48px; }
+  .dpad .dr { left: 96px; top: 48px; }
+  .dpad .dd { left: 48px; top: 96px; }
   .acts {
     display: grid;
-    gap: 8px;
+    gap: 10px;
   }
   .acts .btn {
-    width: 56px;
-    height: 56px;
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
     background: #ffd2d2cc;
     border: 2px solid #17120e;
+    font-size: 16px;
   }
   @media (pointer: coarse) {
     .town-touch { display: flex; }
@@ -479,9 +497,10 @@ const { townData } = Astro.props;
     image-rendering: pixelated;
   }
 
-  /* ---- 列表面板 / 搜索浮层(归档、项目、标签、友链、年报、搜索共用) ---- */
+  /* ---- 列表面板 / 搜索浮层 / 小镇手册(归档、项目、标签、友链、年报、搜索共用) ---- */
   .town-list,
-  .town-search {
+  .town-search,
+  .town-handbook {
     position: absolute;
     inset: 0;
     display: grid;
@@ -490,7 +509,35 @@ const { townData } = Astro.props;
     z-index: 9;
   }
   .town-list[hidden],
-  .town-search[hidden] { display: none; }
+  .town-search[hidden],
+  .town-handbook[hidden] { display: none; }
+  .hb-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 120px;
+  }
+  .hb-sec { margin-bottom: 14px; }
+  .hb-sec h3 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: #8a8478;
+  }
+  /* JS 生成行,须 :global() 命中(踩坑 12) */
+  .hb-body :global(.hb-row) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 2px;
+    border-bottom: 1px solid rgb(216 211 192 / 0.7);
+  }
+  .hb-body :global(.hb-name) { font-size: 13px; }
+  .hb-body :global(.hb-name.dim) { color: #b5b0a4; }
+  .hb-body :global(.hb-meta) {
+    font-size: 11.5px;
+    color: #8a8478;
+    white-space: nowrap;
+  }
   .list-card {
     width: min(560px, calc(100% - 40px));
     max-height: min(78vh, 640px);
@@ -662,10 +709,15 @@ const { townData } = Astro.props;
     EV,
     TOD,
     WEATHER,
+    FISH_RARITY_LABEL,
+    FISH_SPECIES,
+    WISH_LABEL,
+    ensureWish,
     getRealWeather,
     setRealWeather,
     setTod,
     setWeatherMode,
+    todayKey,
   } from "./game/state";
   import { buildings, WORLD_W, WORLD_H } from "./game/world";
   import type { TownDataClient } from "./game/towndata";
@@ -990,6 +1042,59 @@ const { townData } = Astro.props;
       window.open(lastFound[0].h, "_blank", "noopener");
     if (e.key === "Escape") closeSearch();
   });
+
+  // ---- 小镇手册:钓鱼图鉴/收藏进度/今日心愿(只读汇总 localStorage)----
+  const hbEl = $("town-handbook")!;
+  const hbBody = $("hb-body") as HTMLElement;
+  const renderHandbook = () => {
+    const wish = ensureWish();
+    let dex: Record<string, number> = {};
+    try {
+      dex = JSON.parse(localStorage.getItem("town-fishdex") ?? "{}");
+    } catch {}
+    const fishTotal =
+      parseInt(localStorage.getItem("town-fish") ?? "0", 10) || 0;
+    const fireflyCaught = (localStorage.getItem("town-fireflies") ?? "")
+      .split(",")
+      .filter(Boolean).length;
+    let dailyToday = 0;
+    try {
+      const raw = JSON.parse(
+        localStorage.getItem("town-daily") ?? "null"
+      ) as { date?: string; count?: number } | null;
+      if (raw && raw.date === todayKey()) dailyToday = raw.count ?? 0;
+    } catch {}
+    const fishRows = FISH_SPECIES.map(f => {
+      const n = dex[f.id] ?? 0;
+      const meta = `${esc(FISH_RARITY_LABEL[f.rarity])}${n ? ` · ×${n}` : ""}`;
+      return n
+        ? `<div class="hb-row"><span class="hb-name">${esc(f.name)}</span><span class="hb-meta">${meta}</span></div>`
+        : `<div class="hb-row"><span class="hb-name dim">？？？（${esc(FISH_RARITY_LABEL[f.rarity])}）</span></div>`;
+    }).join("");
+    hbBody.innerHTML = `
+      <div class="hb-sec">
+        <div class="hb-row"><span class="hb-name">今日心愿</span><span class="hb-meta">${esc(WISH_LABEL[wish.kind])} · ${wish.done ? "已完成" : "进行中"}</span></div>
+        <div class="hb-row"><span class="hb-name">钓到的鱼</span><span class="hb-meta">共 ${fishTotal} 条</span></div>
+        <div class="hb-row"><span class="hb-name">萤火虫</span><span class="hb-meta">${fireflyCaught}/6</span></div>
+        <div class="hb-row"><span class="hb-name">今日宝藏</span><span class="hb-meta">${dailyToday ? "已挖到" : "还没挖"}</span></div>
+      </div>
+      <div class="hb-sec"><h3 class="px">钓鱼图鉴（${Object.keys(dex).length}/${FISH_SPECIES.length}）</h3>${fishRows}</div>`;
+  };
+  const toggleHandbook = () => {
+    if (hbEl.hidden) {
+      renderHandbook();
+      hbEl.hidden = false;
+    } else hbEl.hidden = true;
+  };
+  $("town-hb")!.addEventListener("click", toggleHandbook);
+  $("hb-close")!.addEventListener("click", () => (hbEl.hidden = true));
+  document.addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "l") return;
+    const t = e.target as HTMLElement;
+    if (t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement)
+      return;
+    toggleHandbook();
+  });
   $("search-close")!.addEventListener("click", closeSearch);
 
   // ESC 关浮层(焦点不在输入框时也生效)
@@ -997,6 +1102,7 @@ const { townData } = Astro.props;
     if (e.key !== "Escape") return;
     if (!listEl.hidden) closeList();
     else if (!searchEl.hidden) closeSearch();
+    else if (!hbEl.hidden) hbEl.hidden = true;
   });
 
   // 昼夜切换:自动(150s 循环) → 真实(跟随本地时钟) → 白天 → 夜晚 循环;

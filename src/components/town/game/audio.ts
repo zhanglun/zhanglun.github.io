@@ -223,4 +223,54 @@ export class TownAudio {
     if (this.muted || !this.ctx) return;
     this.noiseBurst(0.16, 320 + Math.random() * 160, 0.14, "lowpass");
   }
+
+  /** 钓鱼:甩竿入水(短促闷水声) */
+  splash(): void {
+    if (this.muted || !this.ctx) return;
+    this.noiseBurst(0.18, 480 + Math.random() * 220, 0.12, "lowpass");
+  }
+
+  /** 钓鱼:咬钩提示(两声高频短促) */
+  bite(): void {
+    if (this.muted || !this.ctx) return;
+    const ctx = this.ctx;
+    for (let p = 0; p < 2; p++) {
+      const t0 = ctx.currentTime + p * 0.09;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "square";
+      o.frequency.value = 1250;
+      g.gain.setValueAtTime(0.03, t0);
+      g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.07);
+      o.connect(g).connect(this.master!);
+      o.start(t0);
+      o.stop(t0 + 0.08);
+    }
+  }
+
+  /** 挖掘:两声闷响(宝藏) */
+  dig(): void {
+    if (this.muted || !this.ctx) return;
+    this.noiseBurst(0.09, 220, 0.14, "lowpass");
+    window.setTimeout(() => this.noiseBurst(0.09, 180, 0.12, "lowpass"), 130);
+  }
+
+  /** 铃声:收藏/心愿达成(三音上行) */
+  chime(): void {
+    if (this.muted || !this.ctx) return;
+    const ctx = this.ctx;
+    [660, 830, 990].forEach((f, i) => {
+      const t0 = ctx.currentTime + i * 0.09;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(0.05, t0 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.22);
+      o.connect(g).connect(this.master!);
+      o.start(t0);
+      o.stop(t0 + 0.24);
+    });
+  }
 }

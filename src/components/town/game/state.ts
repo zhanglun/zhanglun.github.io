@@ -83,3 +83,73 @@ export function getRealWeather(): WeatherKind | null {
   } catch {}
   return null;
 }
+
+// ---- 钓鱼鱼种(图鉴与稀有度,场景掷签与 HUD 手册共用)----
+export type FishRarity = "junk" | "common" | "uncommon" | "rare" | "legendary";
+export interface FishSpecies {
+  id: string;
+  name: string;
+  rarity: FishRarity;
+}
+export const FISH_SPECIES: FishSpecies[] = [
+  { id: "boot", name: "破木靴", rarity: "junk" },
+  { id: "crucian", name: "鲫鱼", rarity: "common" },
+  { id: "minnow", name: "小白条", rarity: "common" },
+  { id: "loach", name: "泥鳅", rarity: "common" },
+  { id: "shrimp", name: "湖虾", rarity: "common" },
+  { id: "crab", name: "螃蟹", rarity: "uncommon" },
+  { id: "sunfish", name: "蓝鳃太阳鱼", rarity: "uncommon" },
+  { id: "blue", name: "湖心大青鱼", rarity: "rare" },
+  { id: "koi", name: "金色锦鲤", rarity: "legendary" },
+];
+export const FISH_RARITY_LABEL: Record<FishRarity, string> = {
+  junk: "杂物",
+  common: "常见",
+  uncommon: "少见",
+  rare: "稀有",
+  legendary: "传说",
+};
+
+// ---- 镇长每日心愿(日期哈希四选一,桥接方式与 TOD 同款)----
+export type WishKind = "fish" | "treasure" | "firefly" | "chat";
+export const WISH_LABEL: Record<WishKind, string> = {
+  fish: "钓一条鱼",
+  treasure: "挖出今日宝藏",
+  firefly: "入夜后捉一只萤火虫",
+  chat: "去听听镇上人的近况",
+};
+export interface WishState {
+  date: string;
+  kind: WishKind;
+  done: boolean;
+}
+export function todayKey(d = new Date()): string {
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+// 读取(或确定性生成)今日心愿:同一天重复调用结果一致
+export function ensureWish(): WishState {
+  const date = todayKey();
+  let h = 0;
+  for (const c of date) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  const kinds: WishKind[] = ["fish", "treasure", "firefly", "chat"];
+  const kind = kinds[h % 4];
+  try {
+    const raw = JSON.parse(localStorage.getItem("town-wish") ?? "null") as
+      | (WishState & { kind?: WishKind })
+      | null;
+    if (raw && raw.date === date && raw.kind === kind)
+      return { date, kind, done: !!raw.done };
+  } catch {}
+  return { date, kind, done: false };
+}
+// 完成心愿:仅当类型匹配且未完成时生效;返回是否刚刚完成
+export function completeWish(kind: WishKind): boolean {
+  const w = ensureWish();
+  if (w.kind !== kind || w.done) return false;
+  const done: WishState = { ...w, done: true };
+  try {
+    localStorage.setItem("town-wish", JSON.stringify(done));
+  } catch {}
+  window?.dispatchEvent(new CustomEvent("town:wish", { detail: done }));
+  return true;
+}

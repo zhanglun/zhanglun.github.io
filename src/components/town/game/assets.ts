@@ -790,3 +790,84 @@ export function buildTreasure(): HTMLCanvasElement {
   ctx.fillRect(5, 2, 2, 2);
   return cv;
 }
+
+// ---- 季节节令装饰(程序化;冬季雪人/春节灯笼/万圣南瓜)----
+export function buildSnowman(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 18;
+  cv.height = 22;
+  const ctx = cv.getContext("2d")!;
+  // 身体(下大上小)
+  ctx.fillStyle = "#fffdf5";
+  ctx.beginPath();
+  ctx.ellipse(9, 15, 7.5, 6, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(9, 7, 5, 4.4, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // 煤球眼 + 胡萝卜鼻
+  ctx.fillStyle = "#17120e";
+  ctx.fillRect(6, 6, 1, 1);
+  ctx.fillRect(11, 6, 1, 1);
+  ctx.fillStyle = "#e8862e";
+  ctx.fillRect(8, 8, 3, 1);
+  // 红围巾
+  ctx.fillStyle = "#d0122a";
+  ctx.fillRect(4, 11, 10, 2);
+  ctx.fillRect(6, 13, 3, 2);
+  // 树枝手
+  ctx.fillStyle = "#5f4126";
+  ctx.fillRect(0, 11, 3, 1);
+  ctx.fillRect(15, 11, 3, 1);
+  return cv;
+}
+
+export function buildLantern(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 10;
+  cv.height = 16;
+  const ctx = cv.getContext("2d")!;
+  // 挂绳
+  ctx.fillStyle = "#5f4126";
+  ctx.fillRect(4, 0, 2, 3);
+  // 金帽
+  ctx.fillStyle = "#e0b23e";
+  ctx.fillRect(2, 3, 6, 1);
+  // 红灯笼体(鼓形)
+  ctx.fillStyle = "#d0122a";
+  ctx.fillRect(1, 4, 8, 8);
+  ctx.fillRect(0, 5, 10, 6);
+  ctx.fillStyle = "#f04a3a";
+  ctx.fillRect(3, 5, 4, 6);
+  // 金底 + 流苏
+  ctx.fillStyle = "#e0b23e";
+  ctx.fillRect(2, 12, 6, 1);
+  ctx.fillStyle = "#e0b23e";
+  ctx.fillRect(4, 13, 2, 2);
+  return cv;
+}
+
+export function buildPumpkin(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 14;
+  cv.height = 11;
+  const ctx = cv.getContext("2d")!;
+  // 瓜瓣
+  ctx.fillStyle = "#e8862e";
+  ctx.fillRect(1, 3, 12, 7);
+  ctx.fillRect(0, 4, 14, 5);
+  ctx.fillStyle = "#d06f1e";
+  ctx.fillRect(4, 3, 2, 7);
+  ctx.fillRect(9, 3, 2, 7);
+  // 瓜蒂
+  ctx.fillStyle = "#6da34f";
+  ctx.fillRect(6, 1, 2, 3);
+  // 脸(万圣)
+  ctx.fillStyle = "#7d3d0e";
+  ctx.fillRect(3, 5, 2, 2);
+  ctx.fillRect(9, 5, 2, 2);
+  ctx.fillRect(5, 7, 4, 1);
+  ctx.fillRect(4, 8, 1, 1);
+  ctx.fillRect(9, 8, 1, 1);
+  return cv;
+}
