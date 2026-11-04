@@ -1064,6 +1064,15 @@ const { townData } = Astro.props;
       ) as { date?: string; count?: number } | null;
       if (raw && raw.date === todayKey()) dailyToday = raw.count ?? 0;
     } catch {}
+    let mushToday = 0;
+    let mushTotal = 0;
+    try {
+      const raw = JSON.parse(
+        localStorage.getItem("town-mush") ?? "null"
+      ) as { date?: string; picked?: string[] } | null;
+      if (raw && raw.date === todayKey()) mushToday = raw.picked?.length ?? 0;
+      mushTotal = parseInt(localStorage.getItem("town-mushcount") ?? "0", 10) || 0;
+    } catch {}
     const fishRows = FISH_SPECIES.map(f => {
       const n = dex[f.id] ?? 0;
       const meta = `${esc(FISH_RARITY_LABEL[f.rarity])}${n ? ` · ×${n}` : ""}`;
@@ -1077,6 +1086,7 @@ const { townData } = Astro.props;
         <div class="hb-row"><span class="hb-name">钓到的鱼</span><span class="hb-meta">共 ${fishTotal} 条</span></div>
         <div class="hb-row"><span class="hb-name">萤火虫</span><span class="hb-meta">${fireflyCaught}/6</span></div>
         <div class="hb-row"><span class="hb-name">今日宝藏</span><span class="hb-meta">${dailyToday ? "已挖到" : "还没挖"}</span></div>
+        <div class="hb-row"><span class="hb-name">蘑菇</span><span class="hb-meta">${mushToday ? `今日 ${mushToday}/7` : "还没采"} · 累计 ${mushTotal} 丛</span></div>
       </div>
       <div class="hb-sec"><h3 class="px">钓鱼图鉴（${Object.keys(dex).length}/${FISH_SPECIES.length}）</h3>${fishRows}</div>`;
   };

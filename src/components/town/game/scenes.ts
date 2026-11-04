@@ -40,6 +40,9 @@ import {
   buildSnowman,
   buildLantern,
   buildPumpkin,
+  buildDuckFrame,
+  buildLily,
+  buildLeaf,
   FURN_KINDS,
   CRITTER_FRAMES,
   type CritterSp,
@@ -77,6 +80,7 @@ import {
   ensureWish,
   completeWish,
   getRealWeather,
+  todayKey,
   type ListRequest,
   type WeatherKind,
   type WishKind,
@@ -256,6 +260,7 @@ export class WorldScene extends Phaser.Scene {
   private weather: WeatherKind = "clear";
   private weatherFx?: Phaser.GameObjects.Particles.ParticleEmitter;
   private isSpring = false; // 3-5 月:晴天飘樱花瓣
+  private isAutumn = false; // 9-11 月:晴天飘落叶
   private fireflies: {
     id: string;
     glow: Phaser.GameObjects.Image;
@@ -293,6 +298,20 @@ export class WorldScene extends Phaser.Scene {
   // 每日宝藏:每天日期哈希选一处,当天挖开有惊喜
   private treasure: { spr: Phaser.GameObjects.Image } | null = null;
   private treasureCollected = false;
+  // 蘑菇采集:每日重置的采集点(视觉在 buildProps,可采状态在此)
+  private mushrooms: {
+    img: Phaser.GameObjects.Image;
+    tx: number;
+    ty: number;
+  }[] = [];
+  private mushPicked = new Set<string>();
+  // 湖面鸭子(两帧划水,绕湖游动)与荷叶
+  private duck!: Phaser.GameObjects.Image;
+  private duckT = 0;
+  private duckFrame = 0;
+  private duckAngle = 0;
+  private duckTurnTimer = 0;
+  private lilies: Phaser.GameObjects.Image[] = [];
   private caughtFireflies = new Set<string>();
   private insidePrev = false; // 村民作息触发器:夜/雨 = 回屋
   private debugOn =
@@ -411,6 +430,10 @@ export class WorldScene extends Phaser.Scene {
       this.textures.addCanvas("gen-snowman", buildSnowman());
       this.textures.addCanvas("gen-lantern", buildLantern());
       this.textures.addCanvas("gen-pumpkin", buildPumpkin());
+      this.textures.addCanvas("gen-duck0", buildDuckFrame(false));
+      this.textures.addCanvas("gen-duck1", buildDuckFrame(true));
+      this.textures.addCanvas("gen-lily", buildLily());
+      this.textures.addCanvas("gen-leaf", buildLeaf());
       for (let y = 0; y < WORLD_H; y++) {
         for (let x = 0; x < WORLD_W; x++) {
           const v = ground[y * WORLD_W + x];
@@ -460,6 +483,13 @@ export class WorldScene extends Phaser.Scene {
         if (p.solidAuto) {
           // 平铺地形(湖面):贴地渲染,深度压到地面层,实体画在其上
           img.setDepth(p.ty * TILE - 1);
+        }
+        if (p.image?.startsWith("sv-mush-")) {
+          // 蘑菇丛:登记采集点;今日已采的隐藏
+          const key = `${p.tx},${p.ty}`;
+          const img2 = img as Phaser.GameObjects.Image;
+          this.mushrooms.push({ img: img2, tx: p.tx, ty: p.ty });
+          if (this.mushPicked.has(key)) img2.setVisible(false);
         }
         if (p.image === "gen-lamp") {
           // 光晕挂在灯头(顶部 4px),夜间点亮;白天 alpha 0
@@ -619,6 +649,16 @@ export class WorldScene extends Phaser.Scene {
           .filter(Boolean)
           .forEach(id => this.caughtFireflies.add(id));
       } catch {}
+      // 蘑菇采集:今日已采集合(每日重置,按格号记录)
+      this.mushrooms = [];
+      this.mushPicked = new Set<string>();
+      try {
+        const raw = JSON.parse(localStorage.getItem("town-mush") ?? "null") as
+          | { date?: string; picked?: string[] }
+          | null;
+        if (raw && raw.date === todayKey())
+          (raw.picked ?? []).forEach(k => this.mushPicked.add(k));
+      } catch {}
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
@@ -708,8 +748,28 @@ export class WorldScene extends Phaser.Scene {
       this.fishShadow = this.add
         .image(9 * TILE, 34.5 * TILE, "gen-fish-shadow")
         .setOrigin(0.5)
-        .setDepth(593);
+        .setDepth(560.5);
       this.fishShadowHome = { x: this.fishShadow.x, y: this.fishShadow.y };
+
+      // 湖面生态:荷叶×3 + 游动鸭子
+      this.lilies = [];
+      for (const [lx, ly] of [
+        [9, 34.2],
+        [11.5, 33.4],
+        [6.5, 34.8],
+      ] as Array<[number, number]>) {
+        this.lilies.push(
+          this.add
+            .image(lx * TILE, ly * TILE, "gen-lily")
+            .setOrigin(0.5)
+            .setDepth(560)
+        );
+      }
+      this.duck = this.add
+        .image(8 * TILE, 34.5 * TILE, "gen-duck0")
+        .setOrigin(0.5)
+        .setDepth(561);
+      this.duckAngle = Math.random() * Math.PI * 2;
 
       // 烟花触发:新年头三天,或 ?fireworks=1 调试
       const now = new Date();
@@ -901,6 +961,7 @@ export class WorldScene extends Phaser.Scene {
         const dd = new Date();
         const mm = dd.getMonth() + 1;
         this.isSpring = mm >= 3 && mm <= 5;
+        this.isAutumn = mm >= 9 && mm <= 11;
       }
       this.weatherFx = this.buildWeatherFx();
       // 首帧 updateNight 会按当前昼夜/天气把村民作息收敛到位
@@ -1012,6 +1073,24 @@ export class WorldScene extends Phaser.Scene {
         fx.setDepth(10_002);
         return fx;
       }
+      // 秋季(9-11 月)晴天飘落叶:橙棕色调,随风摆动
+      if (this.isAutumn) {
+        const fx = this.add.particles(0, 0, "gen-leaf", {
+          x: { min: cx - hw - 20, max: cx + hw + 20 },
+          y: cy - hh - 6,
+          lifespan: ((hh * 2 + 12) / 40) * 1000 + 300,
+          speedY: { min: 30, max: 58 },
+          speedX: { min: -22, max: 22 },
+          quantity: 1,
+          frequency: 210,
+          scale: { min: 1, max: 1.7 },
+          tint: [0xd0691e, 0xb5761e, 0xc98a3e],
+          alpha: { start: 0.95, end: 0.4 },
+        });
+        fx.setScrollFactor(0);
+        fx.setDepth(10_002);
+        return fx;
+      }
       return undefined;
     }
     if (this.weather === "rain") {
@@ -1066,6 +1145,7 @@ export class WorldScene extends Phaser.Scene {
     this.updateBirds(dt);
     this.updateFireflies(dt);
     this.updateFishShadow(dt);
+    this.updateDuck(dt);
     this.updateNight(dt);
     this.audio.tick(
       dt,
@@ -1405,6 +1485,59 @@ export class WorldScene extends Phaser.Scene {
     this.fishShadow.x = home.x + Math.sin(t * 0.6) * 26 + Math.sin(t * 1.7) * 6;
     this.fishShadow.y = home.y + Math.cos(t * 0.8) * 10;
     this.fishShadow.setFlipX(Math.cos(t * 0.6) < 0);
+  }
+
+  // ---- 湖面鸭子:两帧划水,绕湖慢游(碰壁转向);按 E 打招呼 → 嘎 ----
+  private updateDuck(dt: number) {
+    if (!this.duck) return;
+    this.duckT += dt;
+    this.duckTurnTimer -= dt;
+    if (this.duckTurnTimer <= 0) {
+      this.duckAngle += (Math.random() - 0.5) * 1.8;
+      this.duckTurnTimer = 1 + Math.random() * 2;
+    }
+    const spd = 11;
+    const nx = this.duck.x + Math.cos(this.duckAngle) * spd * dt;
+    const ny = this.duck.y + Math.sin(this.duckAngle) * spd * dt;
+    // 约束在湖面水域矩形(出界即转向)
+    if (nx < 64 || nx > 200 || ny < 542 || ny > 586) {
+      this.duckAngle += Math.PI * (0.4 + Math.random() * 0.6);
+      return;
+    }
+    this.duck.setPosition(nx, ny);
+    this.duck.setFlipX(Math.cos(this.duckAngle) < 0);
+    const f = Math.floor(this.duckT * 2.2) % 2;
+    if (f !== this.duckFrame) {
+      this.duckFrame = f;
+      this.duck.setTexture(`gen-duck${f}`);
+    }
+  }
+
+  // ---- 采蘑菇:每日重置,按丛采集;计数持久化(化妆品)----
+  private pickMushroom(m: (typeof this.mushrooms)[number]) {
+    const key = `${m.tx},${m.ty}`;
+    if (this.mushPicked.has(key)) return;
+    this.mushPicked.add(key);
+    m.img.setVisible(false);
+    this.audio.dig();
+    let total = 1;
+    try {
+      total =
+        (parseInt(localStorage.getItem("town-mushcount") ?? "0", 10) || 0) + 1;
+      localStorage.setItem("town-mushcount", String(total));
+      let saved: { date: string; picked: string[] } = {
+        date: todayKey(),
+        picked: [],
+      };
+      const raw = JSON.parse(localStorage.getItem("town-mush") ?? "null");
+      if (raw && raw.date === saved.date) saved = raw;
+      saved.picked = [...this.mushPicked];
+      localStorage.setItem("town-mush", JSON.stringify(saved));
+    } catch {}
+    bus.emit(EV.dialog, {
+      name: "采蘑菇",
+      text: `采到一丛新鲜蘑菇！这是今天的第 ${this.mushPicked.size} 丛，累计 ${total} 丛。`,
+    });
   }
 
   // ---- 钓鱼时机小游戏:甩竿 → 随机 2.2-4.8s 后咬钩(bite 提示 950ms 窗口,
@@ -1780,6 +1913,12 @@ export class WorldScene extends Phaser.Scene {
         });
       }
     );
+    // 蘑菇(未采的)
+    for (const m of this.mushrooms) {
+      const key = `${m.tx},${m.ty}`;
+      if (this.mushPicked.has(key) || !m.img.visible) continue;
+      consider(m.img.x, m.img.y - 4, "采蘑菇", () => this.pickMushroom(m));
+    }
     // 萤火虫(未捉到的;只在夜里可见时才作为交互点,白天隐形不提示)
     if (this.fireflyNight > 0.3) {
       for (const ff of this.fireflies) {
@@ -1795,6 +1934,14 @@ export class WorldScene extends Phaser.Scene {
       this.fishing?.phase === "bite" ? "拉竿！" : "在栈桥上钓鱼",
       () => (this.fishing ? this.reelAttempt() : this.startFishing())
     );
+    // 湖面鸭子(可打招呼)
+    if (this.duck)
+      consider(this.duck.x, this.duck.y, "和鸭子打招呼", () =>
+        bus.emit(EV.dialog, {
+          name: "鸭子",
+          text: "嘎！——它扑腾了两下水，继续悠哉地划走了。",
+        })
+      );
     // 每日宝藏(当天已挖则无标记无交互)
     if (this.treasure && !this.treasureCollected) {
       const t = this.treasure;

@@ -291,6 +291,16 @@ export const TREASURE_SPOTS: [number, number][] = [
   [22, 34],
   [44, 30],
 ];
+// 蘑菇丛采集点(每日可采;交替红/白两丛;buildProps 占位)
+export const MUSHROOM_SPOTS: [number, number][] = [
+  [12, 13],
+  [19, 18],
+  [23, 31],
+  [38, 9],
+  [58, 15],
+  [50, 33],
+  [6, 26],
+];
 
 // 门格：底行中央；玩家踩门前格（自动）或按 E 进入
 export function doorOf(b: BuildingDef) {
@@ -360,6 +370,8 @@ export function buildProps(): PropDef[] {
   occupy(2, 32, 14, 5);
   // 每日宝藏候选点占位(随机树/花不落点上)
   for (const [tx, ty] of TREASURE_SPOTS) occupy(tx, ty, 1, 1);
+  // 蘑菇丛占位
+  for (const [mx, my] of MUSHROOM_SPOTS) occupy(mx, my, 1, 1);
   for (let x = 0; x < WORLD_W; x++) {
     taken.add(`${x},20`);
     taken.add(`${x},21`);
@@ -445,6 +457,15 @@ export function buildProps(): PropDef[] {
     cols: 14,
     rows: 5,
     solidAuto: true,
+  });
+  // 蘑菇丛(每日采集)
+  MUSHROOM_SPOTS.forEach(([mx, my], i) => {
+    props.push({
+      image: i % 2 === 0 ? "sv-mush-red" : "sv-mush-white",
+      tx: mx,
+      ty: my,
+      center: true,
+    });
   });
   // 内部散树/花/石（树占 2×3 格，检查须覆盖全部占格，否则同排树会水平重叠）
   const FLOWERS = ["sv-flower-pink", "sv-flower-yellow", "sv-flower-white"];

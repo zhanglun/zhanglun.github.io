@@ -180,6 +180,21 @@ copyFileSync(
 );
 console.log("SV: water-waves.png 动态水面 14 帧");
 
+// 蘑菇丛×2:采集玩法(每日可采,按 E)
+{
+  const crops = [
+    ["mush-red", 244, 471, 22, 13],
+    ["mush-white", 246, 489, 24, 14],
+  ];
+  for (const [name, x, y, w, h] of crops) {
+    await sharp(SHEET)
+      .extract({ left: x, top: y, width: w, height: h })
+      .png()
+      .toFile(join(OUT_SV, `${name}.png`));
+    console.log(`SV: ${name}.png ${w}x${h} 蘑菇丛`);
+  }
+}
+
 // 门(关着的第一帧)与篝火(4 帧动画)来自 Animated stuff
 await sharp(join(SV, "Animated stuff/door_16x16.png"))
   .extract({ left: 0, top: 0, width: 16, height: 16 })

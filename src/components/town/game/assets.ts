@@ -16,6 +16,8 @@ export const IMAGES = [
   "sv-tree-dark",
   "sv-tree-round",
   "sv-lake",
+  "sv-mush-red",
+  "sv-mush-white",
   "sv-rock-small",
   "sv-rock-big",
   "sv-grove",
@@ -747,6 +749,63 @@ export function buildBirdFrame(up: boolean): HTMLCanvasElement {
   }
   px(2, 1, 1, 1);
   px(4, 1, 1, 1);
+  return cv;
+}
+
+// ---- 湖面鸭子(程序化;两帧划水,12x8,湖面游动)----
+export function buildDuckFrame(paddle: boolean): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 12;
+  cv.height = 8;
+  const ctx = cv.getContext("2d")!;
+  // 水波纹
+  ctx.fillStyle = "rgba(255,255,255,0.35)";
+  ctx.fillRect(0, paddle ? 5 : 4, 12, 1);
+  // 身体(白鸭)
+  ctx.fillStyle = "#fffdf5";
+  ctx.fillRect(2, paddle ? 2 : 3, 7, 3);
+  ctx.fillRect(3, paddle ? 1 : 2, 5, 1);
+  // 头+颈
+  ctx.fillStyle = "#fffdf5";
+  ctx.fillRect(8, 1, 2, 3);
+  // 喙
+  ctx.fillStyle = "#e8862e";
+  ctx.fillRect(10, 2, 2, 1);
+  // 眼
+  ctx.fillStyle = "#17120e";
+  ctx.fillRect(9, 2, 1, 1);
+  return cv;
+}
+
+// ---- 荷叶(程序化;绿圆带缺口,湖面点缀)----
+export function buildLily(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 10;
+  cv.height = 8;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#5e8c61";
+  ctx.beginPath();
+  ctx.ellipse(5, 4, 4.6, 3.2, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // 缺口(楔形透出水面)
+  ctx.clearRect(5, 0, 5, 3);
+  ctx.fillStyle = "#6da34f";
+  ctx.fillRect(3, 3, 2, 1);
+  return cv;
+}
+
+// ---- 秋季落叶(程序化;4x4 橙/棕,粒子 tint 用白色底)----
+export function buildLeaf(): HTMLCanvasElement {
+  const cv = document.createElement("canvas");
+  cv.width = 4;
+  cv.height = 4;
+  const ctx = cv.getContext("2d")!;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 1, 4, 2);
+  ctx.fillRect(1, 0, 2, 1);
+  ctx.fillRect(1, 3, 2, 1);
+  ctx.fillStyle = "rgba(0,0,0,0.25)"; // 叶脉暗点(tint 前定型)
+  ctx.fillRect(1, 1, 1, 1);
   return cv;
 }
 
